@@ -1,0 +1,39 @@
+{
+    "name": "@lumeweb/resolver",
+    "version": "1.0.0",
+    "description": "The DNS resolver library for web3",
+    "main": "dist/esm/index.js",
+    "module": "dist/esm/index.js",
+    "esnext": "dist/esm/index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsup && tsc",
+        "clean": "rimraf dist",
+        "style": "prettier --write \\\"src/**/*.{ts,tsx}\\\""
+    },
+    "author": "",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/LumeWeb/resolver.git"
+    },
+    "dependencies": {
+        "@ensdomains/ensjs": "*",
+        "@lumeweb/hs-client": "../hs-client/",
+        "base32-decode": "^1.0.0",
+        "base64-js": "^1.5.1",
+        "content-hash": "^2.5.2",
+        "ethers": "^5.5.4",
+        "skynet-js": "4.0.24-beta",
+        "ts-node": "^10.4.0"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.13",
+        "@types/webextension-polyfill": "^0.8.2",
+        "esbuild": "^0.14.14",
+        "prettier": "^2.2.1",
+        "ts-loader": "^8.0.0",
+        "tsup": "^5.11.13",
+        "typescript": "^4.4.3 "
+    }
+}
