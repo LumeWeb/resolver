@@ -18,7 +18,7 @@
         "url": "https://github.com/LumeWeb/resolver.git"
     },
     "dependencies": {
-        "@ensdomains/ensjs": "*",
+        "@lumeweb/ensjs": "^2.1.1",
         "@lumeweb/hs-client": "https://github.com/LumeWeb/hs-client.git",
         "base32-decode": "^1.0.0",
         "base64-js": "^1.5.1",
