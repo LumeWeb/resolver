@@ -13,7 +13,7 @@
         ],
         "moduleResolution": "node",
         "declarationMap": true,
-        "declarationDir": ".dist/esm",
+        "declarationDir": "dist/esm",
         "emitDeclarationOnly": false,
         "allowJs": true
     },
