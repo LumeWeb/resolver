@@ -7020,13 +7020,14 @@
       var m2 = s2 * 60;
       var h2 = m2 * 60;
       var d2 = h2 * 24;
+      var w2 = d2 * 7;
       var y2 = d2 * 365.25;
       module.exports = function(val, options) {
         options = options || {};
         var type = typeof val;
         if (type === "string" && val.length > 0) {
           return parse6(val);
-        } else if (type === "number" && isNaN(val) === false) {
+        } else if (type === "number" && isFinite(val)) {
           return options.long ? fmtLong(val) : fmtShort(val);
         }
         throw new Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(val));
@@ -7036,7 +7037,7 @@
         if (str.length > 100) {
           return;
         }
-        var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
+        var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
         if (!match) {
           return;
         }
@@ -7049,6 +7050,10 @@
           case "yr":
           case "y":
             return n * y2;
+          case "weeks":
+          case "week":
+          case "w":
+            return n * w2;
           case "days":
           case "day":
           case "d":
@@ -7082,187 +7087,324 @@
         }
       }
       function fmtShort(ms) {
-        if (ms >= d2) {
+        var msAbs = Math.abs(ms);
+        if (msAbs >= d2) {
           return Math.round(ms / d2) + "d";
         }
-        if (ms >= h2) {
+        if (msAbs >= h2) {
           return Math.round(ms / h2) + "h";
         }
-        if (ms >= m2) {
+        if (msAbs >= m2) {
           return Math.round(ms / m2) + "m";
         }
-        if (ms >= s2) {
+        if (msAbs >= s2) {
           return Math.round(ms / s2) + "s";
         }
         return ms + "ms";
       }
       function fmtLong(ms) {
-        return plural(ms, d2, "day") || plural(ms, h2, "hour") || plural(ms, m2, "minute") || plural(ms, s2, "second") || ms + " ms";
+        var msAbs = Math.abs(ms);
+        if (msAbs >= d2) {
+          return plural(ms, msAbs, d2, "day");
+        }
+        if (msAbs >= h2) {
+          return plural(ms, msAbs, h2, "hour");
+        }
+        if (msAbs >= m2) {
+          return plural(ms, msAbs, m2, "minute");
+        }
+        if (msAbs >= s2) {
+          return plural(ms, msAbs, s2, "second");
+        }
+        return ms + " ms";
       }
-      function plural(ms, n, name2) {
-        if (ms < n) {
-          return;
-        }
-        if (ms < n * 1.5) {
-          return Math.floor(ms / n) + " " + name2;
-        }
-        return Math.ceil(ms / n) + " " + name2 + "s";
+      function plural(ms, msAbs, n, name2) {
+        var isPlural = msAbs >= n * 1.5;
+        return Math.round(ms / n) + " " + name2 + (isPlural ? "s" : "");
       }
     }
   });
 
-  // node_modules/debug/src/debug.js
-  var require_debug = __commonJS({
-    "node_modules/debug/src/debug.js"(exports, module) {
-      exports = module.exports = createDebug.debug = createDebug["default"] = createDebug;
-      exports.coerce = coerce;
-      exports.disable = disable;
-      exports.enable = enable;
-      exports.enabled = enabled;
-      exports.humanize = require_ms();
-      exports.names = [];
-      exports.skips = [];
-      exports.formatters = {};
-      var prevTime;
-      function selectColor(namespace) {
-        var hash4 = 0, i;
-        for (i in namespace) {
-          hash4 = (hash4 << 5) - hash4 + namespace.charCodeAt(i);
-          hash4 |= 0;
+  // node_modules/debug/src/common.js
+  var require_common = __commonJS({
+    "node_modules/debug/src/common.js"(exports, module) {
+      function setup(env) {
+        createDebug.debug = createDebug;
+        createDebug.default = createDebug;
+        createDebug.coerce = coerce;
+        createDebug.disable = disable;
+        createDebug.enable = enable;
+        createDebug.enabled = enabled;
+        createDebug.humanize = require_ms();
+        createDebug.destroy = destroy;
+        Object.keys(env).forEach((key2) => {
+          createDebug[key2] = env[key2];
+        });
+        createDebug.names = [];
+        createDebug.skips = [];
+        createDebug.formatters = {};
+        function selectColor(namespace) {
+          let hash4 = 0;
+          for (let i = 0; i < namespace.length; i++) {
+            hash4 = (hash4 << 5) - hash4 + namespace.charCodeAt(i);
+            hash4 |= 0;
+          }
+          return createDebug.colors[Math.abs(hash4) % createDebug.colors.length];
         }
-        return exports.colors[Math.abs(hash4) % exports.colors.length];
-      }
-      function createDebug(namespace) {
-        function debug() {
-          if (!debug.enabled)
-            return;
-          var self2 = debug;
-          var curr = +new Date();
-          var ms = curr - (prevTime || curr);
-          self2.diff = ms;
-          self2.prev = prevTime;
-          self2.curr = curr;
-          prevTime = curr;
-          var args = new Array(arguments.length);
-          for (var i = 0; i < args.length; i++) {
-            args[i] = arguments[i];
-          }
-          args[0] = exports.coerce(args[0]);
-          if (typeof args[0] !== "string") {
-            args.unshift("%O");
-          }
-          var index = 0;
-          args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
-            if (match === "%%")
-              return match;
-            index++;
-            var formatter = exports.formatters[format];
-            if (typeof formatter === "function") {
-              var val = args[index];
-              match = formatter.call(self2, val);
-              args.splice(index, 1);
-              index--;
+        createDebug.selectColor = selectColor;
+        function createDebug(namespace) {
+          let prevTime;
+          let enableOverride = null;
+          let namespacesCache;
+          let enabledCache;
+          function debug(...args) {
+            if (!debug.enabled) {
+              return;
             }
-            return match;
+            const self2 = debug;
+            const curr = Number(new Date());
+            const ms = curr - (prevTime || curr);
+            self2.diff = ms;
+            self2.prev = prevTime;
+            self2.curr = curr;
+            prevTime = curr;
+            args[0] = createDebug.coerce(args[0]);
+            if (typeof args[0] !== "string") {
+              args.unshift("%O");
+            }
+            let index = 0;
+            args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
+              if (match === "%%") {
+                return "%";
+              }
+              index++;
+              const formatter = createDebug.formatters[format];
+              if (typeof formatter === "function") {
+                const val = args[index];
+                match = formatter.call(self2, val);
+                args.splice(index, 1);
+                index--;
+              }
+              return match;
+            });
+            createDebug.formatArgs.call(self2, args);
+            const logFn = self2.log || createDebug.log;
+            logFn.apply(self2, args);
+          }
+          debug.namespace = namespace;
+          debug.useColors = createDebug.useColors();
+          debug.color = createDebug.selectColor(namespace);
+          debug.extend = extend;
+          debug.destroy = createDebug.destroy;
+          Object.defineProperty(debug, "enabled", {
+            enumerable: true,
+            configurable: false,
+            get: () => {
+              if (enableOverride !== null) {
+                return enableOverride;
+              }
+              if (namespacesCache !== createDebug.namespaces) {
+                namespacesCache = createDebug.namespaces;
+                enabledCache = createDebug.enabled(namespace);
+              }
+              return enabledCache;
+            },
+            set: (v2) => {
+              enableOverride = v2;
+            }
           });
-          exports.formatArgs.call(self2, args);
-          var logFn = debug.log || exports.log || console.log.bind(console);
-          logFn.apply(self2, args);
+          if (typeof createDebug.init === "function") {
+            createDebug.init(debug);
+          }
+          return debug;
         }
-        debug.namespace = namespace;
-        debug.enabled = exports.enabled(namespace);
-        debug.useColors = exports.useColors();
-        debug.color = selectColor(namespace);
-        if (typeof exports.init === "function") {
-          exports.init(debug);
+        function extend(namespace, delimiter) {
+          const newDebug = createDebug(this.namespace + (typeof delimiter === "undefined" ? ":" : delimiter) + namespace);
+          newDebug.log = this.log;
+          return newDebug;
         }
-        return debug;
-      }
-      function enable(namespaces) {
-        exports.save(namespaces);
-        exports.names = [];
-        exports.skips = [];
-        var split = (typeof namespaces === "string" ? namespaces : "").split(/[\s,]+/);
-        var len = split.length;
-        for (var i = 0; i < len; i++) {
-          if (!split[i])
-            continue;
-          namespaces = split[i].replace(/\*/g, ".*?");
-          if (namespaces[0] === "-") {
-            exports.skips.push(new RegExp("^" + namespaces.substr(1) + "$"));
-          } else {
-            exports.names.push(new RegExp("^" + namespaces + "$"));
+        function enable(namespaces) {
+          createDebug.save(namespaces);
+          createDebug.namespaces = namespaces;
+          createDebug.names = [];
+          createDebug.skips = [];
+          let i;
+          const split = (typeof namespaces === "string" ? namespaces : "").split(/[\s,]+/);
+          const len = split.length;
+          for (i = 0; i < len; i++) {
+            if (!split[i]) {
+              continue;
+            }
+            namespaces = split[i].replace(/\*/g, ".*?");
+            if (namespaces[0] === "-") {
+              createDebug.skips.push(new RegExp("^" + namespaces.substr(1) + "$"));
+            } else {
+              createDebug.names.push(new RegExp("^" + namespaces + "$"));
+            }
           }
         }
-      }
-      function disable() {
-        exports.enable("");
-      }
-      function enabled(name2) {
-        var i, len;
-        for (i = 0, len = exports.skips.length; i < len; i++) {
-          if (exports.skips[i].test(name2)) {
-            return false;
-          }
+        function disable() {
+          const namespaces = [
+            ...createDebug.names.map(toNamespace),
+            ...createDebug.skips.map(toNamespace).map((namespace) => "-" + namespace)
+          ].join(",");
+          createDebug.enable("");
+          return namespaces;
         }
-        for (i = 0, len = exports.names.length; i < len; i++) {
-          if (exports.names[i].test(name2)) {
+        function enabled(name2) {
+          if (name2[name2.length - 1] === "*") {
             return true;
           }
+          let i;
+          let len;
+          for (i = 0, len = createDebug.skips.length; i < len; i++) {
+            if (createDebug.skips[i].test(name2)) {
+              return false;
+            }
+          }
+          for (i = 0, len = createDebug.names.length; i < len; i++) {
+            if (createDebug.names[i].test(name2)) {
+              return true;
+            }
+          }
+          return false;
         }
-        return false;
+        function toNamespace(regexp) {
+          return regexp.toString().substring(2, regexp.toString().length - 2).replace(/\.\*\?$/, "*");
+        }
+        function coerce(val) {
+          if (val instanceof Error) {
+            return val.stack || val.message;
+          }
+          return val;
+        }
+        function destroy() {
+          console.warn("Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.");
+        }
+        createDebug.enable(createDebug.load());
+        return createDebug;
       }
-      function coerce(val) {
-        if (val instanceof Error)
-          return val.stack || val.message;
-        return val;
-      }
+      module.exports = setup;
     }
   });
 
   // node_modules/debug/src/browser.js
   var require_browser = __commonJS({
     "node_modules/debug/src/browser.js"(exports, module) {
-      exports = module.exports = require_debug();
-      exports.log = log2;
       exports.formatArgs = formatArgs;
       exports.save = save;
       exports.load = load;
       exports.useColors = useColors;
-      exports.storage = typeof chrome != "undefined" && typeof chrome.storage != "undefined" ? chrome.storage.local : localstorage();
+      exports.storage = localstorage();
+      exports.destroy = (() => {
+        let warned = false;
+        return () => {
+          if (!warned) {
+            warned = true;
+            console.warn("Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.");
+          }
+        };
+      })();
       exports.colors = [
-        "lightseagreen",
-        "forestgreen",
-        "goldenrod",
-        "dodgerblue",
-        "darkorchid",
-        "crimson"
+        "#0000CC",
+        "#0000FF",
+        "#0033CC",
+        "#0033FF",
+        "#0066CC",
+        "#0066FF",
+        "#0099CC",
+        "#0099FF",
+        "#00CC00",
+        "#00CC33",
+        "#00CC66",
+        "#00CC99",
+        "#00CCCC",
+        "#00CCFF",
+        "#3300CC",
+        "#3300FF",
+        "#3333CC",
+        "#3333FF",
+        "#3366CC",
+        "#3366FF",
+        "#3399CC",
+        "#3399FF",
+        "#33CC00",
+        "#33CC33",
+        "#33CC66",
+        "#33CC99",
+        "#33CCCC",
+        "#33CCFF",
+        "#6600CC",
+        "#6600FF",
+        "#6633CC",
+        "#6633FF",
+        "#66CC00",
+        "#66CC33",
+        "#9900CC",
+        "#9900FF",
+        "#9933CC",
+        "#9933FF",
+        "#99CC00",
+        "#99CC33",
+        "#CC0000",
+        "#CC0033",
+        "#CC0066",
+        "#CC0099",
+        "#CC00CC",
+        "#CC00FF",
+        "#CC3300",
+        "#CC3333",
+        "#CC3366",
+        "#CC3399",
+        "#CC33CC",
+        "#CC33FF",
+        "#CC6600",
+        "#CC6633",
+        "#CC9900",
+        "#CC9933",
+        "#CCCC00",
+        "#CCCC33",
+        "#FF0000",
+        "#FF0033",
+        "#FF0066",
+        "#FF0099",
+        "#FF00CC",
+        "#FF00FF",
+        "#FF3300",
+        "#FF3333",
+        "#FF3366",
+        "#FF3399",
+        "#FF33CC",
+        "#FF33FF",
+        "#FF6600",
+        "#FF6633",
+        "#FF9900",
+        "#FF9933",
+        "#FFCC00",
+        "#FFCC33"
       ];
       function useColors() {
-        if (typeof window !== "undefined" && window.process && window.process.type === "renderer") {
+        if (typeof window !== "undefined" && window.process && (window.process.type === "renderer" || window.process.__nwjs)) {
           return true;
+        }
+        if (typeof navigator !== "undefined" && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+          return false;
         }
         return typeof document !== "undefined" && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance || typeof window !== "undefined" && window.console && (window.console.firebug || window.console.exception && window.console.table) || typeof navigator !== "undefined" && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31 || typeof navigator !== "undefined" && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/);
       }
-      exports.formatters.j = function(v2) {
-        try {
-          return JSON.stringify(v2);
-        } catch (err) {
-          return "[UnexpectedJSONParseError]: " + err.message;
-        }
-      };
       function formatArgs(args) {
-        var useColors2 = this.useColors;
-        args[0] = (useColors2 ? "%c" : "") + this.namespace + (useColors2 ? " %c" : " ") + args[0] + (useColors2 ? "%c " : " ") + "+" + exports.humanize(this.diff);
-        if (!useColors2)
+        args[0] = (this.useColors ? "%c" : "") + this.namespace + (this.useColors ? " %c" : " ") + args[0] + (this.useColors ? "%c " : " ") + "+" + module.exports.humanize(this.diff);
+        if (!this.useColors) {
           return;
-        var c2 = "color: " + this.color;
+        }
+        const c2 = "color: " + this.color;
         args.splice(1, 0, c2, "color: inherit");
-        var index = 0;
-        var lastC = 0;
-        args[0].replace(/%[a-zA-Z%]/g, function(match) {
-          if (match === "%%")
+        let index = 0;
+        let lastC = 0;
+        args[0].replace(/%[a-zA-Z%]/g, (match) => {
+          if (match === "%%") {
             return;
+          }
           index++;
           if (match === "%c") {
             lastC = index;
@@ -7270,37 +7412,159 @@
         });
         args.splice(lastC, 0, c2);
       }
-      function log2() {
-        return typeof console === "object" && console.log && Function.prototype.apply.call(console.log, console, arguments);
-      }
+      exports.log = console.debug || console.log || (() => {
+      });
       function save(namespaces) {
         try {
-          if (namespaces == null) {
-            exports.storage.removeItem("debug");
+          if (namespaces) {
+            exports.storage.setItem("debug", namespaces);
           } else {
-            exports.storage.debug = namespaces;
+            exports.storage.removeItem("debug");
           }
-        } catch (e) {
+        } catch (error) {
         }
       }
       function load() {
-        var r;
+        let r;
         try {
-          r = exports.storage.debug;
-        } catch (e) {
+          r = exports.storage.getItem("debug");
+        } catch (error) {
         }
         if (!r && typeof process !== "undefined" && "env" in process) {
           r = process.env.DEBUG;
         }
         return r;
       }
-      exports.enable(load());
       function localstorage() {
         try {
-          return window.localStorage;
-        } catch (e) {
+          return localStorage;
+        } catch (error) {
         }
       }
+      module.exports = require_common()(exports);
+      var { formatters } = module.exports;
+      formatters.j = function(v2) {
+        try {
+          return JSON.stringify(v2);
+        } catch (error) {
+          return "[UnexpectedJSONParseError]: " + error.message;
+        }
+      };
+    }
+  });
+
+  // node_modules/has-flag/index.js
+  var require_has_flag = __commonJS({
+    "node_modules/has-flag/index.js"(exports, module) {
+      "use strict";
+      module.exports = (flag, argv = process.argv) => {
+        const prefix = flag.startsWith("-") ? "" : flag.length === 1 ? "-" : "--";
+        const position = argv.indexOf(prefix + flag);
+        const terminatorPosition = argv.indexOf("--");
+        return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+      };
+    }
+  });
+
+  // node_modules/supports-color/index.js
+  var require_supports_color = __commonJS({
+    "node_modules/supports-color/index.js"(exports, module) {
+      "use strict";
+      var os = __require("os");
+      var tty = __require("tty");
+      var hasFlag = require_has_flag();
+      var { env } = process;
+      var forceColor;
+      if (hasFlag("no-color") || hasFlag("no-colors") || hasFlag("color=false") || hasFlag("color=never")) {
+        forceColor = 0;
+      } else if (hasFlag("color") || hasFlag("colors") || hasFlag("color=true") || hasFlag("color=always")) {
+        forceColor = 1;
+      }
+      if ("FORCE_COLOR" in env) {
+        if (env.FORCE_COLOR === "true") {
+          forceColor = 1;
+        } else if (env.FORCE_COLOR === "false") {
+          forceColor = 0;
+        } else {
+          forceColor = env.FORCE_COLOR.length === 0 ? 1 : Math.min(parseInt(env.FORCE_COLOR, 10), 3);
+        }
+      }
+      function translateLevel(level) {
+        if (level === 0) {
+          return false;
+        }
+        return {
+          level,
+          hasBasic: true,
+          has256: level >= 2,
+          has16m: level >= 3
+        };
+      }
+      function supportsColor(haveStream, streamIsTTY) {
+        if (forceColor === 0) {
+          return 0;
+        }
+        if (hasFlag("color=16m") || hasFlag("color=full") || hasFlag("color=truecolor")) {
+          return 3;
+        }
+        if (hasFlag("color=256")) {
+          return 2;
+        }
+        if (haveStream && !streamIsTTY && forceColor === void 0) {
+          return 0;
+        }
+        const min = forceColor || 0;
+        if (env.TERM === "dumb") {
+          return min;
+        }
+        if (process.platform === "win32") {
+          const osRelease = os.release().split(".");
+          if (Number(osRelease[0]) >= 10 && Number(osRelease[2]) >= 10586) {
+            return Number(osRelease[2]) >= 14931 ? 3 : 2;
+          }
+          return 1;
+        }
+        if ("CI" in env) {
+          if (["TRAVIS", "CIRCLECI", "APPVEYOR", "GITLAB_CI", "GITHUB_ACTIONS", "BUILDKITE"].some((sign6) => sign6 in env) || env.CI_NAME === "codeship") {
+            return 1;
+          }
+          return min;
+        }
+        if ("TEAMCITY_VERSION" in env) {
+          return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+        }
+        if (env.COLORTERM === "truecolor") {
+          return 3;
+        }
+        if ("TERM_PROGRAM" in env) {
+          const version29 = parseInt((env.TERM_PROGRAM_VERSION || "").split(".")[0], 10);
+          switch (env.TERM_PROGRAM) {
+            case "iTerm.app":
+              return version29 >= 3 ? 3 : 2;
+            case "Apple_Terminal":
+              return 2;
+          }
+        }
+        if (/-256(color)?$/i.test(env.TERM)) {
+          return 2;
+        }
+        if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+          return 1;
+        }
+        if ("COLORTERM" in env) {
+          return 1;
+        }
+        return min;
+      }
+      function getSupportLevel(stream) {
+        const level = supportsColor(stream, stream && stream.isTTY);
+        return translateLevel(level);
+      }
+      module.exports = {
+        supportsColor: getSupportLevel,
+        stdout: translateLevel(supportsColor(true, tty.isatty(1))),
+        stderr: translateLevel(supportsColor(true, tty.isatty(2)))
+      };
     }
   });
 
@@ -7309,129 +7573,176 @@
     "node_modules/debug/src/node.js"(exports, module) {
       var tty = __require("tty");
       var util = __require("util");
-      exports = module.exports = require_debug();
       exports.init = init2;
       exports.log = log2;
       exports.formatArgs = formatArgs;
       exports.save = save;
       exports.load = load;
       exports.useColors = useColors;
+      exports.destroy = util.deprecate(() => {
+      }, "Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.");
       exports.colors = [6, 2, 3, 4, 5, 1];
-      exports.inspectOpts = Object.keys(process.env).filter(function(key2) {
+      try {
+        const supportsColor = require_supports_color();
+        if (supportsColor && (supportsColor.stderr || supportsColor).level >= 2) {
+          exports.colors = [
+            20,
+            21,
+            26,
+            27,
+            32,
+            33,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            56,
+            57,
+            62,
+            63,
+            68,
+            69,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            92,
+            93,
+            98,
+            99,
+            112,
+            113,
+            128,
+            129,
+            134,
+            135,
+            148,
+            149,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            178,
+            179,
+            184,
+            185,
+            196,
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            209,
+            214,
+            215,
+            220,
+            221
+          ];
+        }
+      } catch (error) {
+      }
+      exports.inspectOpts = Object.keys(process.env).filter((key2) => {
         return /^debug_/i.test(key2);
-      }).reduce(function(obj, key2) {
-        var prop = key2.substring(6).toLowerCase().replace(/_([a-z])/g, function(_2, k2) {
+      }).reduce((obj, key2) => {
+        const prop = key2.substring(6).toLowerCase().replace(/_([a-z])/g, (_2, k2) => {
           return k2.toUpperCase();
         });
-        var val = process.env[key2];
-        if (/^(yes|on|true|enabled)$/i.test(val))
+        let val = process.env[key2];
+        if (/^(yes|on|true|enabled)$/i.test(val)) {
           val = true;
-        else if (/^(no|off|false|disabled)$/i.test(val))
+        } else if (/^(no|off|false|disabled)$/i.test(val)) {
           val = false;
-        else if (val === "null")
+        } else if (val === "null") {
           val = null;
-        else
+        } else {
           val = Number(val);
+        }
         obj[prop] = val;
         return obj;
       }, {});
-      var fd = parseInt(process.env.DEBUG_FD, 10) || 2;
-      if (fd !== 1 && fd !== 2) {
-        util.deprecate(function() {
-        }, "except for stderr(2) and stdout(1), any other usage of DEBUG_FD is deprecated. Override debug.log if you want to use a different log function (https://git.io/debug_fd)")();
-      }
-      var stream = fd === 1 ? process.stdout : fd === 2 ? process.stderr : createWritableStdioStream(fd);
       function useColors() {
-        return "colors" in exports.inspectOpts ? Boolean(exports.inspectOpts.colors) : tty.isatty(fd);
+        return "colors" in exports.inspectOpts ? Boolean(exports.inspectOpts.colors) : tty.isatty(process.stderr.fd);
       }
-      exports.formatters.o = function(v2) {
-        this.inspectOpts.colors = this.useColors;
-        return util.inspect(v2, this.inspectOpts).split("\n").map(function(str) {
-          return str.trim();
-        }).join(" ");
-      };
-      exports.formatters.O = function(v2) {
-        this.inspectOpts.colors = this.useColors;
-        return util.inspect(v2, this.inspectOpts);
-      };
       function formatArgs(args) {
-        var name2 = this.namespace;
-        var useColors2 = this.useColors;
+        const { namespace: name2, useColors: useColors2 } = this;
         if (useColors2) {
-          var c2 = this.color;
-          var prefix = "  \x1B[3" + c2 + ";1m" + name2 + " \x1B[0m";
+          const c2 = this.color;
+          const colorCode = "\x1B[3" + (c2 < 8 ? c2 : "8;5;" + c2);
+          const prefix = `  ${colorCode};1m${name2} \x1B[0m`;
           args[0] = prefix + args[0].split("\n").join("\n" + prefix);
-          args.push("\x1B[3" + c2 + "m+" + exports.humanize(this.diff) + "\x1B[0m");
+          args.push(colorCode + "m+" + module.exports.humanize(this.diff) + "\x1B[0m");
         } else {
-          args[0] = new Date().toUTCString() + " " + name2 + " " + args[0];
+          args[0] = getDate() + name2 + " " + args[0];
         }
       }
-      function log2() {
-        return stream.write(util.format.apply(util, arguments) + "\n");
+      function getDate() {
+        if (exports.inspectOpts.hideDate) {
+          return "";
+        }
+        return new Date().toISOString() + " ";
+      }
+      function log2(...args) {
+        return process.stderr.write(util.format(...args) + "\n");
       }
       function save(namespaces) {
-        if (namespaces == null) {
-          delete process.env.DEBUG;
-        } else {
+        if (namespaces) {
           process.env.DEBUG = namespaces;
+        } else {
+          delete process.env.DEBUG;
         }
       }
       function load() {
         return process.env.DEBUG;
       }
-      function createWritableStdioStream(fd2) {
-        var stream2;
-        var tty_wrap = process.binding("tty_wrap");
-        switch (tty_wrap.guessHandleType(fd2)) {
-          case "TTY":
-            stream2 = new tty.WriteStream(fd2);
-            stream2._type = "tty";
-            if (stream2._handle && stream2._handle.unref) {
-              stream2._handle.unref();
-            }
-            break;
-          case "FILE":
-            var fs2 = __require("fs");
-            stream2 = new fs2.SyncWriteStream(fd2, { autoClose: false });
-            stream2._type = "fs";
-            break;
-          case "PIPE":
-          case "TCP":
-            var net = __require("net");
-            stream2 = new net.Socket({
-              fd: fd2,
-              readable: false,
-              writable: true
-            });
-            stream2.readable = false;
-            stream2.read = null;
-            stream2._type = "pipe";
-            if (stream2._handle && stream2._handle.unref) {
-              stream2._handle.unref();
-            }
-            break;
-          default:
-            throw new Error("Implement me. Unknown stream file type!");
-        }
-        stream2.fd = fd2;
-        stream2._isStdio = true;
-        return stream2;
-      }
       function init2(debug) {
         debug.inspectOpts = {};
-        var keys = Object.keys(exports.inspectOpts);
-        for (var i = 0; i < keys.length; i++) {
+        const keys = Object.keys(exports.inspectOpts);
+        for (let i = 0; i < keys.length; i++) {
           debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
         }
       }
-      exports.enable(load());
+      module.exports = require_common()(exports);
+      var { formatters } = module.exports;
+      formatters.o = function(v2) {
+        this.inspectOpts.colors = this.useColors;
+        return util.inspect(v2, this.inspectOpts).split("\n").map((str) => str.trim()).join(" ");
+      };
+      formatters.O = function(v2) {
+        this.inspectOpts.colors = this.useColors;
+        return util.inspect(v2, this.inspectOpts);
+      };
     }
   });
 
   // node_modules/debug/src/index.js
   var require_src = __commonJS({
     "node_modules/debug/src/index.js"(exports, module) {
-      if (typeof process !== "undefined" && process.type === "renderer") {
+      if (typeof process === "undefined" || process.type === "renderer" || process.browser === true || process.__nwjs) {
         module.exports = require_browser();
       } else {
         module.exports = require_node2();
@@ -7440,7 +7751,7 @@
   });
 
   // node_modules/follow-redirects/debug.js
-  var require_debug2 = __commonJS({
+  var require_debug = __commonJS({
     "node_modules/follow-redirects/debug.js"(exports, module) {
       var debug;
       module.exports = function() {
@@ -7468,7 +7779,7 @@
       var https2 = __require("https");
       var Writable = __require("stream").Writable;
       var assert3 = __require("assert");
-      var debug = require_debug2();
+      var debug = require_debug();
       var events = ["abort", "aborted", "connect", "error", "socket", "timeout"];
       var eventHandlers = /* @__PURE__ */ Object.create(null);
       events.forEach(function(event) {
@@ -12414,9 +12725,9 @@
     }
   });
 
-  // node_modules/tus-js-client/node_modules/is-stream/index.js
+  // node_modules/is-stream/index.js
   var require_is_stream = __commonJS({
-    "node_modules/tus-js-client/node_modules/is-stream/index.js"(exports, module) {
+    "node_modules/is-stream/index.js"(exports, module) {
       "use strict";
       var isStream2 = (stream) => stream !== null && typeof stream === "object" && typeof stream.pipe === "function";
       isStream2.writable = (stream) => isStream2(stream) && stream.writable !== false && typeof stream._write === "function" && typeof stream._writableState === "object";
@@ -17401,112 +17712,6 @@
     }
   });
 
-  // node_modules/@babel/runtime/helpers/arrayWithHoles.js
-  var require_arrayWithHoles = __commonJS({
-    "node_modules/@babel/runtime/helpers/arrayWithHoles.js"(exports, module) {
-      function _arrayWithHoles(arr) {
-        if (Array.isArray(arr))
-          return arr;
-      }
-      module.exports = _arrayWithHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
-    }
-  });
-
-  // node_modules/@babel/runtime/helpers/iterableToArrayLimit.js
-  var require_iterableToArrayLimit = __commonJS({
-    "node_modules/@babel/runtime/helpers/iterableToArrayLimit.js"(exports, module) {
-      function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-        if (_i == null)
-          return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-          for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-            _arr.push(_s.value);
-            if (i && _arr.length === i)
-              break;
-          }
-        } catch (err) {
-          _d = true;
-          _e = err;
-        } finally {
-          try {
-            if (!_n && _i["return"] != null)
-              _i["return"]();
-          } finally {
-            if (_d)
-              throw _e;
-          }
-        }
-        return _arr;
-      }
-      module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
-    }
-  });
-
-  // node_modules/@babel/runtime/helpers/arrayLikeToArray.js
-  var require_arrayLikeToArray = __commonJS({
-    "node_modules/@babel/runtime/helpers/arrayLikeToArray.js"(exports, module) {
-      function _arrayLikeToArray(arr, len) {
-        if (len == null || len > arr.length)
-          len = arr.length;
-        for (var i = 0, arr2 = new Array(len); i < len; i++) {
-          arr2[i] = arr[i];
-        }
-        return arr2;
-      }
-      module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-    }
-  });
-
-  // node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js
-  var require_unsupportedIterableToArray = __commonJS({
-    "node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js"(exports, module) {
-      var arrayLikeToArray = require_arrayLikeToArray();
-      function _unsupportedIterableToArray(o2, minLen) {
-        if (!o2)
-          return;
-        if (typeof o2 === "string")
-          return arrayLikeToArray(o2, minLen);
-        var n = Object.prototype.toString.call(o2).slice(8, -1);
-        if (n === "Object" && o2.constructor)
-          n = o2.constructor.name;
-        if (n === "Map" || n === "Set")
-          return Array.from(o2);
-        if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-          return arrayLikeToArray(o2, minLen);
-      }
-      module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-    }
-  });
-
-  // node_modules/@babel/runtime/helpers/nonIterableRest.js
-  var require_nonIterableRest = __commonJS({
-    "node_modules/@babel/runtime/helpers/nonIterableRest.js"(exports, module) {
-      function _nonIterableRest() {
-        throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-      }
-      module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports["default"] = module.exports;
-    }
-  });
-
-  // node_modules/@babel/runtime/helpers/slicedToArray.js
-  var require_slicedToArray = __commonJS({
-    "node_modules/@babel/runtime/helpers/slicedToArray.js"(exports, module) {
-      var arrayWithHoles = require_arrayWithHoles();
-      var iterableToArrayLimit = require_iterableToArrayLimit();
-      var unsupportedIterableToArray = require_unsupportedIterableToArray();
-      var nonIterableRest = require_nonIterableRest();
-      function _slicedToArray(arr, i) {
-        return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-      }
-      module.exports = _slicedToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-    }
-  });
-
   // node_modules/regenerator-runtime/runtime.js
   var require_runtime = __commonJS({
     "node_modules/regenerator-runtime/runtime.js"(exports, module) {
@@ -17987,6 +18192,112 @@
   var require_regenerator = __commonJS({
     "node_modules/@babel/runtime/regenerator/index.js"(exports, module) {
       module.exports = require_runtime();
+    }
+  });
+
+  // node_modules/@babel/runtime/helpers/arrayWithHoles.js
+  var require_arrayWithHoles = __commonJS({
+    "node_modules/@babel/runtime/helpers/arrayWithHoles.js"(exports, module) {
+      function _arrayWithHoles(arr) {
+        if (Array.isArray(arr))
+          return arr;
+      }
+      module.exports = _arrayWithHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    }
+  });
+
+  // node_modules/@babel/runtime/helpers/iterableToArrayLimit.js
+  var require_iterableToArrayLimit = __commonJS({
+    "node_modules/@babel/runtime/helpers/iterableToArrayLimit.js"(exports, module) {
+      function _iterableToArrayLimit(arr, i) {
+        var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+        if (_i == null)
+          return;
+        var _arr = [];
+        var _n = true;
+        var _d = false;
+        var _s, _e;
+        try {
+          for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+            _arr.push(_s.value);
+            if (i && _arr.length === i)
+              break;
+          }
+        } catch (err) {
+          _d = true;
+          _e = err;
+        } finally {
+          try {
+            if (!_n && _i["return"] != null)
+              _i["return"]();
+          } finally {
+            if (_d)
+              throw _e;
+          }
+        }
+        return _arr;
+      }
+      module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    }
+  });
+
+  // node_modules/@babel/runtime/helpers/arrayLikeToArray.js
+  var require_arrayLikeToArray = __commonJS({
+    "node_modules/@babel/runtime/helpers/arrayLikeToArray.js"(exports, module) {
+      function _arrayLikeToArray(arr, len) {
+        if (len == null || len > arr.length)
+          len = arr.length;
+        for (var i = 0, arr2 = new Array(len); i < len; i++) {
+          arr2[i] = arr[i];
+        }
+        return arr2;
+      }
+      module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    }
+  });
+
+  // node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js
+  var require_unsupportedIterableToArray = __commonJS({
+    "node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js"(exports, module) {
+      var arrayLikeToArray = require_arrayLikeToArray();
+      function _unsupportedIterableToArray(o2, minLen) {
+        if (!o2)
+          return;
+        if (typeof o2 === "string")
+          return arrayLikeToArray(o2, minLen);
+        var n = Object.prototype.toString.call(o2).slice(8, -1);
+        if (n === "Object" && o2.constructor)
+          n = o2.constructor.name;
+        if (n === "Map" || n === "Set")
+          return Array.from(o2);
+        if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
+          return arrayLikeToArray(o2, minLen);
+      }
+      module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    }
+  });
+
+  // node_modules/@babel/runtime/helpers/nonIterableRest.js
+  var require_nonIterableRest = __commonJS({
+    "node_modules/@babel/runtime/helpers/nonIterableRest.js"(exports, module) {
+      function _nonIterableRest() {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+      }
+      module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    }
+  });
+
+  // node_modules/@babel/runtime/helpers/slicedToArray.js
+  var require_slicedToArray = __commonJS({
+    "node_modules/@babel/runtime/helpers/slicedToArray.js"(exports, module) {
+      var arrayWithHoles = require_arrayWithHoles();
+      var iterableToArrayLimit = require_iterableToArrayLimit();
+      var unsupportedIterableToArray = require_unsupportedIterableToArray();
+      var nonIterableRest = require_nonIterableRest();
+      function _slicedToArray(arr, i) {
+        return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
+      }
+      module.exports = _slicedToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
     }
   });
 
@@ -27087,7 +27398,7 @@
   });
 
   // node_modules/hash.js/lib/hash/common.js
-  var require_common = __commonJS({
+  var require_common2 = __commonJS({
     "node_modules/hash.js/lib/hash/common.js"(exports) {
       "use strict";
       var utils = require_utils3();
@@ -27166,7 +27477,7 @@
   });
 
   // node_modules/hash.js/lib/hash/sha/common.js
-  var require_common2 = __commonJS({
+  var require_common3 = __commonJS({
     "node_modules/hash.js/lib/hash/sha/common.js"(exports) {
       "use strict";
       var utils = require_utils3();
@@ -27216,8 +27527,8 @@
     "node_modules/hash.js/lib/hash/sha/1.js"(exports, module) {
       "use strict";
       var utils = require_utils3();
-      var common = require_common();
-      var shaCommon = require_common2();
+      var common = require_common2();
+      var shaCommon = require_common3();
       var rotl32 = utils.rotl32;
       var sum32 = utils.sum32;
       var sum32_5 = utils.sum32_5;
@@ -27288,8 +27599,8 @@
     "node_modules/hash.js/lib/hash/sha/256.js"(exports, module) {
       "use strict";
       var utils = require_utils3();
-      var common = require_common();
-      var shaCommon = require_common2();
+      var common = require_common2();
+      var shaCommon = require_common3();
       var assert3 = require_minimalistic_assert();
       var sum32 = utils.sum32;
       var sum32_4 = utils.sum32_4;
@@ -27476,7 +27787,7 @@
     "node_modules/hash.js/lib/hash/sha/512.js"(exports, module) {
       "use strict";
       var utils = require_utils3();
-      var common = require_common();
+      var common = require_common2();
       var assert3 = require_minimalistic_assert();
       var rotr64_hi = utils.rotr64_hi;
       var rotr64_lo = utils.rotr64_lo;
@@ -27931,7 +28242,7 @@
     "node_modules/hash.js/lib/hash/ripemd.js"(exports) {
       "use strict";
       var utils = require_utils3();
-      var common = require_common();
+      var common = require_common2();
       var rotl32 = utils.rotl32;
       var sum32 = utils.sum32;
       var sum32_3 = utils.sum32_3;
@@ -28401,7 +28712,7 @@
     "node_modules/hash.js/lib/hash.js"(exports) {
       var hash4 = exports;
       hash4.utils = require_utils3();
-      hash4.common = require_common();
+      hash4.common = require_common2();
       hash4.sha = require_sha();
       hash4.ripemd = require_ripemd();
       hash4.hmac = require_hmac();
@@ -34967,15 +35278,15 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/_version.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/_version.js
   var version23;
   var init_version23 = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/_version.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/_version.js"() {
       version23 = "providers/5.5.2";
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/formatter.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/formatter.js
   function isCommunityResourcable(value) {
     return value && typeof value.isCommunityResource === "function";
   }
@@ -35002,7 +35313,7 @@
   }
   var logger29, Formatter, throttleMessage;
   var init_formatter = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/formatter.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/formatter.js"() {
       "use strict";
       init_lib7();
       init_lib3();
@@ -35392,7 +35703,7 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/base-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/base-provider.js
   function checkTopic(topic) {
     if (topic == null) {
       return "null";
@@ -35488,7 +35799,7 @@
   }
   var import_bech32, __awaiter10, logger30, PollableEvents, Event, coinInfos, matcherIpfs, matchers, Resolver2, defaultFormatter, nextPollId, BaseProvider;
   var init_base_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/base-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/base-provider.js"() {
       "use strict";
       init_lib12();
       init_lib17();
@@ -36969,7 +37280,7 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js
   function checkError(method, error, params) {
     if (method === "call" && error.code === Logger.errors.SERVER_ERROR) {
       const e = error.error;
@@ -37050,7 +37361,7 @@
   }
   var __awaiter11, logger31, errorGas, _constructorGuard5, JsonRpcSigner, UncheckedJsonRpcSigner, allowedTransactionKeys4, JsonRpcProvider;
   var init_json_rpc_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js"() {
       "use strict";
       init_lib13();
       init_lib3();
@@ -37558,10 +37869,10 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/ws.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/ws.js
   var WS;
   var init_ws = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/ws.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/ws.js"() {
       "use strict";
       init_lib();
       init_version23();
@@ -37582,10 +37893,10 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/websocket-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/websocket-provider.js
   var __awaiter12, logger32, NextId, WebSocketProvider;
   var init_websocket_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/websocket-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/websocket-provider.js"() {
       "use strict";
       init_lib3();
       init_lib4();
@@ -37853,10 +38164,10 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js
   var __awaiter13, logger33, StaticJsonRpcProvider, UrlJsonRpcProvider;
   var init_url_json_rpc_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js"() {
       "use strict";
       init_lib4();
       init_lib();
@@ -37950,10 +38261,10 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js
   var logger34, defaultApiKey, AlchemyWebSocketProvider, AlchemyProvider;
   var init_alchemy_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js"() {
       "use strict";
       init_lib4();
       init_formatter();
@@ -38044,10 +38355,10 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js
   var __awaiter14, logger35, CloudflareProvider;
   var init_cloudflare_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js"() {
       "use strict";
       init_url_json_rpc_provider();
       init_lib();
@@ -38114,7 +38425,7 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js
   function getTransactionPostData(transaction) {
     const result = {};
     for (let key2 in transaction) {
@@ -38245,7 +38556,7 @@
   }
   var __awaiter15, logger36, defaultApiKey2, EtherscanProvider;
   var init_etherscan_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js"() {
       "use strict";
       init_lib2();
       init_lib4();
@@ -38537,7 +38848,7 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/fallback-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/fallback-provider.js
   function now() {
     return new Date().getTime();
   }
@@ -38809,7 +39120,7 @@
   }
   var __awaiter16, logger37, nextRid, ForwardErrors, ForwardProperties, FallbackProvider;
   var init_fallback_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/fallback-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/fallback-provider.js"() {
       "use strict";
       init_lib12();
       init_lib3();
@@ -39078,19 +39389,19 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/ipc-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/ipc-provider.js
   var IpcProvider;
   var init_ipc_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/ipc-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/ipc-provider.js"() {
       "use strict";
       IpcProvider = null;
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/infura-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/infura-provider.js
   var logger38, defaultProjectId, InfuraWebSocketProvider, InfuraProvider;
   var init_infura_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/infura-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/infura-provider.js"() {
       "use strict";
       init_lib4();
       init_websocket_provider();
@@ -39210,10 +39521,10 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js
   var JsonRpcBatchProvider;
   var init_json_rpc_batch_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js"() {
       init_lib4();
       init_lib27();
       init_json_rpc_provider();
@@ -39282,10 +39593,10 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js
   var logger39, defaultApiKey3, NodesmithProvider;
   var init_nodesmith_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js"() {
       "use strict";
       init_url_json_rpc_provider();
       init_lib();
@@ -39327,10 +39638,10 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/pocket-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/pocket-provider.js
   var logger40, defaultApplicationIds, PocketProvider;
   var init_pocket_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/pocket-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/pocket-provider.js"() {
       "use strict";
       init_lib4();
       init_lib();
@@ -39433,7 +39744,7 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/web3-provider.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/web3-provider.js
   function buildWeb3LegacyFetcher(provider, sendFunc) {
     const fetcher = "Web3LegacyFetcher";
     return function(method, params) {
@@ -39514,7 +39825,7 @@
   }
   var logger41, _nextId, Web3Provider;
   var init_web3_provider = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/web3-provider.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/web3-provider.js"() {
       "use strict";
       init_lib4();
       init_lib();
@@ -39567,7 +39878,7 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/index.js
+  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/index.js
   var lib_exports4 = {};
   __export(lib_exports4, {
     AlchemyProvider: () => AlchemyProvider,
@@ -39636,7 +39947,7 @@
   }
   var logger42;
   var init_lib28 = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/@ethersproject/providers/lib.esm/index.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/index.js"() {
       "use strict";
       init_lib12();
       init_lib25();
@@ -39857,7 +40168,7 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/ethers/lib.esm/utils.js
+  // node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/utils.js
   var utils_exports = {};
   __export(utils_exports, {
     AbiCoder: () => AbiCoder,
@@ -39960,7 +40271,7 @@
     zeroPad: () => zeroPad
   });
   var init_utils2 = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/ethers/lib.esm/utils.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/utils.js"() {
       "use strict";
       init_lib11();
       init_lib7();
@@ -39988,15 +40299,15 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/ethers/lib.esm/_version.js
+  // node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/_version.js
   var version26;
   var init_version26 = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/ethers/lib.esm/_version.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/_version.js"() {
       version26 = "ethers/5.5.3";
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/ethers/lib.esm/ethers.js
+  // node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/ethers.js
   var ethers_exports = {};
   __export(ethers_exports, {
     BaseContract: () => BaseContract,
@@ -40019,7 +40330,7 @@
   });
   var logger45;
   var init_ethers = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/ethers/lib.esm/ethers.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/ethers.js"() {
       "use strict";
       init_lib16();
       init_lib3();
@@ -40036,7 +40347,7 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/node_modules/ethers/lib.esm/index.js
+  // node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/index.js
   var lib_exports5 = {};
   __export(lib_exports5, {
     BaseContract: () => BaseContract,
@@ -40059,7 +40370,7 @@
     wordlists: () => wordlists
   });
   var init_lib31 = __esm({
-    "node_modules/@ensdomains/ensjs/node_modules/ethers/lib.esm/index.js"() {
+    "node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/index.js"() {
       "use strict";
       init_ethers();
       init_ethers();
@@ -40131,16 +40442,16 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/stream.js
+  // node_modules/readable-stream/lib/internal/streams/stream.js
   var require_stream = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/stream.js"(exports, module) {
+    "node_modules/readable-stream/lib/internal/streams/stream.js"(exports, module) {
       module.exports = __require("stream");
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/buffer_list.js
+  // node_modules/readable-stream/lib/internal/streams/buffer_list.js
   var require_buffer_list = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports, module) {
+    "node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports, module) {
       "use strict";
       function ownKeys4(object, enumerableOnly) {
         var keys = Object.keys(object);
@@ -40385,9 +40696,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/destroy.js
+  // node_modules/readable-stream/lib/internal/streams/destroy.js
   var require_destroy = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/destroy.js"(exports, module) {
+    "node_modules/readable-stream/lib/internal/streams/destroy.js"(exports, module) {
       "use strict";
       function destroy(err, cb) {
         var _this = this;
@@ -40478,9 +40789,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/errors.js
+  // node_modules/readable-stream/errors.js
   var require_errors = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/errors.js"(exports, module) {
+    "node_modules/readable-stream/errors.js"(exports, module) {
       "use strict";
       var codes = {};
       function createErrorType(code, message, Base) {
@@ -40578,9 +40889,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/state.js
+  // node_modules/readable-stream/lib/internal/streams/state.js
   var require_state = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/state.js"(exports, module) {
+    "node_modules/readable-stream/lib/internal/streams/state.js"(exports, module) {
       "use strict";
       var ERR_INVALID_OPT_VALUE = require_errors().codes.ERR_INVALID_OPT_VALUE;
       function highWaterMarkFrom(options, isDuplex, duplexKey) {
@@ -40610,9 +40921,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/_stream_writable.js
+  // node_modules/readable-stream/lib/_stream_writable.js
   var require_stream_writable = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/_stream_writable.js"(exports, module) {
+    "node_modules/readable-stream/lib/_stream_writable.js"(exports, module) {
       "use strict";
       module.exports = Writable;
       function CorkedRequest(state) {
@@ -41098,9 +41409,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/_stream_duplex.js
+  // node_modules/readable-stream/lib/_stream_duplex.js
   var require_stream_duplex = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/_stream_duplex.js"(exports, module) {
+    "node_modules/readable-stream/lib/_stream_duplex.js"(exports, module) {
       "use strict";
       var objectKeys = Object.keys || function(obj) {
         var keys2 = [];
@@ -41446,9 +41757,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/end-of-stream.js
+  // node_modules/readable-stream/lib/internal/streams/end-of-stream.js
   var require_end_of_stream = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports, module) {
+    "node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports, module) {
       "use strict";
       var ERR_STREAM_PREMATURE_CLOSE = require_errors().codes.ERR_STREAM_PREMATURE_CLOSE;
       function once(callback) {
@@ -41547,9 +41858,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/async_iterator.js
+  // node_modules/readable-stream/lib/internal/streams/async_iterator.js
   var require_async_iterator = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/async_iterator.js"(exports, module) {
+    "node_modules/readable-stream/lib/internal/streams/async_iterator.js"(exports, module) {
       "use strict";
       var _Object$setPrototypeO;
       function _defineProperty4(obj, key2, value) {
@@ -41715,9 +42026,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/from.js
+  // node_modules/readable-stream/lib/internal/streams/from.js
   var require_from = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/from.js"(exports, module) {
+    "node_modules/readable-stream/lib/internal/streams/from.js"(exports, module) {
       "use strict";
       function asyncGeneratorStep(gen, resolve2, reject, _next, _throw, key2, arg) {
         try {
@@ -41832,9 +42143,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/_stream_readable.js
+  // node_modules/readable-stream/lib/_stream_readable.js
   var require_stream_readable = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/_stream_readable.js"(exports, module) {
+    "node_modules/readable-stream/lib/_stream_readable.js"(exports, module) {
       "use strict";
       module.exports = Readable2;
       var Duplex;
@@ -42615,9 +42926,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/_stream_transform.js
+  // node_modules/readable-stream/lib/_stream_transform.js
   var require_stream_transform = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/_stream_transform.js"(exports, module) {
+    "node_modules/readable-stream/lib/_stream_transform.js"(exports, module) {
       "use strict";
       module.exports = Transform3;
       var _require$codes = require_errors().codes;
@@ -42723,9 +43034,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/_stream_passthrough.js
+  // node_modules/readable-stream/lib/_stream_passthrough.js
   var require_stream_passthrough = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/_stream_passthrough.js"(exports, module) {
+    "node_modules/readable-stream/lib/_stream_passthrough.js"(exports, module) {
       "use strict";
       module.exports = PassThrough;
       var Transform3 = require_stream_transform();
@@ -42741,9 +43052,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/pipeline.js
+  // node_modules/readable-stream/lib/internal/streams/pipeline.js
   var require_pipeline = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports, module) {
+    "node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports, module) {
       "use strict";
       var eos;
       function once(callback) {
@@ -42840,9 +43151,9 @@
     }
   });
 
-  // node_modules/hash-base/node_modules/readable-stream/readable.js
+  // node_modules/readable-stream/readable.js
   var require_readable = __commonJS({
-    "node_modules/hash-base/node_modules/readable-stream/readable.js"(exports, module) {
+    "node_modules/readable-stream/readable.js"(exports, module) {
       var Stream = __require("stream");
       if (process.env.READABLE_STREAM === "disable" && Stream) {
         module.exports = Stream.Readable;
@@ -47314,16 +47625,44 @@
             inputs: [
               {
                 indexed: true,
+                internalType: "address",
+                name: "owner",
+                type: "address"
+              },
+              {
+                indexed: true,
+                internalType: "address",
+                name: "operator",
+                type: "address"
+              },
+              {
+                indexed: false,
+                internalType: "bool",
+                name: "approved",
+                type: "bool"
+              }
+            ],
+            name: "ApprovalForAll",
+            type: "event"
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: true,
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
                 indexed: true,
+                internalType: "bytes32",
                 name: "label",
                 type: "bytes32"
               },
               {
                 indexed: false,
+                internalType: "address",
                 name: "owner",
                 type: "address"
               }
@@ -47336,28 +47675,13 @@
             inputs: [
               {
                 indexed: true,
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
                 indexed: false,
-                name: "owner",
-                type: "address"
-              }
-            ],
-            name: "Transfer",
-            type: "event"
-          },
-          {
-            anonymous: false,
-            inputs: [
-              {
-                indexed: true,
-                name: "node",
-                type: "bytes32"
-              },
-              {
-                indexed: false,
+                internalType: "address",
                 name: "resolver",
                 type: "address"
               }
@@ -47370,11 +47694,13 @@
             inputs: [
               {
                 indexed: true,
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
                 indexed: false,
+                internalType: "uint64",
                 name: "ttl",
                 type: "uint64"
               }
@@ -47387,39 +47713,40 @@
             inputs: [
               {
                 indexed: true,
-                name: "owner",
-                type: "address"
-              },
-              {
-                indexed: true,
-                name: "operator",
-                type: "address"
+                internalType: "bytes32",
+                name: "node",
+                type: "bytes32"
               },
               {
                 indexed: false,
-                name: "approved",
-                type: "bool"
+                internalType: "address",
+                name: "owner",
+                type: "address"
               }
             ],
-            name: "ApprovalForAll",
+            name: "Transfer",
             type: "event"
           },
           {
             constant: false,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
+                internalType: "address",
                 name: "owner",
                 type: "address"
               },
               {
+                internalType: "address",
                 name: "resolver",
                 type: "address"
               },
               {
+                internalType: "uint64",
                 name: "ttl",
                 type: "uint64"
               }
@@ -47434,22 +47761,27 @@
             constant: false,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
+                internalType: "bytes32",
                 name: "label",
                 type: "bytes32"
               },
               {
+                internalType: "address",
                 name: "owner",
                 type: "address"
               },
               {
+                internalType: "address",
                 name: "resolver",
                 type: "address"
               },
               {
+                internalType: "uint64",
                 name: "ttl",
                 type: "uint64"
               }
@@ -47464,14 +47796,17 @@
             constant: false,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
+                internalType: "bytes32",
                 name: "label",
                 type: "bytes32"
               },
               {
+                internalType: "address",
                 name: "owner",
                 type: "address"
               }
@@ -47479,6 +47814,7 @@
             name: "setSubnodeOwner",
             outputs: [
               {
+                internalType: "bytes32",
                 name: "",
                 type: "bytes32"
               }
@@ -47491,10 +47827,12 @@
             constant: false,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
+                internalType: "address",
                 name: "resolver",
                 type: "address"
               }
@@ -47509,10 +47847,12 @@
             constant: false,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
+                internalType: "address",
                 name: "owner",
                 type: "address"
               }
@@ -47527,10 +47867,12 @@
             constant: false,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               },
               {
+                internalType: "uint64",
                 name: "ttl",
                 type: "uint64"
               }
@@ -47545,10 +47887,12 @@
             constant: false,
             inputs: [
               {
+                internalType: "address",
                 name: "operator",
                 type: "address"
               },
               {
+                internalType: "bool",
                 name: "approved",
                 type: "bool"
               }
@@ -47563,6 +47907,7 @@
             constant: true,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               }
@@ -47570,6 +47915,7 @@
             name: "owner",
             outputs: [
               {
+                internalType: "address",
                 name: "",
                 type: "address"
               }
@@ -47582,6 +47928,7 @@
             constant: true,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               }
@@ -47589,6 +47936,7 @@
             name: "resolver",
             outputs: [
               {
+                internalType: "address",
                 name: "",
                 type: "address"
               }
@@ -47601,6 +47949,7 @@
             constant: true,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               }
@@ -47608,6 +47957,7 @@
             name: "ttl",
             outputs: [
               {
+                internalType: "uint64",
                 name: "",
                 type: "uint64"
               }
@@ -47620,6 +47970,7 @@
             constant: true,
             inputs: [
               {
+                internalType: "bytes32",
                 name: "node",
                 type: "bytes32"
               }
@@ -47627,6 +47978,7 @@
             name: "recordExists",
             outputs: [
               {
+                internalType: "bool",
                 name: "",
                 type: "bool"
               }
@@ -47639,10 +47991,12 @@
             constant: true,
             inputs: [
               {
+                internalType: "address",
                 name: "owner",
                 type: "address"
               },
               {
+                internalType: "address",
                 name: "operator",
                 type: "address"
               }
@@ -47650,6 +48004,7 @@
             name: "isApprovedForAll",
             outputs: [
               {
+                internalType: "bool",
                 name: "",
                 type: "bool"
               }
@@ -47659,6 +48014,7 @@
             type: "function"
           }
         ],
+        metadata: '{"compiler":{"version":"0.5.16+commit.9c3226ce"},"language":"Solidity","output":{"abi":[{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"},{"indexed":true,"internalType":"bytes32","name":"label","type":"bytes32"},{"indexed":false,"internalType":"address","name":"owner","type":"address"}],"name":"NewOwner","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"},{"indexed":false,"internalType":"address","name":"resolver","type":"address"}],"name":"NewResolver","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"},{"indexed":false,"internalType":"uint64","name":"ttl","type":"uint64"}],"name":"NewTTL","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"node","type":"bytes32"},{"indexed":false,"internalType":"address","name":"owner","type":"address"}],"name":"Transfer","type":"event"},{"constant":true,"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"}],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"}],"name":"recordExists","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"}],"name":"resolver","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"},{"internalType":"address","name":"owner","type":"address"}],"name":"setOwner","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"},{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"resolver","type":"address"},{"internalType":"uint64","name":"ttl","type":"uint64"}],"name":"setRecord","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"},{"internalType":"address","name":"resolver","type":"address"}],"name":"setResolver","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"},{"internalType":"bytes32","name":"label","type":"bytes32"},{"internalType":"address","name":"owner","type":"address"}],"name":"setSubnodeOwner","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"},{"internalType":"bytes32","name":"label","type":"bytes32"},{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"resolver","type":"address"},{"internalType":"uint64","name":"ttl","type":"uint64"}],"name":"setSubnodeRecord","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"},{"internalType":"uint64","name":"ttl","type":"uint64"}],"name":"setTTL","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"bytes32","name":"node","type":"bytes32"}],"name":"ttl","outputs":[{"internalType":"uint64","name":"","type":"uint64"}],"payable":false,"stateMutability":"view","type":"function"}],"devdoc":{"methods":{}},"userdoc":{"methods":{}}},"settings":{"compilationTarget":{"/Users/makoto/work/ens/ens/contracts/ENS.sol":"ENS"},"evmVersion":"istanbul","libraries":{},"optimizer":{"enabled":false,"runs":200},"remappings":[]},"sources":{"/Users/makoto/work/ens/ens/contracts/ENS.sol":{"keccak256":"0x10b88673d8c180cd62523be4fec7607c65594eb4f0c561fa0fbc0784422b4871","urls":["bzz-raw://b3de1882a4a1a1b13c27ee6dc04cc58c34ac392c80cad507de2cdfa8c02712fe","dweb:/ipfs/QmeKcaBF8QdJjXiqFrPJkAtK3et5kUL8XJrnHjwhAThRMT"]}},"version":1}',
         bytecode: "0x",
         deployedBytecode: "0x",
         sourceMap: "",
@@ -50929,11 +51285,11 @@
         },
         compiler: {
           name: "solc",
-          version: "0.5.0+commit.1d4f565a.Emscripten.clang"
+          version: "0.5.16+commit.9c3226ce.Emscripten.clang"
         },
         networks: {},
-        schemaVersion: "3.0.0",
-        updatedAt: "2020-02-10T20:00:51.340Z",
+        schemaVersion: "3.2.0",
+        updatedAt: "2020-06-23T14:47:43.690Z",
         devdoc: {
           methods: {}
         },
@@ -57477,18 +57833,21 @@
         contractName: "ReverseRegistrar",
         abi: [
           {
-            constant: true,
-            inputs: [],
-            name: "ens",
-            outputs: [
+            inputs: [
               {
-                name: "",
+                internalType: "contract ENS",
+                name: "ensAddr",
+                type: "address"
+              },
+              {
+                internalType: "contract NameResolver",
+                name: "resolverAddr",
                 type: "address"
               }
             ],
             payable: false,
-            stateMutability: "view",
-            type: "function"
+            stateMutability: "nonpayable",
+            type: "constructor"
           },
           {
             constant: true,
@@ -57496,6 +57855,7 @@
             name: "ADDR_REVERSE_NODE",
             outputs: [
               {
+                internalType: "bytes32",
                 name: "",
                 type: "bytes32"
               }
@@ -57510,6 +57870,7 @@
             name: "defaultResolver",
             outputs: [
               {
+                internalType: "contract NameResolver",
                 name: "",
                 type: "address"
               }
@@ -57519,24 +57880,25 @@
             type: "function"
           },
           {
-            inputs: [
+            constant: true,
+            inputs: [],
+            name: "ens",
+            outputs: [
               {
-                name: "ensAddr",
-                type: "address"
-              },
-              {
-                name: "resolverAddr",
+                internalType: "contract ENS",
+                name: "",
                 type: "address"
               }
             ],
             payable: false,
-            stateMutability: "nonpayable",
-            type: "constructor"
+            stateMutability: "view",
+            type: "function"
           },
           {
             constant: false,
             inputs: [
               {
+                internalType: "address",
                 name: "owner",
                 type: "address"
               }
@@ -57544,6 +57906,7 @@
             name: "claim",
             outputs: [
               {
+                internalType: "bytes32",
                 name: "",
                 type: "bytes32"
               }
@@ -57556,10 +57919,12 @@
             constant: false,
             inputs: [
               {
+                internalType: "address",
                 name: "owner",
                 type: "address"
               },
               {
+                internalType: "address",
                 name: "resolver",
                 type: "address"
               }
@@ -57567,6 +57932,7 @@
             name: "claimWithResolver",
             outputs: [
               {
+                internalType: "bytes32",
                 name: "",
                 type: "bytes32"
               }
@@ -57579,6 +57945,7 @@
             constant: false,
             inputs: [
               {
+                internalType: "string",
                 name: "name",
                 type: "string"
               }
@@ -57586,6 +57953,7 @@
             name: "setName",
             outputs: [
               {
+                internalType: "bytes32",
                 name: "",
                 type: "bytes32"
               }
@@ -57598,6 +57966,7 @@
             constant: true,
             inputs: [
               {
+                internalType: "address",
                 name: "addr",
                 type: "address"
               }
@@ -57605,6 +57974,7 @@
             name: "node",
             outputs: [
               {
+                internalType: "bytes32",
                 name: "",
                 type: "bytes32"
               }
@@ -57614,10 +57984,11 @@
             type: "function"
           }
         ],
-        bytecode: "0x608060405234801561001057600080fd5b50604051604080610f4c8339810180604052604081101561003057600080fd5b810190808051906020019092919080519060200190929190505050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166302571be37f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e26001026040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b15801561017f57600080fd5b505afa158015610193573d6000803e3d6000fd5b505050506040513d60208110156101a957600080fd5b81019080805190602001909291905050509050600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff161415156102ca578073ffffffffffffffffffffffffffffffffffffffff16631e83409a336040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15801561028d57600080fd5b505af11580156102a1573d6000803e3d6000fd5b505050506040513d60208110156102b757600080fd5b8101908080519060200190929190505050505b505050610c70806102dc6000396000f3fe608060405260043610610083576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630f5a5466146100885780631e83409a1461010d5780633f15457f146101725780637cf8a2eb146101c9578063828eab0e146101f4578063bffbe61c1461024b578063c47f0027146102b0575b600080fd5b34801561009457600080fd5b506100f7600480360360408110156100ab57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061038c565b6040518082815260200191505060405180910390f35b34801561011957600080fd5b5061015c6004803603602081101561013057600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506109a1565b6040518082815260200191505060405180910390f35b34801561017e57600080fd5b506101876109b5565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156101d557600080fd5b506101de6109da565b6040518082815260200191505060405180910390f35b34801561020057600080fd5b50610209610a01565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561025757600080fd5b5061029a6004803603602081101561026e57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610a27565b6040518082815260200191505060405180910390f35b3480156102bc57600080fd5b50610376600480360360208110156102d357600080fd5b81019080803590602001906401000000008111156102f057600080fd5b82018360208201111561030257600080fd5b8035906020019184600183028401116401000000008311171561032457600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f820116905080830192505050505050509192919290505050610a8a565b6040518082815260200191505060405180910390f35b60008061039833610bda565b905060007f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260010282604051602001808381526020018281526020019250505060405160208183030381529060405280519060200120905060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166302571be3836040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b15801561048057600080fd5b505afa158015610494573d6000803e3d6000fd5b505050506040513d60208110156104aa57600080fd5b81019080805190602001909291905050509050600073ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff16141580156105ee57506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16630178b8bf836040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b15801561058357600080fd5b505afa158015610597573d6000803e3d6000fd5b505050506040513d60208110156105ad57600080fd5b810190808051906020019092919050505073ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff1614155b15610834573073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515610757576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166306ab59237f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260010285306040518463ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808481526020018381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019350505050602060405180830381600087803b15801561071757600080fd5b505af115801561072b573d6000803e3d6000fd5b505050506040513d602081101561074157600080fd5b8101908080519060200190929190505050503090505b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16631896f70a83876040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200192505050600060405180830381600087803b15801561081b57600080fd5b505af115801561082f573d6000803e3d6000fd5b505050505b8573ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515610995576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166306ab59237f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260010285896040518463ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808481526020018381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019350505050602060405180830381600087803b15801561095857600080fd5b505af115801561096c573d6000803e3d6000fd5b505050506040513d602081101561098257600080fd5b8101908080519060200190929190505050505b81935050505092915050565b60006109ae82600061038c565b9050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b7f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260010281565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60007f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2600102610a5683610bda565b6040516020018083815260200182815260200192505050604051602081830303815290604052805190602001209050919050565b600080610ab930600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1661038c565b9050600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16637737221382856040518363ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018083815260200180602001828103825283818151815260200191508051906020019080838360005b83811015610b6c578082015181840152602081019050610b51565b50505050905090810190601f168015610b995780820380516001836020036101000a031916815260200191505b509350505050600060405180830381600087803b158015610bb957600080fd5b505af1158015610bcd573d6000803e3d6000fd5b5050505080915050919050565b60007f303132333435363738396162636465660000000000000000000000000000000060285b6000811115610c365760018103905081600f85161a815360108404935060018103905081600f85161a8153601084049350610c00565b50602860002091505091905056fea165627a7a72305820e6313e7a4e2df43a1f5b7da522763dc6a86c5cd20f813441bb72230d11cef23d0029",
-        deployedBytecode: "0x608060405260043610610083576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630f5a5466146100885780631e83409a1461010d5780633f15457f146101725780637cf8a2eb146101c9578063828eab0e146101f4578063bffbe61c1461024b578063c47f0027146102b0575b600080fd5b34801561009457600080fd5b506100f7600480360360408110156100ab57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061038c565b6040518082815260200191505060405180910390f35b34801561011957600080fd5b5061015c6004803603602081101561013057600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506109a1565b6040518082815260200191505060405180910390f35b34801561017e57600080fd5b506101876109b5565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156101d557600080fd5b506101de6109da565b6040518082815260200191505060405180910390f35b34801561020057600080fd5b50610209610a01565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561025757600080fd5b5061029a6004803603602081101561026e57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610a27565b6040518082815260200191505060405180910390f35b3480156102bc57600080fd5b50610376600480360360208110156102d357600080fd5b81019080803590602001906401000000008111156102f057600080fd5b82018360208201111561030257600080fd5b8035906020019184600183028401116401000000008311171561032457600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f820116905080830192505050505050509192919290505050610a8a565b6040518082815260200191505060405180910390f35b60008061039833610bda565b905060007f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260010282604051602001808381526020018281526020019250505060405160208183030381529060405280519060200120905060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166302571be3836040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b15801561048057600080fd5b505afa158015610494573d6000803e3d6000fd5b505050506040513d60208110156104aa57600080fd5b81019080805190602001909291905050509050600073ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff16141580156105ee57506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16630178b8bf836040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060206040518083038186803b15801561058357600080fd5b505afa158015610597573d6000803e3d6000fd5b505050506040513d60208110156105ad57600080fd5b810190808051906020019092919050505073ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff1614155b15610834573073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515610757576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166306ab59237f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260010285306040518463ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808481526020018381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019350505050602060405180830381600087803b15801561071757600080fd5b505af115801561072b573d6000803e3d6000fd5b505050506040513d602081101561074157600080fd5b8101908080519060200190929190505050503090505b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16631896f70a83876040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200192505050600060405180830381600087803b15801561081b57600080fd5b505af115801561082f573d6000803e3d6000fd5b505050505b8573ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515610995576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166306ab59237f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260010285896040518463ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808481526020018381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019350505050602060405180830381600087803b15801561095857600080fd5b505af115801561096c573d6000803e3d6000fd5b505050506040513d602081101561098257600080fd5b8101908080519060200190929190505050505b81935050505092915050565b60006109ae82600061038c565b9050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b7f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260010281565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60007f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2600102610a5683610bda565b6040516020018083815260200182815260200192505050604051602081830303815290604052805190602001209050919050565b600080610ab930600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1661038c565b9050600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16637737221382856040518363ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018083815260200180602001828103825283818151815260200191508051906020019080838360005b83811015610b6c578082015181840152602081019050610b51565b50505050905090810190601f168015610b995780820380516001836020036101000a031916815260200191505b509350505050600060405180830381600087803b158015610bb957600080fd5b505af1158015610bcd573d6000803e3d6000fd5b5050505080915050919050565b60007f303132333435363738396162636465660000000000000000000000000000000060285b6000811115610c365760018103905081600f85161a815360108404935060018103905081600f85161a8153601084049350610c00565b50602860002091505091905056fea165627a7a72305820e6313e7a4e2df43a1f5b7da522763dc6a86c5cd20f813441bb72230d11cef23d0029",
-        sourceMap: "136:4188:9:-;;;546:391;8:9:-1;5:2;;;30:1;27;20:12;5:2;546:391:9;;;;;;;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;546:391:9;;;;;;;;;;;;;;;;;;;;;;;;;621:7;615:3;;:13;;;;;;;;;;;;;;;;;;656:12;638:15;;:30;;;;;;;;;;;;;;;;;;745:29;794:3;;;;;;;;;;;:9;;;244:66;804:17;;794:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;794:28:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;794:28:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;794:28:9;;;;;;;;;;;;;;;;745:78;;870:3;837:37;;845:12;837:37;;;;833:98;;;890:12;:18;;;909:10;890:30;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;890:30:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;890:30:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;890:30:9;;;;;;;;;;;;;;;;;833:98;546:391;;;136:4188;;;;;;",
-        deployedSourceMap: "136:4188:9:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1669:871;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1669:871:9;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1669:871:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1204:117;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1204:117:9;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1204:117:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;317:14;;8:9:-1;5:2;;;30:1;27;20:12;5:2;317:14:9;;;;;;;;;;;;;;;;;;;;;;;;;;;200:110;;8:9:-1;5:2;;;30:1;27;20:12;5:2;200:110:9;;;;;;;;;;;;;;;;;;;;;;;337:35;;8:9:-1;5:2;;;30:1;27;20:12;5:2;337:35:9;;;;;;;;;;;;;;;;;;;;;;;;;;;3245:150;;8:9:-1;5:2;;;30:1;27;20:12;5:2;3245:150:9;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;3245:150:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2859:218;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2859:218:9;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2859:218:9;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;2859:218:9;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;2859:218:9;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;2859:218:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;2859:218:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1669:871;1745:7;1764:13;1780:26;1795:10;1780:14;:26::i;:::-;1764:42;;1816:12;244:66;1858:17;;1877:5;1841:42;;;;;;;;;;;;;;;;;;;;;49:4:-1;39:7;30;26:21;22:32;13:7;6:49;1841:42:9;;;1831:53;;;;;;1816:68;;1894:20;1917:3;;;;;;;;;;;:9;;;1927:4;1917:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1917:15:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1917:15:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1917:15:9;;;;;;;;;;;;;;;;1894:38;;2010:3;1990:24;;:8;:24;;;;:58;;;;;2030:3;;;;;;;;;;;:12;;;2043:4;2030:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2030:18:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2030:18:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2030:18:9;;;;;;;;;;;;;;;;2018:30;;:8;:30;;;;1990:58;1986:372;;;2157:4;2133:29;;:12;:29;;;;2129:174;;;2182:3;;;;;;;;;;;:19;;;244:66;2202:17;;2221:5;2236:4;2182:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2182:60:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2182:60:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2182:60:9;;;;;;;;;;;;;;;;;2283:4;2260:28;;2129:174;2316:3;;;;;;;;;;;:15;;;2332:4;2338:8;2316:31;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2316:31:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2316:31:9;;;;1986:372;2428:5;2412:21;;:12;:21;;;;2408:104;;;2449:3;;;;;;;;;;;:19;;;244:66;2469:17;;2488:5;2495;2449:52;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2449:52:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2449:52:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2449:52:9;;;;;;;;;;;;;;;;;2408:104;2529:4;2522:11;;;;;1669:871;;;;:::o;1204:117::-;1250:7;1276:38;1294:5;1309:3;1276:17;:38::i;:::-;1269:45;;1204:117;;;:::o;317:14::-;;;;;;;;;;;;;:::o;200:110::-;244:66;200:110;;;:::o;337:35::-;;;;;;;;;;;;;:::o;3245:150::-;3294:7;244:66;3347:17;;3366:20;3381:4;3366:14;:20::i;:::-;3330:57;;;;;;;;;;;;;;;;;;;;;49:4:-1;39:7;30;26:21;22:32;13:7;6:49;3330:57:9;;;3320:68;;;;;;3313:75;;3245:150;;;:::o;2859:218::-;2912:7;2931:12;2946:58;2972:4;2987:15;;;;;;;;;;;2946:17;:58::i;:::-;2931:73;;3014:15;;;;;;;;;;;:23;;;3038:4;3044;3014:35;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;3014:35:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;3014:35:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;3014:35:9;;;;3066:4;3059:11;;;2859:218;;;:::o;3696:626::-;3756:11;3885:66;3980:2;3965:304;3991:1;3988;3985:8;3965:304;;;4028:1;4025;4021:9;4016:14;;4079:6;4073:3;4067:4;4063:14;4058:28;4055:1;4047:40;4122:4;4116;4112:15;4104:23;;4156:1;4153;4149:9;4144:14;;4207:6;4201:3;4195:4;4191:14;4186:28;4183:1;4175:40;4250:4;4244;4240:15;4232:23;;3965:304;;;3969:15;4303:2;4300:1;4290:16;4283:23;;3857:459;;;;:::o",
+        metadata: '{"compiler":{"version":"0.5.16+commit.9c3226ce"},"language":"Solidity","output":{"abi":[{"inputs":[{"internalType":"contract ENS","name":"ensAddr","type":"address"},{"internalType":"contract NameResolver","name":"resolverAddr","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[],"name":"ADDR_REVERSE_NODE","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"claim","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"resolver","type":"address"}],"name":"claimWithResolver","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"defaultResolver","outputs":[{"internalType":"contract NameResolver","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ens","outputs":[{"internalType":"contract ENS","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"addr","type":"address"}],"name":"node","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":false,"inputs":[{"internalType":"string","name":"name","type":"string"}],"name":"setName","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"nonpayable","type":"function"}],"devdoc":{"methods":{"claim(address)":{"details":"Transfers ownership of the reverse ENS record associated with the     calling account.","params":{"owner":"The address to set as the owner of the reverse record in ENS."},"return":"The ENS node hash of the reverse record."},"claimWithResolver(address,address)":{"details":"Transfers ownership of the reverse ENS record associated with the     calling account.","params":{"owner":"The address to set as the owner of the reverse record in ENS.","resolver":"The address of the resolver to set; 0 to leave unchanged."},"return":"The ENS node hash of the reverse record."},"constructor":{"details":"Constructor","params":{"ensAddr":"The address of the ENS registry.","resolverAddr":"The address of the default reverse resolver."}},"node(address)":{"details":"Returns the node hash for a given account\'s reverse records.","params":{"addr":"The address to hash"},"return":"The ENS node hash."},"setName(string)":{"details":"Sets the `name()` record for the reverse ENS record associated with the calling account. First updates the resolver to the default reverse resolver if necessary.","params":{"name":"The name to set for this address."},"return":"The ENS node hash of the reverse record."}}},"userdoc":{"methods":{}}},"settings":{"compilationTarget":{"/Users/makoto/work/ens/ens/contracts/ReverseRegistrar.sol":"ReverseRegistrar"},"evmVersion":"istanbul","libraries":{},"optimizer":{"enabled":false,"runs":200},"remappings":[]},"sources":{"/Users/makoto/work/ens/ens/contracts/ENS.sol":{"keccak256":"0x10b88673d8c180cd62523be4fec7607c65594eb4f0c561fa0fbc0784422b4871","urls":["bzz-raw://b3de1882a4a1a1b13c27ee6dc04cc58c34ac392c80cad507de2cdfa8c02712fe","dweb:/ipfs/QmeKcaBF8QdJjXiqFrPJkAtK3et5kUL8XJrnHjwhAThRMT"]},"/Users/makoto/work/ens/ens/contracts/ReverseRegistrar.sol":{"keccak256":"0x9c9d6e34ff144e8df8e7ae290a5c9a28437bf0f97f0fcf1cdce371260914c3ba","urls":["bzz-raw://433e7a35db75f7156263a40786522cf20ad374df6fd2ad8a872e62520334116e","dweb:/ipfs/Qmf6TX1oXrAT8yUET77DbpWRM8jYxtr3NCCMypwVVZTfLW"]}},"version":1}',
+        bytecode: "0x608060405234801561001057600080fd5b50604051610e11380380610e118339818101604052604081101561003357600080fd5b810190808051906020019092919080519060200190929190505050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166302571be37f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b6040518263ffffffff1660e01b81526004018082815260200191505060206040518083038186803b15801561016657600080fd5b505afa15801561017a573d6000803e3d6000fd5b505050506040513d602081101561019057600080fd5b81019080805190602001909291905050509050600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1614610293578073ffffffffffffffffffffffffffffffffffffffff16631e83409a336040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15801561025657600080fd5b505af115801561026a573d6000803e3d6000fd5b505050506040513d602081101561028057600080fd5b8101908080519060200190929190505050505b505050610b6c806102a56000396000f3fe608060405234801561001057600080fd5b506004361061007d5760003560e01c80637cf8a2eb1161005b5780637cf8a2eb1461019c578063828eab0e146101ba578063bffbe61c14610204578063c47f00271461025c5761007d565b80630f5a5466146100825780631e83409a146100fa5780633f15457f14610152575b600080fd5b6100e46004803603604081101561009857600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061032b565b6040518082815260200191505060405180910390f35b61013c6004803603602081101561011057600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506108b0565b6040518082815260200191505060405180910390f35b61015a6108c4565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6101a46108e9565b6040518082815260200191505060405180910390f35b6101c2610910565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6102466004803603602081101561021a57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610936565b6040518082815260200191505060405180910390f35b6103156004803603602081101561027257600080fd5b810190808035906020019064010000000081111561028f57600080fd5b8201836020820111156102a157600080fd5b803590602001918460018302840111640100000000831117156102c357600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f820116905080830192505050505050509192919290505050610999565b6040518082815260200191505060405180910390f35b60008061033733610acd565b905060007f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b82604051602001808381526020018281526020019250505060405160208183030381529060405280519060200120905060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166302571be3836040518263ffffffff1660e01b81526004018082815260200191505060206040518083038186803b15801561040357600080fd5b505afa158015610417573d6000803e3d6000fd5b505050506040513d602081101561042d57600080fd5b81019080805190602001909291905050509050600073ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff161415801561055557506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16630178b8bf836040518263ffffffff1660e01b81526004018082815260200191505060206040518083038186803b1580156104ea57600080fd5b505afa1580156104fe573d6000803e3d6000fd5b505050506040513d602081101561051457600080fd5b810190808051906020019092919050505073ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff1614155b15610761573073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16146106a0576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166306ab59237f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b85306040518463ffffffff1660e01b8152600401808481526020018381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019350505050602060405180830381600087803b15801561066057600080fd5b505af1158015610674573d6000803e3d6000fd5b505050506040513d602081101561068a57600080fd5b8101908080519060200190929190505050503090505b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16631896f70a83876040518363ffffffff1660e01b8152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200192505050600060405180830381600087803b15801561074857600080fd5b505af115801561075c573d6000803e3d6000fd5b505050505b8573ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16146108a4576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166306ab59237f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b85896040518463ffffffff1660e01b8152600401808481526020018381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019350505050602060405180830381600087803b15801561086757600080fd5b505af115801561087b573d6000803e3d6000fd5b505050506040513d602081101561089157600080fd5b8101908080519060200190929190505050505b81935050505092915050565b60006108bd82600061032b565b9050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b7f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b81565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60007f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b61096583610acd565b6040516020018083815260200182815260200192505050604051602081830303815290604052805190602001209050919050565b6000806109c830600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1661032b565b9050600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16637737221382856040518363ffffffff1660e01b81526004018083815260200180602001828103825283818151815260200191508051906020019080838360005b83811015610a5f578082015181840152602081019050610a44565b50505050905090810190601f168015610a8c5780820380516001836020036101000a031916815260200191505b509350505050600060405180830381600087803b158015610aac57600080fd5b505af1158015610ac0573d6000803e3d6000fd5b5050505080915050919050565b60007f303132333435363738396162636465660000000000000000000000000000000060285b6000811115610b295760018103905081600f85161a815360108404935060018103905081600f85161a8153601084049350610af3565b50602860002091505091905056fea265627a7a723158203c3a1e43dd29f27c43ee396cdbe4b2cee2e5b8b0cee99aecdde9c3342eea702264736f6c63430005100032",
+        deployedBytecode: "0x608060405234801561001057600080fd5b506004361061007d5760003560e01c80637cf8a2eb1161005b5780637cf8a2eb1461019c578063828eab0e146101ba578063bffbe61c14610204578063c47f00271461025c5761007d565b80630f5a5466146100825780631e83409a146100fa5780633f15457f14610152575b600080fd5b6100e46004803603604081101561009857600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061032b565b6040518082815260200191505060405180910390f35b61013c6004803603602081101561011057600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506108b0565b6040518082815260200191505060405180910390f35b61015a6108c4565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6101a46108e9565b6040518082815260200191505060405180910390f35b6101c2610910565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6102466004803603602081101561021a57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610936565b6040518082815260200191505060405180910390f35b6103156004803603602081101561027257600080fd5b810190808035906020019064010000000081111561028f57600080fd5b8201836020820111156102a157600080fd5b803590602001918460018302840111640100000000831117156102c357600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f820116905080830192505050505050509192919290505050610999565b6040518082815260200191505060405180910390f35b60008061033733610acd565b905060007f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b82604051602001808381526020018281526020019250505060405160208183030381529060405280519060200120905060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166302571be3836040518263ffffffff1660e01b81526004018082815260200191505060206040518083038186803b15801561040357600080fd5b505afa158015610417573d6000803e3d6000fd5b505050506040513d602081101561042d57600080fd5b81019080805190602001909291905050509050600073ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff161415801561055557506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16630178b8bf836040518263ffffffff1660e01b81526004018082815260200191505060206040518083038186803b1580156104ea57600080fd5b505afa1580156104fe573d6000803e3d6000fd5b505050506040513d602081101561051457600080fd5b810190808051906020019092919050505073ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff1614155b15610761573073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16146106a0576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166306ab59237f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b85306040518463ffffffff1660e01b8152600401808481526020018381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019350505050602060405180830381600087803b15801561066057600080fd5b505af1158015610674573d6000803e3d6000fd5b505050506040513d602081101561068a57600080fd5b8101908080519060200190929190505050503090505b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16631896f70a83876040518363ffffffff1660e01b8152600401808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200192505050600060405180830381600087803b15801561074857600080fd5b505af115801561075c573d6000803e3d6000fd5b505050505b8573ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16146108a4576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166306ab59237f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b85896040518463ffffffff1660e01b8152600401808481526020018381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019350505050602060405180830381600087803b15801561086757600080fd5b505af115801561087b573d6000803e3d6000fd5b505050506040513d602081101561089157600080fd5b8101908080519060200190929190505050505b81935050505092915050565b60006108bd82600061032b565b9050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b7f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b81565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60007f91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e260001b61096583610acd565b6040516020018083815260200182815260200192505050604051602081830303815290604052805190602001209050919050565b6000806109c830600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1661032b565b9050600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16637737221382856040518363ffffffff1660e01b81526004018083815260200180602001828103825283818151815260200191508051906020019080838360005b83811015610a5f578082015181840152602081019050610a44565b50505050905090810190601f168015610a8c5780820380516001836020036101000a031916815260200191505b509350505050600060405180830381600087803b158015610aac57600080fd5b505af1158015610ac0573d6000803e3d6000fd5b5050505080915050919050565b60007f303132333435363738396162636465660000000000000000000000000000000060285b6000811115610b295760018103905081600f85161a815360108404935060018103905081600f85161a8153601084049350610af3565b50602860002091505091905056fea265627a7a723158203c3a1e43dd29f27c43ee396cdbe4b2cee2e5b8b0cee99aecdde9c3342eea702264736f6c63430005100032",
+        sourceMap: "136:4188:9:-;;;546:391;8:9:-1;5:2;;;30:1;27;20:12;5:2;546:391:9;;;;;;;;;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;546:391:9;;;;;;;;;;;;;;;;;;;;;;;;;621:7;615:3;;:13;;;;;;;;;;;;;;;;;;656:12;638:15;;:30;;;;;;;;;;;;;;;;;;745:29;794:3;;;;;;;;;;;:9;;;244:66;804:17;;794:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;794:28:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;794:28:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;794:28:9;;;;;;;;;;;;;;;;745:78;;870:3;837:37;;845:12;837:37;;;833:98;;890:12;:18;;;909:10;890:30;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;890:30:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;890:30:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;890:30:9;;;;;;;;;;;;;;;;;833:98;546:391;;;136:4188;;;;;;",
+        deployedSourceMap: "136:4188:9:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;136:4188:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1669:871;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1669:871:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;1204:117;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1204:117:9;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;317:14;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;200:110;;;:::i;:::-;;;;;;;;;;;;;;;;;;;337:35;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;3245:150;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;3245:150:9;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;2859:218;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2859:218:9;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;2859:218:9;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;2859:218:9;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;2859:218:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;2859:218:9;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;1669:871;1745:7;1764:13;1780:26;1795:10;1780:14;:26::i;:::-;1764:42;;1816:12;244:66;1858:17;;1877:5;1841:42;;;;;;;;;;;;;;;;;;;;;49:4:-1;39:7;30;26:21;22:32;13:7;6:49;1841:42:9;;;1831:53;;;;;;1816:68;;1894:20;1917:3;;;;;;;;;;;:9;;;1927:4;1917:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1917:15:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1917:15:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1917:15:9;;;;;;;;;;;;;;;;1894:38;;2010:3;1990:24;;:8;:24;;;;:58;;;;;2030:3;;;;;;;;;;;:12;;;2043:4;2030:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2030:18:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2030:18:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2030:18:9;;;;;;;;;;;;;;;;2018:30;;:8;:30;;;;1990:58;1986:372;;;2157:4;2133:29;;:12;:29;;;2129:174;;2182:3;;;;;;;;;;;:19;;;244:66;2202:17;;2221:5;2236:4;2182:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2182:60:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2182:60:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2182:60:9;;;;;;;;;;;;;;;;;2283:4;2260:28;;2129:174;2316:3;;;;;;;;;;;:15;;;2332:4;2338:8;2316:31;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2316:31:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2316:31:9;;;;1986:372;2428:5;2412:21;;:12;:21;;;2408:104;;2449:3;;;;;;;;;;;:19;;;244:66;2469:17;;2488:5;2495;2449:52;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2449:52:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2449:52:9;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2449:52:9;;;;;;;;;;;;;;;;;2408:104;2529:4;2522:11;;;;;1669:871;;;;:::o;1204:117::-;1250:7;1276:38;1294:5;1309:3;1276:17;:38::i;:::-;1269:45;;1204:117;;;:::o;317:14::-;;;;;;;;;;;;;:::o;200:110::-;244:66;200:110;;;:::o;337:35::-;;;;;;;;;;;;;:::o;3245:150::-;3294:7;244:66;3347:17;;3366:20;3381:4;3366:14;:20::i;:::-;3330:57;;;;;;;;;;;;;;;;;;;;;49:4:-1;39:7;30;26:21;22:32;13:7;6:49;3330:57:9;;;3320:68;;;;;;3313:75;;3245:150;;;:::o;2859:218::-;2912:7;2931:12;2946:58;2972:4;2987:15;;;;;;;;;;;2946:17;:58::i;:::-;2931:73;;3014:15;;;;;;;;;;;:23;;;3038:4;3044;3014:35;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;3014:35:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;3014:35:9;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;3014:35:9;;;;3066:4;3059:11;;;2859:218;;;:::o;3696:626::-;3756:11;3885:66;3980:2;3965:304;3991:1;3988;3985:8;3965:304;;;4028:1;4025;4021:9;4016:14;;4079:6;4073:3;4067:4;4063:14;4058:28;4055:1;4047:40;4122:4;4116;4112:15;4104:23;;4156:1;4153;4149:9;4144:14;;4207:6;4201:3;4195:4;4191:14;4186:28;4183:1;4175:40;4250:4;4244;4240:15;4232:23;;3965:304;;;3969:15;4303:2;4300:1;4290:16;4283:23;;3857:459;;;;:::o",
         source: "pragma solidity ^0.5.0;\n\nimport \"./ENS.sol\";\n\ncontract NameResolver {\n    function setName(bytes32 node, string memory name) public;\n}\n\ncontract ReverseRegistrar {\n    // namehash('addr.reverse')\n    bytes32 public constant ADDR_REVERSE_NODE = 0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2;\n\n    ENS public ens;\n    NameResolver public defaultResolver;\n\n    /**\n     * @dev Constructor\n     * @param ensAddr The address of the ENS registry.\n     * @param resolverAddr The address of the default reverse resolver.\n     */\n    constructor(ENS ensAddr, NameResolver resolverAddr) public {\n        ens = ensAddr;\n        defaultResolver = resolverAddr;\n\n        // Assign ownership of the reverse record to our deployer\n        ReverseRegistrar oldRegistrar = ReverseRegistrar(ens.owner(ADDR_REVERSE_NODE));\n        if (address(oldRegistrar) != address(0x0)) {\n            oldRegistrar.claim(msg.sender);\n        }\n    }\n\n    /**\n     * @dev Transfers ownership of the reverse ENS record associated with the\n     *      calling account.\n     * @param owner The address to set as the owner of the reverse record in ENS.\n     * @return The ENS node hash of the reverse record.\n     */\n    function claim(address owner) public returns (bytes32) {\n        return claimWithResolver(owner, address(0x0));\n    }\n\n    /**\n     * @dev Transfers ownership of the reverse ENS record associated with the\n     *      calling account.\n     * @param owner The address to set as the owner of the reverse record in ENS.\n     * @param resolver The address of the resolver to set; 0 to leave unchanged.\n     * @return The ENS node hash of the reverse record.\n     */\n    function claimWithResolver(address owner, address resolver) public returns (bytes32) {\n        bytes32 label = sha3HexAddress(msg.sender);\n        bytes32 node = keccak256(abi.encodePacked(ADDR_REVERSE_NODE, label));\n        address currentOwner = ens.owner(node);\n\n        // Update the resolver if required\n        if (resolver != address(0x0) && resolver != ens.resolver(node)) {\n            // Transfer the name to us first if it's not already\n            if (currentOwner != address(this)) {\n                ens.setSubnodeOwner(ADDR_REVERSE_NODE, label, address(this));\n                currentOwner = address(this);\n            }\n            ens.setResolver(node, resolver);\n        }\n\n        // Update the owner if required\n        if (currentOwner != owner) {\n            ens.setSubnodeOwner(ADDR_REVERSE_NODE, label, owner);\n        }\n\n        return node;\n    }\n\n    /**\n     * @dev Sets the `name()` record for the reverse ENS record associated with\n     * the calling account. First updates the resolver to the default reverse\n     * resolver if necessary.\n     * @param name The name to set for this address.\n     * @return The ENS node hash of the reverse record.\n     */\n    function setName(string memory name) public returns (bytes32) {\n        bytes32 node = claimWithResolver(address(this), address(defaultResolver));\n        defaultResolver.setName(node, name);\n        return node;\n    }\n\n    /**\n     * @dev Returns the node hash for a given account's reverse records.\n     * @param addr The address to hash\n     * @return The ENS node hash.\n     */\n    function node(address addr) public pure returns (bytes32) {\n        return keccak256(abi.encodePacked(ADDR_REVERSE_NODE, sha3HexAddress(addr)));\n    }\n\n    /**\n     * @dev An optimised function to compute the sha3 of the lower-case\n     *      hexadecimal representation of an Ethereum address.\n     * @param addr The address to hash\n     * @return The SHA3 hash of the lower-case hexadecimal encoding of the\n     *         input address.\n     */\n    function sha3HexAddress(address addr) private pure returns (bytes32 ret) {\n        addr;\n        ret; // Stop warning us about unused variables\n        assembly {\n            let lookup := 0x3031323334353637383961626364656600000000000000000000000000000000\n\n            for { let i := 40 } gt(i, 0) { } {\n                i := sub(i, 1)\n                mstore8(i, byte(and(addr, 0xf), lookup))\n                addr := div(addr, 0x10)\n                i := sub(i, 1)\n                mstore8(i, byte(and(addr, 0xf), lookup))\n                addr := div(addr, 0x10)\n            }\n\n            ret := keccak256(0, 40)\n        }\n    }\n}\n",
         sourcePath: "/Users/makoto/work/ens/ens/contracts/ReverseRegistrar.sol",
         ast: {
@@ -59226,7 +59597,7 @@
                                       name: "this",
                                       nodeType: "Identifier",
                                       overloadedDeclarations: [],
-                                      referencedDeclaration: 3065,
+                                      referencedDeclaration: 3066,
                                       src: "2157:4:9",
                                       typeDescriptions: {
                                         typeIdentifier: "t_contract$_ReverseRegistrar_$2954",
@@ -59322,7 +59693,7 @@
                                               name: "this",
                                               nodeType: "Identifier",
                                               overloadedDeclarations: [],
-                                              referencedDeclaration: 3065,
+                                              referencedDeclaration: 3066,
                                               src: "2236:4:9",
                                               typeDescriptions: {
                                                 typeIdentifier: "t_contract$_ReverseRegistrar_$2954",
@@ -59457,7 +59828,7 @@
                                             name: "this",
                                             nodeType: "Identifier",
                                             overloadedDeclarations: [],
-                                            referencedDeclaration: 3065,
+                                            referencedDeclaration: 3066,
                                             src: "2283:4:9",
                                             typeDescriptions: {
                                               typeIdentifier: "t_contract$_ReverseRegistrar_$2954",
@@ -59943,7 +60314,7 @@
                                   name: "this",
                                   nodeType: "Identifier",
                                   overloadedDeclarations: [],
-                                  referencedDeclaration: 3065,
+                                  referencedDeclaration: 3066,
                                   src: "2972:4:9",
                                   typeDescriptions: {
                                     typeIdentifier: "t_contract$_ReverseRegistrar_$2954",
@@ -60560,7 +60931,25 @@
                               declaration: 2942,
                               isOffset: false,
                               isSlot: false,
+                              src: "4116:4:9",
+                              valueSize: 1
+                            }
+                          },
+                          {
+                            addr: {
+                              declaration: 2942,
+                              isOffset: false,
+                              isSlot: false,
                               src: "4104:4:9",
+                              valueSize: 1
+                            }
+                          },
+                          {
+                            addr: {
+                              declaration: 2942,
+                              isOffset: false,
+                              isSlot: false,
+                              src: "4232:4:9",
                               valueSize: 1
                             }
                           },
@@ -60578,25 +60967,7 @@
                               declaration: 2942,
                               isOffset: false,
                               isSlot: false,
-                              src: "4116:4:9",
-                              valueSize: 1
-                            }
-                          },
-                          {
-                            addr: {
-                              declaration: 2942,
-                              isOffset: false,
-                              isSlot: false,
                               src: "4244:4:9",
-                              valueSize: 1
-                            }
-                          },
-                          {
-                            addr: {
-                              declaration: 2942,
-                              isOffset: false,
-                              isSlot: false,
-                              src: "4232:4:9",
                               valueSize: 1
                             }
                           },
@@ -60621,8 +60992,8 @@
                         ],
                         id: 2951,
                         nodeType: "InlineAssembly",
-                        operations: "{\n    let lookup := 0x3031323334353637383961626364656600000000000000000000000000000000\n    for {\n        let i := 40\n    }\n    gt(i, 0)\n    {\n    }\n    {\n        i := sub(i, 1)\n        mstore8(i, byte(and(addr, 0xf), lookup))\n        addr := div(addr, 0x10)\n        i := sub(i, 1)\n        mstore8(i, byte(and(addr, 0xf), lookup))\n        addr := div(addr, 0x10)\n    }\n    ret := keccak256(0, 40)\n}",
-                        src: "3848:474:9"
+                        operations: "{\n    let lookup := 0x3031323334353637383961626364656600000000000000000000000000000000\n    for { let i := 40 } gt(i, 0) { }\n    {\n        i := sub(i, 1)\n        mstore8(i, byte(and(addr, 0xf), lookup))\n        addr := div(addr, 0x10)\n        i := sub(i, 1)\n        mstore8(i, byte(and(addr, 0xf), lookup))\n        addr := div(addr, 0x10)\n    }\n    ret := keccak256(0, 40)\n}",
+                        src: "3848:468:9"
                       }
                     ]
                   },
@@ -62319,7 +62690,7 @@
                                       name: "this",
                                       nodeType: "Identifier",
                                       overloadedDeclarations: [],
-                                      referencedDeclaration: 3065,
+                                      referencedDeclaration: 3066,
                                       src: "2157:4:9",
                                       typeDescriptions: {
                                         typeIdentifier: "t_contract$_ReverseRegistrar_$2954",
@@ -62415,7 +62786,7 @@
                                               name: "this",
                                               nodeType: "Identifier",
                                               overloadedDeclarations: [],
-                                              referencedDeclaration: 3065,
+                                              referencedDeclaration: 3066,
                                               src: "2236:4:9",
                                               typeDescriptions: {
                                                 typeIdentifier: "t_contract$_ReverseRegistrar_$2954",
@@ -62550,7 +62921,7 @@
                                             name: "this",
                                             nodeType: "Identifier",
                                             overloadedDeclarations: [],
-                                            referencedDeclaration: 3065,
+                                            referencedDeclaration: 3066,
                                             src: "2283:4:9",
                                             typeDescriptions: {
                                               typeIdentifier: "t_contract$_ReverseRegistrar_$2954",
@@ -63036,7 +63407,7 @@
                                   name: "this",
                                   nodeType: "Identifier",
                                   overloadedDeclarations: [],
-                                  referencedDeclaration: 3065,
+                                  referencedDeclaration: 3066,
                                   src: "2972:4:9",
                                   typeDescriptions: {
                                     typeIdentifier: "t_contract$_ReverseRegistrar_$2954",
@@ -63653,7 +64024,25 @@
                               declaration: 2942,
                               isOffset: false,
                               isSlot: false,
+                              src: "4116:4:9",
+                              valueSize: 1
+                            }
+                          },
+                          {
+                            addr: {
+                              declaration: 2942,
+                              isOffset: false,
+                              isSlot: false,
                               src: "4104:4:9",
+                              valueSize: 1
+                            }
+                          },
+                          {
+                            addr: {
+                              declaration: 2942,
+                              isOffset: false,
+                              isSlot: false,
+                              src: "4232:4:9",
                               valueSize: 1
                             }
                           },
@@ -63671,25 +64060,7 @@
                               declaration: 2942,
                               isOffset: false,
                               isSlot: false,
-                              src: "4116:4:9",
-                              valueSize: 1
-                            }
-                          },
-                          {
-                            addr: {
-                              declaration: 2942,
-                              isOffset: false,
-                              isSlot: false,
                               src: "4244:4:9",
-                              valueSize: 1
-                            }
-                          },
-                          {
-                            addr: {
-                              declaration: 2942,
-                              isOffset: false,
-                              isSlot: false,
-                              src: "4232:4:9",
                               valueSize: 1
                             }
                           },
@@ -63714,8 +64085,8 @@
                         ],
                         id: 2951,
                         nodeType: "InlineAssembly",
-                        operations: "{\n    let lookup := 0x3031323334353637383961626364656600000000000000000000000000000000\n    for {\n        let i := 40\n    }\n    gt(i, 0)\n    {\n    }\n    {\n        i := sub(i, 1)\n        mstore8(i, byte(and(addr, 0xf), lookup))\n        addr := div(addr, 0x10)\n        i := sub(i, 1)\n        mstore8(i, byte(and(addr, 0xf), lookup))\n        addr := div(addr, 0x10)\n    }\n    ret := keccak256(0, 40)\n}",
-                        src: "3848:474:9"
+                        operations: "{\n    let lookup := 0x3031323334353637383961626364656600000000000000000000000000000000\n    for { let i := 40 } gt(i, 0) { }\n    {\n        i := sub(i, 1)\n        mstore8(i, byte(and(addr, 0xf), lookup))\n        addr := div(addr, 0x10)\n        i := sub(i, 1)\n        mstore8(i, byte(and(addr, 0xf), lookup))\n        addr := div(addr, 0x10)\n    }\n    ret := keccak256(0, 40)\n}",
+                        src: "3848:468:9"
                       }
                     ]
                   },
@@ -63808,11 +64179,11 @@
         },
         compiler: {
           name: "solc",
-          version: "0.5.0+commit.1d4f565a.Emscripten.clang"
+          version: "0.5.16+commit.9c3226ce.Emscripten.clang"
         },
         networks: {},
-        schemaVersion: "3.0.0",
-        updatedAt: "2020-02-10T20:00:51.357Z",
+        schemaVersion: "3.2.0",
+        updatedAt: "2020-06-23T14:47:43.713Z",
         devdoc: {
           methods: {
             "claim(address)": {
@@ -65230,17 +65601,17 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/dist/utils/labelhash.js
+  // node_modules/@lumeweb/ensjs/dist/utils/labelhash.js
   var require_labelhash = __commonJS({
-    "node_modules/@ensdomains/ensjs/dist/utils/labelhash.js"(exports) {
+    "node_modules/@lumeweb/ensjs/dist/utils/labelhash.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.encodeLabelhash = encodeLabelhash;
       exports.decodeLabelhash = decodeLabelhash;
-      exports.isEncodedLabelhash = isEncodedLabelhash;
+      exports.encodeLabelhash = encodeLabelhash;
       exports.isDecrypted = isDecrypted;
+      exports.isEncodedLabelhash = isEncodedLabelhash;
       exports.labelhash = labelhash;
       var _ethEnsNamehash = require_eth_ens_namehash();
       var sha32 = require_sha3().keccak_256;
@@ -68766,18 +69137,18 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/dist/utils/contents.js
+  // node_modules/@lumeweb/ensjs/dist/utils/contents.js
   var require_contents = __commonJS({
-    "node_modules/@ensdomains/ensjs/dist/utils/contents.js"(exports) {
+    "node_modules/@lumeweb/ensjs/dist/utils/contents.js"(exports) {
       "use strict";
       var _interopRequireDefault = require_interopRequireDefault();
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
       exports.decodeContenthash = decodeContenthash;
-      exports.validateContent = validateContent;
-      exports.isValidContenthash = isValidContenthash;
       exports.encodeContenthash = encodeContenthash;
+      exports.isValidContenthash = isValidContenthash;
+      exports.validateContent = validateContent;
       var _contentHash = _interopRequireDefault(require_src9());
       var _ethers = (init_lib31(), __toCommonJS(lib_exports5));
       var _bs = _interopRequireDefault(require_bs58());
@@ -68798,7 +69169,6 @@
             if (codec2 === "ipfs-ns") {
               protocolType = "ipfs";
             } else if (codec2 === "ipns-ns") {
-              decoded = _bs["default"].decode(decoded).slice(2).toString();
               protocolType = "ipns";
             } else if (codec2 === "swarm-ns") {
               protocolType = "bzz";
@@ -68877,9 +69247,9 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/dist/utils/namehash.js
+  // node_modules/@lumeweb/ensjs/dist/utils/namehash.js
   var require_namehash = __commonJS({
-    "node_modules/@ensdomains/ensjs/dist/utils/namehash.js"(exports) {
+    "node_modules/@lumeweb/ensjs/dist/utils/namehash.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", {
         value: true
@@ -68911,26 +69281,18 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/dist/utils/index.js
+  // node_modules/@lumeweb/ensjs/dist/utils/index.js
   var require_utils4 = __commonJS({
-    "node_modules/@ensdomains/ensjs/dist/utils/index.js"(exports) {
+    "node_modules/@lumeweb/ensjs/dist/utils/index.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.getEnsStartBlock = getEnsStartBlock;
-      exports.validateName = validateName;
-      exports.isLabelValid = isLabelValid;
-      Object.defineProperty(exports, "isEncodedLabelhash", {
+      exports.checkLabels = void 0;
+      Object.defineProperty(exports, "decodeContenthash", {
         enumerable: true,
         get: function get() {
-          return _labelhash.isEncodedLabelhash;
-        }
-      });
-      Object.defineProperty(exports, "isDecrypted", {
-        enumerable: true,
-        get: function get() {
-          return _labelhash.isDecrypted;
+          return _contents.decodeContenthash;
         }
       });
       Object.defineProperty(exports, "decodeLabelhash", {
@@ -68939,10 +69301,37 @@
           return _labelhash.decodeLabelhash;
         }
       });
+      exports.emptyAddress = void 0;
+      Object.defineProperty(exports, "encodeContenthash", {
+        enumerable: true,
+        get: function get() {
+          return _contents.encodeContenthash;
+        }
+      });
       Object.defineProperty(exports, "encodeLabelhash", {
         enumerable: true,
         get: function get() {
           return _labelhash.encodeLabelhash;
+        }
+      });
+      exports.getEnsStartBlock = getEnsStartBlock;
+      Object.defineProperty(exports, "isDecrypted", {
+        enumerable: true,
+        get: function get() {
+          return _labelhash.isDecrypted;
+        }
+      });
+      Object.defineProperty(exports, "isEncodedLabelhash", {
+        enumerable: true,
+        get: function get() {
+          return _labelhash.isEncodedLabelhash;
+        }
+      });
+      exports.isLabelValid = isLabelValid;
+      Object.defineProperty(exports, "isValidContenthash", {
+        enumerable: true,
+        get: function get() {
+          return _contents.isValidContenthash;
         }
       });
       Object.defineProperty(exports, "labelhash", {
@@ -68951,31 +69340,15 @@
           return _labelhash.labelhash;
         }
       });
-      Object.defineProperty(exports, "encodeContenthash", {
-        enumerable: true,
-        get: function get() {
-          return _contents.encodeContenthash;
-        }
-      });
-      Object.defineProperty(exports, "decodeContenthash", {
-        enumerable: true,
-        get: function get() {
-          return _contents.decodeContenthash;
-        }
-      });
-      Object.defineProperty(exports, "isValidContenthash", {
-        enumerable: true,
-        get: function get() {
-          return _contents.isValidContenthash;
-        }
-      });
+      exports.mergeLabels = void 0;
       Object.defineProperty(exports, "namehash", {
         enumerable: true,
         get: function get() {
           return _namehash.namehash;
         }
       });
-      exports.parseSearchTerm = exports.mergeLabels = exports.checkLabels = exports.emptyAddress = exports.uniq = void 0;
+      exports.uniq = exports.parseSearchTerm = void 0;
+      exports.validateName = validateName;
       var _ethers = (init_lib31(), __toCommonJS(lib_exports5));
       var _labelhash = require_labelhash();
       var _contents = require_contents();
@@ -69075,32 +69448,32 @@
     }
   });
 
-  // node_modules/@ensdomains/ensjs/dist/index.js
+  // node_modules/@lumeweb/ensjs/dist/index.js
   var require_dist2 = __commonJS({
-    "node_modules/@ensdomains/ensjs/dist/index.js"(exports) {
+    "node_modules/@lumeweb/ensjs/dist/index.js"(exports) {
       "use strict";
       var _interopRequireDefault = require_interopRequireDefault();
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
+      exports["default"] = void 0;
       exports.getENSContract = getENSContract;
-      exports.getResolverContract = getResolverContract;
       exports.getEnsAddress = getEnsAddress2;
-      Object.defineProperty(exports, "namehash", {
-        enumerable: true,
-        get: function get() {
-          return _utils.namehash;
-        }
-      });
+      exports.getResolverContract = getResolverContract;
       Object.defineProperty(exports, "labelhash", {
         enumerable: true,
         get: function get() {
           return _utils.labelhash;
         }
       });
-      exports["default"] = void 0;
-      var _slicedToArray2 = _interopRequireDefault(require_slicedToArray());
+      Object.defineProperty(exports, "namehash", {
+        enumerable: true,
+        get: function get() {
+          return _utils.namehash;
+        }
+      });
       var _regenerator = _interopRequireDefault(require_regenerator());
+      var _slicedToArray2 = _interopRequireDefault(require_slicedToArray());
       var _classCallCheck22 = _interopRequireDefault(require_classCallCheck());
       var _createClass22 = _interopRequireDefault(require_createClass());
       var _asyncToGenerator2 = _interopRequireDefault(require_asyncToGenerator());
@@ -69834,7 +70207,7 @@
           key: "createSubdomain",
           value: function() {
             var _createSubdomain = (0, _asyncToGenerator2["default"])(/* @__PURE__ */ _regenerator["default"].mark(function _callee15(label) {
-              var resolverPromise, ownerPromise, _ref11, _ref12, resolver2, owner;
+              var resolverPromise, ownerPromise, _yield$Promise$all, _yield$Promise$all2, resolver2, owner;
               return _regenerator["default"].wrap(function _callee15$(_context15) {
                 while (1) {
                   switch (_context15.prev = _context15.next) {
@@ -69844,10 +70217,10 @@
                       _context15.next = 4;
                       return Promise.all([resolverPromise, ownerPromise]);
                     case 4:
-                      _ref11 = _context15.sent;
-                      _ref12 = (0, _slicedToArray2["default"])(_ref11, 2);
-                      resolver2 = _ref12[0];
-                      owner = _ref12[1];
+                      _yield$Promise$all = _context15.sent;
+                      _yield$Promise$all2 = (0, _slicedToArray2["default"])(_yield$Promise$all, 2);
+                      resolver2 = _yield$Promise$all2[0];
+                      owner = _yield$Promise$all2[1];
                       return _context15.abrupt("return", this.setSubnodeRecord(label, owner, resolver2));
                     case 9:
                     case "end":

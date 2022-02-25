@@ -1,6 +1,6 @@
 import resolver from "../index.js";
 // @ts-ignore
-import ENSRoot, { getEnsAddress } from '@ensdomains/ensjs';
+import ENSRoot, { getEnsAddress } from '@lumeweb/ensjs';
 import { ethers } from "ethers";
 import * as URL from "url";
 const ENS = ENSRoot.default;
