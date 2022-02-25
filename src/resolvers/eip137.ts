@@ -1,7 +1,7 @@
 import SubResolver from "../SubResolver.js";
 import resolver from "../index.js";
 // @ts-ignore
-import ENSRoot, {getEnsAddress} from '@ensdomains/ensjs';
+import ENSRoot, {getEnsAddress} from '@lumeweb/ensjs';
 import {ethers, providers} from "ethers";
 import * as URL from "url";
 // @ts-ignore
@@ -9,7 +9,7 @@ import contentHasher from 'content-hash'
 // @ts-ignore
 import {profiles as contentHashProfiles} from 'content-hash/src/profiles.js'
 // @ts-ignore
-import {encodeContenthash} from '@ensdomains/ensjs/dist/utils/contents.js'
+import {encodeContenthash} from '@lumeweb/ensjs/dist/utils/contents.js'
 
 const ENS = ENSRoot.default;
 
