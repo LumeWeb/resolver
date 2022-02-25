@@ -1,6 +1,6 @@
 {
     "name": "@lumeweb/resolver",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "The DNS resolver library for web3",
     "main": "dist/esm/index.js",
     "module": "dist/esm/index.js",
