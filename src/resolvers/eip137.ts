@@ -1,5 +1,4 @@
-import SubResolver from "../SubResolver.js";
-import resolver from "../index.js";
+import ISubResolver from "../ISubResolver.js";
 // @ts-ignore
 import ENSRoot, {getEnsAddress} from '@lumeweb/ensjs';
 import {ethers, providers} from "ethers";
@@ -10,10 +9,11 @@ import contentHasher from 'content-hash'
 import {profiles as contentHashProfiles} from 'content-hash/src/profiles.js'
 // @ts-ignore
 import {encodeContenthash} from '@lumeweb/ensjs/dist/utils/contents.js'
+import SubResolverBase from "../SubResolverBase";
 
 const ENS = ENSRoot.default;
 
-export default class Eip137 implements SubResolver {
+export default class Eip137 extends SubResolverBase{
     async resolve(input: string, params: object = {}): Promise<string | boolean> {
         if (input.endsWith('.eth')) {
             return await this.resolveEns(input);
@@ -68,7 +68,7 @@ export default class Eip137 implements SubResolver {
     private getConnection(chain: string): providers.StaticJsonRpcProvider {
 
         // @ts-ignore
-        let apiUrl = URL.parse(`https://${resolver.getPortal()}/pocketdns`);
+        let apiUrl = new URL(`https://${this.resolver.getPortal()}/pocketdns`);
         if (URL.URLSearchParams) {
             let params = new URL.URLSearchParams;
             params.set('chain', chain);

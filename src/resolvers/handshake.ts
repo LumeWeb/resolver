@@ -1,15 +1,12 @@
-import SubResolver from "../SubResolver.js";
-import resolver from "../index.js";
 import {isDomain, isIp, registryEntryRegExp, startsWithSkylinkRegExp} from "../lib/util.js";
 
 // @ts-ignore
 import {NodeClient} from "hs-client";
 import HnsClient from "./handshake/HnsClient.js";
 import {SkynetClient} from "skynet-js";
+import SubResolverBase from "../SubResolverBase";
 
-//const {SkynetClient} = Skynet;
-
-export default class Handshake implements SubResolver {
+export default class Handshake extends SubResolverBase {
     async resolve(input: string, params: object = {}): Promise<string | boolean> {
         let tld = input;
 
@@ -25,7 +22,7 @@ export default class Handshake implements SubResolver {
             tld = input.split('.')[input.split('.').length - 1];
         }
 
-        let records = await Handshake.query(tld);
+        let records = await this.query(tld);
         if (!records) {
             return false;
         }
@@ -35,11 +32,11 @@ export default class Handshake implements SubResolver {
             // @ts-ignore
             switch (record.type) {
                 case "NS": {
-                    result = await Handshake.processNs(input, record, records);
+                    result = await this.processNs(input, record, records);
                     break;
                 }
                 case "TXT": {
-                    result = await Handshake.processTxt(record);
+                    result = await this.processTxt(record);
                     break;
                 }
                 // @ts-ignore
@@ -58,27 +55,27 @@ export default class Handshake implements SubResolver {
     }
 
     // @ts-ignore
-    private static async processNs(domain, record, records) {
+    private async processNs(domain, record, records) {
         // @ts-ignore
         let glue = records.slice().find(
             // @ts-ignore
             (item: object) => ['GLUE4', 'GLUE6'].includes(item.type) && item.ns === record.ns);
 
         if (glue) {
-            return resolver.resolve(glue.address, {subquery: true, domain});
+            return this.resolver.resolve(glue.address, {subquery: true, domain});
         }
 
         if (isDomain(record.ns)) {
-            return resolver.resolve(record.ns, {subquery: true});
+            return this.resolver.resolve(record.ns, {subquery: true});
         }
 
-        let result = await resolver.resolve(record.ns, {domain: domain});
+        let result = await this.resolver.resolve(record.ns, {domain: domain});
 
         return result || record.ns;
     }
 
-    private static async query(tld: string): Promise<object | boolean> {
-        const portal = resolver.getPortal();
+    private async query(tld: string): Promise<object | boolean> {
+        const portal = this.resolver.getPortal();
         const clientOptions = {
             ssl: true,
             network: 'main',
@@ -103,7 +100,7 @@ export default class Handshake implements SubResolver {
         return resp?.result?.records || [];
     }
 
-    private static async processTxt(record: object): Promise<string | boolean> {
+    private async processTxt(record: object): Promise<string | boolean> {
         // @ts-ignore
         let matches;
         // @ts-ignore
@@ -114,7 +111,7 @@ export default class Handshake implements SubResolver {
         // @ts-ignore
         if ((matches = record.txt.slice().pop().match(registryEntryRegExp))) {
 
-            const client = new SkynetClient(`https://${resolver.getPortal()}`);
+            const client = new SkynetClient(`https://${this.resolver.getPortal()}`);
 
             let pubKey = decodeURIComponent(matches.groups.publickey).replace('ed25519:', '');
 

@@ -1,11 +1,11 @@
-import SubResolver from "../SubResolver.js";
 import {isDomain} from "../lib/util.js";
 import resolver from "../index.js";
 
 // @ts-ignore
 import {NodeClient} from '@lumeweb/hs-client';
+import SubResolverBase from "../SubResolverBase";
 
-export default class Icann implements SubResolver {
+export default class Icann extends SubResolverBase {
     async resolve(input: string, params: object = {}): Promise<string | boolean> {
         // @ts-ignore
         if (!params || !('subquery' in params) || !params.subquery) {

@@ -1,8 +1,9 @@
-import SubResolver from "./SubResolver.js";
+import ISubResolver from "./ISubResolver.js";
+import SubResolverBase from "./SubResolverBase";
 
 export default class Resolver {
 
-    private _resolvers: SubResolver[] = [];
+    private _resolvers: SubResolverBase[] = [];
     private _portals: string[] = [];
 
     public async resolve(input: string, params: object = []): Promise<string | boolean> {
@@ -16,7 +17,7 @@ export default class Resolver {
         return false;
     }
 
-    public registerResolver(resolver: SubResolver): void {
+    public registerResolver(resolver: SubResolverBase): void {
         this._resolvers.push(resolver);
     }
 
