@@ -1,4 +1,3 @@
-import ISubResolver from "./ISubResolver.js";
 import SubResolverBase from "./SubResolverBase";
 
 export default class Resolver {
