@@ -1,4 +1,3 @@
-import ISubResolver from "../ISubResolver.js";
 // @ts-ignore
 import ENSRoot, {getEnsAddress} from '@lumeweb/ensjs';
 import {ethers, providers} from "ethers";
