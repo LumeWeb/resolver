@@ -30,6 +30,7 @@
     "brq": "^0.1.8",
     "content-hash": "^2.5.2",
     "ethers": "^5.5.4",
+    "hs-client": "^0.0.10",
     "skynet-js": "4.0.24-beta",
     "ts-node": "^10.6.0"
   },

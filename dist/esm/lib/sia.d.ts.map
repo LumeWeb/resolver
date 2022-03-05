@@ -1,1 +1,0 @@
-{"version":3,"file":"sia.d.ts","sourceRoot":"","sources":["../../../src/lib/sia.ts"],"names":[],"mappings":"AAmBA,qBAAa,YAAY;IACF,SAAS,EAAE,UAAU;IAAS,GAAG,EAAE,UAAU;gBAA7C,SAAS,EAAE,UAAU,EAAS,GAAG,EAAE,UAAU;IAGhE,UAAU,IAAI,UAAU;CAM3B"}
