@@ -27,6 +27,7 @@
     "@lumeweb/skynet-js": "/home/derrick/Projects/lume/skynet-js",
     "base32-decode": "^1.0.0",
     "base64-js": "^1.5.1",
+    "brq": "^0.1.8",
     "content-hash": "^2.5.2",
     "ethers": "^5.5.4",
     "skynet-js": "4.0.24-beta",
