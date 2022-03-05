@@ -15,15 +15,15 @@ const ENS = ENSRoot.default;
 export default class Eip137 extends SubResolverBase {
   async resolve(input: string, params: object = {}): Promise<string | boolean> {
     if (input.endsWith(".eth")) {
-      return await this.resolveEns(input);
+      return this.resolveEns(input);
     }
 
-    let hip5Data = input.split(".");
+    const hip5Data = input.split(".");
     // @ts-ignore
     if (2 <= hip5Data.length && "domain" in params) {
       if (ethers.utils.isAddress(hip5Data[0])) {
         // @ts-ignore
-        return await this.resolveHip5(params.domain, hip5Data);
+        return this.resolveHip5(params.domain, hip5Data);
       }
     }
 
@@ -31,7 +31,7 @@ export default class Eip137 extends SubResolverBase {
   }
 
   private async resolveEns(input: string): Promise<string | boolean> {
-    let data = [getEnsAddress("1"), "eth-mainnet"];
+    const data = [getEnsAddress("1"), "eth-mainnet"];
 
     return this.resolveHip5(input, data);
   }
@@ -40,7 +40,7 @@ export default class Eip137 extends SubResolverBase {
     domain: string,
     data: string[]
   ): Promise<string | boolean> {
-    let connection: providers.StaticJsonRpcProvider = this.getConnection(
+    const connection: providers.StaticJsonRpcProvider = this.getConnection(
       data[1].replace("_", "")
     );
 
@@ -48,9 +48,9 @@ export default class Eip137 extends SubResolverBase {
     const ens = new ENS({ provider: connection, ensAddress: data[0] });
 
     try {
-      let name = await ens.name(domain);
-      let contentResult = await name.getContent();
-      let url = await name.getText("url");
+      const name = await ens.name(domain);
+      const contentResult = await name.getContent();
+      const url = await name.getText("url");
       let content;
 
       if (typeof contentResult === "string" && 0 === Number(contentResult)) {
@@ -66,16 +66,17 @@ export default class Eip137 extends SubResolverBase {
 
       return content || url || false;
     } catch (e) {
-      console.log(e);
       return false;
     }
   }
 
   private getConnection(chain: string): providers.StaticJsonRpcProvider {
     // @ts-ignore
-    let apiUrl = new URL.URL(`https://${this.resolver.getPortal()}/pocketdns`);
+    const apiUrl = new URL.URL(
+      `https://${this.resolver.getPortal()}/pocketdns`
+    );
     if (URL.URLSearchParams) {
-      let params = new URL.URLSearchParams();
+      const params = new URL.URLSearchParams();
       params.set("chain", chain);
       apiUrl.search = params.toString();
     } else {

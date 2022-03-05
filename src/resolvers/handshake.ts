@@ -27,13 +27,13 @@ export default class Handshake extends SubResolverBase {
       tld = input.split(".")[input.split(".").length - 1];
     }
 
-    let records = await this.query(tld);
+    const records = await this.query(tld);
     if (!records) {
       return false;
     }
     let result: string | boolean = false;
 
-    for (let record of (<object[]>records).reverse()) {
+    for (const record of (records as object[]).reverse()) {
       // @ts-ignore
       switch (record.type) {
         case "NS": {
@@ -62,9 +62,9 @@ export default class Handshake extends SubResolverBase {
   // @ts-ignore
   private async processNs(domain, record, records) {
     // @ts-ignore
-    let glue = records.slice().find(
-      // @ts-ignore
+    const glue = records.slice().find(
       (item: object) =>
+        // @ts-ignore
         ["GLUE4", "GLUE6"].includes(item.type) && item.ns === record.ns
     );
 
@@ -76,7 +76,7 @@ export default class Handshake extends SubResolverBase {
       return this.resolver.resolve(record.ns, { subquery: true });
     }
 
-    let result = await this.resolver.resolve(record.ns, { domain: domain });
+    const result = await this.resolver.resolve(record.ns, { domain });
 
     return result || record.ns;
   }
@@ -99,7 +99,6 @@ export default class Handshake extends SubResolverBase {
       // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
       resp = await client.execute("getnameresource", [tld]);
     } catch (e) {
-      console.error(e);
       return false;
     }
 
@@ -109,29 +108,32 @@ export default class Handshake extends SubResolverBase {
 
   private async processTxt(record: object): Promise<string | boolean> {
     // @ts-ignore
-    let matches;
+    let matches = record.txt.slice().pop().match(startsWithSkylinkRegExp);
     // @ts-ignore
-    if ((matches = record.txt.slice().pop().match(startsWithSkylinkRegExp))) {
+    if (matches) {
       return decodeURIComponent(matches[2]);
     }
 
     // @ts-ignore
-    if ((matches = record.txt.slice().pop().match(registryEntryRegExp))) {
+    matches = record.txt.slice().pop().match(registryEntryRegExp);
+
+    // @ts-ignore
+    if (matches) {
       const client = new SkynetClient(`https://${this.resolver.getPortal()}`);
 
-      let pubKey = decodeURIComponent(matches.groups.publickey).replace(
+      const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",
         ""
       );
 
-      let entry = await client.registry.getEntry(
+      const entry = await client.registry.getEntry(
         pubKey,
         matches.groups.datakey,
         // @ts-ignore
         { hashedDataKeyHex: true }
       );
 
-      return Buffer.from(<Uint8Array>entry.entry?.data).toString();
+      return Buffer.from(entry.entry?.data as Uint8Array).toString();
     }
 
     return false;

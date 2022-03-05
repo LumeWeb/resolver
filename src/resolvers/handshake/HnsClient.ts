@@ -4,6 +4,7 @@ import brq from "brq";
 import assert from "assert";
 
 import { NodeClient } from "@lumeweb/hs-client";
+import RPCError from "./RPCError.js";
 
 export default class HnsClient extends NodeClient {
   constructor(options: object) {
@@ -11,7 +12,7 @@ export default class HnsClient extends NodeClient {
   }
 
   async execute(name: string, params: any[]): Promise<object> {
-    //async execute(endpoint: string, method: string, params: any) {
+    // async execute(endpoint: string, method: string, params: any) {
     // @ts-ignore
     assert(typeof name === "string");
     // @ts-ignore
@@ -39,7 +40,7 @@ export default class HnsClient extends NodeClient {
       json: {
         jsonrpc: "2.0",
         method: name,
-        params: params,
+        params,
         chain: "hns",
         id: this.sequence,
       },
@@ -69,21 +70,5 @@ export default class HnsClient extends NodeClient {
     }
 
     return json;
-  }
-}
-
-class RPCError extends Error {
-  constructor(msg: string, code: number) {
-    super();
-
-    // @ts-ignore
-    this.type = "RPCError";
-    this.message = String(msg);
-    // @ts-ignore
-    this.code = code >> 0;
-
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, RPCError);
-    }
   }
 }

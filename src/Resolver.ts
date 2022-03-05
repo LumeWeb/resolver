@@ -8,8 +8,8 @@ export default class Resolver {
     input: string,
     params: object = []
   ): Promise<string | boolean> {
-    for (let resolver of this._resolvers) {
-      let result = await resolver.resolve(input, params);
+    for (const resolver of this._resolvers) {
+      const result = await resolver.resolve(input, params);
       if (result) {
         return result;
       }

@@ -29,7 +29,7 @@ export default class Icann extends SubResolverBase {
     const client = new NodeClient(clientOptions);
     let resp: object | boolean = false;
     try {
-      let rpcParams = {};
+      const rpcParams = {};
 
       // @ts-ignore
       rpcParams.domain = params.domain || input;
@@ -39,7 +39,6 @@ export default class Icann extends SubResolverBase {
       // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
       resp = await client.execute("dnslookup", rpcParams);
     } catch (e) {
-      console.error(e);
       return false;
     }
 
