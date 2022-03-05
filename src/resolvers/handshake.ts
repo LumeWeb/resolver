@@ -3,8 +3,8 @@ import {isDomain, isIp, registryEntryRegExp, startsWithSkylinkRegExp} from "../l
 // @ts-ignore
 import {NodeClient} from "hs-client";
 import HnsClient from "./handshake/HnsClient.js";
-import {SkynetClient} from "skynet-js";
-import SubResolverBase from "../SubResolverBase";
+import {SkynetClient} from "@lumeweb/skynet-js";
+import SubResolverBase from "../SubResolverBase.js";
 
 export default class Handshake extends SubResolverBase {
     async resolve(input: string, params: object = {}): Promise<string | boolean> {

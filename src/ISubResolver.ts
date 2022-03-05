@@ -1,4 +1,4 @@
-import Resolver from "./Resolver";
+import Resolver from "./Resolver.js";
 
 export default interface ISubResolver {
     // @ts-ignore

@@ -1,14 +1,14 @@
 // @ts-ignore
 import ENSRoot, {getEnsAddress} from '@lumeweb/ensjs';
 import {ethers, providers} from "ethers";
-import * as URL from "url";
+import URL from "url";
 // @ts-ignore
 import contentHasher from 'content-hash'
 // @ts-ignore
 import {profiles as contentHashProfiles} from 'content-hash/src/profiles.js'
 // @ts-ignore
 import {encodeContenthash} from '@lumeweb/ensjs/dist/utils/contents.js'
-import SubResolverBase from "../SubResolverBase";
+import SubResolverBase from "../SubResolverBase.js";
 
 const ENS = ENSRoot.default;
 
@@ -67,7 +67,7 @@ export default class Eip137 extends SubResolverBase{
     private getConnection(chain: string): providers.StaticJsonRpcProvider {
 
         // @ts-ignore
-        let apiUrl = new URL(`https://${this.resolver.getPortal()}/pocketdns`);
+        let apiUrl = new URL.URL(`https://${this.resolver.getPortal()}/pocketdns`);
         if (URL.URLSearchParams) {
             let params = new URL.URLSearchParams;
             params.set('chain', chain);
@@ -77,7 +77,7 @@ export default class Eip137 extends SubResolverBase{
         }
         return new ethers.providers.StaticJsonRpcProvider({
                                                               // @ts-ignore
-                                                              url: apiUrl.format()
+                                                              url: apiUrl.toString()
                                                           });
     }
 }

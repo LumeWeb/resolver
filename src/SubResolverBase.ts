@@ -1,5 +1,5 @@
-import ISubResolver from "./ISubResolver";
-import Resolver from "./Resolver";
+import ISubResolver from "./ISubResolver.js";
+import Resolver from "./Resolver.js";
 
 // @ts-ignore
 export default abstract class SubResolverBase implements ISubResolver {

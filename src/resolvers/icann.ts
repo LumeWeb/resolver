@@ -3,7 +3,7 @@ import resolver from "../index.js";
 
 // @ts-ignore
 import {NodeClient} from '@lumeweb/hs-client';
-import SubResolverBase from "../SubResolverBase";
+import SubResolverBase from "../SubResolverBase.js";
 
 export default class Icann extends SubResolverBase {
     async resolve(input: string, params: object = {}): Promise<string | boolean> {

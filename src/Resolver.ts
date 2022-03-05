@@ -1,4 +1,4 @@
-import SubResolverBase from "./SubResolverBase";
+import SubResolverBase from "./SubResolverBase.js";
 
 export default class Resolver {
 
