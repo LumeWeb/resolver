@@ -3,11 +3,11 @@ import Resolver from "./Resolver.js";
 
 // @ts-ignore
 export default abstract class SubResolverBase implements ISubResolver {
-    protected resolver: Resolver;
+  protected resolver: Resolver;
 
-    constructor(resolver: Resolver)  {
-        this.resolver = resolver;
-    }
+  constructor(resolver: Resolver) {
+    this.resolver = resolver;
+  }
 
-    abstract resolve(input: string, params: object): Promise<string | boolean>;
+  abstract resolve(input: string, params: object): Promise<string | boolean>;
 }
