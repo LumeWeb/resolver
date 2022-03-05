@@ -13,7 +13,7 @@
     "clean": "rimraf dist",
     "format": "prettier 'src/' 'tests/",
     "prepare": "husky install",
-    "lint": "husky install"
+    "lint": "tslint --project ."
   },
   "author": "",
   "license": "MIT",
