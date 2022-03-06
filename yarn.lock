@@ -441,9 +441,10 @@
     bcfg "~0.1.7"
     bsert "~0.0.10"
 
-"@lumeweb/skynet-js@https://github.com/LumeWeb/skynet-js.git":
+"@lumeweb/skynet-js@^4.0.21-beta":
   version "4.0.21-beta"
-  resolved "https://github.com/LumeWeb/skynet-js.git#3d82fa535c36c635ffe00db39b0f00acca6d7d9c"
+  resolved "https://registry.yarnpkg.com/@lumeweb/skynet-js/-/skynet-js-4.0.21-beta.tgz#fd8080aef43c9f159f6feafe52eb5c0a14d42308"
+  integrity sha512-I1dDIBsCUsibBho+ugrfZIj7csYEGMIOgFz+fEde3key4kW7WCD1em8ze1zXSCkTzEhyrQpqOAafOy+tXR2oUw==
   dependencies:
     "@skynetlabs/tus-js-client" "^2.3.0"
     async-mutex "^0.3.2"
