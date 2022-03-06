@@ -1,4 +1,4 @@
-import resolver from "../../src/index.js";
+import resolver, { isIp, startsWithSkylinkRegExp } from "../../src/index.js";
 import Handshake from "../../src/resolvers/handshake.js";
 import assert from "assert";
 import { isIp, startsWithSkylinkRegExp } from "../../src/lib/util.js";
@@ -32,12 +32,11 @@ describe("Handshake", () => {
   it("should to resolve welcome.nb/ to an ip address", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("welcome.nb")) as string;
-    assert.equal(result, isIp(result));
+    assert.equal(isIp(result), true);
   });
-
   it("should to resolve proofofconcept/ to an ip address", async () => {
     // @ts-ignore
-    const result = (await subresolver.resolve("proofofconcept/")) as string;
-    assert.equal(result, isIp(result));
+    const result = (await subresolver.resolve("proofofconcept")) as string;
+    assert.equal(isIp(result), true);
   });
 });
