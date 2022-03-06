@@ -1,6 +1,7 @@
 import {
   isDomain,
   isIp,
+  normalizeDomain,
   registryEntryRegExp,
   startsWithSkylinkRegExp,
 } from "../lib/util.js";
@@ -44,6 +45,19 @@ export default class Handshake extends SubResolverBase {
           result = await this.processTxt(record);
           break;
         }
+        case "SYNTH6": {
+          // @ts-ignore
+          if ("ipv6" in params && params.ipv6) {
+            // @ts-ignore
+            result = record.address;
+          }
+          break;
+        }
+        case "SYNTH4": {
+          // @ts-ignore
+          result = record.address;
+          break;
+        }
         // @ts-ignore
         default: {
           // @ts-ignore
@@ -72,8 +86,19 @@ export default class Handshake extends SubResolverBase {
       return this.resolver.resolve(glue.address, { subquery: true, domain });
     }
 
-    if (isDomain(record.ns)) {
-      return this.resolver.resolve(record.ns, { subquery: true });
+    const foundDomain = normalizeDomain(record.ns);
+
+    if (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) {
+      const hnsNs = await this.resolver.resolve(foundDomain);
+
+      if (hnsNs) {
+        return this.resolver.resolve(hnsNs as string, {
+          subquery: true,
+          domain,
+        });
+      }
+
+      return this.resolver.resolve(foundDomain, { subquery: true });
     }
 
     const result = await this.resolver.resolve(record.ns, { domain });
