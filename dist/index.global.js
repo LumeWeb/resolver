@@ -2480,7 +2480,7 @@
               if (!this._request) return;
               var secKey = this._request.headers["sec-websocket-key"],
                 protos = this._request.headers["sec-websocket-protocol"],
-                version29 = this._request.headers["sec-websocket-version"],
+                version27 = this._request.headers["sec-websocket-version"],
                 supported = this._protocols;
               this._headers.set("Upgrade", "websocket");
               this._headers.set("Connection", "Upgrade");
@@ -2496,7 +2496,7 @@
                 if (this.protocol)
                   this._headers.set("Sec-WebSocket-Protocol", this.protocol);
               }
-              this.version = "hybi-" + version29;
+              this.version = "hybi-" + version27;
             };
             util.inherits(Hybi, Base);
             Hybi.mask = function (payload, mask, offset) {
@@ -3982,7 +3982,7 @@
               util = __require("util"),
               driver = __node_require__(1),
               EventTarget = __node_require__(24),
-              Event3 = __node_require__(25);
+              Event2 = __node_require__(25);
             var API = function (options) {
               options = options || {};
               driver.validateOptions(options, [
@@ -4107,20 +4107,20 @@
                 if (this.readyState !== API.CONNECTING) return;
                 this.readyState = API.OPEN;
                 this.protocol = this._driver.protocol || "";
-                var event = new Event3("open");
+                var event = new Event2("open");
                 event.initEvent("open", false, false);
                 this.dispatchEvent(event);
               },
               _receiveMessage: function (data) {
                 if (this.readyState > API.OPEN) return false;
                 if (this.readable) this.emit("data", data);
-                var event = new Event3("message", { data });
+                var event = new Event2("message", { data });
                 event.initEvent("message", false, false);
                 this.dispatchEvent(event);
               },
               _emitError: function (message) {
                 if (this.readyState >= API.CLOSING) return;
-                var event = new Event3("error", { message });
+                var event = new Event2("error", { message });
                 event.initEvent("error", false, false);
                 this.dispatchEvent(event);
               },
@@ -4143,7 +4143,7 @@
                 this.readable = this.writable = false;
                 var reason = this._closeParams ? this._closeParams[0] : "",
                   code = this._closeParams ? this._closeParams[1] : 1006;
-                var event = new Event3("close", { code, reason });
+                var event = new Event2("close", { code, reason });
                 event.initEvent("close", false, false);
                 this.dispatchEvent(event);
               },
@@ -4159,7 +4159,7 @@
           "faye-websocket",
           "/lib/faye/websocket/api/event_target.js",
           function (exports2, module2, __filename2, __dirname2, __meta) {
-            var Event3 = __node_require__(25);
+            var Event2 = __node_require__(25);
             var EventTarget = {
               onopen: null,
               onmessage: null,
@@ -4173,7 +4173,7 @@
               },
               dispatchEvent: function (event) {
                 event.target = event.currentTarget = this;
-                event.eventPhase = Event3.AT_TARGET;
+                event.eventPhase = Event2.AT_TARGET;
                 if (this["on" + event.type]) this["on" + event.type](event);
                 this.emit(event.type, event);
               },
@@ -4185,11 +4185,11 @@
           "faye-websocket",
           "/lib/faye/websocket/api/event.js",
           function (exports2, module2, __filename2, __dirname2, __meta) {
-            var Event3 = function (eventType, options) {
+            var Event2 = function (eventType, options) {
               this.type = eventType;
               for (var key2 in options) this[key2] = options[key2];
             };
-            Event3.prototype.initEvent = function (
+            Event2.prototype.initEvent = function (
               eventType,
               canBubble,
               cancelable
@@ -4198,12 +4198,12 @@
               this.bubbles = canBubble;
               this.cancelable = cancelable;
             };
-            Event3.prototype.stopPropagation = function () {};
-            Event3.prototype.preventDefault = function () {};
-            Event3.CAPTURING_PHASE = 1;
-            Event3.AT_TARGET = 2;
-            Event3.BUBBLING_PHASE = 3;
-            module2.exports = Event3;
+            Event2.prototype.stopPropagation = function () {};
+            Event2.prototype.preventDefault = function () {};
+            Event2.CAPTURING_PHASE = 1;
+            Event2.AT_TARGET = 2;
+            Event2.BUBBLING_PHASE = 3;
+            module2.exports = Event2;
           },
         ],
         [
@@ -4216,7 +4216,7 @@
               url = __require("url"),
               driver = __node_require__(1),
               API = __node_require__(23),
-              Event3 = __node_require__(25);
+              Event2 = __node_require__(25);
             var DEFAULT_PORTS = {
                 "http:": 80,
                 "https:": 443,
@@ -4306,7 +4306,7 @@
               Headers = __node_require__(4),
               API = __node_require__(23),
               EventTarget = __node_require__(24),
-              Event3 = __node_require__(25);
+              Event2 = __node_require__(25);
             var EventSource = function (request, response, options) {
               this.writable = true;
               options = options || {};
@@ -4369,7 +4369,7 @@
               _open: function () {
                 if (this.readyState !== API.CONNECTING) return;
                 this.readyState = API.OPEN;
-                var event = new Event3("open");
+                var event = new Event2("open");
                 event.initEvent("open", false, false);
                 this.dispatchEvent(event);
               },
@@ -4399,7 +4399,7 @@
                 this.writable = false;
                 if (this._pingTimer) clearInterval(this._pingTimer);
                 if (this._stream) this._stream.end();
-                var event = new Event3("close");
+                var event = new Event2("close");
                 event.initEvent("close", false, false);
                 this.dispatchEvent(event);
                 return true;
@@ -5151,10 +5151,10 @@
           }
         }
         stall() {
-          const now3 = Date.now();
+          const now2 = Date.now();
           assert3(this.ws);
           if (!this.connected) {
-            if (now3 - this.time > 1e4) {
+            if (now2 - this.time > 1e4) {
               if (this.inbound || !this.reconnection) {
                 this.error("Timed out waiting for connection.");
                 this.destroy();
@@ -5167,18 +5167,18 @@
             return;
           }
           for (const [id2, job] of this.jobs) {
-            if (now3 - job.time > 6e5) {
+            if (now2 - job.time > 6e5) {
               this.jobs.delete(id2);
               job.reject(new Error("Job timed out."));
             }
           }
           if (!this.inbound && !this.challenge) {
             this.challenge = true;
-            this.lastPing = now3;
+            this.lastPing = now2;
             this.sendPing();
             return;
           }
-          if (!this.inbound && now3 - this.lastPing > this.pingTimeout) {
+          if (!this.inbound && now2 - this.lastPing > this.pingTimeout) {
             this.error("Connection is stalling (ping).");
             if (this.inbound) {
               this.destroy();
@@ -6082,7 +6082,7 @@
       "use strict";
       var assert3 = require_assert();
       var { Client } = require_bcurl();
-      var NodeClient3 = class extends Client {
+      var NodeClient2 = class extends Client {
         constructor(options) {
           super(options);
         }
@@ -6192,7 +6192,7 @@
           return this.call("rescan", start);
         }
       };
-      module.exports = NodeClient3;
+      module.exports = NodeClient2;
     },
   });
 
@@ -6894,7 +6894,7 @@
           serializedParams = params.toString();
         } else {
           var parts = [];
-          utils.forEach(params, function serialize4(val, key2) {
+          utils.forEach(params, function serialize3(val, key2) {
             if (val === null || typeof val === "undefined") {
               return;
             }
@@ -7521,12 +7521,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/ms/index.js
+  // node_modules/debug/node_modules/ms/index.js
   var require_ms = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/ms/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/debug/node_modules/ms/index.js"(exports, module) {
       var s2 = 1e3;
       var m2 = s2 * 60;
       var h2 = m2 * 60;
@@ -7642,12 +7639,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/debug/src/common.js
+  // node_modules/debug/src/common.js
   var require_common = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/debug/src/common.js"(
-      exports,
-      module
-    ) {
+    "node_modules/debug/src/common.js"(exports, module) {
       function setup(env) {
         createDebug.debug = createDebug;
         createDebug.default = createDebug;
@@ -7825,12 +7819,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/debug/src/browser.js
+  // node_modules/debug/src/browser.js
   var require_browser = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/debug/src/browser.js"(
-      exports,
-      module
-    ) {
+    "node_modules/debug/src/browser.js"(exports, module) {
       exports.formatArgs = formatArgs;
       exports.save = save;
       exports.load = load;
@@ -8022,12 +8013,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/has-flag/index.js
+  // node_modules/has-flag/index.js
   var require_has_flag = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/has-flag/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/has-flag/index.js"(exports, module) {
       "use strict";
       module.exports = (flag, argv = process.argv) => {
         const prefix = flag.startsWith("-")
@@ -8045,12 +8033,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/supports-color/index.js
+  // node_modules/supports-color/index.js
   var require_supports_color = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/supports-color/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/supports-color/index.js"(exports, module) {
       "use strict";
       var os = __require("os");
       var tty = __require("tty");
@@ -8148,13 +8133,13 @@
           return 3;
         }
         if ("TERM_PROGRAM" in env) {
-          const version29 = parseInt(
+          const version27 = parseInt(
             (env.TERM_PROGRAM_VERSION || "").split(".")[0],
             10
           );
           switch (env.TERM_PROGRAM) {
             case "iTerm.app":
-              return version29 >= 3 ? 3 : 2;
+              return version27 >= 3 ? 3 : 2;
             case "Apple_Terminal":
               return 2;
           }
@@ -8186,12 +8171,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/debug/src/node.js
+  // node_modules/debug/src/node.js
   var require_node2 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/debug/src/node.js"(
-      exports,
-      module
-    ) {
+    "node_modules/debug/src/node.js"(exports, module) {
       var tty = __require("tty");
       var util = __require("util");
       exports.init = init2;
@@ -8305,12 +8287,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/debug/src/index.js
+  // node_modules/debug/src/index.js
   var require_src = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/debug/src/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/debug/src/index.js"(exports, module) {
       if (
         typeof process === "undefined" ||
         process.type === "renderer" ||
@@ -8324,12 +8303,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/follow-redirects/debug.js
+  // node_modules/follow-redirects/debug.js
   var require_debug = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/follow-redirects/debug.js"(
-      exports,
-      module
-    ) {
+    "node_modules/follow-redirects/debug.js"(exports, module) {
       var debug;
       module.exports = function () {
         if (!debug) {
@@ -8345,12 +8321,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/follow-redirects/index.js
+  // node_modules/follow-redirects/index.js
   var require_follow_redirects = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/follow-redirects/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/follow-redirects/index.js"(exports, module) {
       var url = __require("url");
       var URL4 = url.URL;
       var http2 = __require("http");
@@ -8610,79 +8583,81 @@
         }
         var location = response.headers.location;
         if (
-          location &&
-          this._options.followRedirects !== false &&
-          statusCode >= 300 &&
-          statusCode < 400
+          !location ||
+          this._options.followRedirects === false ||
+          statusCode < 300 ||
+          statusCode >= 400
         ) {
-          abortRequest(this._currentRequest);
-          response.destroy();
-          if (++this._redirectCount > this._options.maxRedirects) {
-            this.emit("error", new TooManyRedirectsError());
-            return;
-          }
-          if (
-            ((statusCode === 301 || statusCode === 302) &&
-              this._options.method === "POST") ||
-            (statusCode === 303 && !/^(?:GET|HEAD)$/.test(this._options.method))
-          ) {
-            this._options.method = "GET";
-            this._requestBodyBuffers = [];
-            removeMatchingHeaders(/^content-/i, this._options.headers);
-          }
-          var currentHostHeader = removeMatchingHeaders(
-            /^host$/i,
-            this._options.headers
-          );
-          var currentUrlParts = url.parse(this._currentUrl);
-          var currentHost = currentHostHeader || currentUrlParts.host;
-          var currentUrl = /^\w+:/.test(location)
-            ? this._currentUrl
-            : url.format(Object.assign(currentUrlParts, { host: currentHost }));
-          var redirectUrl;
-          try {
-            redirectUrl = url.resolve(currentUrl, location);
-          } catch (cause) {
-            this.emit("error", new RedirectionError(cause));
-            return;
-          }
-          debug("redirecting to", redirectUrl);
-          this._isRedirect = true;
-          var redirectUrlParts = url.parse(redirectUrl);
-          Object.assign(this._options, redirectUrlParts);
-          if (
-            redirectUrlParts.protocol !== currentUrlParts.protocol ||
-            !isSameOrSubdomain(redirectUrlParts.host, currentHost)
-          ) {
-            removeMatchingHeaders(
-              /^(?:authorization|cookie)$/i,
-              this._options.headers
-            );
-          }
-          if (typeof this._options.beforeRedirect === "function") {
-            var responseDetails = { headers: response.headers };
-            try {
-              this._options.beforeRedirect.call(
-                null,
-                this._options,
-                responseDetails
-              );
-            } catch (err) {
-              this.emit("error", err);
-              return;
-            }
-            this._sanitizeOptions(this._options);
-          }
-          try {
-            this._performRequest();
-          } catch (cause) {
-            this.emit("error", new RedirectionError(cause));
-          }
-        } else {
           response.responseUrl = this._currentUrl;
           response.redirects = this._redirects;
           this.emit("response", response);
           this._requestBodyBuffers = [];
+          return;
+        }
+        abortRequest(this._currentRequest);
+        response.destroy();
+        if (++this._redirectCount > this._options.maxRedirects) {
+          this.emit("error", new TooManyRedirectsError());
+          return;
+        }
+        if (
+          ((statusCode === 301 || statusCode === 302) &&
+            this._options.method === "POST") ||
+          (statusCode === 303 && !/^(?:GET|HEAD)$/.test(this._options.method))
+        ) {
+          this._options.method = "GET";
+          this._requestBodyBuffers = [];
+          removeMatchingHeaders(/^content-/i, this._options.headers);
+        }
+        var currentHostHeader = removeMatchingHeaders(
+          /^host$/i,
+          this._options.headers
+        );
+        var currentUrlParts = url.parse(this._currentUrl);
+        var currentHost = currentHostHeader || currentUrlParts.host;
+        var currentUrl = /^\w+:/.test(location)
+          ? this._currentUrl
+          : url.format(Object.assign(currentUrlParts, { host: currentHost }));
+        var redirectUrl;
+        try {
+          redirectUrl = url.resolve(currentUrl, location);
+        } catch (cause) {
+          this.emit("error", new RedirectionError(cause));
+          return;
+        }
+        debug("redirecting to", redirectUrl);
+        this._isRedirect = true;
+        var redirectUrlParts = url.parse(redirectUrl);
+        Object.assign(this._options, redirectUrlParts);
+        if (
+          (redirectUrlParts.protocol !== currentUrlParts.protocol &&
+            redirectUrlParts.protocol !== "https:") ||
+          (redirectUrlParts.host !== currentHost &&
+            !isSubdomain(redirectUrlParts.host, currentHost))
+        ) {
+          removeMatchingHeaders(
+            /^(?:authorization|cookie)$/i,
+            this._options.headers
+          );
+        }
+        if (typeof this._options.beforeRedirect === "function") {
+          var responseDetails = { headers: response.headers };
+          try {
+            this._options.beforeRedirect.call(
+              null,
+              this._options,
+              responseDetails
+            );
+          } catch (err) {
+            this.emit("error", err);
+            return;
+          }
+          this._sanitizeOptions(this._options);
+        }
+        try {
+          this._performRequest();
+        } catch (cause) {
+          this.emit("error", new RedirectionError(cause));
         }
       };
       function wrap(protocols) {
@@ -8807,10 +8782,7 @@
         request.on("error", noop);
         request.abort();
       }
-      function isSameOrSubdomain(subdomain, domain) {
-        if (subdomain === domain) {
-          return true;
-        }
+      function isSubdomain(subdomain, domain) {
         const dot = subdomain.length - domain.length - 1;
         return dot > 0 && subdomain[dot] === "." && subdomain.endsWith(domain);
       }
@@ -9598,7 +9570,7 @@
       var deprecatedWarnings = {};
       validators.transitional = function transitional(
         validator,
-        version29,
+        version27,
         message
       ) {
         function formatMessage(opt, desc) {
@@ -9617,17 +9589,17 @@
             throw new Error(
               formatMessage(
                 opt,
-                " has been removed" + (version29 ? " in " + version29 : "")
+                " has been removed" + (version27 ? " in " + version27 : "")
               )
             );
           }
-          if (version29 && !deprecatedWarnings[opt]) {
+          if (version27 && !deprecatedWarnings[opt]) {
             deprecatedWarnings[opt] = true;
             console.warn(
               formatMessage(
                 opt,
                 " has been deprecated since v" +
-                  version29 +
+                  version27 +
                   " and will be removed in the near future"
               )
             );
@@ -9975,11 +9947,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/utils.js
+  // node_modules/skynet-mysky-utils/dist/utils.js
   var require_utils2 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/utils.js"(
-      exports
-    ) {
+    "node_modules/skynet-mysky-utils/dist/utils.js"(exports) {
       "use strict";
       exports.__esModule = true;
       exports.ensurePrefix =
@@ -10065,11 +10035,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/paths.js
+  // node_modules/skynet-mysky-utils/dist/paths.js
   var require_paths = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/paths.js"(
-      exports
-    ) {
+    "node_modules/skynet-mysky-utils/dist/paths.js"(exports) {
       "use strict";
       exports.__esModule = true;
       exports.sanitizePath =
@@ -10125,11 +10093,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/permissions.js
+  // node_modules/skynet-mysky-utils/dist/permissions.js
   var require_permissions = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/permissions.js"(
-      exports
-    ) {
+    "node_modules/skynet-mysky-utils/dist/permissions.js"(exports) {
       "use strict";
       exports.__esModule = true;
       exports.permTypeToString =
@@ -10205,11 +10171,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/window-listener.js
+  // node_modules/skynet-mysky-utils/dist/window-listener.js
   var require_window_listener = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/window-listener.js"(
-      exports
-    ) {
+    "node_modules/skynet-mysky-utils/dist/window-listener.js"(exports) {
       "use strict";
       exports.__esModule = true;
       exports.monitorWindowError =
@@ -10251,11 +10215,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/index.js
+  // node_modules/skynet-mysky-utils/dist/index.js
   var require_dist = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/skynet-mysky-utils/dist/index.js"(
-      exports
-    ) {
+    "node_modules/skynet-mysky-utils/dist/index.js"(exports) {
       "use strict";
       var __createBinding =
         (exports && exports.__createBinding) ||
@@ -10328,12 +10290,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/js-base64/base64.js
+  // node_modules/js-base64/base64.js
   var require_base64 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/js-base64/base64.js"(
-      exports,
-      module
-    ) {
+    "node_modules/js-base64/base64.js"(exports, module) {
       (function (global2, factory) {
         typeof exports === "object" && typeof module !== "undefined"
           ? (module.exports = factory(global2))
@@ -10352,7 +10311,7 @@
           "use strict";
           global2 = global2 || {};
           var _Base64 = global2.Base64;
-          var version29 = "2.6.4";
+          var version27 = "2.6.4";
           var b64chars =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
           var b64tab = (function (bin) {
@@ -10532,7 +10491,7 @@
             return Base643;
           };
           global2.Base64 = {
-            VERSION: version29,
+            VERSION: version27,
             atob: atob2,
             btoa: btoa2,
             fromBase64: decode3,
@@ -10595,12 +10554,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/requires-port/index.js
+  // node_modules/requires-port/index.js
   var require_requires_port = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/requires-port/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/requires-port/index.js"(exports, module) {
       "use strict";
       module.exports = function required(port, protocol) {
         protocol = protocol.split(":")[0];
@@ -10625,11 +10581,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/querystringify/index.js
+  // node_modules/querystringify/index.js
   var require_querystringify = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/querystringify/index.js"(
-      exports
-    ) {
+    "node_modules/querystringify/index.js"(exports) {
       "use strict";
       var has = Object.prototype.hasOwnProperty;
       var undef;
@@ -10684,33 +10638,34 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/url-parse/index.js
+  // node_modules/url-parse/index.js
   var require_url_parse = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/url-parse/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/url-parse/index.js"(exports, module) {
       "use strict";
       var required = require_requires_port();
       var qs = require_querystringify();
-      var slashes = /^[A-Za-z][A-Za-z0-9+-.]*:[\\/]+/;
-      var protocolre = /^([a-z][a-z0-9.+-]*:)?([\\/]{1,})?([\S\s]*)/i;
-      var whitespace =
-        "[\\x09\\x0A\\x0B\\x0C\\x0D\\x20\\xA0\\u1680\\u180E\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200A\\u202F\\u205F\\u3000\\u2028\\u2029\\uFEFF]";
-      var left = new RegExp("^" + whitespace + "+");
+      var controlOrWhitespace =
+        /^[\x00-\x20\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]+/;
+      var CRHTLF = /[\n\r\t]/g;
+      var slashes = /^[A-Za-z][A-Za-z0-9+-.]*:\/\//;
+      var port = /:\d+$/;
+      var protocolre = /^([a-z][a-z0-9.+-]*:)?(\/\/)?([\\/]+)?([\S\s]*)/i;
+      var windowsDriveLetter = /^[a-zA-Z]:/;
       function trimLeft(str) {
-        return (str ? str : "").toString().replace(left, "");
+        return (str ? str : "").toString().replace(controlOrWhitespace, "");
       }
       var rules = [
         ["#", "hash"],
         ["?", "query"],
-        function sanitize(address) {
-          return address.replace("\\", "/");
+        function sanitize(address, url) {
+          return isSpecial(url.protocol)
+            ? address.replace(/\\/g, "/")
+            : address;
         },
         ["/", "pathname"],
         ["@", "auth", 1],
         [NaN, "host", void 0, 1, 1],
-        [/:(\d+)$/, "port", void 0, 1],
+        [/:(\d*)$/, "port", void 0, 1],
         [NaN, "hostname", void 0, 1, 1],
       ];
       var ignore = { hash: 1, query: 1 };
@@ -10741,15 +10696,59 @@
         }
         return finaldestination;
       }
-      function extractProtocol(address) {
+      function isSpecial(scheme) {
+        return (
+          scheme === "file:" ||
+          scheme === "ftp:" ||
+          scheme === "http:" ||
+          scheme === "https:" ||
+          scheme === "ws:" ||
+          scheme === "wss:"
+        );
+      }
+      function extractProtocol(address, location) {
         address = trimLeft(address);
-        var match = protocolre.exec(address),
-          protocol = match[1] ? match[1].toLowerCase() : "",
-          slashes2 = !!(match[2] && match[2].length >= 2),
-          rest = match[2] && match[2].length === 1 ? "/" + match[3] : match[3];
+        address = address.replace(CRHTLF, "");
+        location = location || {};
+        var match = protocolre.exec(address);
+        var protocol = match[1] ? match[1].toLowerCase() : "";
+        var forwardSlashes = !!match[2];
+        var otherSlashes = !!match[3];
+        var slashesCount = 0;
+        var rest;
+        if (forwardSlashes) {
+          if (otherSlashes) {
+            rest = match[2] + match[3] + match[4];
+            slashesCount = match[2].length + match[3].length;
+          } else {
+            rest = match[2] + match[4];
+            slashesCount = match[2].length;
+          }
+        } else {
+          if (otherSlashes) {
+            rest = match[3] + match[4];
+            slashesCount = match[3].length;
+          } else {
+            rest = match[4];
+          }
+        }
+        if (protocol === "file:") {
+          if (slashesCount >= 2) {
+            rest = rest.slice(2);
+          }
+        } else if (isSpecial(protocol)) {
+          rest = match[4];
+        } else if (protocol) {
+          if (forwardSlashes) {
+            rest = rest.slice(2);
+          }
+        } else if (slashesCount >= 2 && isSpecial(location.protocol)) {
+          rest = match[4];
+        }
         return {
           protocol,
-          slashes: slashes2,
+          slashes: forwardSlashes || isSpecial(protocol),
+          slashesCount,
           rest,
         };
       }
@@ -10781,6 +10780,7 @@
       }
       function Url(address, location, parser) {
         address = trimLeft(address);
+        address = address.replace(CRHTLF, "");
         if (!(this instanceof Url)) {
           return new Url(address, location, parser);
         }
@@ -10800,16 +10800,26 @@
         }
         if (parser && typeof parser !== "function") parser = qs.parse;
         location = lolcation(location);
-        extracted = extractProtocol(address || "");
+        extracted = extractProtocol(address || "", location);
         relative = !extracted.protocol && !extracted.slashes;
         url.slashes = extracted.slashes || (relative && location.slashes);
         url.protocol = extracted.protocol || location.protocol || "";
         address = extracted.rest;
-        if (!extracted.slashes) instructions[3] = [/(.*)/, "pathname"];
+        if (
+          (extracted.protocol === "file:" &&
+            (extracted.slashesCount !== 2 ||
+              windowsDriveLetter.test(address))) ||
+          (!extracted.slashes &&
+            (extracted.protocol ||
+              extracted.slashesCount < 2 ||
+              !isSpecial(url.protocol)))
+        ) {
+          instructions[3] = [/(.*)/, "pathname"];
+        }
         for (; i < instructions.length; i++) {
           instruction = instructions[i];
           if (typeof instruction === "function") {
-            address = instruction(address);
+            address = instruction(address, url);
             continue;
           }
           parse5 = instruction[0];
@@ -10817,7 +10827,11 @@
           if (parse5 !== parse5) {
             url[key2] = address;
           } else if (typeof parse5 === "string") {
-            if (~(index = address.indexOf(parse5))) {
+            index =
+              parse5 === "@"
+                ? address.lastIndexOf(parse5)
+                : address.indexOf(parse5);
+            if (~index) {
               if (typeof instruction[2] === "number") {
                 url[key2] = address.slice(0, index);
                 address = address.slice(index + instruction[2]);
@@ -10844,7 +10858,7 @@
         ) {
           url.pathname = resolve2(url.pathname, location.pathname);
         }
-        if (url.pathname.charAt(0) !== "/" && url.hostname) {
+        if (url.pathname.charAt(0) !== "/" && isSpecial(url.protocol)) {
           url.pathname = "/" + url.pathname;
         }
         if (!required(url.port, url.protocol)) {
@@ -10853,12 +10867,21 @@
         }
         url.username = url.password = "";
         if (url.auth) {
-          instruction = url.auth.split(":");
-          url.username = instruction[0] || "";
-          url.password = instruction[1] || "";
+          index = url.auth.indexOf(":");
+          if (~index) {
+            url.username = url.auth.slice(0, index);
+            url.username = encodeURIComponent(decodeURIComponent(url.username));
+            url.password = url.auth.slice(index + 1);
+            url.password = encodeURIComponent(decodeURIComponent(url.password));
+          } else {
+            url.username = encodeURIComponent(decodeURIComponent(url.auth));
+          }
+          url.auth = url.password
+            ? url.username + ":" + url.password
+            : url.username;
         }
         url.origin =
-          url.protocol && url.host && url.protocol !== "file:"
+          url.protocol !== "file:" && isSpecial(url.protocol) && url.host
             ? url.protocol + "//" + url.host
             : "null";
         url.href = url.toString();
@@ -10888,7 +10911,7 @@
             break;
           case "host":
             url[part] = value;
-            if (/:\d+$/.test(value)) {
+            if (port.test(value)) {
               value = value.split(":");
               url.port = value.pop();
               url.hostname = value.join(":");
@@ -10910,15 +10933,34 @@
               url[part] = value;
             }
             break;
-          default:
-            url[part] = value;
+          case "username":
+          case "password":
+            url[part] = encodeURIComponent(value);
+            break;
+          case "auth":
+            var index = value.indexOf(":");
+            if (~index) {
+              url.username = value.slice(0, index);
+              url.username = encodeURIComponent(
+                decodeURIComponent(url.username)
+              );
+              url.password = value.slice(index + 1);
+              url.password = encodeURIComponent(
+                decodeURIComponent(url.password)
+              );
+            } else {
+              url.username = encodeURIComponent(decodeURIComponent(value));
+            }
         }
         for (var i = 0; i < rules.length; i++) {
           var ins = rules[i];
           if (ins[4]) url[ins[1]] = url[ins[1]].toLowerCase();
         }
+        url.auth = url.password
+          ? url.username + ":" + url.password
+          : url.username;
         url.origin =
-          url.protocol && url.host && url.protocol !== "file:"
+          url.protocol !== "file:" && isSpecial(url.protocol) && url.host
             ? url.protocol + "//" + url.host
             : "null";
         url.href = url.toString();
@@ -10929,16 +10971,37 @@
           stringify = qs.stringify;
         var query,
           url = this,
+          host = url.host,
           protocol = url.protocol;
         if (protocol && protocol.charAt(protocol.length - 1) !== ":")
           protocol += ":";
-        var result = protocol + (url.slashes ? "//" : "");
+        var result =
+          protocol +
+          ((url.protocol && url.slashes) || isSpecial(url.protocol)
+            ? "//"
+            : "");
         if (url.username) {
           result += url.username;
           if (url.password) result += ":" + url.password;
           result += "@";
+        } else if (url.password) {
+          result += ":" + url.password;
+          result += "@";
+        } else if (
+          url.protocol !== "file:" &&
+          isSpecial(url.protocol) &&
+          !host &&
+          url.pathname !== "/"
+        ) {
+          result += "@";
         }
-        result += url.host + url.pathname;
+        if (
+          host[host.length - 1] === ":" ||
+          (port.test(url.hostname) && !url.port)
+        ) {
+          host += ":";
+        }
+        result += host + url.pathname;
         query =
           typeof url.query === "object" ? stringify(url.query) : url.query;
         if (query) result += query.charAt(0) !== "?" ? "?" + query : query;
@@ -10954,12 +11017,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/graceful-fs/polyfills.js
+  // node_modules/graceful-fs/polyfills.js
   var require_polyfills = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/graceful-fs/polyfills.js"(
-      exports,
-      module
-    ) {
+    "node_modules/graceful-fs/polyfills.js"(exports, module) {
       var constants = __require("constants");
       var origCwd = process.cwd;
       var cwd = null;
@@ -11249,8 +11309,10 @@
             var stats = options
               ? orig.call(fs2, target, options)
               : orig.call(fs2, target);
-            if (stats.uid < 0) stats.uid += 4294967296;
-            if (stats.gid < 0) stats.gid += 4294967296;
+            if (stats) {
+              if (stats.uid < 0) stats.uid += 4294967296;
+              if (stats.gid < 0) stats.gid += 4294967296;
+            }
             return stats;
           };
         }
@@ -11267,12 +11329,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/graceful-fs/legacy-streams.js
+  // node_modules/graceful-fs/legacy-streams.js
   var require_legacy_streams = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/graceful-fs/legacy-streams.js"(
-      exports,
-      module
-    ) {
+    "node_modules/graceful-fs/legacy-streams.js"(exports, module) {
       var Stream = __require("stream").Stream;
       module.exports = legacy;
       function legacy(fs2) {
@@ -11374,12 +11433,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/graceful-fs/clone.js
+  // node_modules/graceful-fs/clone.js
   var require_clone = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/graceful-fs/clone.js"(
-      exports,
-      module
-    ) {
+    "node_modules/graceful-fs/clone.js"(exports, module) {
       "use strict";
       module.exports = clone;
       var getPrototypeOf =
@@ -11404,12 +11460,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/graceful-fs/graceful-fs.js
+  // node_modules/graceful-fs/graceful-fs.js
   var require_graceful_fs = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/graceful-fs/graceful-fs.js"(
-      exports,
-      module
-    ) {
+    "node_modules/graceful-fs/graceful-fs.js"(exports, module) {
       var fs2 = __require("fs");
       var polyfills = require_polyfills();
       var legacy = require_legacy_streams();
@@ -11447,7 +11500,7 @@
           function close(fd, cb) {
             return fs$close.call(fs2, fd, function (err) {
               if (!err) {
-                retry();
+                resetQueue();
               }
               if (typeof cb === "function") cb.apply(this, arguments);
             });
@@ -11460,7 +11513,7 @@
         fs2.closeSync = (function (fs$closeSync) {
           function closeSync(fd) {
             fs$closeSync.apply(fs2, arguments);
-            retry();
+            resetQueue();
           }
           Object.defineProperty(closeSync, previousSymbol, {
             value: fs$closeSync,
@@ -11493,13 +11546,18 @@
         function readFile(path3, options, cb) {
           if (typeof options === "function") (cb = options), (options = null);
           return go$readFile(path3, options, cb);
-          function go$readFile(path4, options2, cb2) {
+          function go$readFile(path4, options2, cb2, startTime) {
             return fs$readFile(path4, options2, function (err) {
               if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-                enqueue([go$readFile, [path4, options2, cb2]]);
+                enqueue([
+                  go$readFile,
+                  [path4, options2, cb2],
+                  err,
+                  startTime || Date.now(),
+                  Date.now(),
+                ]);
               else {
                 if (typeof cb2 === "function") cb2.apply(this, arguments);
-                retry();
               }
             });
           }
@@ -11509,13 +11567,18 @@
         function writeFile(path3, data, options, cb) {
           if (typeof options === "function") (cb = options), (options = null);
           return go$writeFile(path3, data, options, cb);
-          function go$writeFile(path4, data2, options2, cb2) {
+          function go$writeFile(path4, data2, options2, cb2, startTime) {
             return fs$writeFile(path4, data2, options2, function (err) {
               if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-                enqueue([go$writeFile, [path4, data2, options2, cb2]]);
+                enqueue([
+                  go$writeFile,
+                  [path4, data2, options2, cb2],
+                  err,
+                  startTime || Date.now(),
+                  Date.now(),
+                ]);
               else {
                 if (typeof cb2 === "function") cb2.apply(this, arguments);
-                retry();
               }
             });
           }
@@ -11525,13 +11588,18 @@
         function appendFile(path3, data, options, cb) {
           if (typeof options === "function") (cb = options), (options = null);
           return go$appendFile(path3, data, options, cb);
-          function go$appendFile(path4, data2, options2, cb2) {
+          function go$appendFile(path4, data2, options2, cb2, startTime) {
             return fs$appendFile(path4, data2, options2, function (err) {
               if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-                enqueue([go$appendFile, [path4, data2, options2, cb2]]);
+                enqueue([
+                  go$appendFile,
+                  [path4, data2, options2, cb2],
+                  err,
+                  startTime || Date.now(),
+                  Date.now(),
+                ]);
               else {
                 if (typeof cb2 === "function") cb2.apply(this, arguments);
-                retry();
               }
             });
           }
@@ -11543,38 +11611,44 @@
             cb = flags;
             flags = 0;
           }
-          return fs$copyFile(src, dest, flags, function (err) {
-            if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-              enqueue([fs$copyFile, [src, dest, flags, cb]]);
-            else {
-              if (typeof cb === "function") cb.apply(this, arguments);
-              retry();
-            }
-          });
+          return go$copyFile(src, dest, flags, cb);
+          function go$copyFile(src2, dest2, flags2, cb2, startTime) {
+            return fs$copyFile(src2, dest2, flags2, function (err) {
+              if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
+                enqueue([
+                  go$copyFile,
+                  [src2, dest2, flags2, cb2],
+                  err,
+                  startTime || Date.now(),
+                  Date.now(),
+                ]);
+              else {
+                if (typeof cb2 === "function") cb2.apply(this, arguments);
+              }
+            });
+          }
         }
         var fs$readdir = fs3.readdir;
         fs3.readdir = readdir;
         function readdir(path3, options, cb) {
-          var args = [path3];
-          if (typeof options !== "function") {
-            args.push(options);
-          } else {
-            cb = options;
+          if (typeof options === "function") (cb = options), (options = null);
+          return go$readdir(path3, options, cb);
+          function go$readdir(path4, options2, cb2, startTime) {
+            return fs$readdir(path4, options2, function (err, files) {
+              if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
+                enqueue([
+                  go$readdir,
+                  [path4, options2, cb2],
+                  err,
+                  startTime || Date.now(),
+                  Date.now(),
+                ]);
+              else {
+                if (files && files.sort) files.sort();
+                if (typeof cb2 === "function") cb2.call(this, err, files);
+              }
+            });
           }
-          args.push(go$readdir$cb);
-          return go$readdir(args);
-          function go$readdir$cb(err, files) {
-            if (files && files.sort) files.sort();
-            if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-              enqueue([go$readdir, [args]]);
-            else {
-              if (typeof cb === "function") cb.apply(this, arguments);
-              retry();
-            }
-          }
-        }
-        function go$readdir(args) {
-          return fs$readdir.apply(fs3, args);
         }
         if (process.version.substr(0, 4) === "v0.8") {
           var legStreams = legacy(fs3);
@@ -11687,13 +11761,18 @@
         function open(path3, flags, mode, cb) {
           if (typeof mode === "function") (cb = mode), (mode = null);
           return go$open(path3, flags, mode, cb);
-          function go$open(path4, flags2, mode2, cb2) {
+          function go$open(path4, flags2, mode2, cb2, startTime) {
             return fs$open(path4, flags2, mode2, function (err, fd) {
               if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-                enqueue([go$open, [path4, flags2, mode2, cb2]]);
+                enqueue([
+                  go$open,
+                  [path4, flags2, mode2, cb2],
+                  err,
+                  startTime || Date.now(),
+                  Date.now(),
+                ]);
               else {
                 if (typeof cb2 === "function") cb2.apply(this, arguments);
-                retry();
               }
             });
           }
@@ -11703,23 +11782,57 @@
       function enqueue(elem) {
         debug("ENQUEUE", elem[0].name, elem[1]);
         fs2[gracefulQueue].push(elem);
+        retry();
+      }
+      var retryTimer;
+      function resetQueue() {
+        var now2 = Date.now();
+        for (var i = 0; i < fs2[gracefulQueue].length; ++i) {
+          if (fs2[gracefulQueue][i].length > 2) {
+            fs2[gracefulQueue][i][3] = now2;
+            fs2[gracefulQueue][i][4] = now2;
+          }
+        }
+        retry();
       }
       function retry() {
+        clearTimeout(retryTimer);
+        retryTimer = void 0;
+        if (fs2[gracefulQueue].length === 0) return;
         var elem = fs2[gracefulQueue].shift();
-        if (elem) {
-          debug("RETRY", elem[0].name, elem[1]);
-          elem[0].apply(null, elem[1]);
+        var fn = elem[0];
+        var args = elem[1];
+        var err = elem[2];
+        var startTime = elem[3];
+        var lastTime = elem[4];
+        if (startTime === void 0) {
+          debug("RETRY", fn.name, args);
+          fn.apply(null, args);
+        } else if (Date.now() - startTime >= 6e4) {
+          debug("TIMEOUT", fn.name, args);
+          var cb = args.pop();
+          if (typeof cb === "function") cb.call(null, err);
+        } else {
+          var sinceAttempt = Date.now() - lastTime;
+          var sinceStart = Math.max(lastTime - startTime, 1);
+          var desiredDelay = Math.min(sinceStart * 1.2, 100);
+          if (sinceAttempt >= desiredDelay) {
+            debug("RETRY", fn.name, args);
+            fn.apply(null, args.concat([startTime]));
+          } else {
+            fs2[gracefulQueue].push(elem);
+          }
+        }
+        if (retryTimer === void 0) {
+          retryTimer = setTimeout(retry, 0);
         }
       }
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/retry/lib/retry_operation.js
+  // node_modules/retry/lib/retry_operation.js
   var require_retry_operation = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/retry/lib/retry_operation.js"(
-      exports,
-      module
-    ) {
+    "node_modules/retry/lib/retry_operation.js"(exports, module) {
       function RetryOperation(timeouts, options) {
         if (typeof options === "boolean") {
           options = { forever: options };
@@ -11763,7 +11876,7 @@
           }
         }
         var self2 = this;
-        var timer3 = setTimeout(function () {
+        var timer2 = setTimeout(function () {
           self2._attempts++;
           if (self2._operationTimeoutCb) {
             self2._timeout = setTimeout(function () {
@@ -11776,7 +11889,7 @@
           self2._fn(self2._attempts);
         }, timeout);
         if (this._options.unref) {
-          timer3.unref();
+          timer2.unref();
         }
         return true;
       };
@@ -11835,9 +11948,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/retry/lib/retry.js
+  // node_modules/retry/lib/retry.js
   var require_retry = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/retry/lib/retry.js"(exports) {
+    "node_modules/retry/lib/retry.js"(exports) {
       var RetryOperation = require_retry_operation();
       exports.operation = function (options) {
         var timeouts = exports.timeouts(options);
@@ -11922,22 +12035,16 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/retry/index.js
+  // node_modules/retry/index.js
   var require_retry2 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/retry/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/retry/index.js"(exports, module) {
       module.exports = require_retry();
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/proper-lockfile/lib/syncFs.js
+  // node_modules/proper-lockfile/lib/syncFs.js
   var require_syncFs = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/proper-lockfile/lib/syncFs.js"(
-      exports,
-      module
-    ) {
+    "node_modules/proper-lockfile/lib/syncFs.js"(exports, module) {
       "use strict";
       function makeSync(fs2, name2) {
         const fn = fs2[`${name2}Sync`];
@@ -11970,12 +12077,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/proper-lockfile/index.js
+  // node_modules/proper-lockfile/index.js
   var require_proper_lockfile = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/proper-lockfile/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/proper-lockfile/index.js"(exports, module) {
       "use strict";
       var fs2 = require_graceful_fs();
       var path3 = __require("path");
@@ -12319,11 +12423,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/custom-error-instance/bin/factories.js
+  // node_modules/custom-error-instance/bin/factories.js
   var require_factories = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/custom-error-instance/bin/factories.js"(
-      exports
-    ) {
+    "node_modules/custom-error-instance/bin/factories.js"(exports) {
       "use strict";
       exports.expectReceive = function (properties, configuration, factory) {
         var message;
@@ -12404,12 +12506,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/custom-error-instance/bin/error.js
+  // node_modules/custom-error-instance/bin/error.js
   var require_error = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/custom-error-instance/bin/error.js"(
-      exports,
-      module
-    ) {
+    "node_modules/custom-error-instance/bin/error.js"(exports, module) {
       "use strict";
       module.exports = CustomError;
       CustomError.factory = require_factories();
@@ -12543,22 +12642,16 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/custom-error-instance/index.js
+  // node_modules/custom-error-instance/index.js
   var require_custom_error_instance = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/custom-error-instance/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/custom-error-instance/index.js"(exports, module) {
       module.exports = require_error();
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/lodash._basetostring/index.js
+  // node_modules/lodash._basetostring/index.js
   var require_lodash = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/lodash._basetostring/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/lodash._basetostring/index.js"(exports, module) {
       var INFINITY = 1 / 0;
       var symbolTag = "[object Symbol]";
       var objectTypes = {
@@ -12616,12 +12709,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/lodash._stringtopath/index.js
+  // node_modules/lodash._stringtopath/index.js
   var require_lodash2 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/lodash._stringtopath/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/lodash._stringtopath/index.js"(exports, module) {
       var baseToString = require_lodash();
       var FUNC_ERROR_TEXT = "Expected a function";
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
@@ -12908,12 +12998,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/lodash._baseiteratee/index.js
+  // node_modules/lodash._baseiteratee/index.js
   var require_lodash3 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/lodash._baseiteratee/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/lodash._baseiteratee/index.js"(exports, module) {
       var stringToPath = require_lodash2();
       var LARGE_ARRAY_SIZE = 200;
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
@@ -13989,12 +14076,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/lodash._createset/index.js
+  // node_modules/lodash._createset/index.js
   var require_lodash4 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/lodash._createset/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/lodash._createset/index.js"(exports, module) {
       var INFINITY = 1 / 0;
       var funcTag = "[object Function]";
       var genTag = "[object GeneratorFunction]";
@@ -14101,12 +14185,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/lodash._root/index.js
+  // node_modules/lodash._root/index.js
   var require_lodash5 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/lodash._root/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/lodash._root/index.js"(exports, module) {
       var objectTypes = {
         function: true,
         object: true,
@@ -14138,12 +14219,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/lodash._baseuniq/index.js
+  // node_modules/lodash._baseuniq/index.js
   var require_lodash6 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/lodash._baseuniq/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/lodash._baseuniq/index.js"(exports, module) {
       var createSet = require_lodash4();
       var root = require_lodash5();
       var LARGE_ARRAY_SIZE = 200;
@@ -14474,12 +14552,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/lodash.uniqby/index.js
+  // node_modules/lodash.uniqby/index.js
   var require_lodash7 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/lodash.uniqby/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/lodash.uniqby/index.js"(exports, module) {
       var baseIteratee = require_lodash3();
       var baseUniq = require_lodash6();
       function uniqBy(array, iteratee) {
@@ -14491,12 +14566,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/combine-errors/index.js
+  // node_modules/combine-errors/index.js
   var require_combine_errors = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/combine-errors/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/combine-errors/index.js"(exports, module) {
       "use strict";
       var Custom = require_custom_error_instance();
       var uniq = require_lodash7();
@@ -14534,12 +14606,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/lodash.throttle/index.js
+  // node_modules/lodash.throttle/index.js
   var require_lodash8 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/lodash.throttle/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/lodash.throttle/index.js"(exports, module) {
       var FUNC_ERROR_TEXT = "Expected a function";
       var NAN = 0 / 0;
       var symbolTag = "[object Symbol]";
@@ -14560,7 +14629,7 @@
       var objectToString = objectProto.toString;
       var nativeMax = Math.max;
       var nativeMin = Math.min;
-      var now3 = function () {
+      var now2 = function () {
         return root.Date.now();
       };
       function debounce(func, wait, options) {
@@ -14618,7 +14687,7 @@
           );
         }
         function timerExpired() {
-          var time = now3();
+          var time = now2();
           if (shouldInvoke(time)) {
             return trailingEdge(time);
           }
@@ -14640,10 +14709,10 @@
           lastArgs = lastCallTime = lastThis = timerId = void 0;
         }
         function flush() {
-          return timerId === void 0 ? result : trailingEdge(now3());
+          return timerId === void 0 ? result : trailingEdge(now2());
         }
         function debounced() {
-          var time = now3(),
+          var time = now2(),
             isInvoking = shouldInvoke(time);
           lastArgs = arguments;
           lastThis = this;
@@ -14722,12 +14791,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/is-stream/index.js
+  // node_modules/is-stream/index.js
   var require_is_stream = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/is-stream/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/is-stream/index.js"(exports, module) {
       "use strict";
       var isStream2 = (stream) =>
         stream !== null &&
@@ -14746,19 +14812,14 @@
       isStream2.duplex = (stream) =>
         isStream2.writable(stream) && isStream2.readable(stream);
       isStream2.transform = (stream) =>
-        isStream2.duplex(stream) &&
-        typeof stream._transform === "function" &&
-        typeof stream._transformState === "object";
+        isStream2.duplex(stream) && typeof stream._transform === "function";
       module.exports = isStream2;
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/mime/Mime.js
+  // node_modules/mime/Mime.js
   var require_Mime = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/mime/Mime.js"(
-      exports,
-      module
-    ) {
+    "node_modules/mime/Mime.js"(exports, module) {
       "use strict";
       function Mime() {
         this._types = /* @__PURE__ */ Object.create(null);
@@ -14820,12 +14881,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/mime/types/standard.js
+  // node_modules/mime/types/standard.js
   var require_standard = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/mime/types/standard.js"(
-      exports,
-      module
-    ) {
+    "node_modules/mime/types/standard.js"(exports, module) {
       module.exports = {
         "application/andrew-inset": ["ez"],
         "application/applixware": ["aw"],
@@ -15164,24 +15222,18 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/mime/lite.js
+  // node_modules/mime/lite.js
   var require_lite = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/mime/lite.js"(
-      exports,
-      module
-    ) {
+    "node_modules/mime/lite.js"(exports, module) {
       "use strict";
       var Mime = require_Mime();
       module.exports = new Mime(require_standard());
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/path-browserify/index.js
+  // node_modules/path-browserify/index.js
   var require_path_browserify = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/path-browserify/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/path-browserify/index.js"(exports, module) {
       "use strict";
       function assertPath(path3) {
         if (typeof path3 !== "string") {
@@ -15587,12 +15639,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/url-join/lib/url-join.js
+  // node_modules/url-join/lib/url-join.js
   var require_url_join = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/url-join/lib/url-join.js"(
-      exports,
-      module
-    ) {
+    "node_modules/url-join/lib/url-join.js"(exports, module) {
       (function (name2, context, definition) {
         if (typeof module !== "undefined" && module.exports)
           module.exports = definition();
@@ -15657,12 +15706,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/sjcl/sjcl.js
+  // node_modules/sjcl/sjcl.js
   var require_sjcl = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/sjcl/sjcl.js"(
-      exports,
-      module
-    ) {
+    "node_modules/sjcl/sjcl.js"(exports, module) {
       "use strict";
       var sjcl2 = {
         cipher: {},
@@ -17181,12 +17227,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/blakejs/util.js
+  // node_modules/blakejs/util.js
   var require_util2 = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/blakejs/util.js"(
-      exports,
-      module
-    ) {
+    "node_modules/blakejs/util.js"(exports, module) {
       var ERROR_MSG_INPUT = "Input must be an string, Buffer or Uint8Array";
       function normalizeInput(input) {
         let ret;
@@ -17262,12 +17305,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/blakejs/blake2b.js
+  // node_modules/blakejs/blake2b.js
   var require_blake2b = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/blakejs/blake2b.js"(
-      exports,
-      module
-    ) {
+    "node_modules/blakejs/blake2b.js"(exports, module) {
       var util = require_util2();
       function ADD64AA(v3, a2, b2) {
         const o0 = v3[a2] + v3[b2];
@@ -17445,12 +17485,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/blakejs/blake2s.js
+  // node_modules/blakejs/blake2s.js
   var require_blake2s = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/blakejs/blake2s.js"(
-      exports,
-      module
-    ) {
+    "node_modules/blakejs/blake2s.js"(exports, module) {
       var util = require_util2();
       function B2S_GET32(v3, i) {
         return v3[i] ^ (v3[i + 1] << 8) ^ (v3[i + 2] << 16) ^ (v3[i + 3] << 24);
@@ -17577,12 +17614,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/blakejs/index.js
+  // node_modules/blakejs/index.js
   var require_blakejs = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/blakejs/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/blakejs/index.js"(exports, module) {
       var b2b = require_blake2b();
       var b2s = require_blake2s();
       module.exports = {
@@ -17600,22 +17634,16 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/randombytes/index.js
+  // node_modules/randombytes/index.js
   var require_randombytes = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/randombytes/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/randombytes/index.js"(exports, module) {
       module.exports = __require("crypto").randomBytes;
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/tweetnacl/nacl-fast.js
+  // node_modules/tweetnacl/nacl-fast.js
   var require_nacl_fast = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/tweetnacl/nacl-fast.js"(
-      exports,
-      module
-    ) {
+    "node_modules/tweetnacl/nacl-fast.js"(exports, module) {
       (function (nacl) {
         "use strict";
         var gf = function (init2) {
@@ -20146,12 +20174,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/base32-decode/index.js
+  // node_modules/base32-decode/index.js
   var require_base32_decode = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/base32-decode/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/base32-decode/index.js"(exports, module) {
       var RFC4648 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
       var RFC4648_HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
       var CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
@@ -20202,12 +20227,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/to-data-view/index.js
+  // node_modules/to-data-view/index.js
   var require_to_data_view = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/to-data-view/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/to-data-view/index.js"(exports, module) {
       module.exports = function toDataView(data) {
         if (
           data instanceof Int8Array ||
@@ -20226,12 +20248,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/base32-encode/index.js
+  // node_modules/base32-encode/index.js
   var require_base32_encode = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/base32-encode/index.js"(
-      exports,
-      module
-    ) {
+    "node_modules/base32-encode/index.js"(exports, module) {
       var toDataView = require_to_data_view();
       var RFC4648 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
       var RFC4648_HEX = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
@@ -20283,9 +20302,9 @@
     },
   });
 
-  // node_modules/@lumeweb/skynet-js/node_modules/base64-js/index.js
+  // node_modules/base64-js/index.js
   var require_base64_js = __commonJS({
-    "node_modules/@lumeweb/skynet-js/node_modules/base64-js/index.js"(exports) {
+    "node_modules/base64-js/index.js"(exports) {
       "use strict";
       exports.byteLength = byteLength;
       exports.toByteArray = toByteArray3;
@@ -24112,10 +24131,10 @@
       })(ErrorCode || (ErrorCode = {}));
       HEX = "0123456789abcdef";
       Logger = class {
-        constructor(version29) {
+        constructor(version27) {
           Object.defineProperty(this, "version", {
             enumerable: true,
-            value: version29,
+            value: version27,
             writable: false,
           });
         }
@@ -24332,8 +24351,8 @@
           }
           _logLevel = level;
         }
-        static from(version29) {
-          return new Logger(version29);
+        static from(version27) {
+          return new Logger(version27);
         }
       };
       Logger.errors = ErrorCode;
@@ -34349,7 +34368,7 @@
       }
     );
   }
-  function _parseEipSignature(tx, fields, serialize4) {
+  function _parseEipSignature(tx, fields, serialize3) {
     try {
       const recid = handleNumber(fields[0]).toNumber();
       if (recid !== 0 && recid !== 1) {
@@ -34366,7 +34385,7 @@
     tx.r = hexZeroPad(fields[1], 32);
     tx.s = hexZeroPad(fields[2], 32);
     try {
-      const digest = keccak256(serialize4(tx));
+      const digest = keccak256(serialize3(tx));
       tx.from = recoverAddress(digest, {
         r: tx.r,
         s: tx.s,
@@ -38818,19 +38837,19 @@
             mnemonicCounter
           );
           const mnemonicCiphertext = arrayify(mnemonicAesCtr.encrypt(entropy));
-          const now3 = new Date();
+          const now2 = new Date();
           const timestamp =
-            now3.getUTCFullYear() +
+            now2.getUTCFullYear() +
             "-" +
-            zpad(now3.getUTCMonth() + 1, 2) +
+            zpad(now2.getUTCMonth() + 1, 2) +
             "-" +
-            zpad(now3.getUTCDate(), 2) +
+            zpad(now2.getUTCDate(), 2) +
             "T" +
-            zpad(now3.getUTCHours(), 2) +
+            zpad(now2.getUTCHours(), 2) +
             "-" +
-            zpad(now3.getUTCMinutes(), 2) +
+            zpad(now2.getUTCMinutes(), 2) +
             "-" +
-            zpad(now3.getUTCSeconds(), 2) +
+            zpad(now2.getUTCSeconds(), 2) +
             ".0Z";
           data["x-ethers"] = {
             client,
@@ -39730,14 +39749,14 @@
     });
     options.headers = flatHeaders;
     const runningTimeout = (function () {
-      let timer3 = null;
+      let timer2 = null;
       const promise = new Promise(function (resolve2, reject) {
         if (timeout) {
-          timer3 = setTimeout(() => {
-            if (timer3 == null) {
+          timer2 = setTimeout(() => {
+            if (timer2 == null) {
               return;
             }
-            timer3 = null;
+            timer2 = null;
             reject(
               logger28.makeError("timeout", Logger.errors.TIMEOUT, {
                 requestBody: bodyify(options.body, flatHeaders["content-type"]),
@@ -39750,11 +39769,11 @@
         }
       });
       const cancel = function () {
-        if (timer3 == null) {
+        if (timer2 == null) {
           return;
         }
-        clearTimeout(timer3);
-        timer3 = null;
+        clearTimeout(timer2);
+        timer2 = null;
       };
       return { promise, cancel };
     })();
@@ -39777,19 +39796,19 @@
                   tryAgain = yield throttleCallback(attempt, url);
                 }
                 if (tryAgain) {
-                  let stall5 = 0;
+                  let stall3 = 0;
                   const retryAfter = response.headers["retry-after"];
                   if (
                     typeof retryAfter === "string" &&
                     retryAfter.match(/^[1-9][0-9]*$/)
                   ) {
-                    stall5 = parseInt(retryAfter) * 1e3;
+                    stall3 = parseInt(retryAfter) * 1e3;
                   } else {
-                    stall5 =
+                    stall3 =
                       throttleSlotInterval *
                       parseInt(String(Math.random() * Math.pow(2, attempt)));
                   }
-                  yield staller(stall5);
+                  yield staller(stall3);
                   continue;
                 }
               }
@@ -39941,20 +39960,20 @@
       options.interval = 250;
     }
     return new Promise(function (resolve2, reject) {
-      let timer3 = null;
+      let timer2 = null;
       let done = false;
       const cancel = () => {
         if (done) {
           return false;
         }
         done = true;
-        if (timer3) {
-          clearTimeout(timer3);
+        if (timer2) {
+          clearTimeout(timer2);
         }
         return true;
       };
       if (options.timeout) {
-        timer3 = setTimeout(() => {
+        timer2 = setTimeout(() => {
           if (cancel()) {
             reject(new Error("timeout"));
           }
@@ -40204,15 +40223,15 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/_version.js
+  // node_modules/@ethersproject/providers/lib.esm/_version.js
   var version23;
   var init_version23 = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/_version.js"() {
-      version23 = "providers/5.5.2";
+    "node_modules/@ethersproject/providers/lib.esm/_version.js"() {
+      version23 = "providers/5.5.3";
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/formatter.js
+  // node_modules/@ethersproject/providers/lib.esm/formatter.js
   function isCommunityResourcable(value) {
     return value && typeof value.isCommunityResource === "function";
   }
@@ -40249,7 +40268,7 @@
   }
   var logger29, Formatter, throttleMessage;
   var init_formatter = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/formatter.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/formatter.js"() {
       "use strict";
       init_lib7();
       init_lib3();
@@ -40657,7 +40676,7 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/base-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/base-provider.js
   function checkTopic(topic) {
     if (topic == null) {
       return "null";
@@ -40759,7 +40778,14 @@
     return hexDataSlice(result, offset + 32, offset + 32 + length);
   }
   function getIpfsLink(link) {
-    return `https://gateway.ipfs.io/ipfs/${link.substring(7)}`;
+    if (link.match(/^ipfs:\/\/ipfs\//i)) {
+      link = link.substring(12);
+    } else if (link.match(/^ipfs:\/\//i)) {
+      link = link.substring(7);
+    } else {
+      logger30.throwArgumentError("unsupported IPFS format", "link", link);
+    }
+    return `https://gateway.ipfs.io/ipfs/${link}`;
   }
   var import_bech32,
     __awaiter11,
@@ -40774,7 +40800,7 @@
     nextPollId,
     BaseProvider;
   var init_base_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/base-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/base-provider.js"() {
       "use strict";
       init_lib12();
       init_lib17();
@@ -40962,22 +40988,22 @@
           }
           if (coinInfo.prefix != null) {
             const length = bytes[1];
-            let version29 = bytes[0];
-            if (version29 === 0) {
+            let version27 = bytes[0];
+            if (version27 === 0) {
               if (length !== 20 && length !== 32) {
-                version29 = -1;
+                version27 = -1;
               }
             } else {
-              version29 = -1;
+              version27 = -1;
             }
             if (
-              version29 >= 0 &&
+              version27 >= 0 &&
               bytes.length === 2 + length &&
               length >= 1 &&
               length <= 75
             ) {
               const words2 = import_bech32.default.toWords(bytes.slice(2));
-              words2.unshift(version29);
+              words2.unshift(version27);
               return import_bech32.default.encode(coinInfo.prefix, words2);
             }
           }
@@ -41111,7 +41137,7 @@
                       return null;
                     }
                     linkage.push({
-                      type: "metadata-url",
+                      type: "metadata-url-base",
                       content: metadataUrl,
                     });
                     if (scheme === "erc1155") {
@@ -41124,6 +41150,13 @@
                         content: metadataUrl,
                       });
                     }
+                    if (metadataUrl.match(/^ipfs:/i)) {
+                      metadataUrl = getIpfsLink(metadataUrl);
+                    }
+                    linkage.push({
+                      type: "metadata-url",
+                      content: metadataUrl,
+                    });
                     const metadata = yield fetchJson(metadataUrl);
                     if (!metadata) {
                       return null;
@@ -41576,9 +41609,9 @@
           }
         }
         _getFastBlockNumber() {
-          const now3 = getTime();
-          if (now3 - this._fastQueryDate > 2 * this._pollingInterval) {
-            this._fastQueryDate = now3;
+          const now2 = getTime();
+          if (now2 - this._fastQueryDate > 2 * this._pollingInterval) {
+            this._fastQueryDate = now2;
             this._fastBlockNumberPromise = this.getBlockNumber().then(
               (blockNumber) => {
                 if (
@@ -41776,7 +41809,7 @@
                 });
               }
               if (typeof timeout === "number" && timeout > 0) {
-                const timer3 = setTimeout(() => {
+                const timer2 = setTimeout(() => {
                   if (alreadyDone()) {
                     return;
                   }
@@ -41788,11 +41821,11 @@
                     )
                   );
                 }, timeout);
-                if (timer3.unref) {
-                  timer3.unref();
+                if (timer2.unref) {
+                  timer2.unref();
                 }
                 cancelFuncs.push(() => {
-                  clearTimeout(timer3);
+                  clearTimeout(timer2);
                 });
               }
             });
@@ -42582,7 +42615,7 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js
   function checkError(method, error, params) {
     if (method === "call" && error.code === Logger.errors.SERVER_ERROR) {
       const e = error.error;
@@ -42703,7 +42736,7 @@
     allowedTransactionKeys4,
     JsonRpcProvider;
   var init_json_rpc_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js"() {
       "use strict";
       init_lib13();
       init_lib3();
@@ -43372,10 +43405,10 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/ws.js
+  // node_modules/@ethersproject/providers/lib.esm/ws.js
   var WS;
   var init_ws = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/ws.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/ws.js"() {
       "use strict";
       init_lib();
       init_version23();
@@ -43386,9 +43419,9 @@
           throw new Error("inject please");
         }
       } catch (error) {
-        const logger61 = new Logger(version23);
+        const logger46 = new Logger(version23);
         WS = function () {
-          logger61.throwError(
+          logger46.throwError(
             "WebSockets not supported in this environment",
             Logger.errors.UNSUPPORTED_OPERATION,
             {
@@ -43400,10 +43433,10 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/websocket-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/websocket-provider.js
   var __awaiter13, logger32, NextId, WebSocketProvider;
   var init_websocket_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/websocket-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/websocket-provider.js"() {
       "use strict";
       init_lib3();
       init_lib4();
@@ -43701,10 +43734,10 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js
   var __awaiter14, logger33, StaticJsonRpcProvider, UrlJsonRpcProvider;
   var init_url_json_rpc_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js"() {
       "use strict";
       init_lib4();
       init_lib();
@@ -43816,10 +43849,10 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js
   var logger34, defaultApiKey, AlchemyWebSocketProvider, AlchemyProvider;
   var init_alchemy_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js"() {
       "use strict";
       init_lib4();
       init_formatter();
@@ -43916,10 +43949,10 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js
   var __awaiter15, logger35, CloudflareProvider;
   var init_cloudflare_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js"() {
       "use strict";
       init_url_json_rpc_provider();
       init_lib();
@@ -44000,7 +44033,7 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js
   function getTransactionPostData(transaction) {
     const result = {};
     for (let key2 in transaction) {
@@ -44186,7 +44219,7 @@
   }
   var __awaiter16, logger36, defaultApiKey2, EtherscanProvider;
   var init_etherscan_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js"() {
       "use strict";
       init_lib2();
       init_lib4();
@@ -44515,7 +44548,7 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/fallback-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/fallback-provider.js
   function now() {
     return new Date().getTime();
   }
@@ -44594,16 +44627,16 @@
   }
   function stall2(duration) {
     let cancel = null;
-    let timer3 = null;
+    let timer2 = null;
     let promise = new Promise((resolve2) => {
       cancel = function () {
-        if (timer3) {
-          clearTimeout(timer3);
-          timer3 = null;
+        if (timer2) {
+          clearTimeout(timer2);
+          timer2 = null;
         }
         resolve2();
       };
-      timer3 = setTimeout(cancel, duration);
+      timer2 = setTimeout(cancel, duration);
     });
     const wait = (func) => {
       promise = promise.then(func);
@@ -44614,7 +44647,7 @@
     }
     return { cancel, getPromise, wait };
   }
-  function exposeDebugConfig(config, now3) {
+  function exposeDebugConfig(config, now2) {
     const result = {
       weight: config.weight,
     };
@@ -44622,8 +44655,8 @@
     if (config.start) {
       result.start = config.start;
     }
-    if (now3) {
-      result.duration = now3 - config.start;
+    if (now2) {
+      result.duration = now2 - config.start;
     }
     if (config.done) {
       if (config.error) {
@@ -44832,7 +44865,7 @@
     ForwardProperties,
     FallbackProvider;
   var init_fallback_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/fallback-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/fallback-provider.js"() {
       "use strict";
       init_lib12();
       init_lib3();
@@ -45163,19 +45196,19 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/ipc-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/ipc-provider.js
   var IpcProvider;
   var init_ipc_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/ipc-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/ipc-provider.js"() {
       "use strict";
       IpcProvider = null;
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/infura-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/infura-provider.js
   var logger38, defaultProjectId, InfuraWebSocketProvider, InfuraProvider;
   var init_infura_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/infura-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/infura-provider.js"() {
       "use strict";
       init_lib4();
       init_websocket_provider();
@@ -45315,10 +45348,10 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js
   var JsonRpcBatchProvider;
   var init_json_rpc_batch_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js"() {
       init_lib4();
       init_lib27();
       init_json_rpc_provider();
@@ -45390,10 +45423,10 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js
   var logger39, defaultApiKey3, NodesmithProvider;
   var init_nodesmith_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js"() {
       "use strict";
       init_url_json_rpc_provider();
       init_lib();
@@ -45441,10 +45474,10 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/pocket-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/pocket-provider.js
   var logger40, defaultApplicationIds, PocketProvider;
   var init_pocket_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/pocket-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/pocket-provider.js"() {
       "use strict";
       init_lib4();
       init_lib();
@@ -45580,7 +45613,7 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/web3-provider.js
+  // node_modules/@ethersproject/providers/lib.esm/web3-provider.js
   function buildWeb3LegacyFetcher(provider, sendFunc) {
     const fetcher = "Web3LegacyFetcher";
     return function (method, params) {
@@ -45664,7 +45697,7 @@
   }
   var logger41, _nextId, Web3Provider;
   var init_web3_provider = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/web3-provider.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/web3-provider.js"() {
       "use strict";
       init_lib4();
       init_lib();
@@ -45731,7 +45764,7 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/index.js
+  // node_modules/@ethersproject/providers/lib.esm/index.js
   var lib_exports4 = {};
   __export(lib_exports4, {
     AlchemyProvider: () => AlchemyProvider,
@@ -45811,7 +45844,7 @@
   }
   var logger42;
   var init_lib28 = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/@ethersproject/providers/lib.esm/index.js"() {
+    "node_modules/@ethersproject/providers/lib.esm/index.js"() {
       "use strict";
       init_lib12();
       init_lib25();
@@ -46048,7 +46081,7 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/utils.js
+  // node_modules/ethers/lib.esm/utils.js
   var utils_exports = {};
   __export(utils_exports, {
     AbiCoder: () => AbiCoder,
@@ -46151,7 +46184,7 @@
     zeroPad: () => zeroPad,
   });
   var init_utils2 = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/utils.js"() {
+    "node_modules/ethers/lib.esm/utils.js"() {
       "use strict";
       init_lib11();
       init_lib7();
@@ -46179,15 +46212,15 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/_version.js
+  // node_modules/ethers/lib.esm/_version.js
   var version26;
   var init_version26 = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/_version.js"() {
-      version26 = "ethers/5.5.3";
+    "node_modules/ethers/lib.esm/_version.js"() {
+      version26 = "ethers/5.5.4";
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/ethers.js
+  // node_modules/ethers/lib.esm/ethers.js
   var ethers_exports = {};
   __export(ethers_exports, {
     BaseContract: () => BaseContract,
@@ -46210,7 +46243,7 @@
   });
   var logger45;
   var init_ethers = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/ethers.js"() {
+    "node_modules/ethers/lib.esm/ethers.js"() {
       "use strict";
       init_lib16();
       init_lib3();
@@ -46227,7 +46260,7 @@
     },
   });
 
-  // node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/index.js
+  // node_modules/ethers/lib.esm/index.js
   var lib_exports5 = {};
   __export(lib_exports5, {
     BaseContract: () => BaseContract,
@@ -46250,7 +46283,7 @@
     wordlists: () => wordlists,
   });
   var init_lib31 = __esm({
-    "node_modules/@lumeweb/ensjs/node_modules/ethers/lib.esm/index.js"() {
+    "node_modules/ethers/lib.esm/index.js"() {
       "use strict";
       init_ethers();
       init_ethers();
@@ -78697,8 +78730,8 @@
         }
         return codecName;
       };
-      exports.getName = (codec) => {
-        return intTable.get(codec);
+      exports.getName = (codec2) => {
+        return intTable.get(codec2);
       };
       exports.getNumber = (name2) => {
         const code = codecNameToCodeVarint[name2];
@@ -81230,8 +81263,8 @@
         }
         return codecName;
       };
-      exports.getName = (codec) => {
-        return intTable.get(codec);
+      exports.getName = (codec2) => {
+        return intTable.get(codec2);
       };
       exports.getNumber = (name2) => {
         const code = codecNameToCodeVarint[name2];
@@ -81363,9 +81396,9 @@
       var CIDUtil = require_cid_util();
       var withIs = require_class_is();
       var CID = class {
-        constructor(version29, codec, multihash, multibaseName) {
-          if (_CID.isCID(version29)) {
-            const cid = version29;
+        constructor(version27, codec2, multihash, multibaseName) {
+          if (_CID.isCID(version27)) {
+            const cid = version27;
             this.version = cid.version;
             this.codec = cid.codec;
             this.multihash = Buffer4.from(cid.multihash);
@@ -81373,10 +81406,10 @@
               cid.multibaseName || (cid.version === 0 ? "base58btc" : "base32");
             return;
           }
-          if (typeof version29 === "string") {
-            const baseName = multibase.isEncoded(version29);
+          if (typeof version27 === "string") {
+            const baseName = multibase.isEncoded(version27);
             if (baseName) {
-              const cid = multibase.decode(version29);
+              const cid = multibase.decode(version27);
               this.version = parseInt(cid.slice(0, 1).toString("hex"), 16);
               this.codec = multicodec.getCodec(cid.slice(1));
               this.multihash = multicodec.rmPrefix(cid.slice(1));
@@ -81384,18 +81417,18 @@
             } else {
               this.version = 0;
               this.codec = "dag-pb";
-              this.multihash = mh.fromB58String(version29);
+              this.multihash = mh.fromB58String(version27);
               this.multibaseName = "base58btc";
             }
             CID.validateCID(this);
-            Object.defineProperty(this, "string", { value: version29 });
+            Object.defineProperty(this, "string", { value: version27 });
             return;
           }
-          if (Buffer4.isBuffer(version29)) {
-            const firstByte = version29.slice(0, 1);
+          if (Buffer4.isBuffer(version27)) {
+            const firstByte = version27.slice(0, 1);
             const v2 = parseInt(firstByte.toString("hex"), 16);
             if (v2 === 1) {
-              const cid = version29;
+              const cid = version27;
               this.version = v2;
               this.codec = multicodec.getCodec(cid.slice(1));
               this.multihash = multicodec.rmPrefix(cid.slice(1));
@@ -81403,17 +81436,17 @@
             } else {
               this.version = 0;
               this.codec = "dag-pb";
-              this.multihash = version29;
+              this.multihash = version27;
               this.multibaseName = "base58btc";
             }
             CID.validateCID(this);
             return;
           }
-          this.version = version29;
-          this.codec = codec;
+          this.version = version27;
+          this.codec = codec2;
           this.multihash = multihash;
           this.multibaseName =
-            multibaseName || (version29 === 0 ? "base58btc" : "base32");
+            multibaseName || (version27 === 0 ? "base58btc" : "base32");
           CID.validateCID(this);
         }
         get buffer() {
@@ -81611,9 +81644,9 @@
         },
         decode: function (contentHash) {
           const buffer = hexStringToBuffer(contentHash);
-          const codec = multiC.getCodec(buffer);
+          const codec2 = multiC.getCodec(buffer);
           const value = multiC.rmPrefix(buffer);
-          let profile = profiles[codec];
+          let profile = profiles[codec2];
           if (!profile) profile = profiles["default"];
           return profile.decode(value);
         },
@@ -81623,11 +81656,11 @@
         fromSwarm: function (swarmHash) {
           return this.encode("swarm-ns", swarmHash);
         },
-        encode: function (codec, value) {
-          let profile = profiles[codec];
+        encode: function (codec2, value) {
+          let profile = profiles[codec2];
           if (!profile) profile = profiles["default"];
           const encodedValue = profile.encode(value);
-          return multiC.addPrefix(codec, encodedValue).toString("hex");
+          return multiC.addPrefix(codec2, encodedValue).toString("hex");
         },
         getCodec: function (hash4) {
           let buffer = hexStringToBuffer(hash4);
@@ -81681,16 +81714,16 @@
         if (encoded) {
           try {
             decoded = _contentHash["default"].decode(encoded);
-            var codec = _contentHash["default"].getCodec(encoded);
-            if (codec === "ipfs-ns") {
+            var codec2 = _contentHash["default"].getCodec(encoded);
+            if (codec2 === "ipfs-ns") {
               protocolType = "ipfs";
-            } else if (codec === "ipns-ns") {
+            } else if (codec2 === "ipns-ns") {
               protocolType = "ipns";
-            } else if (codec === "swarm-ns") {
+            } else if (codec2 === "swarm-ns") {
               protocolType = "bzz";
-            } else if (codec === "onion") {
+            } else if (codec2 === "onion") {
               protocolType = "onion";
-            } else if (codec === "onion3") {
+            } else if (codec2 === "onion3") {
               protocolType = "onion3";
             } else {
               decoded = encoded;
@@ -81719,8 +81752,8 @@
       }
       function isValidContenthash(encoded) {
         try {
-          var codec = _contentHash["default"].getCodec(encoded);
-          return utils.isHexString(encoded) && supportedCodecs.includes(codec);
+          var codec2 = _contentHash["default"].getCodec(encoded);
+          return utils.isHexString(encoded) && supportedCodecs.includes(codec2);
         } catch (e) {
           console.log(e);
         }
@@ -82147,7 +82180,7 @@
               resolverAddr,
               signer,
               nh,
-              Resolver5,
+              Resolver4,
               _formatsByName$key2,
               decoder,
               coinType,
@@ -82164,7 +82197,7 @@
                       (resolverAddr = _ref5.resolverAddr),
                       (signer = _ref5.signer);
                     nh = (0, _utils.namehash)(name2);
-                    Resolver5 = getResolverContract({
+                    Resolver4 = getResolverContract({
                       address: resolverAddr,
                       provider: signer,
                     });
@@ -82178,7 +82211,7 @@
                     }
                     return _context21.abrupt(
                       "return",
-                      Resolver5["setAddr(bytes32,uint256,bytes)"](
+                      Resolver4["setAddr(bytes32,uint256,bytes)"](
                         nh,
                         coinType,
                         addressAsBytes
@@ -82319,7 +82352,7 @@
               resolverAddr,
               signer,
               encodedContenthash,
-              Resolver5;
+              Resolver4;
             return _regenerator["default"].wrap(function _callee23$(
               _context23
             ) {
@@ -82336,13 +82369,13 @@
                         content
                       );
                     }
-                    Resolver5 = getResolverContract({
+                    Resolver4 = getResolverContract({
                       address: resolverAddr,
                       provider: signer,
                     });
                     return _context23.abrupt(
                       "return",
-                      Resolver5.setContenthash(
+                      Resolver4.setContenthash(
                         (0, _utils.namehash)(name2),
                         encodedContenthash
                       )
@@ -82453,15 +82486,15 @@
         );
         return _setTextWithResolver.apply(this, arguments);
       }
-      var Resolver4 = /* @__PURE__ */ (function () {
-        function Resolver5(_ref10) {
+      var Resolver3 = /* @__PURE__ */ (function () {
+        function Resolver4(_ref10) {
           var address = _ref10.address,
             ens = _ref10.ens;
-          (0, _classCallCheck22["default"])(this, Resolver5);
+          (0, _classCallCheck22["default"])(this, Resolver4);
           this.address = address;
           this.ens = ens;
         }
-        (0, _createClass22["default"])(Resolver5, [
+        (0, _createClass22["default"])(Resolver4, [
           {
             key: "name",
             value: function name2(_name) {
@@ -82475,7 +82508,7 @@
             },
           },
         ]);
-        return Resolver5;
+        return Resolver4;
       })();
       var Name = /* @__PURE__ */ (function () {
         function Name2(options) {
@@ -82727,7 +82760,7 @@
                 /* @__PURE__ */ _regenerator["default"].mark(function _callee7(
                   coinId
                 ) {
-                  var resolverAddr, Resolver5;
+                  var resolverAddr, Resolver4;
                   return _regenerator["default"].wrap(
                     function _callee7$(_context7) {
                       while (1) {
@@ -82746,7 +82779,7 @@
                               _utils.emptyAddress
                             );
                           case 5:
-                            Resolver5 = getResolverContract({
+                            Resolver4 = getResolverContract({
                               address: resolverAddr,
                               provider: this.provider,
                             });
@@ -82756,7 +82789,7 @@
                             }
                             return _context7.abrupt(
                               "return",
-                              Resolver5["addr(bytes32)"](this.namehash)
+                              Resolver4["addr(bytes32)"](this.namehash)
                             );
                           case 8:
                             return _context7.abrupt(
@@ -83230,7 +83263,7 @@
           {
             key: "resolver",
             value: function resolver2(address) {
-              return new Resolver4({
+              return new Resolver3({
                 ens: this.ens,
                 provider: this.provider,
                 address,
@@ -83404,8 +83437,8 @@
     _resolvers = [];
     _portals = [];
     async resolve(input, params = []) {
-      for (let resolver2 of this._resolvers) {
-        let result = await resolver2.resolve(input, params);
+      for (const resolver2 of this._resolvers) {
+        const result = await resolver2.resolve(input, params);
         if (result) {
           return result;
         }
@@ -83442,12 +83475,30 @@
   var startsWithSkylinkRegExp = /^(sia:\/\/)?([a-zA-Z0-9_-]{46})/;
   var registryEntryRegExp =
     /^skyns:\/\/(?<publickey>[a-zA-Z0-9%]+)\/(?<datakey>[a-zA-Z0-9%]+)$/;
+  function normalizeDomain(domain) {
+    return domain.replace(/^\.+|\.+$/g, "").replace(/^\/+|\/+$/g, "");
+  }
 
   // src/resolvers/handshake/HnsClient.ts
   var import_path = __require("path");
   var import_brq = __toESM(require_brq(), 1);
   var import_assert = __toESM(__require("assert"), 1);
   var import_hs_client = __toESM(require_hs_client(), 1);
+
+  // src/resolvers/handshake/RPCError.ts
+  var RPCError = class extends Error {
+    constructor(msg, code) {
+      super();
+      this.type = "RPCError";
+      this.message = String(msg);
+      this.code = code >> 0;
+      if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, RPCError);
+      }
+    }
+  };
+
+  // src/resolvers/handshake/HnsClient.ts
   var HnsClient = class extends import_hs_client.NodeClient {
     constructor(options) {
       super(options);
@@ -83455,8 +83506,8 @@
     async execute(name2, params) {
       var _a;
       (0, import_assert.default)(typeof name2 === "string");
-      (0, import_assert.default)(Array.isArray(params));
       this.sequence += 1;
+      const chain = (_a = this.headers["x-chain"]) != null ? _a : "hns";
       const res = await (0, import_brq.default)({
         method: "POST",
         ssl: true,
@@ -83471,13 +83522,12 @@
         limit: this.limit,
         pool: true,
         query: {
-          chain: (_a = this.headers["X-Chain"]) != null ? _a : "hns",
+          chain,
         },
         json: {
           jsonrpc: "2.0",
           method: name2,
           params,
-          chain: "hns",
           id: this.sequence,
         },
       });
@@ -83501,27 +83551,16 @@
       return json;
     }
   };
-  var RPCError = class extends Error {
-    constructor(msg, code) {
-      super();
-      this.type = "RPCError";
-      this.message = String(msg);
-      this.code = code >> 0;
-      if (Error.captureStackTrace) {
-        Error.captureStackTrace(this, RPCError);
-      }
-    }
-  };
 
   // node_modules/@lumeweb/skynet-js/dist/mjs/client.js
   var import_axios = __toESM(require_axios2(), 1);
   var import_skynet_mysky_utils5 = __toESM(require_dist(), 1);
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/upload.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/upload.js
   var import_js_base64 = __toESM(require_base64());
   var import_url_parse = __toESM(require_url_parse());
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/error.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/error.js
   function _typeof(obj) {
     "@babel/helpers - typeof";
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
@@ -83697,14 +83736,14 @@
   })(/* @__PURE__ */ _wrapNativeSuper(Error));
   var error_default = DetailedError;
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/logger.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/logger.js
   var isEnabled = false;
   function log(msg) {
     if (!isEnabled) return;
     console.log(msg);
   }
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/uuid.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/uuid.js
   function uuid() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
       /[xy]/g,
@@ -83716,7 +83755,7 @@
     );
   }
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/upload.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/upload.js
   function ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
@@ -84682,7 +84721,7 @@
   BaseUpload.defaultOptions = defaultOptions;
   var upload_default = BaseUpload;
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/noopUrlStorage.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/noopUrlStorage.js
   function _classCallCheck3(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -84735,11 +84774,11 @@
     return NoopUrlStorage2;
   })();
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/urlStorage.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/urlStorage.js
   var lockfile = __toESM(require_proper_lockfile());
   var combineErrors = __toESM(require_combine_errors());
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/httpStack.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/httpStack.js
   var http = __toESM(__require("http"));
   var https = __toESM(__require("https"));
   var import_url = __require("url");
@@ -85088,11 +85127,11 @@
     return ProgressEmitter2;
   })(import_stream.Transform);
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/fileReader.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/fileReader.js
   var import_fs2 = __require("fs");
   var import_is_stream = __toESM(require_is_stream());
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/sources/BufferSource.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/sources/BufferSource.js
   function _classCallCheck5(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -85137,7 +85176,7 @@
     return BufferSource2;
   })();
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/sources/FileSource.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/sources/FileSource.js
   var import_fs = __require("fs");
   function _classCallCheck6(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -85189,7 +85228,7 @@
     return FileSource2;
   })();
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/sources/SlicingStream.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/sources/SlicingStream.js
   var import_stream2 = __require("stream");
   function _typeof3(obj) {
     "@babel/helpers - typeof";
@@ -85343,7 +85382,7 @@
     return SlicingStream2;
   })(import_stream2.Transform);
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/sources/StreamSource.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/sources/StreamSource.js
   function _classCallCheck8(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -85429,7 +85468,7 @@
     return StreamSource2;
   })();
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/fileReader.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/fileReader.js
   function _classCallCheck9(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -85477,7 +85516,7 @@
     return FileReader3;
   })();
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/fingerprint.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/fingerprint.js
   var fs = __toESM(__require("fs"));
   var path = __toESM(__require("path"));
   var import_crypto = __require("crypto");
@@ -85517,7 +85556,7 @@
     return Promise.resolve(null);
   }
 
-  // node_modules/@lumeweb/skynet-js/node_modules/@skynetlabs/tus-js-client/lib.esm/node/index.js
+  // node_modules/@skynetlabs/tus-js-client/lib.esm/node/index.js
   function _typeof4(obj) {
     "@babel/helpers - typeof";
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
@@ -86207,6 +86246,7 @@
 
   // node_modules/@lumeweb/skynet-js/dist/mjs/crypto.js
   var { hash, sign } = import_tweetnacl.default;
+  var { misc, codec } = import_sjcl.default;
   var { blake2bFinal, blake2bInit, blake2bUpdate } = import_blakejs.default;
   var HASH_LENGTH = 32;
   var PUBLIC_KEY_LENGTH = sign.publicKeyLength * 2;
@@ -86329,8 +86369,8 @@
     return new SiaPublicKey(algorithm, publicKeyBytes);
   }
   function newSkylinkV2(siaPublicKey, tweak) {
-    const version29 = 2;
-    const bitfield = version29 - 1;
+    const version27 = 2;
+    const bitfield = version27 - 1;
     const merkleRoot = deriveRegistryEntryID(siaPublicKey, tweak);
     return new SiaSkylink(bitfield, merkleRoot);
   }
@@ -87746,9 +87786,9 @@
       "encrypted file metadata bytes",
       ENCRYPTION_HIDDEN_FIELD_METADATA_LENGTH
     );
-    const version29 = bytes[0];
+    const version27 = bytes[0];
     return {
-      version: version29,
+      version: version27,
     };
   }
   function encodeEncryptedFileMetadata(metadata) {
@@ -87827,7 +87867,7 @@
     return true;
   }
 
-  // node_modules/@lumeweb/skynet-js/node_modules/post-me/dist/index.esnext.mjs
+  // node_modules/post-me/dist/index.esnext.mjs
   var MARKER = "@post-me";
   function createUniqueIdFn() {
     let __id = 0;
@@ -90211,7 +90251,7 @@
     }
   }
 
-  // node_modules/@lumeweb/skynet-js/node_modules/async-mutex/index.mjs
+  // node_modules/async-mutex/index.mjs
   var E_TIMEOUT = new Error(
     "timeout while waiting for mutex to become available"
   );
@@ -90734,12 +90774,12 @@
       if (input.includes(".")) {
         tld = input.split(".")[input.split(".").length - 1];
       }
-      let records = await this.query(tld);
+      const records = await this.query(tld);
       if (!records) {
         return false;
       }
       let result = false;
-      for (let record of records.reverse()) {
+      for (const record of records.reverse()) {
         switch (record.type) {
           case "NS": {
             result = await this.processNs(input, record, records);
@@ -90747,6 +90787,16 @@
           }
           case "TXT": {
             result = await this.processTxt(record);
+            break;
+          }
+          case "SYNTH6": {
+            if ("ipv6" in params && params.ipv6) {
+              result = record.address;
+            }
+            break;
+          }
+          case "SYNTH4": {
+            result = record.address;
             break;
           }
           default: {
@@ -90760,7 +90810,7 @@
       return result;
     }
     async processNs(domain, record, records) {
-      let glue = records
+      const glue = records
         .slice()
         .find(
           (item) =>
@@ -90769,10 +90819,18 @@
       if (glue) {
         return this.resolver.resolve(glue.address, { subquery: true, domain });
       }
-      if (isDomain(record.ns)) {
-        return this.resolver.resolve(record.ns, { subquery: true });
+      const foundDomain = normalizeDomain(record.ns);
+      if (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) {
+        const hnsNs = await this.resolver.resolve(foundDomain);
+        if (hnsNs) {
+          return this.resolver.resolve(hnsNs, {
+            subquery: true,
+            domain,
+          });
+        }
+        return this.resolver.resolve(foundDomain, { subquery: true });
       }
-      let result = await this.resolver.resolve(record.ns, { domain });
+      const result = await this.resolver.resolve(record.ns, { domain });
       return result || record.ns;
     }
     async query(tld) {
@@ -90784,7 +90842,7 @@
         host: portal,
         port: 443,
         headers: {
-          "X-Chain": "hns",
+          "x-chain": "hns",
         },
       };
       const client = new HnsClient(clientOptions);
@@ -90792,7 +90850,6 @@
       try {
         resp = await client.execute("getnameresource", [tld]);
       } catch (e) {
-        console.error(e);
         return false;
       }
       return (
@@ -90803,17 +90860,18 @@
     }
     async processTxt(record) {
       var _a;
-      let matches;
-      if ((matches = record.txt.slice().pop().match(startsWithSkylinkRegExp))) {
+      let matches = record.txt.slice().pop().match(startsWithSkylinkRegExp);
+      if (matches) {
         return decodeURIComponent(matches[2]);
       }
-      if ((matches = record.txt.slice().pop().match(registryEntryRegExp))) {
+      matches = record.txt.slice().pop().match(registryEntryRegExp);
+      if (matches) {
         const client = new SkynetClient(`https://${this.resolver.getPortal()}`);
-        let pubKey = decodeURIComponent(matches.groups.publickey).replace(
+        const pubKey = decodeURIComponent(matches.groups.publickey).replace(
           "ed25519:",
           ""
         );
-        let entry = await client.registry.getEntry(
+        const entry = await client.registry.getEntry(
           pubKey,
           matches.groups.datakey,
           { hashedDataKeyHex: true }
@@ -90827,7 +90885,6 @@
   };
 
   // src/resolvers/icann.ts
-  var import_hs_client2 = __toESM(require_hs_client(), 1);
   var Icann = class extends SubResolverBase {
     async resolve(input, params = {}) {
       if (!params || !("subquery" in params) || !params.subquery) {
@@ -90843,5621 +90900,52 @@
         port: 443,
         path: "/pocketdns",
         headers: {
-          "X-Chain": "icann",
+          "x-chain": "icann",
         },
       };
-      const client = new import_hs_client2.NodeClient(clientOptions);
+      const client = new HnsClient(clientOptions);
       let resp = false;
       try {
-        let rpcParams = {};
+        const rpcParams = {};
         rpcParams.domain = params.domain || input;
         rpcParams.nameserver = !params.domain ? null : input;
         resp = await client.execute("dnslookup", rpcParams);
       } catch (e) {
-        console.error(e);
         return false;
       }
-      return resp.result;
+      return resp.result.pop();
     }
   };
 
   // src/resolvers/eip137.ts
   var import_ensjs = __toESM(require_dist2(), 1);
-
-  // node_modules/ethers/lib.esm/ethers.js
-  var ethers_exports2 = {};
-  __export(ethers_exports2, {
-    BaseContract: () => BaseContract,
-    BigNumber: () => BigNumber,
-    Contract: () => Contract,
-    ContractFactory: () => ContractFactory,
-    FixedNumber: () => FixedNumber,
-    Signer: () => Signer,
-    VoidSigner: () => VoidSigner,
-    Wallet: () => Wallet,
-    Wordlist: () => Wordlist,
-    constants: () => lib_exports2,
-    errors: () => ErrorCode,
-    getDefaultProvider: () => getDefaultProvider2,
-    logger: () => logger60,
-    providers: () => lib_exports6,
-    utils: () => utils_exports2,
-    version: () => version28,
-    wordlists: () => wordlists,
-  });
-  init_lib16();
-  init_lib3();
-  init_lib13();
-  init_lib24();
-  init_lib8();
-
-  // node_modules/@ethersproject/providers/lib.esm/index.js
-  var lib_exports6 = {};
-  __export(lib_exports6, {
-    AlchemyProvider: () => AlchemyProvider2,
-    AlchemyWebSocketProvider: () => AlchemyWebSocketProvider2,
-    BaseProvider: () => BaseProvider2,
-    CloudflareProvider: () => CloudflareProvider2,
-    EtherscanProvider: () => EtherscanProvider2,
-    FallbackProvider: () => FallbackProvider2,
-    Formatter: () => Formatter2,
-    InfuraProvider: () => InfuraProvider2,
-    InfuraWebSocketProvider: () => InfuraWebSocketProvider2,
-    IpcProvider: () => IpcProvider2,
-    JsonRpcBatchProvider: () => JsonRpcBatchProvider2,
-    JsonRpcProvider: () => JsonRpcProvider2,
-    JsonRpcSigner: () => JsonRpcSigner2,
-    NodesmithProvider: () => NodesmithProvider2,
-    PocketProvider: () => PocketProvider2,
-    Provider: () => Provider,
-    Resolver: () => Resolver3,
-    StaticJsonRpcProvider: () => StaticJsonRpcProvider2,
-    UrlJsonRpcProvider: () => UrlJsonRpcProvider2,
-    Web3Provider: () => Web3Provider2,
-    WebSocketProvider: () => WebSocketProvider2,
-    getDefaultProvider: () => getDefaultProvider2,
-    getNetwork: () => getNetwork,
-    isCommunityResourcable: () => isCommunityResourcable2,
-    isCommunityResource: () => isCommunityResource2,
-    showThrottleMessage: () => showThrottleMessage2,
-  });
-  init_lib12();
-  init_lib25();
-
-  // node_modules/@ethersproject/providers/lib.esm/base-provider.js
-  init_lib12();
-  init_lib17();
-  init_lib3();
-  init_lib2();
-  init_lib8();
-  init_lib10();
-  init_lib25();
-  init_lib4();
-  init_lib18();
-  init_lib9();
-  init_lib27();
-  var import_bech322 = __toESM(require_bech32());
-  init_lib();
-
-  // node_modules/@ethersproject/providers/lib.esm/_version.js
-  var version27 = "providers/5.5.3";
-
-  // node_modules/@ethersproject/providers/lib.esm/formatter.js
-  init_lib7();
-  init_lib3();
-  init_lib2();
-  init_lib8();
-  init_lib4();
-  init_lib15();
-  init_lib();
-  var logger46 = new Logger(version27);
-  var Formatter2 = class {
-    constructor() {
-      logger46.checkNew(new.target, Formatter2);
-      this.formats = this.getDefaultFormats();
-    }
-    getDefaultFormats() {
-      const formats = {};
-      const address = this.address.bind(this);
-      const bigNumber = this.bigNumber.bind(this);
-      const blockTag = this.blockTag.bind(this);
-      const data = this.data.bind(this);
-      const hash4 = this.hash.bind(this);
-      const hex = this.hex.bind(this);
-      const number = this.number.bind(this);
-      const type = this.type.bind(this);
-      const strictData = (v2) => {
-        return this.data(v2, true);
-      };
-      formats.transaction = {
-        hash: hash4,
-        type,
-        accessList: Formatter2.allowNull(this.accessList.bind(this), null),
-        blockHash: Formatter2.allowNull(hash4, null),
-        blockNumber: Formatter2.allowNull(number, null),
-        transactionIndex: Formatter2.allowNull(number, null),
-        confirmations: Formatter2.allowNull(number, null),
-        from: address,
-        gasPrice: Formatter2.allowNull(bigNumber),
-        maxPriorityFeePerGas: Formatter2.allowNull(bigNumber),
-        maxFeePerGas: Formatter2.allowNull(bigNumber),
-        gasLimit: bigNumber,
-        to: Formatter2.allowNull(address, null),
-        value: bigNumber,
-        nonce: number,
-        data,
-        r: Formatter2.allowNull(this.uint256),
-        s: Formatter2.allowNull(this.uint256),
-        v: Formatter2.allowNull(number),
-        creates: Formatter2.allowNull(address, null),
-        raw: Formatter2.allowNull(data),
-      };
-      formats.transactionRequest = {
-        from: Formatter2.allowNull(address),
-        nonce: Formatter2.allowNull(number),
-        gasLimit: Formatter2.allowNull(bigNumber),
-        gasPrice: Formatter2.allowNull(bigNumber),
-        maxPriorityFeePerGas: Formatter2.allowNull(bigNumber),
-        maxFeePerGas: Formatter2.allowNull(bigNumber),
-        to: Formatter2.allowNull(address),
-        value: Formatter2.allowNull(bigNumber),
-        data: Formatter2.allowNull(strictData),
-        type: Formatter2.allowNull(number),
-        accessList: Formatter2.allowNull(this.accessList.bind(this), null),
-      };
-      formats.receiptLog = {
-        transactionIndex: number,
-        blockNumber: number,
-        transactionHash: hash4,
-        address,
-        topics: Formatter2.arrayOf(hash4),
-        data,
-        logIndex: number,
-        blockHash: hash4,
-      };
-      formats.receipt = {
-        to: Formatter2.allowNull(this.address, null),
-        from: Formatter2.allowNull(this.address, null),
-        contractAddress: Formatter2.allowNull(address, null),
-        transactionIndex: number,
-        root: Formatter2.allowNull(hex),
-        gasUsed: bigNumber,
-        logsBloom: Formatter2.allowNull(data),
-        blockHash: hash4,
-        transactionHash: hash4,
-        logs: Formatter2.arrayOf(this.receiptLog.bind(this)),
-        blockNumber: number,
-        confirmations: Formatter2.allowNull(number, null),
-        cumulativeGasUsed: bigNumber,
-        effectiveGasPrice: Formatter2.allowNull(bigNumber),
-        status: Formatter2.allowNull(number),
-        type,
-      };
-      formats.block = {
-        hash: hash4,
-        parentHash: hash4,
-        number,
-        timestamp: number,
-        nonce: Formatter2.allowNull(hex),
-        difficulty: this.difficulty.bind(this),
-        gasLimit: bigNumber,
-        gasUsed: bigNumber,
-        miner: address,
-        extraData: data,
-        transactions: Formatter2.allowNull(Formatter2.arrayOf(hash4)),
-        baseFeePerGas: Formatter2.allowNull(bigNumber),
-      };
-      formats.blockWithTransactions = shallowCopy(formats.block);
-      formats.blockWithTransactions.transactions = Formatter2.allowNull(
-        Formatter2.arrayOf(this.transactionResponse.bind(this))
-      );
-      formats.filter = {
-        fromBlock: Formatter2.allowNull(blockTag, void 0),
-        toBlock: Formatter2.allowNull(blockTag, void 0),
-        blockHash: Formatter2.allowNull(hash4, void 0),
-        address: Formatter2.allowNull(address, void 0),
-        topics: Formatter2.allowNull(this.topics.bind(this), void 0),
-      };
-      formats.filterLog = {
-        blockNumber: Formatter2.allowNull(number),
-        blockHash: Formatter2.allowNull(hash4),
-        transactionIndex: number,
-        removed: Formatter2.allowNull(this.boolean.bind(this)),
-        address,
-        data: Formatter2.allowFalsish(data, "0x"),
-        topics: Formatter2.arrayOf(hash4),
-        transactionHash: hash4,
-        logIndex: number,
-      };
-      return formats;
-    }
-    accessList(accessList) {
-      return accessListify(accessList || []);
-    }
-    number(number) {
-      if (number === "0x") {
-        return 0;
-      }
-      return BigNumber.from(number).toNumber();
-    }
-    type(number) {
-      if (number === "0x" || number == null) {
-        return 0;
-      }
-      return BigNumber.from(number).toNumber();
-    }
-    bigNumber(value) {
-      return BigNumber.from(value);
-    }
-    boolean(value) {
-      if (typeof value === "boolean") {
-        return value;
-      }
-      if (typeof value === "string") {
-        value = value.toLowerCase();
-        if (value === "true") {
-          return true;
-        }
-        if (value === "false") {
-          return false;
-        }
-      }
-      throw new Error("invalid boolean - " + value);
-    }
-    hex(value, strict) {
-      if (typeof value === "string") {
-        if (!strict && value.substring(0, 2) !== "0x") {
-          value = "0x" + value;
-        }
-        if (isHexString2(value)) {
-          return value.toLowerCase();
-        }
-      }
-      return logger46.throwArgumentError("invalid hash", "value", value);
-    }
-    data(value, strict) {
-      const result = this.hex(value, strict);
-      if (result.length % 2 !== 0) {
-        throw new Error("invalid data; odd-length - " + value);
-      }
-      return result;
-    }
-    address(value) {
-      return getAddress(value);
-    }
-    callAddress(value) {
-      if (!isHexString2(value, 32)) {
-        return null;
-      }
-      const address = getAddress(hexDataSlice(value, 12));
-      return address === AddressZero ? null : address;
-    }
-    contractAddress(value) {
-      return getContractAddress(value);
-    }
-    blockTag(blockTag) {
-      if (blockTag == null) {
-        return "latest";
-      }
-      if (blockTag === "earliest") {
-        return "0x0";
-      }
-      if (blockTag === "latest" || blockTag === "pending") {
-        return blockTag;
-      }
-      if (typeof blockTag === "number" || isHexString2(blockTag)) {
-        return hexValue(blockTag);
-      }
-      throw new Error("invalid blockTag");
-    }
-    hash(value, strict) {
-      const result = this.hex(value, strict);
-      if (hexDataLength(result) !== 32) {
-        return logger46.throwArgumentError("invalid hash", "value", value);
-      }
-      return result;
-    }
-    difficulty(value) {
-      if (value == null) {
-        return null;
-      }
-      const v2 = BigNumber.from(value);
-      try {
-        return v2.toNumber();
-      } catch (error) {}
-      return null;
-    }
-    uint256(value) {
-      if (!isHexString2(value)) {
-        throw new Error("invalid uint256");
-      }
-      return hexZeroPad(value, 32);
-    }
-    _block(value, format) {
-      if (value.author != null && value.miner == null) {
-        value.miner = value.author;
-      }
-      const difficulty =
-        value._difficulty != null ? value._difficulty : value.difficulty;
-      const result = Formatter2.check(format, value);
-      result._difficulty =
-        difficulty == null ? null : BigNumber.from(difficulty);
-      return result;
-    }
-    block(value) {
-      return this._block(value, this.formats.block);
-    }
-    blockWithTransactions(value) {
-      return this._block(value, this.formats.blockWithTransactions);
-    }
-    transactionRequest(value) {
-      return Formatter2.check(this.formats.transactionRequest, value);
-    }
-    transactionResponse(transaction) {
-      if (transaction.gas != null && transaction.gasLimit == null) {
-        transaction.gasLimit = transaction.gas;
-      }
-      if (transaction.to && BigNumber.from(transaction.to).isZero()) {
-        transaction.to = "0x0000000000000000000000000000000000000000";
-      }
-      if (transaction.input != null && transaction.data == null) {
-        transaction.data = transaction.input;
-      }
-      if (transaction.to == null && transaction.creates == null) {
-        transaction.creates = this.contractAddress(transaction);
-      }
-      if (
-        (transaction.type === 1 || transaction.type === 2) &&
-        transaction.accessList == null
-      ) {
-        transaction.accessList = [];
-      }
-      const result = Formatter2.check(this.formats.transaction, transaction);
-      if (transaction.chainId != null) {
-        let chainId = transaction.chainId;
-        if (isHexString2(chainId)) {
-          chainId = BigNumber.from(chainId).toNumber();
-        }
-        result.chainId = chainId;
-      } else {
-        let chainId = transaction.networkId;
-        if (chainId == null && result.v == null) {
-          chainId = transaction.chainId;
-        }
-        if (isHexString2(chainId)) {
-          chainId = BigNumber.from(chainId).toNumber();
-        }
-        if (typeof chainId !== "number" && result.v != null) {
-          chainId = (result.v - 35) / 2;
-          if (chainId < 0) {
-            chainId = 0;
-          }
-          chainId = parseInt(chainId);
-        }
-        if (typeof chainId !== "number") {
-          chainId = 0;
-        }
-        result.chainId = chainId;
-      }
-      if (result.blockHash && result.blockHash.replace(/0/g, "") === "x") {
-        result.blockHash = null;
-      }
-      return result;
-    }
-    transaction(value) {
-      return parse4(value);
-    }
-    receiptLog(value) {
-      return Formatter2.check(this.formats.receiptLog, value);
-    }
-    receipt(value) {
-      const result = Formatter2.check(this.formats.receipt, value);
-      if (result.root != null) {
-        if (result.root.length <= 4) {
-          const value2 = BigNumber.from(result.root).toNumber();
-          if (value2 === 0 || value2 === 1) {
-            if (result.status != null && result.status !== value2) {
-              logger46.throwArgumentError(
-                "alt-root-status/status mismatch",
-                "value",
-                { root: result.root, status: result.status }
-              );
-            }
-            result.status = value2;
-            delete result.root;
-          } else {
-            logger46.throwArgumentError(
-              "invalid alt-root-status",
-              "value.root",
-              result.root
-            );
-          }
-        } else if (result.root.length !== 66) {
-          logger46.throwArgumentError(
-            "invalid root hash",
-            "value.root",
-            result.root
-          );
-        }
-      }
-      if (result.status != null) {
-        result.byzantium = true;
-      }
-      return result;
-    }
-    topics(value) {
-      if (Array.isArray(value)) {
-        return value.map((v2) => this.topics(v2));
-      } else if (value != null) {
-        return this.hash(value, true);
-      }
-      return null;
-    }
-    filter(value) {
-      return Formatter2.check(this.formats.filter, value);
-    }
-    filterLog(value) {
-      return Formatter2.check(this.formats.filterLog, value);
-    }
-    static check(format, object) {
-      const result = {};
-      for (const key2 in format) {
-        try {
-          const value = format[key2](object[key2]);
-          if (value !== void 0) {
-            result[key2] = value;
-          }
-        } catch (error) {
-          error.checkKey = key2;
-          error.checkValue = object[key2];
-          throw error;
-        }
-      }
-      return result;
-    }
-    static allowNull(format, nullValue) {
-      return function (value) {
-        if (value == null) {
-          return nullValue;
-        }
-        return format(value);
-      };
-    }
-    static allowFalsish(format, replaceValue) {
-      return function (value) {
-        if (!value) {
-          return replaceValue;
-        }
-        return format(value);
-      };
-    }
-    static arrayOf(format) {
-      return function (array) {
-        if (!Array.isArray(array)) {
-          throw new Error("not an array");
-        }
-        const result = [];
-        array.forEach(function (value) {
-          result.push(format(value));
-        });
-        return result;
-      };
-    }
-  };
-  function isCommunityResourcable2(value) {
-    return value && typeof value.isCommunityResource === "function";
-  }
-  function isCommunityResource2(value) {
-    return isCommunityResourcable2(value) && value.isCommunityResource();
-  }
-  var throttleMessage2 = false;
-  function showThrottleMessage2() {
-    if (throttleMessage2) {
-      return;
-    }
-    throttleMessage2 = true;
-    console.log("========= NOTICE =========");
-    console.log("Request-Rate Exceeded  (this message will not be repeated)");
-    console.log("");
-    console.log(
-      "The default API keys for each service are provided as a highly-throttled,"
-    );
-    console.log(
-      "community resource for low-traffic projects and early prototyping."
-    );
-    console.log("");
-    console.log(
-      "While your application will continue to function, we highly recommended"
-    );
-    console.log(
-      "signing up for your own API keys to improve performance, increase your"
-    );
-    console.log(
-      "request rate/limit and enable other perks, such as metrics and advanced APIs."
-    );
-    console.log("");
-    console.log("For more details: https://docs.ethers.io/api-keys/");
-    console.log("==========================");
-  }
-
-  // node_modules/@ethersproject/providers/lib.esm/base-provider.js
-  var __awaiter18 = function (thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2
-        ? value
-        : new P2(function (resolve2) {
-            resolve2(value);
-          });
-    }
-    return new (P2 || (P2 = Promise))(function (resolve2, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve2(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var logger47 = new Logger(version27);
-  function checkTopic2(topic) {
-    if (topic == null) {
-      return "null";
-    }
-    if (hexDataLength(topic) !== 32) {
-      logger47.throwArgumentError("invalid topic", "topic", topic);
-    }
-    return topic.toLowerCase();
-  }
-  function serializeTopics2(topics) {
-    topics = topics.slice();
-    while (topics.length > 0 && topics[topics.length - 1] == null) {
-      topics.pop();
-    }
-    return topics
-      .map((topic) => {
-        if (Array.isArray(topic)) {
-          const unique = {};
-          topic.forEach((topic2) => {
-            unique[checkTopic2(topic2)] = true;
-          });
-          const sorted = Object.keys(unique);
-          sorted.sort();
-          return sorted.join("|");
-        } else {
-          return checkTopic2(topic);
-        }
-      })
-      .join("&");
-  }
-  function deserializeTopics2(data) {
-    if (data === "") {
-      return [];
-    }
-    return data.split(/&/g).map((topic) => {
-      if (topic === "") {
-        return [];
-      }
-      const comps = topic.split("|").map((topic2) => {
-        return topic2 === "null" ? null : topic2;
-      });
-      return comps.length === 1 ? comps[0] : comps;
-    });
-  }
-  function getEventTag3(eventName) {
-    if (typeof eventName === "string") {
-      eventName = eventName.toLowerCase();
-      if (hexDataLength(eventName) === 32) {
-        return "tx:" + eventName;
-      }
-      if (eventName.indexOf(":") === -1) {
-        return eventName;
-      }
-    } else if (Array.isArray(eventName)) {
-      return "filter:*:" + serializeTopics2(eventName);
-    } else if (ForkEvent.isForkEvent(eventName)) {
-      logger47.warn("not implemented");
-      throw new Error("not implemented");
-    } else if (eventName && typeof eventName === "object") {
-      return (
-        "filter:" +
-        (eventName.address || "*") +
-        ":" +
-        serializeTopics2(eventName.topics || [])
-      );
-    }
-    throw new Error("invalid event - " + eventName);
-  }
-  function getTime2() {
-    return new Date().getTime();
-  }
-  function stall3(duration) {
-    return new Promise((resolve2) => {
-      setTimeout(resolve2, duration);
-    });
-  }
-  var PollableEvents2 = ["block", "network", "pending", "poll"];
-  var Event2 = class {
-    constructor(tag, listener, once) {
-      defineReadOnly(this, "tag", tag);
-      defineReadOnly(this, "listener", listener);
-      defineReadOnly(this, "once", once);
-    }
-    get event() {
-      switch (this.type) {
-        case "tx":
-          return this.hash;
-        case "filter":
-          return this.filter;
-      }
-      return this.tag;
-    }
-    get type() {
-      return this.tag.split(":")[0];
-    }
-    get hash() {
-      const comps = this.tag.split(":");
-      if (comps[0] !== "tx") {
-        return null;
-      }
-      return comps[1];
-    }
-    get filter() {
-      const comps = this.tag.split(":");
-      if (comps[0] !== "filter") {
-        return null;
-      }
-      const address = comps[1];
-      const topics = deserializeTopics2(comps[2]);
-      const filter = {};
-      if (topics.length > 0) {
-        filter.topics = topics;
-      }
-      if (address && address !== "*") {
-        filter.address = address;
-      }
-      return filter;
-    }
-    pollable() {
-      return (
-        this.tag.indexOf(":") >= 0 || PollableEvents2.indexOf(this.tag) >= 0
-      );
-    }
-  };
-  var coinInfos2 = {
-    0: { symbol: "btc", p2pkh: 0, p2sh: 5, prefix: "bc" },
-    2: { symbol: "ltc", p2pkh: 48, p2sh: 50, prefix: "ltc" },
-    3: { symbol: "doge", p2pkh: 30, p2sh: 22 },
-    60: { symbol: "eth", ilk: "eth" },
-    61: { symbol: "etc", ilk: "eth" },
-    700: { symbol: "xdai", ilk: "eth" },
-  };
-  function bytes32ify2(value) {
-    return hexZeroPad(BigNumber.from(value).toHexString(), 32);
-  }
-  function base58Encode2(data) {
-    return Base58.encode(
-      concat([data, hexDataSlice(sha256(sha256(data)), 0, 4)])
-    );
-  }
-  var matcherIpfs2 = new RegExp("^(ipfs)://(.*)$", "i");
-  var matchers2 = [
-    new RegExp("^(https)://(.*)$", "i"),
-    new RegExp("^(data):(.*)$", "i"),
-    matcherIpfs2,
-    new RegExp("^eip155:[0-9]+/(erc[0-9]+):(.*)$", "i"),
-  ];
-  function _parseString2(result) {
-    try {
-      return toUtf8String(_parseBytes2(result));
-    } catch (error) {}
-    return null;
-  }
-  function _parseBytes2(result) {
-    if (result === "0x") {
-      return null;
-    }
-    const offset = BigNumber.from(hexDataSlice(result, 0, 32)).toNumber();
-    const length = BigNumber.from(
-      hexDataSlice(result, offset, offset + 32)
-    ).toNumber();
-    return hexDataSlice(result, offset + 32, offset + 32 + length);
-  }
-  function getIpfsLink2(link) {
-    if (link.match(/^ipfs:\/\/ipfs\//i)) {
-      link = link.substring(12);
-    } else if (link.match(/^ipfs:\/\//i)) {
-      link = link.substring(7);
-    } else {
-      logger47.throwArgumentError("unsupported IPFS format", "link", link);
-    }
-    return `https://gateway.ipfs.io/ipfs/${link}`;
-  }
-  var Resolver3 = class {
-    constructor(provider, address, name2, resolvedAddress) {
-      defineReadOnly(this, "provider", provider);
-      defineReadOnly(this, "name", name2);
-      defineReadOnly(this, "address", provider.formatter.address(address));
-      defineReadOnly(this, "_resolvedAddress", resolvedAddress);
-    }
-    _fetchBytes(selector, parameters) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        const tx = {
-          to: this.address,
-          data: hexConcat([selector, namehash(this.name), parameters || "0x"]),
-        };
-        try {
-          return _parseBytes2(yield this.provider.call(tx));
-        } catch (error) {
-          if (error.code === Logger.errors.CALL_EXCEPTION) {
-            return null;
-          }
-          return null;
-        }
-      });
-    }
-    _getAddress(coinType, hexBytes) {
-      const coinInfo = coinInfos2[String(coinType)];
-      if (coinInfo == null) {
-        logger47.throwError(
-          `unsupported coin type: ${coinType}`,
-          Logger.errors.UNSUPPORTED_OPERATION,
-          {
-            operation: `getAddress(${coinType})`,
-          }
-        );
-      }
-      if (coinInfo.ilk === "eth") {
-        return this.provider.formatter.address(hexBytes);
-      }
-      const bytes = arrayify(hexBytes);
-      if (coinInfo.p2pkh != null) {
-        const p2pkh = hexBytes.match(
-          /^0x76a9([0-9a-f][0-9a-f])([0-9a-f]*)88ac$/
-        );
-        if (p2pkh) {
-          const length = parseInt(p2pkh[1], 16);
-          if (p2pkh[2].length === length * 2 && length >= 1 && length <= 75) {
-            return base58Encode2(concat([[coinInfo.p2pkh], "0x" + p2pkh[2]]));
-          }
-        }
-      }
-      if (coinInfo.p2sh != null) {
-        const p2sh = hexBytes.match(/^0xa9([0-9a-f][0-9a-f])([0-9a-f]*)87$/);
-        if (p2sh) {
-          const length = parseInt(p2sh[1], 16);
-          if (p2sh[2].length === length * 2 && length >= 1 && length <= 75) {
-            return base58Encode2(concat([[coinInfo.p2sh], "0x" + p2sh[2]]));
-          }
-        }
-      }
-      if (coinInfo.prefix != null) {
-        const length = bytes[1];
-        let version29 = bytes[0];
-        if (version29 === 0) {
-          if (length !== 20 && length !== 32) {
-            version29 = -1;
-          }
-        } else {
-          version29 = -1;
-        }
-        if (
-          version29 >= 0 &&
-          bytes.length === 2 + length &&
-          length >= 1 &&
-          length <= 75
-        ) {
-          const words2 = import_bech322.default.toWords(bytes.slice(2));
-          words2.unshift(version29);
-          return import_bech322.default.encode(coinInfo.prefix, words2);
-        }
-      }
-      return null;
-    }
-    getAddress(coinType) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        if (coinType == null) {
-          coinType = 60;
-        }
-        if (coinType === 60) {
-          try {
-            const transaction = {
-              to: this.address,
-              data: "0x3b3b57de" + namehash(this.name).substring(2),
-            };
-            const hexBytes2 = yield this.provider.call(transaction);
-            if (hexBytes2 === "0x" || hexBytes2 === HashZero) {
-              return null;
-            }
-            return this.provider.formatter.callAddress(hexBytes2);
-          } catch (error) {
-            if (error.code === Logger.errors.CALL_EXCEPTION) {
-              return null;
-            }
-            throw error;
-          }
-        }
-        const hexBytes = yield this._fetchBytes(
-          "0xf1cb7e06",
-          bytes32ify2(coinType)
-        );
-        if (hexBytes == null || hexBytes === "0x") {
-          return null;
-        }
-        const address = this._getAddress(coinType, hexBytes);
-        if (address == null) {
-          logger47.throwError(
-            `invalid or unsupported coin data`,
-            Logger.errors.UNSUPPORTED_OPERATION,
-            {
-              operation: `getAddress(${coinType})`,
-              coinType,
-              data: hexBytes,
-            }
-          );
-        }
-        return address;
-      });
-    }
-    getAvatar() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        const linkage = [{ type: "name", content: this.name }];
-        try {
-          const avatar = yield this.getText("avatar");
-          if (avatar == null) {
-            return null;
-          }
-          for (let i = 0; i < matchers2.length; i++) {
-            const match = avatar.match(matchers2[i]);
-            if (match == null) {
-              continue;
-            }
-            const scheme = match[1].toLowerCase();
-            switch (scheme) {
-              case "https":
-                linkage.push({ type: "url", content: avatar });
-                return { linkage, url: avatar };
-              case "data":
-                linkage.push({ type: "data", content: avatar });
-                return { linkage, url: avatar };
-              case "ipfs":
-                linkage.push({ type: "ipfs", content: avatar });
-                return { linkage, url: getIpfsLink2(avatar) };
-              case "erc721":
-              case "erc1155": {
-                const selector =
-                  scheme === "erc721" ? "0xc87b56dd" : "0x0e89341c";
-                linkage.push({ type: scheme, content: avatar });
-                const owner =
-                  this._resolvedAddress || (yield this.getAddress());
-                const comps = (match[2] || "").split("/");
-                if (comps.length !== 2) {
-                  return null;
-                }
-                const addr = yield this.provider.formatter.address(comps[0]);
-                const tokenId = hexZeroPad(
-                  BigNumber.from(comps[1]).toHexString(),
-                  32
-                );
-                if (scheme === "erc721") {
-                  const tokenOwner = this.provider.formatter.callAddress(
-                    yield this.provider.call({
-                      to: addr,
-                      data: hexConcat(["0x6352211e", tokenId]),
-                    })
-                  );
-                  if (owner !== tokenOwner) {
-                    return null;
-                  }
-                  linkage.push({ type: "owner", content: tokenOwner });
-                } else if (scheme === "erc1155") {
-                  const balance = BigNumber.from(
-                    yield this.provider.call({
-                      to: addr,
-                      data: hexConcat([
-                        "0x00fdd58e",
-                        hexZeroPad(owner, 32),
-                        tokenId,
-                      ]),
-                    })
-                  );
-                  if (balance.isZero()) {
-                    return null;
-                  }
-                  linkage.push({
-                    type: "balance",
-                    content: balance.toString(),
-                  });
-                }
-                const tx = {
-                  to: this.provider.formatter.address(comps[0]),
-                  data: hexConcat([selector, tokenId]),
-                };
-                let metadataUrl = _parseString2(yield this.provider.call(tx));
-                if (metadataUrl == null) {
-                  return null;
-                }
-                linkage.push({
-                  type: "metadata-url-base",
-                  content: metadataUrl,
-                });
-                if (scheme === "erc1155") {
-                  metadataUrl = metadataUrl.replace(
-                    "{id}",
-                    tokenId.substring(2)
-                  );
-                  linkage.push({
-                    type: "metadata-url-expanded",
-                    content: metadataUrl,
-                  });
-                }
-                if (metadataUrl.match(/^ipfs:/i)) {
-                  metadataUrl = getIpfsLink2(metadataUrl);
-                }
-                linkage.push({ type: "metadata-url", content: metadataUrl });
-                const metadata = yield fetchJson(metadataUrl);
-                if (!metadata) {
-                  return null;
-                }
-                linkage.push({
-                  type: "metadata",
-                  content: JSON.stringify(metadata),
-                });
-                let imageUrl = metadata.image;
-                if (typeof imageUrl !== "string") {
-                  return null;
-                }
-                if (imageUrl.match(/^(https:\/\/|data:)/i)) {
-                } else {
-                  const ipfs = imageUrl.match(matcherIpfs2);
-                  if (ipfs == null) {
-                    return null;
-                  }
-                  linkage.push({ type: "url-ipfs", content: imageUrl });
-                  imageUrl = getIpfsLink2(imageUrl);
-                }
-                linkage.push({ type: "url", content: imageUrl });
-                return { linkage, url: imageUrl };
-              }
-            }
-          }
-        } catch (error) {}
-        return null;
-      });
-    }
-    getContentHash() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        const hexBytes = yield this._fetchBytes("0xbc1c58d1");
-        if (hexBytes == null || hexBytes === "0x") {
-          return null;
-        }
-        const ipfs = hexBytes.match(
-          /^0xe3010170(([0-9a-f][0-9a-f])([0-9a-f][0-9a-f])([0-9a-f]*))$/
-        );
-        if (ipfs) {
-          const length = parseInt(ipfs[3], 16);
-          if (ipfs[4].length === length * 2) {
-            return "ipfs://" + Base58.encode("0x" + ipfs[1]);
-          }
-        }
-        const swarm = hexBytes.match(/^0xe40101fa011b20([0-9a-f]*)$/);
-        if (swarm) {
-          if (swarm[1].length === 32 * 2) {
-            return "bzz://" + swarm[1];
-          }
-        }
-        return logger47.throwError(
-          `invalid or unsupported content hash data`,
-          Logger.errors.UNSUPPORTED_OPERATION,
-          {
-            operation: "getContentHash()",
-            data: hexBytes,
-          }
-        );
-      });
-    }
-    getText(key2) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        let keyBytes = toUtf8Bytes(key2);
-        keyBytes = concat([
-          bytes32ify2(64),
-          bytes32ify2(keyBytes.length),
-          keyBytes,
-        ]);
-        if (keyBytes.length % 32 !== 0) {
-          keyBytes = concat([
-            keyBytes,
-            hexZeroPad("0x", 32 - (key2.length % 32)),
-          ]);
-        }
-        const hexBytes = yield this._fetchBytes(
-          "0x59d1d43c",
-          hexlify(keyBytes)
-        );
-        if (hexBytes == null || hexBytes === "0x") {
-          return null;
-        }
-        return toUtf8String(hexBytes);
-      });
-    }
-  };
-  var defaultFormatter2 = null;
-  var nextPollId2 = 1;
-  var BaseProvider2 = class extends Provider {
-    constructor(network) {
-      logger47.checkNew(new.target, Provider);
-      super();
-      this._events = [];
-      this._emitted = { block: -2 };
-      this.formatter = new.target.getFormatter();
-      defineReadOnly(this, "anyNetwork", network === "any");
-      if (this.anyNetwork) {
-        network = this.detectNetwork();
-      }
-      if (network instanceof Promise) {
-        this._networkPromise = network;
-        network.catch((error) => {});
-        this._ready().catch((error) => {});
-      } else {
-        const knownNetwork = getStatic(new.target, "getNetwork")(network);
-        if (knownNetwork) {
-          defineReadOnly(this, "_network", knownNetwork);
-          this.emit("network", knownNetwork, null);
-        } else {
-          logger47.throwArgumentError("invalid network", "network", network);
-        }
-      }
-      this._maxInternalBlockNumber = -1024;
-      this._lastBlockNumber = -2;
-      this._pollingInterval = 4e3;
-      this._fastQueryDate = 0;
-    }
-    _ready() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        if (this._network == null) {
-          let network = null;
-          if (this._networkPromise) {
-            try {
-              network = yield this._networkPromise;
-            } catch (error) {}
-          }
-          if (network == null) {
-            network = yield this.detectNetwork();
-          }
-          if (!network) {
-            logger47.throwError(
-              "no network detected",
-              Logger.errors.UNKNOWN_ERROR,
-              {}
-            );
-          }
-          if (this._network == null) {
-            if (this.anyNetwork) {
-              this._network = network;
-            } else {
-              defineReadOnly(this, "_network", network);
-            }
-            this.emit("network", network, null);
-          }
-        }
-        return this._network;
-      });
-    }
-    get ready() {
-      return poll(() => {
-        return this._ready().then(
-          (network) => {
-            return network;
-          },
-          (error) => {
-            if (
-              error.code === Logger.errors.NETWORK_ERROR &&
-              error.event === "noNetwork"
-            ) {
-              return void 0;
-            }
-            throw error;
-          }
-        );
-      });
-    }
-    static getFormatter() {
-      if (defaultFormatter2 == null) {
-        defaultFormatter2 = new Formatter2();
-      }
-      return defaultFormatter2;
-    }
-    static getNetwork(network) {
-      return getNetwork(network == null ? "homestead" : network);
-    }
-    _getInternalBlockNumber(maxAge) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this._ready();
-        if (maxAge > 0) {
-          while (this._internalBlockNumber) {
-            const internalBlockNumber = this._internalBlockNumber;
-            try {
-              const result = yield internalBlockNumber;
-              if (getTime2() - result.respTime <= maxAge) {
-                return result.blockNumber;
-              }
-              break;
-            } catch (error) {
-              if (this._internalBlockNumber === internalBlockNumber) {
-                break;
-              }
-            }
-          }
-        }
-        const reqTime = getTime2();
-        const checkInternalBlockNumber = resolveProperties({
-          blockNumber: this.perform("getBlockNumber", {}),
-          networkError: this.getNetwork().then(
-            (network) => null,
-            (error) => error
-          ),
-        }).then(({ blockNumber, networkError }) => {
-          if (networkError) {
-            if (this._internalBlockNumber === checkInternalBlockNumber) {
-              this._internalBlockNumber = null;
-            }
-            throw networkError;
-          }
-          const respTime = getTime2();
-          blockNumber = BigNumber.from(blockNumber).toNumber();
-          if (blockNumber < this._maxInternalBlockNumber) {
-            blockNumber = this._maxInternalBlockNumber;
-          }
-          this._maxInternalBlockNumber = blockNumber;
-          this._setFastBlockNumber(blockNumber);
-          return { blockNumber, reqTime, respTime };
-        });
-        this._internalBlockNumber = checkInternalBlockNumber;
-        checkInternalBlockNumber.catch((error) => {
-          if (this._internalBlockNumber === checkInternalBlockNumber) {
-            this._internalBlockNumber = null;
-          }
-        });
-        return (yield checkInternalBlockNumber).blockNumber;
-      });
-    }
-    poll() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        const pollId = nextPollId2++;
-        const runners = [];
-        let blockNumber = null;
-        try {
-          blockNumber = yield this._getInternalBlockNumber(
-            100 + this.pollingInterval / 2
-          );
-        } catch (error) {
-          this.emit("error", error);
-          return;
-        }
-        this._setFastBlockNumber(blockNumber);
-        this.emit("poll", pollId, blockNumber);
-        if (blockNumber === this._lastBlockNumber) {
-          this.emit("didPoll", pollId);
-          return;
-        }
-        if (this._emitted.block === -2) {
-          this._emitted.block = blockNumber - 1;
-        }
-        if (Math.abs(this._emitted.block - blockNumber) > 1e3) {
-          logger47.warn(
-            `network block skew detected; skipping block events (emitted=${this._emitted.block} blockNumber${blockNumber})`
-          );
-          this.emit(
-            "error",
-            logger47.makeError(
-              "network block skew detected",
-              Logger.errors.NETWORK_ERROR,
-              {
-                blockNumber,
-                event: "blockSkew",
-                previousBlockNumber: this._emitted.block,
-              }
-            )
-          );
-          this.emit("block", blockNumber);
-        } else {
-          for (let i = this._emitted.block + 1; i <= blockNumber; i++) {
-            this.emit("block", i);
-          }
-        }
-        if (this._emitted.block !== blockNumber) {
-          this._emitted.block = blockNumber;
-          Object.keys(this._emitted).forEach((key2) => {
-            if (key2 === "block") {
-              return;
-            }
-            const eventBlockNumber = this._emitted[key2];
-            if (eventBlockNumber === "pending") {
-              return;
-            }
-            if (blockNumber - eventBlockNumber > 12) {
-              delete this._emitted[key2];
-            }
-          });
-        }
-        if (this._lastBlockNumber === -2) {
-          this._lastBlockNumber = blockNumber - 1;
-        }
-        this._events.forEach((event) => {
-          switch (event.type) {
-            case "tx": {
-              const hash4 = event.hash;
-              let runner = this.getTransactionReceipt(hash4)
-                .then((receipt) => {
-                  if (!receipt || receipt.blockNumber == null) {
-                    return null;
-                  }
-                  this._emitted["t:" + hash4] = receipt.blockNumber;
-                  this.emit(hash4, receipt);
-                  return null;
-                })
-                .catch((error) => {
-                  this.emit("error", error);
-                });
-              runners.push(runner);
-              break;
-            }
-            case "filter": {
-              const filter = event.filter;
-              filter.fromBlock = this._lastBlockNumber + 1;
-              filter.toBlock = blockNumber;
-              const runner = this.getLogs(filter)
-                .then((logs) => {
-                  if (logs.length === 0) {
-                    return;
-                  }
-                  logs.forEach((log2) => {
-                    this._emitted["b:" + log2.blockHash] = log2.blockNumber;
-                    this._emitted["t:" + log2.transactionHash] =
-                      log2.blockNumber;
-                    this.emit(filter, log2);
-                  });
-                })
-                .catch((error) => {
-                  this.emit("error", error);
-                });
-              runners.push(runner);
-              break;
-            }
-          }
-        });
-        this._lastBlockNumber = blockNumber;
-        Promise.all(runners)
-          .then(() => {
-            this.emit("didPoll", pollId);
-          })
-          .catch((error) => {
-            this.emit("error", error);
-          });
-        return;
-      });
-    }
-    resetEventsBlock(blockNumber) {
-      this._lastBlockNumber = blockNumber - 1;
-      if (this.polling) {
-        this.poll();
-      }
-    }
-    get network() {
-      return this._network;
-    }
-    detectNetwork() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        return logger47.throwError(
-          "provider does not support network detection",
-          Logger.errors.UNSUPPORTED_OPERATION,
-          {
-            operation: "provider.detectNetwork",
-          }
-        );
-      });
-    }
-    getNetwork() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        const network = yield this._ready();
-        const currentNetwork = yield this.detectNetwork();
-        if (network.chainId !== currentNetwork.chainId) {
-          if (this.anyNetwork) {
-            this._network = currentNetwork;
-            this._lastBlockNumber = -2;
-            this._fastBlockNumber = null;
-            this._fastBlockNumberPromise = null;
-            this._fastQueryDate = 0;
-            this._emitted.block = -2;
-            this._maxInternalBlockNumber = -1024;
-            this._internalBlockNumber = null;
-            this.emit("network", currentNetwork, network);
-            yield stall3(0);
-            return this._network;
-          }
-          const error = logger47.makeError(
-            "underlying network changed",
-            Logger.errors.NETWORK_ERROR,
-            {
-              event: "changed",
-              network,
-              detectedNetwork: currentNetwork,
-            }
-          );
-          this.emit("error", error);
-          throw error;
-        }
-        return network;
-      });
-    }
-    get blockNumber() {
-      this._getInternalBlockNumber(100 + this.pollingInterval / 2).then(
-        (blockNumber) => {
-          this._setFastBlockNumber(blockNumber);
-        },
-        (error) => {}
-      );
-      return this._fastBlockNumber != null ? this._fastBlockNumber : -1;
-    }
-    get polling() {
-      return this._poller != null;
-    }
-    set polling(value) {
-      if (value && !this._poller) {
-        this._poller = setInterval(() => {
-          this.poll();
-        }, this.pollingInterval);
-        if (!this._bootstrapPoll) {
-          this._bootstrapPoll = setTimeout(() => {
-            this.poll();
-            this._bootstrapPoll = setTimeout(() => {
-              if (!this._poller) {
-                this.poll();
-              }
-              this._bootstrapPoll = null;
-            }, this.pollingInterval);
-          }, 0);
-        }
-      } else if (!value && this._poller) {
-        clearInterval(this._poller);
-        this._poller = null;
-      }
-    }
-    get pollingInterval() {
-      return this._pollingInterval;
-    }
-    set pollingInterval(value) {
-      if (
-        typeof value !== "number" ||
-        value <= 0 ||
-        parseInt(String(value)) != value
-      ) {
-        throw new Error("invalid polling interval");
-      }
-      this._pollingInterval = value;
-      if (this._poller) {
-        clearInterval(this._poller);
-        this._poller = setInterval(() => {
-          this.poll();
-        }, this._pollingInterval);
-      }
-    }
-    _getFastBlockNumber() {
-      const now3 = getTime2();
-      if (now3 - this._fastQueryDate > 2 * this._pollingInterval) {
-        this._fastQueryDate = now3;
-        this._fastBlockNumberPromise = this.getBlockNumber().then(
-          (blockNumber) => {
-            if (
-              this._fastBlockNumber == null ||
-              blockNumber > this._fastBlockNumber
-            ) {
-              this._fastBlockNumber = blockNumber;
-            }
-            return this._fastBlockNumber;
-          }
-        );
-      }
-      return this._fastBlockNumberPromise;
-    }
-    _setFastBlockNumber(blockNumber) {
-      if (
-        this._fastBlockNumber != null &&
-        blockNumber < this._fastBlockNumber
-      ) {
-        return;
-      }
-      this._fastQueryDate = getTime2();
-      if (
-        this._fastBlockNumber == null ||
-        blockNumber > this._fastBlockNumber
-      ) {
-        this._fastBlockNumber = blockNumber;
-        this._fastBlockNumberPromise = Promise.resolve(blockNumber);
-      }
-    }
-    waitForTransaction(transactionHash, confirmations, timeout) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        return this._waitForTransaction(
-          transactionHash,
-          confirmations == null ? 1 : confirmations,
-          timeout || 0,
-          null
-        );
-      });
-    }
-    _waitForTransaction(transactionHash, confirmations, timeout, replaceable) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        const receipt = yield this.getTransactionReceipt(transactionHash);
-        if ((receipt ? receipt.confirmations : 0) >= confirmations) {
-          return receipt;
-        }
-        return new Promise((resolve2, reject) => {
-          const cancelFuncs = [];
-          let done = false;
-          const alreadyDone = function () {
-            if (done) {
-              return true;
-            }
-            done = true;
-            cancelFuncs.forEach((func) => {
-              func();
-            });
-            return false;
-          };
-          const minedHandler = (receipt2) => {
-            if (receipt2.confirmations < confirmations) {
-              return;
-            }
-            if (alreadyDone()) {
-              return;
-            }
-            resolve2(receipt2);
-          };
-          this.on(transactionHash, minedHandler);
-          cancelFuncs.push(() => {
-            this.removeListener(transactionHash, minedHandler);
-          });
-          if (replaceable) {
-            let lastBlockNumber = replaceable.startBlock;
-            let scannedBlock = null;
-            const replaceHandler = (blockNumber) =>
-              __awaiter18(this, void 0, void 0, function* () {
-                if (done) {
-                  return;
-                }
-                yield stall3(1e3);
-                this.getTransactionCount(replaceable.from).then(
-                  (nonce) =>
-                    __awaiter18(this, void 0, void 0, function* () {
-                      if (done) {
-                        return;
-                      }
-                      if (nonce <= replaceable.nonce) {
-                        lastBlockNumber = blockNumber;
-                      } else {
-                        {
-                          const mined = yield this.getTransaction(
-                            transactionHash
-                          );
-                          if (mined && mined.blockNumber != null) {
-                            return;
-                          }
-                        }
-                        if (scannedBlock == null) {
-                          scannedBlock = lastBlockNumber - 3;
-                          if (scannedBlock < replaceable.startBlock) {
-                            scannedBlock = replaceable.startBlock;
-                          }
-                        }
-                        while (scannedBlock <= blockNumber) {
-                          if (done) {
-                            return;
-                          }
-                          const block = yield this.getBlockWithTransactions(
-                            scannedBlock
-                          );
-                          for (
-                            let ti = 0;
-                            ti < block.transactions.length;
-                            ti++
-                          ) {
-                            const tx = block.transactions[ti];
-                            if (tx.hash === transactionHash) {
-                              return;
-                            }
-                            if (
-                              tx.from === replaceable.from &&
-                              tx.nonce === replaceable.nonce
-                            ) {
-                              if (done) {
-                                return;
-                              }
-                              const receipt2 = yield this.waitForTransaction(
-                                tx.hash,
-                                confirmations
-                              );
-                              if (alreadyDone()) {
-                                return;
-                              }
-                              let reason = "replaced";
-                              if (
-                                tx.data === replaceable.data &&
-                                tx.to === replaceable.to &&
-                                tx.value.eq(replaceable.value)
-                              ) {
-                                reason = "repriced";
-                              } else if (
-                                tx.data === "0x" &&
-                                tx.from === tx.to &&
-                                tx.value.isZero()
-                              ) {
-                                reason = "cancelled";
-                              }
-                              reject(
-                                logger47.makeError(
-                                  "transaction was replaced",
-                                  Logger.errors.TRANSACTION_REPLACED,
-                                  {
-                                    cancelled:
-                                      reason === "replaced" ||
-                                      reason === "cancelled",
-                                    reason,
-                                    replacement: this._wrapTransaction(tx),
-                                    hash: transactionHash,
-                                    receipt: receipt2,
-                                  }
-                                )
-                              );
-                              return;
-                            }
-                          }
-                          scannedBlock++;
-                        }
-                      }
-                      if (done) {
-                        return;
-                      }
-                      this.once("block", replaceHandler);
-                    }),
-                  (error) => {
-                    if (done) {
-                      return;
-                    }
-                    this.once("block", replaceHandler);
-                  }
-                );
-              });
-            if (done) {
-              return;
-            }
-            this.once("block", replaceHandler);
-            cancelFuncs.push(() => {
-              this.removeListener("block", replaceHandler);
-            });
-          }
-          if (typeof timeout === "number" && timeout > 0) {
-            const timer3 = setTimeout(() => {
-              if (alreadyDone()) {
-                return;
-              }
-              reject(
-                logger47.makeError("timeout exceeded", Logger.errors.TIMEOUT, {
-                  timeout,
-                })
-              );
-            }, timeout);
-            if (timer3.unref) {
-              timer3.unref();
-            }
-            cancelFuncs.push(() => {
-              clearTimeout(timer3);
-            });
-          }
-        });
-      });
-    }
-    getBlockNumber() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        return this._getInternalBlockNumber(0);
-      });
-    }
-    getGasPrice() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const result = yield this.perform("getGasPrice", {});
-        try {
-          return BigNumber.from(result);
-        } catch (error) {
-          return logger47.throwError(
-            "bad result from backend",
-            Logger.errors.SERVER_ERROR,
-            {
-              method: "getGasPrice",
-              result,
-              error,
-            }
-          );
-        }
-      });
-    }
-    getBalance(addressOrName, blockTag) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const params = yield resolveProperties({
-          address: this._getAddress(addressOrName),
-          blockTag: this._getBlockTag(blockTag),
-        });
-        const result = yield this.perform("getBalance", params);
-        try {
-          return BigNumber.from(result);
-        } catch (error) {
-          return logger47.throwError(
-            "bad result from backend",
-            Logger.errors.SERVER_ERROR,
-            {
-              method: "getBalance",
-              params,
-              result,
-              error,
-            }
-          );
-        }
-      });
-    }
-    getTransactionCount(addressOrName, blockTag) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const params = yield resolveProperties({
-          address: this._getAddress(addressOrName),
-          blockTag: this._getBlockTag(blockTag),
-        });
-        const result = yield this.perform("getTransactionCount", params);
-        try {
-          return BigNumber.from(result).toNumber();
-        } catch (error) {
-          return logger47.throwError(
-            "bad result from backend",
-            Logger.errors.SERVER_ERROR,
-            {
-              method: "getTransactionCount",
-              params,
-              result,
-              error,
-            }
-          );
-        }
-      });
-    }
-    getCode(addressOrName, blockTag) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const params = yield resolveProperties({
-          address: this._getAddress(addressOrName),
-          blockTag: this._getBlockTag(blockTag),
-        });
-        const result = yield this.perform("getCode", params);
-        try {
-          return hexlify(result);
-        } catch (error) {
-          return logger47.throwError(
-            "bad result from backend",
-            Logger.errors.SERVER_ERROR,
-            {
-              method: "getCode",
-              params,
-              result,
-              error,
-            }
-          );
-        }
-      });
-    }
-    getStorageAt(addressOrName, position, blockTag) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const params = yield resolveProperties({
-          address: this._getAddress(addressOrName),
-          blockTag: this._getBlockTag(blockTag),
-          position: Promise.resolve(position).then((p2) => hexValue(p2)),
-        });
-        const result = yield this.perform("getStorageAt", params);
-        try {
-          return hexlify(result);
-        } catch (error) {
-          return logger47.throwError(
-            "bad result from backend",
-            Logger.errors.SERVER_ERROR,
-            {
-              method: "getStorageAt",
-              params,
-              result,
-              error,
-            }
-          );
-        }
-      });
-    }
-    _wrapTransaction(tx, hash4, startBlock) {
-      if (hash4 != null && hexDataLength(hash4) !== 32) {
-        throw new Error("invalid response - sendTransaction");
-      }
-      const result = tx;
-      if (hash4 != null && tx.hash !== hash4) {
-        logger47.throwError(
-          "Transaction hash mismatch from Provider.sendTransaction.",
-          Logger.errors.UNKNOWN_ERROR,
-          { expectedHash: tx.hash, returnedHash: hash4 }
-        );
-      }
-      result.wait = (confirms, timeout) =>
-        __awaiter18(this, void 0, void 0, function* () {
-          if (confirms == null) {
-            confirms = 1;
-          }
-          if (timeout == null) {
-            timeout = 0;
-          }
-          let replacement = void 0;
-          if (confirms !== 0 && startBlock != null) {
-            replacement = {
-              data: tx.data,
-              from: tx.from,
-              nonce: tx.nonce,
-              to: tx.to,
-              value: tx.value,
-              startBlock,
-            };
-          }
-          const receipt = yield this._waitForTransaction(
-            tx.hash,
-            confirms,
-            timeout,
-            replacement
-          );
-          if (receipt == null && confirms === 0) {
-            return null;
-          }
-          this._emitted["t:" + tx.hash] = receipt.blockNumber;
-          if (receipt.status === 0) {
-            logger47.throwError(
-              "transaction failed",
-              Logger.errors.CALL_EXCEPTION,
-              {
-                transactionHash: tx.hash,
-                transaction: tx,
-                receipt,
-              }
-            );
-          }
-          return receipt;
-        });
-      return result;
-    }
-    sendTransaction(signedTransaction) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const hexTx = yield Promise.resolve(signedTransaction).then((t2) =>
-          hexlify(t2)
-        );
-        const tx = this.formatter.transaction(signedTransaction);
-        if (tx.confirmations == null) {
-          tx.confirmations = 0;
-        }
-        const blockNumber = yield this._getInternalBlockNumber(
-          100 + 2 * this.pollingInterval
-        );
-        try {
-          const hash4 = yield this.perform("sendTransaction", {
-            signedTransaction: hexTx,
-          });
-          return this._wrapTransaction(tx, hash4, blockNumber);
-        } catch (error) {
-          error.transaction = tx;
-          error.transactionHash = tx.hash;
-          throw error;
-        }
-      });
-    }
-    _getTransactionRequest(transaction) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        const values = yield transaction;
-        const tx = {};
-        ["from", "to"].forEach((key2) => {
-          if (values[key2] == null) {
-            return;
-          }
-          tx[key2] = Promise.resolve(values[key2]).then((v2) =>
-            v2 ? this._getAddress(v2) : null
-          );
-        });
-        [
-          "gasLimit",
-          "gasPrice",
-          "maxFeePerGas",
-          "maxPriorityFeePerGas",
-          "value",
-        ].forEach((key2) => {
-          if (values[key2] == null) {
-            return;
-          }
-          tx[key2] = Promise.resolve(values[key2]).then((v2) =>
-            v2 ? BigNumber.from(v2) : null
-          );
-        });
-        ["type"].forEach((key2) => {
-          if (values[key2] == null) {
-            return;
-          }
-          tx[key2] = Promise.resolve(values[key2]).then((v2) =>
-            v2 != null ? v2 : null
-          );
-        });
-        if (values.accessList) {
-          tx.accessList = this.formatter.accessList(values.accessList);
-        }
-        ["data"].forEach((key2) => {
-          if (values[key2] == null) {
-            return;
-          }
-          tx[key2] = Promise.resolve(values[key2]).then((v2) =>
-            v2 ? hexlify(v2) : null
-          );
-        });
-        return this.formatter.transactionRequest(yield resolveProperties(tx));
-      });
-    }
-    _getFilter(filter) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        filter = yield filter;
-        const result = {};
-        if (filter.address != null) {
-          result.address = this._getAddress(filter.address);
-        }
-        ["blockHash", "topics"].forEach((key2) => {
-          if (filter[key2] == null) {
-            return;
-          }
-          result[key2] = filter[key2];
-        });
-        ["fromBlock", "toBlock"].forEach((key2) => {
-          if (filter[key2] == null) {
-            return;
-          }
-          result[key2] = this._getBlockTag(filter[key2]);
-        });
-        return this.formatter.filter(yield resolveProperties(result));
-      });
-    }
-    call(transaction, blockTag) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const params = yield resolveProperties({
-          transaction: this._getTransactionRequest(transaction),
-          blockTag: this._getBlockTag(blockTag),
-        });
-        const result = yield this.perform("call", params);
-        try {
-          return hexlify(result);
-        } catch (error) {
-          return logger47.throwError(
-            "bad result from backend",
-            Logger.errors.SERVER_ERROR,
-            {
-              method: "call",
-              params,
-              result,
-              error,
-            }
-          );
-        }
-      });
-    }
-    estimateGas(transaction) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const params = yield resolveProperties({
-          transaction: this._getTransactionRequest(transaction),
-        });
-        const result = yield this.perform("estimateGas", params);
-        try {
-          return BigNumber.from(result);
-        } catch (error) {
-          return logger47.throwError(
-            "bad result from backend",
-            Logger.errors.SERVER_ERROR,
-            {
-              method: "estimateGas",
-              params,
-              result,
-              error,
-            }
-          );
-        }
-      });
-    }
-    _getAddress(addressOrName) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        addressOrName = yield addressOrName;
-        if (typeof addressOrName !== "string") {
-          logger47.throwArgumentError(
-            "invalid address or ENS name",
-            "name",
-            addressOrName
-          );
-        }
-        const address = yield this.resolveName(addressOrName);
-        if (address == null) {
-          logger47.throwError(
-            "ENS name not configured",
-            Logger.errors.UNSUPPORTED_OPERATION,
-            {
-              operation: `resolveName(${JSON.stringify(addressOrName)})`,
-            }
-          );
-        }
-        return address;
-      });
-    }
-    _getBlock(blockHashOrBlockTag, includeTransactions) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        blockHashOrBlockTag = yield blockHashOrBlockTag;
-        let blockNumber = -128;
-        const params = {
-          includeTransactions: !!includeTransactions,
-        };
-        if (isHexString2(blockHashOrBlockTag, 32)) {
-          params.blockHash = blockHashOrBlockTag;
-        } else {
-          try {
-            params.blockTag = yield this._getBlockTag(blockHashOrBlockTag);
-            if (isHexString2(params.blockTag)) {
-              blockNumber = parseInt(params.blockTag.substring(2), 16);
-            }
-          } catch (error) {
-            logger47.throwArgumentError(
-              "invalid block hash or block tag",
-              "blockHashOrBlockTag",
-              blockHashOrBlockTag
-            );
-          }
-        }
-        return poll(
-          () =>
-            __awaiter18(this, void 0, void 0, function* () {
-              const block = yield this.perform("getBlock", params);
-              if (block == null) {
-                if (params.blockHash != null) {
-                  if (this._emitted["b:" + params.blockHash] == null) {
-                    return null;
-                  }
-                }
-                if (params.blockTag != null) {
-                  if (blockNumber > this._emitted.block) {
-                    return null;
-                  }
-                }
-                return void 0;
-              }
-              if (includeTransactions) {
-                let blockNumber2 = null;
-                for (let i = 0; i < block.transactions.length; i++) {
-                  const tx = block.transactions[i];
-                  if (tx.blockNumber == null) {
-                    tx.confirmations = 0;
-                  } else if (tx.confirmations == null) {
-                    if (blockNumber2 == null) {
-                      blockNumber2 = yield this._getInternalBlockNumber(
-                        100 + 2 * this.pollingInterval
-                      );
-                    }
-                    let confirmations = blockNumber2 - tx.blockNumber + 1;
-                    if (confirmations <= 0) {
-                      confirmations = 1;
-                    }
-                    tx.confirmations = confirmations;
-                  }
-                }
-                const blockWithTxs =
-                  this.formatter.blockWithTransactions(block);
-                blockWithTxs.transactions = blockWithTxs.transactions.map(
-                  (tx) => this._wrapTransaction(tx)
-                );
-                return blockWithTxs;
-              }
-              return this.formatter.block(block);
-            }),
-          { oncePoll: this }
-        );
-      });
-    }
-    getBlock(blockHashOrBlockTag) {
-      return this._getBlock(blockHashOrBlockTag, false);
-    }
-    getBlockWithTransactions(blockHashOrBlockTag) {
-      return this._getBlock(blockHashOrBlockTag, true);
-    }
-    getTransaction(transactionHash) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        transactionHash = yield transactionHash;
-        const params = {
-          transactionHash: this.formatter.hash(transactionHash, true),
-        };
-        return poll(
-          () =>
-            __awaiter18(this, void 0, void 0, function* () {
-              const result = yield this.perform("getTransaction", params);
-              if (result == null) {
-                if (this._emitted["t:" + transactionHash] == null) {
-                  return null;
-                }
-                return void 0;
-              }
-              const tx = this.formatter.transactionResponse(result);
-              if (tx.blockNumber == null) {
-                tx.confirmations = 0;
-              } else if (tx.confirmations == null) {
-                const blockNumber = yield this._getInternalBlockNumber(
-                  100 + 2 * this.pollingInterval
-                );
-                let confirmations = blockNumber - tx.blockNumber + 1;
-                if (confirmations <= 0) {
-                  confirmations = 1;
-                }
-                tx.confirmations = confirmations;
-              }
-              return this._wrapTransaction(tx);
-            }),
-          { oncePoll: this }
-        );
-      });
-    }
-    getTransactionReceipt(transactionHash) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        transactionHash = yield transactionHash;
-        const params = {
-          transactionHash: this.formatter.hash(transactionHash, true),
-        };
-        return poll(
-          () =>
-            __awaiter18(this, void 0, void 0, function* () {
-              const result = yield this.perform(
-                "getTransactionReceipt",
-                params
-              );
-              if (result == null) {
-                if (this._emitted["t:" + transactionHash] == null) {
-                  return null;
-                }
-                return void 0;
-              }
-              if (result.blockHash == null) {
-                return void 0;
-              }
-              const receipt = this.formatter.receipt(result);
-              if (receipt.blockNumber == null) {
-                receipt.confirmations = 0;
-              } else if (receipt.confirmations == null) {
-                const blockNumber = yield this._getInternalBlockNumber(
-                  100 + 2 * this.pollingInterval
-                );
-                let confirmations = blockNumber - receipt.blockNumber + 1;
-                if (confirmations <= 0) {
-                  confirmations = 1;
-                }
-                receipt.confirmations = confirmations;
-              }
-              return receipt;
-            }),
-          { oncePoll: this }
-        );
-      });
-    }
-    getLogs(filter) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        const params = yield resolveProperties({
-          filter: this._getFilter(filter),
-        });
-        const logs = yield this.perform("getLogs", params);
-        logs.forEach((log2) => {
-          if (log2.removed == null) {
-            log2.removed = false;
-          }
-        });
-        return Formatter2.arrayOf(
-          this.formatter.filterLog.bind(this.formatter)
-        )(logs);
-      });
-    }
-    getEtherPrice() {
-      return __awaiter18(this, void 0, void 0, function* () {
-        yield this.getNetwork();
-        return this.perform("getEtherPrice", {});
-      });
-    }
-    _getBlockTag(blockTag) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        blockTag = yield blockTag;
-        if (typeof blockTag === "number" && blockTag < 0) {
-          if (blockTag % 1) {
-            logger47.throwArgumentError(
-              "invalid BlockTag",
-              "blockTag",
-              blockTag
-            );
-          }
-          let blockNumber = yield this._getInternalBlockNumber(
-            100 + 2 * this.pollingInterval
-          );
-          blockNumber += blockTag;
-          if (blockNumber < 0) {
-            blockNumber = 0;
-          }
-          return this.formatter.blockTag(blockNumber);
-        }
-        return this.formatter.blockTag(blockTag);
-      });
-    }
-    getResolver(name2) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        try {
-          const address = yield this._getResolver(name2);
-          if (address == null) {
-            return null;
-          }
-          return new Resolver3(this, address, name2);
-        } catch (error) {
-          if (error.code === Logger.errors.CALL_EXCEPTION) {
-            return null;
-          }
-          throw error;
-        }
-      });
-    }
-    _getResolver(name2) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        const network = yield this.getNetwork();
-        if (!network.ensAddress) {
-          logger47.throwError(
-            "network does not support ENS",
-            Logger.errors.UNSUPPORTED_OPERATION,
-            { operation: "ENS", network: network.name }
-          );
-        }
-        const transaction = {
-          to: network.ensAddress,
-          data: "0x0178b8bf" + namehash(name2).substring(2),
-        };
-        try {
-          return this.formatter.callAddress(yield this.call(transaction));
-        } catch (error) {
-          if (error.code === Logger.errors.CALL_EXCEPTION) {
-            return null;
-          }
-          throw error;
-        }
-      });
-    }
-    resolveName(name2) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        name2 = yield name2;
-        try {
-          return Promise.resolve(this.formatter.address(name2));
-        } catch (error) {
-          if (isHexString2(name2)) {
-            throw error;
-          }
-        }
-        if (typeof name2 !== "string") {
-          logger47.throwArgumentError("invalid ENS name", "name", name2);
-        }
-        const resolver2 = yield this.getResolver(name2);
-        if (!resolver2) {
-          return null;
-        }
-        return yield resolver2.getAddress();
-      });
-    }
-    lookupAddress(address) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        address = yield address;
-        address = this.formatter.address(address);
-        const reverseName =
-          address.substring(2).toLowerCase() + ".addr.reverse";
-        const resolverAddress = yield this._getResolver(reverseName);
-        if (!resolverAddress) {
-          return null;
-        }
-        let bytes = arrayify(
-          yield this.call({
-            to: resolverAddress,
-            data: "0x691f3431" + namehash(reverseName).substring(2),
-          })
-        );
-        if (bytes.length < 32 || !BigNumber.from(bytes.slice(0, 32)).eq(32)) {
-          return null;
-        }
-        bytes = bytes.slice(32);
-        if (bytes.length < 32) {
-          return null;
-        }
-        const length = BigNumber.from(bytes.slice(0, 32)).toNumber();
-        bytes = bytes.slice(32);
-        if (length > bytes.length) {
-          return null;
-        }
-        const name2 = toUtf8String(bytes.slice(0, length));
-        const addr = yield this.resolveName(name2);
-        if (addr != address) {
-          return null;
-        }
-        return name2;
-      });
-    }
-    getAvatar(nameOrAddress) {
-      return __awaiter18(this, void 0, void 0, function* () {
-        let resolver2 = null;
-        if (isHexString2(nameOrAddress)) {
-          const address = this.formatter.address(nameOrAddress);
-          const reverseName =
-            address.substring(2).toLowerCase() + ".addr.reverse";
-          const resolverAddress = yield this._getResolver(reverseName);
-          if (!resolverAddress) {
-            return null;
-          }
-          resolver2 = new Resolver3(this, resolverAddress, "_", address);
-        } else {
-          resolver2 = yield this.getResolver(nameOrAddress);
-          if (!resolver2) {
-            return null;
-          }
-        }
-        const avatar = yield resolver2.getAvatar();
-        if (avatar == null) {
-          return null;
-        }
-        return avatar.url;
-      });
-    }
-    perform(method, params) {
-      return logger47.throwError(
-        method + " not implemented",
-        Logger.errors.NOT_IMPLEMENTED,
-        { operation: method }
-      );
-    }
-    _startEvent(event) {
-      this.polling = this._events.filter((e) => e.pollable()).length > 0;
-    }
-    _stopEvent(event) {
-      this.polling = this._events.filter((e) => e.pollable()).length > 0;
-    }
-    _addEventListener(eventName, listener, once) {
-      const event = new Event2(getEventTag3(eventName), listener, once);
-      this._events.push(event);
-      this._startEvent(event);
-      return this;
-    }
-    on(eventName, listener) {
-      return this._addEventListener(eventName, listener, false);
-    }
-    once(eventName, listener) {
-      return this._addEventListener(eventName, listener, true);
-    }
-    emit(eventName, ...args) {
-      let result = false;
-      let stopped = [];
-      let eventTag = getEventTag3(eventName);
-      this._events = this._events.filter((event) => {
-        if (event.tag !== eventTag) {
-          return true;
-        }
-        setTimeout(() => {
-          event.listener.apply(this, args);
-        }, 0);
-        result = true;
-        if (event.once) {
-          stopped.push(event);
-          return false;
-        }
-        return true;
-      });
-      stopped.forEach((event) => {
-        this._stopEvent(event);
-      });
-      return result;
-    }
-    listenerCount(eventName) {
-      if (!eventName) {
-        return this._events.length;
-      }
-      let eventTag = getEventTag3(eventName);
-      return this._events.filter((event) => {
-        return event.tag === eventTag;
-      }).length;
-    }
-    listeners(eventName) {
-      if (eventName == null) {
-        return this._events.map((event) => event.listener);
-      }
-      let eventTag = getEventTag3(eventName);
-      return this._events
-        .filter((event) => event.tag === eventTag)
-        .map((event) => event.listener);
-    }
-    off(eventName, listener) {
-      if (listener == null) {
-        return this.removeAllListeners(eventName);
-      }
-      const stopped = [];
-      let found = false;
-      let eventTag = getEventTag3(eventName);
-      this._events = this._events.filter((event) => {
-        if (event.tag !== eventTag || event.listener != listener) {
-          return true;
-        }
-        if (found) {
-          return true;
-        }
-        found = true;
-        stopped.push(event);
-        return false;
-      });
-      stopped.forEach((event) => {
-        this._stopEvent(event);
-      });
-      return this;
-    }
-    removeAllListeners(eventName) {
-      let stopped = [];
-      if (eventName == null) {
-        stopped = this._events;
-        this._events = [];
-      } else {
-        const eventTag = getEventTag3(eventName);
-        this._events = this._events.filter((event) => {
-          if (event.tag !== eventTag) {
-            return true;
-          }
-          stopped.push(event);
-          return false;
-        });
-      }
-      stopped.forEach((event) => {
-        this._stopEvent(event);
-      });
-      return this;
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js
-  init_lib4();
-
-  // node_modules/@ethersproject/providers/lib.esm/websocket-provider.js
-  init_lib3();
-  init_lib4();
-
-  // node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js
-  init_lib13();
-  init_lib3();
-  init_lib2();
-  init_lib10();
-  init_lib4();
-  init_lib9();
-  init_lib15();
-  init_lib27();
-  init_lib();
-  var __awaiter19 = function (thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2
-        ? value
-        : new P2(function (resolve2) {
-            resolve2(value);
-          });
-    }
-    return new (P2 || (P2 = Promise))(function (resolve2, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve2(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var logger48 = new Logger(version27);
-  var errorGas2 = ["call", "estimateGas"];
-  function checkError3(method, error, params) {
-    if (method === "call" && error.code === Logger.errors.SERVER_ERROR) {
-      const e = error.error;
-      if (e && e.message.match("reverted") && isHexString2(e.data)) {
-        return e.data;
-      }
-      logger48.throwError(
-        "missing revert data in call exception",
-        Logger.errors.CALL_EXCEPTION,
-        {
-          error,
-          data: "0x",
-        }
-      );
-    }
-    let message = error.message;
-    if (
-      error.code === Logger.errors.SERVER_ERROR &&
-      error.error &&
-      typeof error.error.message === "string"
-    ) {
-      message = error.error.message;
-    } else if (typeof error.body === "string") {
-      message = error.body;
-    } else if (typeof error.responseText === "string") {
-      message = error.responseText;
-    }
-    message = (message || "").toLowerCase();
-    const transaction = params.transaction || params.signedTransaction;
-    if (message.match(/insufficient funds|base fee exceeds gas limit/)) {
-      logger48.throwError(
-        "insufficient funds for intrinsic transaction cost",
-        Logger.errors.INSUFFICIENT_FUNDS,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    if (message.match(/nonce too low/)) {
-      logger48.throwError(
-        "nonce has already been used",
-        Logger.errors.NONCE_EXPIRED,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    if (message.match(/replacement transaction underpriced/)) {
-      logger48.throwError(
-        "replacement fee too low",
-        Logger.errors.REPLACEMENT_UNDERPRICED,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    if (message.match(/only replay-protected/)) {
-      logger48.throwError(
-        "legacy pre-eip-155 transactions not supported",
-        Logger.errors.UNSUPPORTED_OPERATION,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    if (
-      errorGas2.indexOf(method) >= 0 &&
-      message.match(
-        /gas required exceeds allowance|always failing transaction|execution reverted/
-      )
-    ) {
-      logger48.throwError(
-        "cannot estimate gas; transaction may fail or may require manual gas limit",
-        Logger.errors.UNPREDICTABLE_GAS_LIMIT,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    throw error;
-  }
-  function timer2(timeout) {
-    return new Promise(function (resolve2) {
-      setTimeout(resolve2, timeout);
-    });
-  }
-  function getResult3(payload) {
-    if (payload.error) {
-      const error = new Error(payload.error.message);
-      error.code = payload.error.code;
-      error.data = payload.error.data;
-      throw error;
-    }
-    return payload.result;
-  }
-  function getLowerCase2(value) {
-    if (value) {
-      return value.toLowerCase();
-    }
-    return value;
-  }
-  var _constructorGuard6 = {};
-  var JsonRpcSigner2 = class extends Signer {
-    constructor(constructorGuard, provider, addressOrIndex) {
-      logger48.checkNew(new.target, JsonRpcSigner2);
-      super();
-      if (constructorGuard !== _constructorGuard6) {
-        throw new Error(
-          "do not call the JsonRpcSigner constructor directly; use provider.getSigner"
-        );
-      }
-      defineReadOnly(this, "provider", provider);
-      if (addressOrIndex == null) {
-        addressOrIndex = 0;
-      }
-      if (typeof addressOrIndex === "string") {
-        defineReadOnly(
-          this,
-          "_address",
-          this.provider.formatter.address(addressOrIndex)
-        );
-        defineReadOnly(this, "_index", null);
-      } else if (typeof addressOrIndex === "number") {
-        defineReadOnly(this, "_index", addressOrIndex);
-        defineReadOnly(this, "_address", null);
-      } else {
-        logger48.throwArgumentError(
-          "invalid address or index",
-          "addressOrIndex",
-          addressOrIndex
-        );
-      }
-    }
-    connect(provider) {
-      return logger48.throwError(
-        "cannot alter JSON-RPC Signer connection",
-        Logger.errors.UNSUPPORTED_OPERATION,
-        {
-          operation: "connect",
-        }
-      );
-    }
-    connectUnchecked() {
-      return new UncheckedJsonRpcSigner2(
-        _constructorGuard6,
-        this.provider,
-        this._address || this._index
-      );
-    }
-    getAddress() {
-      if (this._address) {
-        return Promise.resolve(this._address);
-      }
-      return this.provider.send("eth_accounts", []).then((accounts) => {
-        if (accounts.length <= this._index) {
-          logger48.throwError(
-            "unknown account #" + this._index,
-            Logger.errors.UNSUPPORTED_OPERATION,
-            {
-              operation: "getAddress",
-            }
-          );
-        }
-        return this.provider.formatter.address(accounts[this._index]);
-      });
-    }
-    sendUncheckedTransaction(transaction) {
-      transaction = shallowCopy(transaction);
-      const fromAddress = this.getAddress().then((address) => {
-        if (address) {
-          address = address.toLowerCase();
-        }
-        return address;
-      });
-      if (transaction.gasLimit == null) {
-        const estimate = shallowCopy(transaction);
-        estimate.from = fromAddress;
-        transaction.gasLimit = this.provider.estimateGas(estimate);
-      }
-      if (transaction.to != null) {
-        transaction.to = Promise.resolve(transaction.to).then((to) =>
-          __awaiter19(this, void 0, void 0, function* () {
-            if (to == null) {
-              return null;
-            }
-            const address = yield this.provider.resolveName(to);
-            if (address == null) {
-              logger48.throwArgumentError(
-                "provided ENS name resolves to null",
-                "tx.to",
-                to
-              );
-            }
-            return address;
-          })
-        );
-      }
-      return resolveProperties({
-        tx: resolveProperties(transaction),
-        sender: fromAddress,
-      }).then(({ tx, sender }) => {
-        if (tx.from != null) {
-          if (tx.from.toLowerCase() !== sender) {
-            logger48.throwArgumentError(
-              "from address mismatch",
-              "transaction",
-              transaction
-            );
-          }
-        } else {
-          tx.from = sender;
-        }
-        const hexTx = this.provider.constructor.hexlifyTransaction(tx, {
-          from: true,
-        });
-        return this.provider.send("eth_sendTransaction", [hexTx]).then(
-          (hash4) => {
-            return hash4;
-          },
-          (error) => {
-            return checkError3("sendTransaction", error, hexTx);
-          }
-        );
-      });
-    }
-    signTransaction(transaction) {
-      return logger48.throwError(
-        "signing transactions is unsupported",
-        Logger.errors.UNSUPPORTED_OPERATION,
-        {
-          operation: "signTransaction",
-        }
-      );
-    }
-    sendTransaction(transaction) {
-      return __awaiter19(this, void 0, void 0, function* () {
-        const blockNumber = yield this.provider._getInternalBlockNumber(
-          100 + 2 * this.provider.pollingInterval
-        );
-        const hash4 = yield this.sendUncheckedTransaction(transaction);
-        try {
-          return yield poll(
-            () =>
-              __awaiter19(this, void 0, void 0, function* () {
-                const tx = yield this.provider.getTransaction(hash4);
-                if (tx === null) {
-                  return void 0;
-                }
-                return this.provider._wrapTransaction(tx, hash4, blockNumber);
-              }),
-            { oncePoll: this.provider }
-          );
-        } catch (error) {
-          error.transactionHash = hash4;
-          throw error;
-        }
-      });
-    }
-    signMessage(message) {
-      return __awaiter19(this, void 0, void 0, function* () {
-        const data =
-          typeof message === "string" ? toUtf8Bytes(message) : message;
-        const address = yield this.getAddress();
-        return yield this.provider.send("personal_sign", [
-          hexlify(data),
-          address.toLowerCase(),
-        ]);
-      });
-    }
-    _legacySignMessage(message) {
-      return __awaiter19(this, void 0, void 0, function* () {
-        const data =
-          typeof message === "string" ? toUtf8Bytes(message) : message;
-        const address = yield this.getAddress();
-        return yield this.provider.send("eth_sign", [
-          address.toLowerCase(),
-          hexlify(data),
-        ]);
-      });
-    }
-    _signTypedData(domain, types, value) {
-      return __awaiter19(this, void 0, void 0, function* () {
-        const populated = yield TypedDataEncoder.resolveNames(
-          domain,
-          types,
-          value,
-          (name2) => {
-            return this.provider.resolveName(name2);
-          }
-        );
-        const address = yield this.getAddress();
-        return yield this.provider.send("eth_signTypedData_v4", [
-          address.toLowerCase(),
-          JSON.stringify(
-            TypedDataEncoder.getPayload(
-              populated.domain,
-              types,
-              populated.value
-            )
-          ),
-        ]);
-      });
-    }
-    unlock(password) {
-      return __awaiter19(this, void 0, void 0, function* () {
-        const provider = this.provider;
-        const address = yield this.getAddress();
-        return provider.send("personal_unlockAccount", [
-          address.toLowerCase(),
-          password,
-          null,
-        ]);
-      });
-    }
-  };
-  var UncheckedJsonRpcSigner2 = class extends JsonRpcSigner2 {
-    sendTransaction(transaction) {
-      return this.sendUncheckedTransaction(transaction).then((hash4) => {
-        return {
-          hash: hash4,
-          nonce: null,
-          gasLimit: null,
-          gasPrice: null,
-          data: null,
-          value: null,
-          chainId: null,
-          confirmations: 0,
-          from: null,
-          wait: (confirmations) => {
-            return this.provider.waitForTransaction(hash4, confirmations);
-          },
-        };
-      });
-    }
-  };
-  var allowedTransactionKeys5 = {
-    chainId: true,
-    data: true,
-    gasLimit: true,
-    gasPrice: true,
-    nonce: true,
-    to: true,
-    value: true,
-    type: true,
-    accessList: true,
-    maxFeePerGas: true,
-    maxPriorityFeePerGas: true,
-  };
-  var JsonRpcProvider2 = class extends BaseProvider2 {
-    constructor(url, network) {
-      logger48.checkNew(new.target, JsonRpcProvider2);
-      let networkOrReady = network;
-      if (networkOrReady == null) {
-        networkOrReady = new Promise((resolve2, reject) => {
-          setTimeout(() => {
-            this.detectNetwork().then(
-              (network2) => {
-                resolve2(network2);
-              },
-              (error) => {
-                reject(error);
-              }
-            );
-          }, 0);
-        });
-      }
-      super(networkOrReady);
-      if (!url) {
-        url = getStatic(this.constructor, "defaultUrl")();
-      }
-      if (typeof url === "string") {
-        defineReadOnly(
-          this,
-          "connection",
-          Object.freeze({
-            url,
-          })
-        );
-      } else {
-        defineReadOnly(this, "connection", Object.freeze(shallowCopy(url)));
-      }
-      this._nextId = 42;
-    }
-    get _cache() {
-      if (this._eventLoopCache == null) {
-        this._eventLoopCache = {};
-      }
-      return this._eventLoopCache;
-    }
-    static defaultUrl() {
-      return "http://localhost:8545";
-    }
-    detectNetwork() {
-      if (!this._cache["detectNetwork"]) {
-        this._cache["detectNetwork"] = this._uncachedDetectNetwork();
-        setTimeout(() => {
-          this._cache["detectNetwork"] = null;
-        }, 0);
-      }
-      return this._cache["detectNetwork"];
-    }
-    _uncachedDetectNetwork() {
-      return __awaiter19(this, void 0, void 0, function* () {
-        yield timer2(0);
-        let chainId = null;
-        try {
-          chainId = yield this.send("eth_chainId", []);
-        } catch (error) {
-          try {
-            chainId = yield this.send("net_version", []);
-          } catch (error2) {}
-        }
-        if (chainId != null) {
-          const getNetwork2 = getStatic(this.constructor, "getNetwork");
-          try {
-            return getNetwork2(BigNumber.from(chainId).toNumber());
-          } catch (error) {
-            return logger48.throwError(
-              "could not detect network",
-              Logger.errors.NETWORK_ERROR,
-              {
-                chainId,
-                event: "invalidNetwork",
-                serverError: error,
-              }
-            );
-          }
-        }
-        return logger48.throwError(
-          "could not detect network",
-          Logger.errors.NETWORK_ERROR,
-          {
-            event: "noNetwork",
-          }
-        );
-      });
-    }
-    getSigner(addressOrIndex) {
-      return new JsonRpcSigner2(_constructorGuard6, this, addressOrIndex);
-    }
-    getUncheckedSigner(addressOrIndex) {
-      return this.getSigner(addressOrIndex).connectUnchecked();
-    }
-    listAccounts() {
-      return this.send("eth_accounts", []).then((accounts) => {
-        return accounts.map((a2) => this.formatter.address(a2));
-      });
-    }
-    send(method, params) {
-      const request = {
-        method,
-        params,
-        id: this._nextId++,
-        jsonrpc: "2.0",
-      };
-      this.emit("debug", {
-        action: "request",
-        request: deepCopy(request),
-        provider: this,
-      });
-      const cache = ["eth_chainId", "eth_blockNumber"].indexOf(method) >= 0;
-      if (cache && this._cache[method]) {
-        return this._cache[method];
-      }
-      const result = fetchJson(
-        this.connection,
-        JSON.stringify(request),
-        getResult3
-      ).then(
-        (result2) => {
-          this.emit("debug", {
-            action: "response",
-            request,
-            response: result2,
-            provider: this,
-          });
-          return result2;
-        },
-        (error) => {
-          this.emit("debug", {
-            action: "response",
-            error,
-            request,
-            provider: this,
-          });
-          throw error;
-        }
-      );
-      if (cache) {
-        this._cache[method] = result;
-        setTimeout(() => {
-          this._cache[method] = null;
-        }, 0);
-      }
-      return result;
-    }
-    prepareRequest(method, params) {
-      switch (method) {
-        case "getBlockNumber":
-          return ["eth_blockNumber", []];
-        case "getGasPrice":
-          return ["eth_gasPrice", []];
-        case "getBalance":
-          return [
-            "eth_getBalance",
-            [getLowerCase2(params.address), params.blockTag],
-          ];
-        case "getTransactionCount":
-          return [
-            "eth_getTransactionCount",
-            [getLowerCase2(params.address), params.blockTag],
-          ];
-        case "getCode":
-          return [
-            "eth_getCode",
-            [getLowerCase2(params.address), params.blockTag],
-          ];
-        case "getStorageAt":
-          return [
-            "eth_getStorageAt",
-            [getLowerCase2(params.address), params.position, params.blockTag],
-          ];
-        case "sendTransaction":
-          return ["eth_sendRawTransaction", [params.signedTransaction]];
-        case "getBlock":
-          if (params.blockTag) {
-            return [
-              "eth_getBlockByNumber",
-              [params.blockTag, !!params.includeTransactions],
-            ];
-          } else if (params.blockHash) {
-            return [
-              "eth_getBlockByHash",
-              [params.blockHash, !!params.includeTransactions],
-            ];
-          }
-          return null;
-        case "getTransaction":
-          return ["eth_getTransactionByHash", [params.transactionHash]];
-        case "getTransactionReceipt":
-          return ["eth_getTransactionReceipt", [params.transactionHash]];
-        case "call": {
-          const hexlifyTransaction = getStatic(
-            this.constructor,
-            "hexlifyTransaction"
-          );
-          return [
-            "eth_call",
-            [
-              hexlifyTransaction(params.transaction, { from: true }),
-              params.blockTag,
-            ],
-          ];
-        }
-        case "estimateGas": {
-          const hexlifyTransaction = getStatic(
-            this.constructor,
-            "hexlifyTransaction"
-          );
-          return [
-            "eth_estimateGas",
-            [hexlifyTransaction(params.transaction, { from: true })],
-          ];
-        }
-        case "getLogs":
-          if (params.filter && params.filter.address != null) {
-            params.filter.address = getLowerCase2(params.filter.address);
-          }
-          return ["eth_getLogs", [params.filter]];
-        default:
-          break;
-      }
-      return null;
-    }
-    perform(method, params) {
-      return __awaiter19(this, void 0, void 0, function* () {
-        if (method === "call" || method === "estimateGas") {
-          const tx = params.transaction;
-          if (tx && tx.type != null && BigNumber.from(tx.type).isZero()) {
-            if (tx.maxFeePerGas == null && tx.maxPriorityFeePerGas == null) {
-              const feeData = yield this.getFeeData();
-              if (
-                feeData.maxFeePerGas == null &&
-                feeData.maxPriorityFeePerGas == null
-              ) {
-                params = shallowCopy(params);
-                params.transaction = shallowCopy(tx);
-                delete params.transaction.type;
-              }
-            }
-          }
-        }
-        const args = this.prepareRequest(method, params);
-        if (args == null) {
-          logger48.throwError(
-            method + " not implemented",
-            Logger.errors.NOT_IMPLEMENTED,
-            { operation: method }
-          );
-        }
-        try {
-          return yield this.send(args[0], args[1]);
-        } catch (error) {
-          return checkError3(method, error, params);
-        }
-      });
-    }
-    _startEvent(event) {
-      if (event.tag === "pending") {
-        this._startPending();
-      }
-      super._startEvent(event);
-    }
-    _startPending() {
-      if (this._pendingFilter != null) {
-        return;
-      }
-      const self2 = this;
-      const pendingFilter = this.send("eth_newPendingTransactionFilter", []);
-      this._pendingFilter = pendingFilter;
-      pendingFilter
-        .then(function (filterId) {
-          function poll2() {
-            self2
-              .send("eth_getFilterChanges", [filterId])
-              .then(function (hashes) {
-                if (self2._pendingFilter != pendingFilter) {
-                  return null;
-                }
-                let seq = Promise.resolve();
-                hashes.forEach(function (hash4) {
-                  self2._emitted["t:" + hash4.toLowerCase()] = "pending";
-                  seq = seq.then(function () {
-                    return self2.getTransaction(hash4).then(function (tx) {
-                      self2.emit("pending", tx);
-                      return null;
-                    });
-                  });
-                });
-                return seq.then(function () {
-                  return timer2(1e3);
-                });
-              })
-              .then(function () {
-                if (self2._pendingFilter != pendingFilter) {
-                  self2.send("eth_uninstallFilter", [filterId]);
-                  return;
-                }
-                setTimeout(function () {
-                  poll2();
-                }, 0);
-                return null;
-              })
-              .catch((error) => {});
-          }
-          poll2();
-          return filterId;
-        })
-        .catch((error) => {});
-    }
-    _stopEvent(event) {
-      if (event.tag === "pending" && this.listenerCount("pending") === 0) {
-        this._pendingFilter = null;
-      }
-      super._stopEvent(event);
-    }
-    static hexlifyTransaction(transaction, allowExtra) {
-      const allowed = shallowCopy(allowedTransactionKeys5);
-      if (allowExtra) {
-        for (const key2 in allowExtra) {
-          if (allowExtra[key2]) {
-            allowed[key2] = true;
-          }
-        }
-      }
-      checkProperties(transaction, allowed);
-      const result = {};
-      [
-        "gasLimit",
-        "gasPrice",
-        "type",
-        "maxFeePerGas",
-        "maxPriorityFeePerGas",
-        "nonce",
-        "value",
-      ].forEach(function (key2) {
-        if (transaction[key2] == null) {
-          return;
-        }
-        const value = hexValue(transaction[key2]);
-        if (key2 === "gasLimit") {
-          key2 = "gas";
-        }
-        result[key2] = value;
-      });
-      ["from", "to", "data"].forEach(function (key2) {
-        if (transaction[key2] == null) {
-          return;
-        }
-        result[key2] = hexlify(transaction[key2]);
-      });
-      if (transaction.accessList) {
-        result["accessList"] = accessListify(transaction.accessList);
-      }
-      return result;
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/ws.js
-  init_lib();
-  var WS2 = null;
-  try {
-    WS2 = WebSocket;
-    if (WS2 == null) {
-      throw new Error("inject please");
-    }
-  } catch (error) {
-    const logger61 = new Logger(version27);
-    WS2 = function () {
-      logger61.throwError(
-        "WebSockets not supported in this environment",
-        Logger.errors.UNSUPPORTED_OPERATION,
-        {
-          operation: "new WebSocket()",
-        }
-      );
-    };
-  }
-
-  // node_modules/@ethersproject/providers/lib.esm/websocket-provider.js
-  init_lib();
-  var __awaiter20 = function (thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2
-        ? value
-        : new P2(function (resolve2) {
-            resolve2(value);
-          });
-    }
-    return new (P2 || (P2 = Promise))(function (resolve2, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve2(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var logger49 = new Logger(version27);
-  var NextId2 = 1;
-  var WebSocketProvider2 = class extends JsonRpcProvider2 {
-    constructor(url, network) {
-      if (network === "any") {
-        logger49.throwError(
-          "WebSocketProvider does not support 'any' network yet",
-          Logger.errors.UNSUPPORTED_OPERATION,
-          {
-            operation: "network:any",
-          }
-        );
-      }
-      super(url, network);
-      this._pollingInterval = -1;
-      this._wsReady = false;
-      defineReadOnly(this, "_websocket", new WS2(this.connection.url));
-      defineReadOnly(this, "_requests", {});
-      defineReadOnly(this, "_subs", {});
-      defineReadOnly(this, "_subIds", {});
-      defineReadOnly(this, "_detectNetwork", super.detectNetwork());
-      this._websocket.onopen = () => {
-        this._wsReady = true;
-        Object.keys(this._requests).forEach((id2) => {
-          this._websocket.send(this._requests[id2].payload);
-        });
-      };
-      this._websocket.onmessage = (messageEvent) => {
-        const data = messageEvent.data;
-        const result = JSON.parse(data);
-        if (result.id != null) {
-          const id2 = String(result.id);
-          const request = this._requests[id2];
-          delete this._requests[id2];
-          if (result.result !== void 0) {
-            request.callback(null, result.result);
-            this.emit("debug", {
-              action: "response",
-              request: JSON.parse(request.payload),
-              response: result.result,
-              provider: this,
-            });
-          } else {
-            let error = null;
-            if (result.error) {
-              error = new Error(result.error.message || "unknown error");
-              defineReadOnly(error, "code", result.error.code || null);
-              defineReadOnly(error, "response", data);
-            } else {
-              error = new Error("unknown error");
-            }
-            request.callback(error, void 0);
-            this.emit("debug", {
-              action: "response",
-              error,
-              request: JSON.parse(request.payload),
-              provider: this,
-            });
-          }
-        } else if (result.method === "eth_subscription") {
-          const sub = this._subs[result.params.subscription];
-          if (sub) {
-            sub.processFunc(result.params.result);
-          }
-        } else {
-          console.warn("this should not happen");
-        }
-      };
-      const fauxPoll = setInterval(() => {
-        this.emit("poll");
-      }, 1e3);
-      if (fauxPoll.unref) {
-        fauxPoll.unref();
-      }
-    }
-    detectNetwork() {
-      return this._detectNetwork;
-    }
-    get pollingInterval() {
-      return 0;
-    }
-    resetEventsBlock(blockNumber) {
-      logger49.throwError(
-        "cannot reset events block on WebSocketProvider",
-        Logger.errors.UNSUPPORTED_OPERATION,
-        {
-          operation: "resetEventBlock",
-        }
-      );
-    }
-    set pollingInterval(value) {
-      logger49.throwError(
-        "cannot set polling interval on WebSocketProvider",
-        Logger.errors.UNSUPPORTED_OPERATION,
-        {
-          operation: "setPollingInterval",
-        }
-      );
-    }
-    poll() {
-      return __awaiter20(this, void 0, void 0, function* () {
-        return null;
-      });
-    }
-    set polling(value) {
-      if (!value) {
-        return;
-      }
-      logger49.throwError(
-        "cannot set polling on WebSocketProvider",
-        Logger.errors.UNSUPPORTED_OPERATION,
-        {
-          operation: "setPolling",
-        }
-      );
-    }
-    send(method, params) {
-      const rid = NextId2++;
-      return new Promise((resolve2, reject) => {
-        function callback(error, result) {
-          if (error) {
-            return reject(error);
-          }
-          return resolve2(result);
-        }
-        const payload = JSON.stringify({
-          method,
-          params,
-          id: rid,
-          jsonrpc: "2.0",
-        });
-        this.emit("debug", {
-          action: "request",
-          request: JSON.parse(payload),
-          provider: this,
-        });
-        this._requests[String(rid)] = { callback, payload };
-        if (this._wsReady) {
-          this._websocket.send(payload);
-        }
-      });
-    }
-    static defaultUrl() {
-      return "ws://localhost:8546";
-    }
-    _subscribe(tag, param, processFunc) {
-      return __awaiter20(this, void 0, void 0, function* () {
-        let subIdPromise = this._subIds[tag];
-        if (subIdPromise == null) {
-          subIdPromise = Promise.all(param).then((param2) => {
-            return this.send("eth_subscribe", param2);
-          });
-          this._subIds[tag] = subIdPromise;
-        }
-        const subId = yield subIdPromise;
-        this._subs[subId] = { tag, processFunc };
-      });
-    }
-    _startEvent(event) {
-      switch (event.type) {
-        case "block":
-          this._subscribe("block", ["newHeads"], (result) => {
-            const blockNumber = BigNumber.from(result.number).toNumber();
-            this._emitted.block = blockNumber;
-            this.emit("block", blockNumber);
-          });
-          break;
-        case "pending":
-          this._subscribe("pending", ["newPendingTransactions"], (result) => {
-            this.emit("pending", result);
-          });
-          break;
-        case "filter":
-          this._subscribe(
-            event.tag,
-            ["logs", this._getFilter(event.filter)],
-            (result) => {
-              if (result.removed == null) {
-                result.removed = false;
-              }
-              this.emit(event.filter, this.formatter.filterLog(result));
-            }
-          );
-          break;
-        case "tx": {
-          const emitReceipt = (event2) => {
-            const hash4 = event2.hash;
-            this.getTransactionReceipt(hash4).then((receipt) => {
-              if (!receipt) {
-                return;
-              }
-              this.emit(hash4, receipt);
-            });
-          };
-          emitReceipt(event);
-          this._subscribe("tx", ["newHeads"], (result) => {
-            this._events.filter((e) => e.type === "tx").forEach(emitReceipt);
-          });
-          break;
-        }
-        case "debug":
-        case "poll":
-        case "willPoll":
-        case "didPoll":
-        case "error":
-          break;
-        default:
-          console.log("unhandled:", event);
-          break;
-      }
-    }
-    _stopEvent(event) {
-      let tag = event.tag;
-      if (event.type === "tx") {
-        if (this._events.filter((e) => e.type === "tx").length) {
-          return;
-        }
-        tag = "tx";
-      } else if (this.listenerCount(event.event)) {
-        return;
-      }
-      const subId = this._subIds[tag];
-      if (!subId) {
-        return;
-      }
-      delete this._subIds[tag];
-      subId.then((subId2) => {
-        if (!this._subs[subId2]) {
-          return;
-        }
-        delete this._subs[subId2];
-        this.send("eth_unsubscribe", [subId2]);
-      });
-    }
-    destroy() {
-      return __awaiter20(this, void 0, void 0, function* () {
-        if (this._websocket.readyState === WS2.CONNECTING) {
-          yield new Promise((resolve2) => {
-            this._websocket.onopen = function () {
-              resolve2(true);
-            };
-            this._websocket.onerror = function () {
-              resolve2(false);
-            };
-          });
-        }
-        this._websocket.close(1e3);
-      });
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js
-  init_lib();
-
-  // node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js
-  init_lib4();
-  init_lib();
-  var __awaiter21 = function (thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2
-        ? value
-        : new P2(function (resolve2) {
-            resolve2(value);
-          });
-    }
-    return new (P2 || (P2 = Promise))(function (resolve2, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve2(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var logger50 = new Logger(version27);
-  var StaticJsonRpcProvider2 = class extends JsonRpcProvider2 {
-    detectNetwork() {
-      const _super = Object.create(null, {
-        detectNetwork: { get: () => super.detectNetwork },
-      });
-      return __awaiter21(this, void 0, void 0, function* () {
-        let network = this.network;
-        if (network == null) {
-          network = yield _super.detectNetwork.call(this);
-          if (!network) {
-            logger50.throwError(
-              "no network detected",
-              Logger.errors.UNKNOWN_ERROR,
-              {}
-            );
-          }
-          if (this._network == null) {
-            defineReadOnly(this, "_network", network);
-            this.emit("network", network, null);
-          }
-        }
-        return network;
-      });
-    }
-  };
-  var UrlJsonRpcProvider2 = class extends StaticJsonRpcProvider2 {
-    constructor(network, apiKey) {
-      logger50.checkAbstract(new.target, UrlJsonRpcProvider2);
-      network = getStatic(new.target, "getNetwork")(network);
-      apiKey = getStatic(new.target, "getApiKey")(apiKey);
-      const connection = getStatic(new.target, "getUrl")(network, apiKey);
-      super(connection, network);
-      if (typeof apiKey === "string") {
-        defineReadOnly(this, "apiKey", apiKey);
-      } else if (apiKey != null) {
-        Object.keys(apiKey).forEach((key2) => {
-          defineReadOnly(this, key2, apiKey[key2]);
-        });
-      }
-    }
-    _startPending() {
-      logger50.warn("WARNING: API provider does not support pending filters");
-    }
-    isCommunityResource() {
-      return false;
-    }
-    getSigner(address) {
-      return logger50.throwError(
-        "API provider does not support signing",
-        Logger.errors.UNSUPPORTED_OPERATION,
-        { operation: "getSigner" }
-      );
-    }
-    listAccounts() {
-      return Promise.resolve([]);
-    }
-    static getApiKey(apiKey) {
-      return apiKey;
-    }
-    static getUrl(network, apiKey) {
-      return logger50.throwError(
-        "not implemented; sub-classes must override getUrl",
-        Logger.errors.NOT_IMPLEMENTED,
-        {
-          operation: "getUrl",
-        }
-      );
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js
-  var logger51 = new Logger(version27);
-  var defaultApiKey4 = "_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
-  var AlchemyWebSocketProvider2 = class extends WebSocketProvider2 {
-    constructor(network, apiKey) {
-      const provider = new AlchemyProvider2(network, apiKey);
-      const url = provider.connection.url
-        .replace(/^http/i, "ws")
-        .replace(".alchemyapi.", ".ws.alchemyapi.");
-      super(url, provider.network);
-      defineReadOnly(this, "apiKey", provider.apiKey);
-    }
-    isCommunityResource() {
-      return this.apiKey === defaultApiKey4;
-    }
-  };
-  var AlchemyProvider2 = class extends UrlJsonRpcProvider2 {
-    static getWebSocketProvider(network, apiKey) {
-      return new AlchemyWebSocketProvider2(network, apiKey);
-    }
-    static getApiKey(apiKey) {
-      if (apiKey == null) {
-        return defaultApiKey4;
-      }
-      if (apiKey && typeof apiKey !== "string") {
-        logger51.throwArgumentError("invalid apiKey", "apiKey", apiKey);
-      }
-      return apiKey;
-    }
-    static getUrl(network, apiKey) {
-      let host = null;
-      switch (network.name) {
-        case "homestead":
-          host = "eth-mainnet.alchemyapi.io/v2/";
-          break;
-        case "ropsten":
-          host = "eth-ropsten.alchemyapi.io/v2/";
-          break;
-        case "rinkeby":
-          host = "eth-rinkeby.alchemyapi.io/v2/";
-          break;
-        case "goerli":
-          host = "eth-goerli.alchemyapi.io/v2/";
-          break;
-        case "kovan":
-          host = "eth-kovan.alchemyapi.io/v2/";
-          break;
-        case "matic":
-          host = "polygon-mainnet.g.alchemy.com/v2/";
-          break;
-        case "maticmum":
-          host = "polygon-mumbai.g.alchemy.com/v2/";
-          break;
-        case "arbitrum":
-          host = "arb-mainnet.g.alchemy.com/v2/";
-          break;
-        case "arbitrum-rinkeby":
-          host = "arb-rinkeby.g.alchemy.com/v2/";
-          break;
-        case "optimism":
-          host = "opt-mainnet.g.alchemy.com/v2/";
-          break;
-        case "optimism-kovan":
-          host = "opt-kovan.g.alchemy.com/v2/";
-          break;
-        default:
-          logger51.throwArgumentError(
-            "unsupported network",
-            "network",
-            arguments[0]
-          );
-      }
-      return {
-        allowGzip: true,
-        url: "https://" + host + apiKey,
-        throttleCallback: (attempt, url) => {
-          if (apiKey === defaultApiKey4) {
-            showThrottleMessage2();
-          }
-          return Promise.resolve(true);
-        },
-      };
-    }
-    isCommunityResource() {
-      return this.apiKey === defaultApiKey4;
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js
-  init_lib();
-  var __awaiter22 = function (thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2
-        ? value
-        : new P2(function (resolve2) {
-            resolve2(value);
-          });
-    }
-    return new (P2 || (P2 = Promise))(function (resolve2, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve2(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var logger52 = new Logger(version27);
-  var CloudflareProvider2 = class extends UrlJsonRpcProvider2 {
-    static getApiKey(apiKey) {
-      if (apiKey != null) {
-        logger52.throwArgumentError(
-          "apiKey not supported for cloudflare",
-          "apiKey",
-          apiKey
-        );
-      }
-      return null;
-    }
-    static getUrl(network, apiKey) {
-      let host = null;
-      switch (network.name) {
-        case "homestead":
-          host = "https://cloudflare-eth.com/";
-          break;
-        default:
-          logger52.throwArgumentError(
-            "unsupported network",
-            "network",
-            arguments[0]
-          );
-      }
-      return host;
-    }
-    perform(method, params) {
-      const _super = Object.create(null, {
-        perform: { get: () => super.perform },
-      });
-      return __awaiter22(this, void 0, void 0, function* () {
-        if (method === "getBlockNumber") {
-          const block = yield _super.perform.call(this, "getBlock", {
-            blockTag: "latest",
-          });
-          return block.number;
-        }
-        return _super.perform.call(this, method, params);
-      });
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js
-  init_lib2();
-  init_lib4();
-  init_lib15();
-  init_lib27();
-  init_lib();
-  var __awaiter23 = function (thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2
-        ? value
-        : new P2(function (resolve2) {
-            resolve2(value);
-          });
-    }
-    return new (P2 || (P2 = Promise))(function (resolve2, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve2(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var logger53 = new Logger(version27);
-  function getTransactionPostData2(transaction) {
-    const result = {};
-    for (let key2 in transaction) {
-      if (transaction[key2] == null) {
-        continue;
-      }
-      let value = transaction[key2];
-      if (key2 === "type" && value === 0) {
-        continue;
-      }
-      if (
-        {
-          type: true,
-          gasLimit: true,
-          gasPrice: true,
-          maxFeePerGs: true,
-          maxPriorityFeePerGas: true,
-          nonce: true,
-          value: true,
-        }[key2]
-      ) {
-        value = hexValue(hexlify(value));
-      } else if (key2 === "accessList") {
-        value =
-          "[" +
-          accessListify(value)
-            .map((set) => {
-              return `{address:"${
-                set.address
-              }",storageKeys:["${set.storageKeys.join('","')}"]}`;
-            })
-            .join(",") +
-          "]";
-      } else {
-        value = hexlify(value);
-      }
-      result[key2] = value;
-    }
-    return result;
-  }
-  function getResult4(result) {
-    if (
-      result.status == 0 &&
-      (result.message === "No records found" ||
-        result.message === "No transactions found")
-    ) {
-      return result.result;
-    }
-    if (result.status != 1 || result.message != "OK") {
-      const error = new Error("invalid response");
-      error.result = JSON.stringify(result);
-      if ((result.result || "").toLowerCase().indexOf("rate limit") >= 0) {
-        error.throttleRetry = true;
-      }
-      throw error;
-    }
-    return result.result;
-  }
-  function getJsonResult2(result) {
-    if (
-      result &&
-      result.status == 0 &&
-      result.message == "NOTOK" &&
-      (result.result || "").toLowerCase().indexOf("rate limit") >= 0
-    ) {
-      const error = new Error("throttled response");
-      error.result = JSON.stringify(result);
-      error.throttleRetry = true;
-      throw error;
-    }
-    if (result.jsonrpc != "2.0") {
-      const error = new Error("invalid response");
-      error.result = JSON.stringify(result);
-      throw error;
-    }
-    if (result.error) {
-      const error = new Error(result.error.message || "unknown error");
-      if (result.error.code) {
-        error.code = result.error.code;
-      }
-      if (result.error.data) {
-        error.data = result.error.data;
-      }
-      throw error;
-    }
-    return result.result;
-  }
-  function checkLogTag2(blockTag) {
-    if (blockTag === "pending") {
-      throw new Error("pending not supported");
-    }
-    if (blockTag === "latest") {
-      return blockTag;
-    }
-    return parseInt(blockTag.substring(2), 16);
-  }
-  var defaultApiKey5 = "9D13ZE7XSBTJ94N9BNJ2MA33VMAY2YPIRB";
-  function checkError4(method, error, transaction) {
-    if (method === "call" && error.code === Logger.errors.SERVER_ERROR) {
-      const e = error.error;
-      if (
-        e &&
-        (e.message.match(/reverted/i) || e.message.match(/VM execution error/i))
-      ) {
-        let data = e.data;
-        if (data) {
-          data = "0x" + data.replace(/^.*0x/i, "");
-        }
-        if (isHexString2(data)) {
-          return data;
-        }
-        logger53.throwError(
-          "missing revert data in call exception",
-          Logger.errors.CALL_EXCEPTION,
-          {
-            error,
-            data: "0x",
-          }
-        );
-      }
-    }
-    let message = error.message;
-    if (error.code === Logger.errors.SERVER_ERROR) {
-      if (error.error && typeof error.error.message === "string") {
-        message = error.error.message;
-      } else if (typeof error.body === "string") {
-        message = error.body;
-      } else if (typeof error.responseText === "string") {
-        message = error.responseText;
-      }
-    }
-    message = (message || "").toLowerCase();
-    if (message.match(/insufficient funds/)) {
-      logger53.throwError(
-        "insufficient funds for intrinsic transaction cost",
-        Logger.errors.INSUFFICIENT_FUNDS,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    if (
-      message.match(
-        /same hash was already imported|transaction nonce is too low|nonce too low/
-      )
-    ) {
-      logger53.throwError(
-        "nonce has already been used",
-        Logger.errors.NONCE_EXPIRED,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    if (message.match(/another transaction with same nonce/)) {
-      logger53.throwError(
-        "replacement fee too low",
-        Logger.errors.REPLACEMENT_UNDERPRICED,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    if (
-      message.match(/execution failed due to an exception|execution reverted/)
-    ) {
-      logger53.throwError(
-        "cannot estimate gas; transaction may fail or may require manual gas limit",
-        Logger.errors.UNPREDICTABLE_GAS_LIMIT,
-        {
-          error,
-          method,
-          transaction,
-        }
-      );
-    }
-    throw error;
-  }
-  var EtherscanProvider2 = class extends BaseProvider2 {
-    constructor(network, apiKey) {
-      logger53.checkNew(new.target, EtherscanProvider2);
-      super(network);
-      defineReadOnly(this, "baseUrl", this.getBaseUrl());
-      defineReadOnly(this, "apiKey", apiKey || defaultApiKey5);
-    }
-    getBaseUrl() {
-      switch (this.network ? this.network.name : "invalid") {
-        case "homestead":
-          return "https://api.etherscan.io";
-        case "ropsten":
-          return "https://api-ropsten.etherscan.io";
-        case "rinkeby":
-          return "https://api-rinkeby.etherscan.io";
-        case "kovan":
-          return "https://api-kovan.etherscan.io";
-        case "goerli":
-          return "https://api-goerli.etherscan.io";
-        default:
-      }
-      return logger53.throwArgumentError(
-        "unsupported network",
-        "network",
-        name
-      );
-    }
-    getUrl(module, params) {
-      const query = Object.keys(params).reduce((accum, key2) => {
-        const value = params[key2];
-        if (value != null) {
-          accum += `&${key2}=${value}`;
-        }
-        return accum;
-      }, "");
-      const apiKey = this.apiKey ? `&apikey=${this.apiKey}` : "";
-      return `${this.baseUrl}/api?module=${module}${query}${apiKey}`;
-    }
-    getPostUrl() {
-      return `${this.baseUrl}/api`;
-    }
-    getPostData(module, params) {
-      params.module = module;
-      params.apikey = this.apiKey;
-      return params;
-    }
-    fetch(module, params, post) {
-      return __awaiter23(this, void 0, void 0, function* () {
-        const url = post ? this.getPostUrl() : this.getUrl(module, params);
-        const payload = post ? this.getPostData(module, params) : null;
-        const procFunc = module === "proxy" ? getJsonResult2 : getResult4;
-        this.emit("debug", {
-          action: "request",
-          request: url,
-          provider: this,
-        });
-        const connection = {
-          url,
-          throttleSlotInterval: 1e3,
-          throttleCallback: (attempt, url2) => {
-            if (this.isCommunityResource()) {
-              showThrottleMessage2();
-            }
-            return Promise.resolve(true);
-          },
-        };
-        let payloadStr = null;
-        if (payload) {
-          connection.headers = {
-            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-          };
-          payloadStr = Object.keys(payload)
-            .map((key2) => {
-              return `${key2}=${payload[key2]}`;
-            })
-            .join("&");
-        }
-        const result = yield fetchJson(
-          connection,
-          payloadStr,
-          procFunc || getJsonResult2
-        );
-        this.emit("debug", {
-          action: "response",
-          request: url,
-          response: deepCopy(result),
-          provider: this,
-        });
-        return result;
-      });
-    }
-    detectNetwork() {
-      return __awaiter23(this, void 0, void 0, function* () {
-        return this.network;
-      });
-    }
-    perform(method, params) {
-      const _super = Object.create(null, {
-        perform: { get: () => super.perform },
-      });
-      return __awaiter23(this, void 0, void 0, function* () {
-        switch (method) {
-          case "getBlockNumber":
-            return this.fetch("proxy", { action: "eth_blockNumber" });
-          case "getGasPrice":
-            return this.fetch("proxy", { action: "eth_gasPrice" });
-          case "getBalance":
-            return this.fetch("account", {
-              action: "balance",
-              address: params.address,
-              tag: params.blockTag,
-            });
-          case "getTransactionCount":
-            return this.fetch("proxy", {
-              action: "eth_getTransactionCount",
-              address: params.address,
-              tag: params.blockTag,
-            });
-          case "getCode":
-            return this.fetch("proxy", {
-              action: "eth_getCode",
-              address: params.address,
-              tag: params.blockTag,
-            });
-          case "getStorageAt":
-            return this.fetch("proxy", {
-              action: "eth_getStorageAt",
-              address: params.address,
-              position: params.position,
-              tag: params.blockTag,
-            });
-          case "sendTransaction":
-            return this.fetch(
-              "proxy",
-              {
-                action: "eth_sendRawTransaction",
-                hex: params.signedTransaction,
-              },
-              true
-            ).catch((error) => {
-              return checkError4(
-                "sendTransaction",
-                error,
-                params.signedTransaction
-              );
-            });
-          case "getBlock":
-            if (params.blockTag) {
-              return this.fetch("proxy", {
-                action: "eth_getBlockByNumber",
-                tag: params.blockTag,
-                boolean: params.includeTransactions ? "true" : "false",
-              });
-            }
-            throw new Error("getBlock by blockHash not implemented");
-          case "getTransaction":
-            return this.fetch("proxy", {
-              action: "eth_getTransactionByHash",
-              txhash: params.transactionHash,
-            });
-          case "getTransactionReceipt":
-            return this.fetch("proxy", {
-              action: "eth_getTransactionReceipt",
-              txhash: params.transactionHash,
-            });
-          case "call": {
-            if (params.blockTag !== "latest") {
-              throw new Error(
-                "EtherscanProvider does not support blockTag for call"
-              );
-            }
-            const postData = getTransactionPostData2(params.transaction);
-            postData.module = "proxy";
-            postData.action = "eth_call";
-            try {
-              return yield this.fetch("proxy", postData, true);
-            } catch (error) {
-              return checkError4("call", error, params.transaction);
-            }
-          }
-          case "estimateGas": {
-            const postData = getTransactionPostData2(params.transaction);
-            postData.module = "proxy";
-            postData.action = "eth_estimateGas";
-            try {
-              return yield this.fetch("proxy", postData, true);
-            } catch (error) {
-              return checkError4("estimateGas", error, params.transaction);
-            }
-          }
-          case "getLogs": {
-            const args = { action: "getLogs" };
-            if (params.filter.fromBlock) {
-              args.fromBlock = checkLogTag2(params.filter.fromBlock);
-            }
-            if (params.filter.toBlock) {
-              args.toBlock = checkLogTag2(params.filter.toBlock);
-            }
-            if (params.filter.address) {
-              args.address = params.filter.address;
-            }
-            if (params.filter.topics && params.filter.topics.length > 0) {
-              if (params.filter.topics.length > 1) {
-                logger53.throwError(
-                  "unsupported topic count",
-                  Logger.errors.UNSUPPORTED_OPERATION,
-                  { topics: params.filter.topics }
-                );
-              }
-              if (params.filter.topics.length === 1) {
-                const topic0 = params.filter.topics[0];
-                if (typeof topic0 !== "string" || topic0.length !== 66) {
-                  logger53.throwError(
-                    "unsupported topic format",
-                    Logger.errors.UNSUPPORTED_OPERATION,
-                    { topic0 }
-                  );
-                }
-                args.topic0 = topic0;
-              }
-            }
-            const logs = yield this.fetch("logs", args);
-            let blocks = {};
-            for (let i = 0; i < logs.length; i++) {
-              const log2 = logs[i];
-              if (log2.blockHash != null) {
-                continue;
-              }
-              if (blocks[log2.blockNumber] == null) {
-                const block = yield this.getBlock(log2.blockNumber);
-                if (block) {
-                  blocks[log2.blockNumber] = block.hash;
-                }
-              }
-              log2.blockHash = blocks[log2.blockNumber];
-            }
-            return logs;
-          }
-          case "getEtherPrice":
-            if (this.network.name !== "homestead") {
-              return 0;
-            }
-            return parseFloat(
-              (yield this.fetch("stats", { action: "ethprice" })).ethusd
-            );
-          default:
-            break;
-        }
-        return _super.perform.call(this, method, params);
-      });
-    }
-    getHistory(addressOrName, startBlock, endBlock) {
-      return __awaiter23(this, void 0, void 0, function* () {
-        const params = {
-          action: "txlist",
-          address: yield this.resolveName(addressOrName),
-          startblock: startBlock == null ? 0 : startBlock,
-          endblock: endBlock == null ? 99999999 : endBlock,
-          sort: "asc",
-        };
-        const result = yield this.fetch("account", params);
-        return result.map((tx) => {
-          ["contractAddress", "to"].forEach(function (key2) {
-            if (tx[key2] == "") {
-              delete tx[key2];
-            }
-          });
-          if (tx.creates == null && tx.contractAddress != null) {
-            tx.creates = tx.contractAddress;
-          }
-          const item = this.formatter.transactionResponse(tx);
-          if (tx.timeStamp) {
-            item.timestamp = parseInt(tx.timeStamp);
-          }
-          return item;
-        });
-      });
-    }
-    isCommunityResource() {
-      return this.apiKey === defaultApiKey5;
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/fallback-provider.js
-  init_lib12();
-  init_lib3();
-  init_lib2();
-  init_lib4();
-  init_lib22();
-  init_lib27();
-  init_lib();
-  var __awaiter24 = function (thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2
-        ? value
-        : new P2(function (resolve2) {
-            resolve2(value);
-          });
-    }
-    return new (P2 || (P2 = Promise))(function (resolve2, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve2(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var logger54 = new Logger(version27);
-  function now2() {
-    return new Date().getTime();
-  }
-  function checkNetworks2(networks2) {
-    let result = null;
-    for (let i = 0; i < networks2.length; i++) {
-      const network = networks2[i];
-      if (network == null) {
-        return null;
-      }
-      if (result) {
-        if (
-          !(
-            result.name === network.name &&
-            result.chainId === network.chainId &&
-            (result.ensAddress === network.ensAddress ||
-              (result.ensAddress == null && network.ensAddress == null))
-          )
-        ) {
-          logger54.throwArgumentError(
-            "provider mismatch",
-            "networks",
-            networks2
-          );
-        }
-      } else {
-        result = network;
-      }
-    }
-    return result;
-  }
-  function median2(values, maxDelta) {
-    values = values.slice().sort();
-    const middle = Math.floor(values.length / 2);
-    if (values.length % 2) {
-      return values[middle];
-    }
-    const a2 = values[middle - 1],
-      b2 = values[middle];
-    if (maxDelta != null && Math.abs(a2 - b2) > maxDelta) {
-      return null;
-    }
-    return (a2 + b2) / 2;
-  }
-  function serialize3(value) {
-    if (value === null) {
-      return "null";
-    } else if (typeof value === "number" || typeof value === "boolean") {
-      return JSON.stringify(value);
-    } else if (typeof value === "string") {
-      return value;
-    } else if (BigNumber.isBigNumber(value)) {
-      return value.toString();
-    } else if (Array.isArray(value)) {
-      return JSON.stringify(value.map((i) => serialize3(i)));
-    } else if (typeof value === "object") {
-      const keys = Object.keys(value);
-      keys.sort();
-      return (
-        "{" +
-        keys
-          .map((key2) => {
-            let v2 = value[key2];
-            if (typeof v2 === "function") {
-              v2 = "[function]";
-            } else {
-              v2 = serialize3(v2);
-            }
-            return JSON.stringify(key2) + ":" + v2;
-          })
-          .join(",") +
-        "}"
-      );
-    }
-    throw new Error("unknown value type: " + typeof value);
-  }
-  var nextRid2 = 1;
-  function stall4(duration) {
-    let cancel = null;
-    let timer3 = null;
-    let promise = new Promise((resolve2) => {
-      cancel = function () {
-        if (timer3) {
-          clearTimeout(timer3);
-          timer3 = null;
-        }
-        resolve2();
-      };
-      timer3 = setTimeout(cancel, duration);
-    });
-    const wait = (func) => {
-      promise = promise.then(func);
-      return promise;
-    };
-    function getPromise() {
-      return promise;
-    }
-    return { cancel, getPromise, wait };
-  }
-  var ForwardErrors2 = [
-    Logger.errors.CALL_EXCEPTION,
-    Logger.errors.INSUFFICIENT_FUNDS,
-    Logger.errors.NONCE_EXPIRED,
-    Logger.errors.REPLACEMENT_UNDERPRICED,
-    Logger.errors.UNPREDICTABLE_GAS_LIMIT,
-  ];
-  var ForwardProperties2 = [
-    "address",
-    "args",
-    "errorArgs",
-    "errorSignature",
-    "method",
-    "transaction",
-  ];
-  function exposeDebugConfig2(config, now3) {
-    const result = {
-      weight: config.weight,
-    };
-    Object.defineProperty(result, "provider", { get: () => config.provider });
-    if (config.start) {
-      result.start = config.start;
-    }
-    if (now3) {
-      result.duration = now3 - config.start;
-    }
-    if (config.done) {
-      if (config.error) {
-        result.error = config.error;
-      } else {
-        result.result = config.result || null;
-      }
-    }
-    return result;
-  }
-  function normalizedTally2(normalize, quorum) {
-    return function (configs) {
-      const tally = {};
-      configs.forEach((c2) => {
-        const value = normalize(c2.result);
-        if (!tally[value]) {
-          tally[value] = { count: 0, result: c2.result };
-        }
-        tally[value].count++;
-      });
-      const keys = Object.keys(tally);
-      for (let i = 0; i < keys.length; i++) {
-        const check = tally[keys[i]];
-        if (check.count >= quorum) {
-          return check.result;
-        }
-      }
-      return void 0;
-    };
-  }
-  function getProcessFunc2(provider, method, params) {
-    let normalize = serialize3;
-    switch (method) {
-      case "getBlockNumber":
-        return function (configs) {
-          const values = configs.map((c2) => c2.result);
-          let blockNumber = median2(
-            configs.map((c2) => c2.result),
-            2
-          );
-          if (blockNumber == null) {
-            return void 0;
-          }
-          blockNumber = Math.ceil(blockNumber);
-          if (values.indexOf(blockNumber + 1) >= 0) {
-            blockNumber++;
-          }
-          if (blockNumber >= provider._highestBlockNumber) {
-            provider._highestBlockNumber = blockNumber;
-          }
-          return provider._highestBlockNumber;
-        };
-      case "getGasPrice":
-        return function (configs) {
-          const values = configs.map((c2) => c2.result);
-          values.sort();
-          return values[Math.floor(values.length / 2)];
-        };
-      case "getEtherPrice":
-        return function (configs) {
-          return median2(configs.map((c2) => c2.result));
-        };
-      case "getBalance":
-      case "getTransactionCount":
-      case "getCode":
-      case "getStorageAt":
-      case "call":
-      case "estimateGas":
-      case "getLogs":
-        break;
-      case "getTransaction":
-      case "getTransactionReceipt":
-        normalize = function (tx) {
-          if (tx == null) {
-            return null;
-          }
-          tx = shallowCopy(tx);
-          tx.confirmations = -1;
-          return serialize3(tx);
-        };
-        break;
-      case "getBlock":
-        if (params.includeTransactions) {
-          normalize = function (block) {
-            if (block == null) {
-              return null;
-            }
-            block = shallowCopy(block);
-            block.transactions = block.transactions.map((tx) => {
-              tx = shallowCopy(tx);
-              tx.confirmations = -1;
-              return tx;
-            });
-            return serialize3(block);
-          };
-        } else {
-          normalize = function (block) {
-            if (block == null) {
-              return null;
-            }
-            return serialize3(block);
-          };
-        }
-        break;
-      default:
-        throw new Error("unknown method: " + method);
-    }
-    return normalizedTally2(normalize, provider.quorum);
-  }
-  function waitForSync2(config, blockNumber) {
-    return __awaiter24(this, void 0, void 0, function* () {
-      const provider = config.provider;
-      if (
-        (provider.blockNumber != null && provider.blockNumber >= blockNumber) ||
-        blockNumber === -1
-      ) {
-        return provider;
-      }
-      return poll(
-        () => {
-          return new Promise((resolve2, reject) => {
-            setTimeout(function () {
-              if (provider.blockNumber >= blockNumber) {
-                return resolve2(provider);
-              }
-              if (config.cancelled) {
-                return resolve2(null);
-              }
-              return resolve2(void 0);
-            }, 0);
-          });
-        },
-        { oncePoll: provider }
-      );
-    });
-  }
-  function getRunner2(config, currentBlockNumber, method, params) {
-    return __awaiter24(this, void 0, void 0, function* () {
-      let provider = config.provider;
-      switch (method) {
-        case "getBlockNumber":
-        case "getGasPrice":
-          return provider[method]();
-        case "getEtherPrice":
-          if (provider.getEtherPrice) {
-            return provider.getEtherPrice();
-          }
-          break;
-        case "getBalance":
-        case "getTransactionCount":
-        case "getCode":
-          if (params.blockTag && isHexString2(params.blockTag)) {
-            provider = yield waitForSync2(config, currentBlockNumber);
-          }
-          return provider[method](params.address, params.blockTag || "latest");
-        case "getStorageAt":
-          if (params.blockTag && isHexString2(params.blockTag)) {
-            provider = yield waitForSync2(config, currentBlockNumber);
-          }
-          return provider.getStorageAt(
-            params.address,
-            params.position,
-            params.blockTag || "latest"
-          );
-        case "getBlock":
-          if (params.blockTag && isHexString2(params.blockTag)) {
-            provider = yield waitForSync2(config, currentBlockNumber);
-          }
-          return provider[
-            params.includeTransactions ? "getBlockWithTransactions" : "getBlock"
-          ](params.blockTag || params.blockHash);
-        case "call":
-        case "estimateGas":
-          if (params.blockTag && isHexString2(params.blockTag)) {
-            provider = yield waitForSync2(config, currentBlockNumber);
-          }
-          return provider[method](params.transaction);
-        case "getTransaction":
-        case "getTransactionReceipt":
-          return provider[method](params.transactionHash);
-        case "getLogs": {
-          let filter = params.filter;
-          if (
-            (filter.fromBlock && isHexString2(filter.fromBlock)) ||
-            (filter.toBlock && isHexString2(filter.toBlock))
-          ) {
-            provider = yield waitForSync2(config, currentBlockNumber);
-          }
-          return provider.getLogs(filter);
-        }
-      }
-      return logger54.throwError(
-        "unknown method error",
-        Logger.errors.UNKNOWN_ERROR,
-        {
-          method,
-          params,
-        }
-      );
-    });
-  }
-  var FallbackProvider2 = class extends BaseProvider2 {
-    constructor(providers2, quorum) {
-      logger54.checkNew(new.target, FallbackProvider2);
-      if (providers2.length === 0) {
-        logger54.throwArgumentError(
-          "missing providers",
-          "providers",
-          providers2
-        );
-      }
-      const providerConfigs = providers2.map((configOrProvider, index) => {
-        if (Provider.isProvider(configOrProvider)) {
-          const stallTimeout = isCommunityResource2(configOrProvider)
-            ? 2e3
-            : 750;
-          const priority = 1;
-          return Object.freeze({
-            provider: configOrProvider,
-            weight: 1,
-            stallTimeout,
-            priority,
-          });
-        }
-        const config = shallowCopy(configOrProvider);
-        if (config.priority == null) {
-          config.priority = 1;
-        }
-        if (config.stallTimeout == null) {
-          config.stallTimeout = isCommunityResource2(configOrProvider)
-            ? 2e3
-            : 750;
-        }
-        if (config.weight == null) {
-          config.weight = 1;
-        }
-        const weight = config.weight;
-        if (weight % 1 || weight > 512 || weight < 1) {
-          logger54.throwArgumentError(
-            "invalid weight; must be integer in [1, 512]",
-            `providers[${index}].weight`,
-            weight
-          );
-        }
-        return Object.freeze(config);
-      });
-      const total = providerConfigs.reduce((accum, c2) => accum + c2.weight, 0);
-      if (quorum == null) {
-        quorum = total / 2;
-      } else if (quorum > total) {
-        logger54.throwArgumentError(
-          "quorum will always fail; larger than total weight",
-          "quorum",
-          quorum
-        );
-      }
-      let networkOrReady = checkNetworks2(
-        providerConfigs.map((c2) => c2.provider.network)
-      );
-      if (networkOrReady == null) {
-        networkOrReady = new Promise((resolve2, reject) => {
-          setTimeout(() => {
-            this.detectNetwork().then(resolve2, reject);
-          }, 0);
-        });
-      }
-      super(networkOrReady);
-      defineReadOnly(this, "providerConfigs", Object.freeze(providerConfigs));
-      defineReadOnly(this, "quorum", quorum);
-      this._highestBlockNumber = -1;
-    }
-    detectNetwork() {
-      return __awaiter24(this, void 0, void 0, function* () {
-        const networks2 = yield Promise.all(
-          this.providerConfigs.map((c2) => c2.provider.getNetwork())
-        );
-        return checkNetworks2(networks2);
-      });
-    }
-    perform(method, params) {
-      return __awaiter24(this, void 0, void 0, function* () {
-        if (method === "sendTransaction") {
-          const results = yield Promise.all(
-            this.providerConfigs.map((c2) => {
-              return c2.provider.sendTransaction(params.signedTransaction).then(
-                (result) => {
-                  return result.hash;
-                },
-                (error) => {
-                  return error;
-                }
-              );
-            })
-          );
-          for (let i2 = 0; i2 < results.length; i2++) {
-            const result = results[i2];
-            if (typeof result === "string") {
-              return result;
-            }
-          }
-          throw results[0];
-        }
-        if (this._highestBlockNumber === -1 && method !== "getBlockNumber") {
-          yield this.getBlockNumber();
-        }
-        const processFunc = getProcessFunc2(this, method, params);
-        const configs = shuffled(this.providerConfigs.map(shallowCopy));
-        configs.sort((a2, b2) => a2.priority - b2.priority);
-        const currentBlockNumber = this._highestBlockNumber;
-        let i = 0;
-        let first = true;
-        while (true) {
-          const t0 = now2();
-          let inflightWeight = configs
-            .filter((c2) => c2.runner && t0 - c2.start < c2.stallTimeout)
-            .reduce((accum, c2) => accum + c2.weight, 0);
-          while (inflightWeight < this.quorum && i < configs.length) {
-            const config = configs[i++];
-            const rid = nextRid2++;
-            config.start = now2();
-            config.staller = stall4(config.stallTimeout);
-            config.staller.wait(() => {
-              config.staller = null;
-            });
-            config.runner = getRunner2(
-              config,
-              currentBlockNumber,
-              method,
-              params
-            ).then(
-              (result) => {
-                config.done = true;
-                config.result = result;
-                if (this.listenerCount("debug")) {
-                  this.emit("debug", {
-                    action: "request",
-                    rid,
-                    backend: exposeDebugConfig2(config, now2()),
-                    request: { method, params: deepCopy(params) },
-                    provider: this,
-                  });
-                }
-              },
-              (error) => {
-                config.done = true;
-                config.error = error;
-                if (this.listenerCount("debug")) {
-                  this.emit("debug", {
-                    action: "request",
-                    rid,
-                    backend: exposeDebugConfig2(config, now2()),
-                    request: { method, params: deepCopy(params) },
-                    provider: this,
-                  });
-                }
-              }
-            );
-            if (this.listenerCount("debug")) {
-              this.emit("debug", {
-                action: "request",
-                rid,
-                backend: exposeDebugConfig2(config, null),
-                request: { method, params: deepCopy(params) },
-                provider: this,
-              });
-            }
-            inflightWeight += config.weight;
-          }
-          const waiting = [];
-          configs.forEach((c2) => {
-            if (c2.done || !c2.runner) {
-              return;
-            }
-            waiting.push(c2.runner);
-            if (c2.staller) {
-              waiting.push(c2.staller.getPromise());
-            }
-          });
-          if (waiting.length) {
-            yield Promise.race(waiting);
-          }
-          const results = configs.filter((c2) => c2.done && c2.error == null);
-          if (results.length >= this.quorum) {
-            const result = processFunc(results);
-            if (result !== void 0) {
-              configs.forEach((c2) => {
-                if (c2.staller) {
-                  c2.staller.cancel();
-                }
-                c2.cancelled = true;
-              });
-              return result;
-            }
-            if (!first) {
-              yield stall4(100).getPromise();
-            }
-            first = false;
-          }
-          const errors = configs.reduce((accum, c2) => {
-            if (!c2.done || c2.error == null) {
-              return accum;
-            }
-            const code = c2.error.code;
-            if (ForwardErrors2.indexOf(code) >= 0) {
-              if (!accum[code]) {
-                accum[code] = { error: c2.error, weight: 0 };
-              }
-              accum[code].weight += c2.weight;
-            }
-            return accum;
-          }, {});
-          Object.keys(errors).forEach((errorCode) => {
-            const tally = errors[errorCode];
-            if (tally.weight < this.quorum) {
-              return;
-            }
-            configs.forEach((c2) => {
-              if (c2.staller) {
-                c2.staller.cancel();
-              }
-              c2.cancelled = true;
-            });
-            const e = tally.error;
-            const props = {};
-            ForwardProperties2.forEach((name2) => {
-              if (e[name2] == null) {
-                return;
-              }
-              props[name2] = e[name2];
-            });
-            logger54.throwError(e.reason || e.message, errorCode, props);
-          });
-          if (configs.filter((c2) => !c2.done).length === 0) {
-            break;
-          }
-        }
-        configs.forEach((c2) => {
-          if (c2.staller) {
-            c2.staller.cancel();
-          }
-          c2.cancelled = true;
-        });
-        return logger54.throwError(
-          "failed to meet quorum",
-          Logger.errors.SERVER_ERROR,
-          {
-            method,
-            params,
-            results: configs.map((c2) => exposeDebugConfig2(c2)),
-            provider: this,
-          }
-        );
-      });
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/ipc-provider.js
-  var IpcProvider2 = null;
-
-  // node_modules/@ethersproject/providers/lib.esm/infura-provider.js
-  init_lib4();
-  init_lib();
-  var logger55 = new Logger(version27);
-  var defaultProjectId2 = "84842078b09946638c03157f83405213";
-  var InfuraWebSocketProvider2 = class extends WebSocketProvider2 {
-    constructor(network, apiKey) {
-      const provider = new InfuraProvider2(network, apiKey);
-      const connection = provider.connection;
-      if (connection.password) {
-        logger55.throwError(
-          "INFURA WebSocket project secrets unsupported",
-          Logger.errors.UNSUPPORTED_OPERATION,
-          {
-            operation: "InfuraProvider.getWebSocketProvider()",
-          }
-        );
-      }
-      const url = connection.url
-        .replace(/^http/i, "ws")
-        .replace("/v3/", "/ws/v3/");
-      super(url, network);
-      defineReadOnly(this, "apiKey", provider.projectId);
-      defineReadOnly(this, "projectId", provider.projectId);
-      defineReadOnly(this, "projectSecret", provider.projectSecret);
-    }
-    isCommunityResource() {
-      return this.projectId === defaultProjectId2;
-    }
-  };
-  var InfuraProvider2 = class extends UrlJsonRpcProvider2 {
-    static getWebSocketProvider(network, apiKey) {
-      return new InfuraWebSocketProvider2(network, apiKey);
-    }
-    static getApiKey(apiKey) {
-      const apiKeyObj = {
-        apiKey: defaultProjectId2,
-        projectId: defaultProjectId2,
-        projectSecret: null,
-      };
-      if (apiKey == null) {
-        return apiKeyObj;
-      }
-      if (typeof apiKey === "string") {
-        apiKeyObj.projectId = apiKey;
-      } else if (apiKey.projectSecret != null) {
-        logger55.assertArgument(
-          typeof apiKey.projectId === "string",
-          "projectSecret requires a projectId",
-          "projectId",
-          apiKey.projectId
-        );
-        logger55.assertArgument(
-          typeof apiKey.projectSecret === "string",
-          "invalid projectSecret",
-          "projectSecret",
-          "[REDACTED]"
-        );
-        apiKeyObj.projectId = apiKey.projectId;
-        apiKeyObj.projectSecret = apiKey.projectSecret;
-      } else if (apiKey.projectId) {
-        apiKeyObj.projectId = apiKey.projectId;
-      }
-      apiKeyObj.apiKey = apiKeyObj.projectId;
-      return apiKeyObj;
-    }
-    static getUrl(network, apiKey) {
-      let host = null;
-      switch (network ? network.name : "unknown") {
-        case "homestead":
-          host = "mainnet.infura.io";
-          break;
-        case "ropsten":
-          host = "ropsten.infura.io";
-          break;
-        case "rinkeby":
-          host = "rinkeby.infura.io";
-          break;
-        case "kovan":
-          host = "kovan.infura.io";
-          break;
-        case "goerli":
-          host = "goerli.infura.io";
-          break;
-        case "matic":
-          host = "polygon-mainnet.infura.io";
-          break;
-        case "maticmum":
-          host = "polygon-mumbai.infura.io";
-          break;
-        case "optimism":
-          host = "optimism-mainnet.infura.io";
-          break;
-        case "optimism-kovan":
-          host = "optimism-kovan.infura.io";
-          break;
-        case "arbitrum":
-          host = "arbitrum-mainnet.infura.io";
-          break;
-        case "arbitrum-rinkeby":
-          host = "arbitrum-rinkeby.infura.io";
-          break;
-        default:
-          logger55.throwError(
-            "unsupported network",
-            Logger.errors.INVALID_ARGUMENT,
-            {
-              argument: "network",
-              value: network,
-            }
-          );
-      }
-      const connection = {
-        allowGzip: true,
-        url: "https://" + host + "/v3/" + apiKey.projectId,
-        throttleCallback: (attempt, url) => {
-          if (apiKey.projectId === defaultProjectId2) {
-            showThrottleMessage2();
-          }
-          return Promise.resolve(true);
-        },
-      };
-      if (apiKey.projectSecret != null) {
-        connection.user = "";
-        connection.password = apiKey.projectSecret;
-      }
-      return connection;
-    }
-    isCommunityResource() {
-      return this.projectId === defaultProjectId2;
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js
-  init_lib4();
-  init_lib27();
-  var JsonRpcBatchProvider2 = class extends JsonRpcProvider2 {
-    send(method, params) {
-      const request = {
-        method,
-        params,
-        id: this._nextId++,
-        jsonrpc: "2.0",
-      };
-      if (this._pendingBatch == null) {
-        this._pendingBatch = [];
-      }
-      const inflightRequest = { request, resolve: null, reject: null };
-      const promise = new Promise((resolve2, reject) => {
-        inflightRequest.resolve = resolve2;
-        inflightRequest.reject = reject;
-      });
-      this._pendingBatch.push(inflightRequest);
-      if (!this._pendingBatchAggregator) {
-        this._pendingBatchAggregator = setTimeout(() => {
-          const batch = this._pendingBatch;
-          this._pendingBatch = null;
-          this._pendingBatchAggregator = null;
-          const request2 = batch.map((inflight) => inflight.request);
-          this.emit("debug", {
-            action: "requestBatch",
-            request: deepCopy(request2),
-            provider: this,
-          });
-          return fetchJson(this.connection, JSON.stringify(request2)).then(
-            (result) => {
-              this.emit("debug", {
-                action: "response",
-                request: request2,
-                response: result,
-                provider: this,
-              });
-              batch.forEach((inflightRequest2, index) => {
-                const payload = result[index];
-                if (payload.error) {
-                  const error = new Error(payload.error.message);
-                  error.code = payload.error.code;
-                  error.data = payload.error.data;
-                  inflightRequest2.reject(error);
-                } else {
-                  inflightRequest2.resolve(payload.result);
-                }
-              });
-            },
-            (error) => {
-              this.emit("debug", {
-                action: "response",
-                error,
-                request: request2,
-                provider: this,
-              });
-              batch.forEach((inflightRequest2) => {
-                inflightRequest2.reject(error);
-              });
-            }
-          );
-        }, 10);
-      }
-      return promise;
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js
-  init_lib();
-  var logger56 = new Logger(version27);
-  var defaultApiKey6 = "ETHERS_JS_SHARED";
-  var NodesmithProvider2 = class extends UrlJsonRpcProvider2 {
-    static getApiKey(apiKey) {
-      if (apiKey && typeof apiKey !== "string") {
-        logger56.throwArgumentError("invalid apiKey", "apiKey", apiKey);
-      }
-      return apiKey || defaultApiKey6;
-    }
-    static getUrl(network, apiKey) {
-      logger56.warn(
-        "NodeSmith will be discontinued on 2019-12-20; please migrate to another platform."
-      );
-      let host = null;
-      switch (network.name) {
-        case "homestead":
-          host = "https://ethereum.api.nodesmith.io/v1/mainnet/jsonrpc";
-          break;
-        case "ropsten":
-          host = "https://ethereum.api.nodesmith.io/v1/ropsten/jsonrpc";
-          break;
-        case "rinkeby":
-          host = "https://ethereum.api.nodesmith.io/v1/rinkeby/jsonrpc";
-          break;
-        case "goerli":
-          host = "https://ethereum.api.nodesmith.io/v1/goerli/jsonrpc";
-          break;
-        case "kovan":
-          host = "https://ethereum.api.nodesmith.io/v1/kovan/jsonrpc";
-          break;
-        default:
-          logger56.throwArgumentError(
-            "unsupported network",
-            "network",
-            arguments[0]
-          );
-      }
-      return host + "?apiKey=" + apiKey;
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/pocket-provider.js
-  init_lib4();
-  init_lib();
-  var logger57 = new Logger(version27);
-  var defaultApplicationIds2 = {
-    homestead: "6004bcd10040261633ade990",
-    ropsten: "6004bd4d0040261633ade991",
-    rinkeby: "6004bda20040261633ade994",
-    goerli: "6004bd860040261633ade992",
-  };
-  var PocketProvider2 = class extends UrlJsonRpcProvider2 {
-    constructor(network, apiKey) {
-      if (apiKey == null) {
-        const n = getStatic(new.target, "getNetwork")(network);
-        if (n) {
-          const applicationId = defaultApplicationIds2[n.name];
-          if (applicationId) {
-            apiKey = {
-              applicationId,
-              loadBalancer: true,
-            };
-          }
-        }
-        if (apiKey == null) {
-          logger57.throwError(
-            "unsupported network",
-            Logger.errors.INVALID_ARGUMENT,
-            {
-              argument: "network",
-              value: network,
-            }
-          );
-        }
-      }
-      super(network, apiKey);
-    }
-    static getApiKey(apiKey) {
-      if (apiKey == null) {
-        logger57.throwArgumentError(
-          "PocketProvider.getApiKey does not support null apiKey",
-          "apiKey",
-          apiKey
-        );
-      }
-      const apiKeyObj = {
-        applicationId: null,
-        loadBalancer: false,
-        applicationSecretKey: null,
-      };
-      if (typeof apiKey === "string") {
-        apiKeyObj.applicationId = apiKey;
-      } else if (apiKey.applicationSecretKey != null) {
-        logger57.assertArgument(
-          typeof apiKey.applicationId === "string",
-          "applicationSecretKey requires an applicationId",
-          "applicationId",
-          apiKey.applicationId
-        );
-        logger57.assertArgument(
-          typeof apiKey.applicationSecretKey === "string",
-          "invalid applicationSecretKey",
-          "applicationSecretKey",
-          "[REDACTED]"
-        );
-        apiKeyObj.applicationId = apiKey.applicationId;
-        apiKeyObj.applicationSecretKey = apiKey.applicationSecretKey;
-        apiKeyObj.loadBalancer = !!apiKey.loadBalancer;
-      } else if (apiKey.applicationId) {
-        logger57.assertArgument(
-          typeof apiKey.applicationId === "string",
-          "apiKey.applicationId must be a string",
-          "apiKey.applicationId",
-          apiKey.applicationId
-        );
-        apiKeyObj.applicationId = apiKey.applicationId;
-        apiKeyObj.loadBalancer = !!apiKey.loadBalancer;
-      } else {
-        logger57.throwArgumentError(
-          "unsupported PocketProvider apiKey",
-          "apiKey",
-          apiKey
-        );
-      }
-      return apiKeyObj;
-    }
-    static getUrl(network, apiKey) {
-      let host = null;
-      switch (network ? network.name : "unknown") {
-        case "homestead":
-          host = "eth-mainnet.gateway.pokt.network";
-          break;
-        case "ropsten":
-          host = "eth-ropsten.gateway.pokt.network";
-          break;
-        case "rinkeby":
-          host = "eth-rinkeby.gateway.pokt.network";
-          break;
-        case "goerli":
-          host = "eth-goerli.gateway.pokt.network";
-          break;
-        default:
-          logger57.throwError(
-            "unsupported network",
-            Logger.errors.INVALID_ARGUMENT,
-            {
-              argument: "network",
-              value: network,
-            }
-          );
-      }
-      let url = null;
-      if (apiKey.loadBalancer) {
-        url = `https://${host}/v1/lb/${apiKey.applicationId}`;
-      } else {
-        url = `https://${host}/v1/${apiKey.applicationId}`;
-      }
-      const connection = { url };
-      connection.headers = {};
-      if (apiKey.applicationSecretKey != null) {
-        connection.user = "";
-        connection.password = apiKey.applicationSecretKey;
-      }
-      return connection;
-    }
-    isCommunityResource() {
-      return this.applicationId === defaultApplicationIds2[this.network.name];
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/web3-provider.js
-  init_lib4();
-  init_lib();
-  var logger58 = new Logger(version27);
-  var _nextId2 = 1;
-  function buildWeb3LegacyFetcher2(provider, sendFunc) {
-    const fetcher = "Web3LegacyFetcher";
-    return function (method, params) {
-      const request = {
-        method,
-        params,
-        id: _nextId2++,
-        jsonrpc: "2.0",
-      };
-      return new Promise((resolve2, reject) => {
-        this.emit("debug", {
-          action: "request",
-          fetcher,
-          request: deepCopy(request),
-          provider: this,
-        });
-        sendFunc(request, (error, response) => {
-          if (error) {
-            this.emit("debug", {
-              action: "response",
-              fetcher,
-              error,
-              request,
-              provider: this,
-            });
-            return reject(error);
-          }
-          this.emit("debug", {
-            action: "response",
-            fetcher,
-            request,
-            response,
-            provider: this,
-          });
-          if (response.error) {
-            const error2 = new Error(response.error.message);
-            error2.code = response.error.code;
-            error2.data = response.error.data;
-            return reject(error2);
-          }
-          resolve2(response.result);
-        });
-      });
-    };
-  }
-  function buildEip1193Fetcher2(provider) {
-    return function (method, params) {
-      if (params == null) {
-        params = [];
-      }
-      const request = { method, params };
-      this.emit("debug", {
-        action: "request",
-        fetcher: "Eip1193Fetcher",
-        request: deepCopy(request),
-        provider: this,
-      });
-      return provider.request(request).then(
-        (response) => {
-          this.emit("debug", {
-            action: "response",
-            fetcher: "Eip1193Fetcher",
-            request,
-            response,
-            provider: this,
-          });
-          return response;
-        },
-        (error) => {
-          this.emit("debug", {
-            action: "response",
-            fetcher: "Eip1193Fetcher",
-            request,
-            error,
-            provider: this,
-          });
-          throw error;
-        }
-      );
-    };
-  }
-  var Web3Provider2 = class extends JsonRpcProvider2 {
-    constructor(provider, network) {
-      logger58.checkNew(new.target, Web3Provider2);
-      if (provider == null) {
-        logger58.throwArgumentError("missing provider", "provider", provider);
-      }
-      let path3 = null;
-      let jsonRpcFetchFunc = null;
-      let subprovider = null;
-      if (typeof provider === "function") {
-        path3 = "unknown:";
-        jsonRpcFetchFunc = provider;
-      } else {
-        path3 = provider.host || provider.path || "";
-        if (!path3 && provider.isMetaMask) {
-          path3 = "metamask";
-        }
-        subprovider = provider;
-        if (provider.request) {
-          if (path3 === "") {
-            path3 = "eip-1193:";
-          }
-          jsonRpcFetchFunc = buildEip1193Fetcher2(provider);
-        } else if (provider.sendAsync) {
-          jsonRpcFetchFunc = buildWeb3LegacyFetcher2(
-            provider,
-            provider.sendAsync.bind(provider)
-          );
-        } else if (provider.send) {
-          jsonRpcFetchFunc = buildWeb3LegacyFetcher2(
-            provider,
-            provider.send.bind(provider)
-          );
-        } else {
-          logger58.throwArgumentError(
-            "unsupported provider",
-            "provider",
-            provider
-          );
-        }
-        if (!path3) {
-          path3 = "unknown:";
-        }
-      }
-      super(path3, network);
-      defineReadOnly(this, "jsonRpcFetchFunc", jsonRpcFetchFunc);
-      defineReadOnly(this, "provider", subprovider);
-    }
-    send(method, params) {
-      return this.jsonRpcFetchFunc(method, params);
-    }
-  };
-
-  // node_modules/@ethersproject/providers/lib.esm/index.js
-  init_lib();
-  var logger59 = new Logger(version27);
-  function getDefaultProvider2(network, options) {
-    if (network == null) {
-      network = "homestead";
-    }
-    if (typeof network === "string") {
-      const match = network.match(/^(ws|http)s?:/i);
-      if (match) {
-        switch (match[1]) {
-          case "http":
-            return new JsonRpcProvider2(network);
-          case "ws":
-            return new WebSocketProvider2(network);
-          default:
-            logger59.throwArgumentError(
-              "unsupported URL scheme",
-              "network",
-              network
-            );
-        }
-      }
-    }
-    const n = getNetwork(network);
-    if (!n || !n._defaultProvider) {
-      logger59.throwError(
-        "unsupported getDefaultProvider network",
-        Logger.errors.NETWORK_ERROR,
-        {
-          operation: "getDefaultProvider",
-          network,
-        }
-      );
-    }
-    return n._defaultProvider(
-      {
-        FallbackProvider: FallbackProvider2,
-        AlchemyProvider: AlchemyProvider2,
-        CloudflareProvider: CloudflareProvider2,
-        EtherscanProvider: EtherscanProvider2,
-        InfuraProvider: InfuraProvider2,
-        JsonRpcProvider: JsonRpcProvider2,
-        NodesmithProvider: NodesmithProvider2,
-        PocketProvider: PocketProvider2,
-        Web3Provider: Web3Provider2,
-        IpcProvider: IpcProvider2,
-      },
-      options
-    );
-  }
-
-  // node_modules/ethers/lib.esm/ethers.js
-  init_lib20();
-
-  // node_modules/ethers/lib.esm/utils.js
-  var utils_exports2 = {};
-  __export(utils_exports2, {
-    AbiCoder: () => AbiCoder,
-    ConstructorFragment: () => ConstructorFragment,
-    ErrorFragment: () => ErrorFragment,
-    EventFragment: () => EventFragment,
-    FormatTypes: () => FormatTypes,
-    Fragment: () => Fragment,
-    FunctionFragment: () => FunctionFragment,
-    HDNode: () => HDNode,
-    Indexed: () => Indexed,
-    Interface: () => Interface,
-    LogDescription: () => LogDescription,
-    Logger: () => Logger,
-    ParamType: () => ParamType,
-    RLP: () => lib_exports,
-    SigningKey: () => SigningKey,
-    SupportedAlgorithm: () => SupportedAlgorithm,
-    TransactionDescription: () => TransactionDescription,
-    TransactionTypes: () => TransactionTypes,
-    UnicodeNormalizationForm: () => UnicodeNormalizationForm,
-    Utf8ErrorFuncs: () => Utf8ErrorFuncs,
-    Utf8ErrorReason: () => Utf8ErrorReason,
-    _TypedDataEncoder: () => TypedDataEncoder,
-    _fetchData: () => _fetchData,
-    _toEscapedUtf8String: () => _toEscapedUtf8String,
-    accessListify: () => accessListify,
-    arrayify: () => arrayify,
-    base58: () => Base58,
-    base64: () => lib_exports3,
-    checkProperties: () => checkProperties,
-    checkResultErrors: () => checkResultErrors,
-    commify: () => commify,
-    computeAddress: () => computeAddress,
-    computeHmac: () => computeHmac,
-    computePublicKey: () => computePublicKey,
-    concat: () => concat,
-    deepCopy: () => deepCopy,
-    defaultAbiCoder: () => defaultAbiCoder,
-    defaultPath: () => defaultPath,
-    defineReadOnly: () => defineReadOnly,
-    entropyToMnemonic: () => entropyToMnemonic,
-    fetchJson: () => fetchJson,
-    formatBytes32String: () => formatBytes32String,
-    formatEther: () => formatEther,
-    formatUnits: () => formatUnits,
-    getAccountPath: () => getAccountPath,
-    getAddress: () => getAddress,
-    getContractAddress: () => getContractAddress,
-    getCreate2Address: () => getCreate2Address,
-    getIcapAddress: () => getIcapAddress,
-    getJsonWalletAddress: () => getJsonWalletAddress,
-    getStatic: () => getStatic,
-    hashMessage: () => hashMessage,
-    hexConcat: () => hexConcat,
-    hexDataLength: () => hexDataLength,
-    hexDataSlice: () => hexDataSlice,
-    hexStripZeros: () => hexStripZeros,
-    hexValue: () => hexValue,
-    hexZeroPad: () => hexZeroPad,
-    hexlify: () => hexlify,
-    id: () => id,
-    isAddress: () => isAddress,
-    isBytes: () => isBytes,
-    isBytesLike: () => isBytesLike,
-    isHexString: () => isHexString2,
-    isValidMnemonic: () => isValidMnemonic,
-    isValidName: () => isValidName,
-    joinSignature: () => joinSignature,
-    keccak256: () => keccak256,
-    mnemonicToEntropy: () => mnemonicToEntropy,
-    mnemonicToSeed: () => mnemonicToSeed,
-    namehash: () => namehash,
-    nameprep: () => nameprep,
-    parseBytes32String: () => parseBytes32String,
-    parseEther: () => parseEther,
-    parseTransaction: () => parse4,
-    parseUnits: () => parseUnits,
-    poll: () => poll,
-    randomBytes: () => randomBytes3,
-    recoverAddress: () => recoverAddress,
-    recoverPublicKey: () => recoverPublicKey,
-    resolveProperties: () => resolveProperties,
-    ripemd160: () => ripemd160,
-    serializeTransaction: () => serialize,
-    sha256: () => sha256,
-    sha512: () => sha5122,
-    shallowCopy: () => shallowCopy,
-    shuffled: () => shuffled,
-    solidityKeccak256: () => keccak2562,
-    solidityPack: () => pack2,
-    soliditySha256: () => sha2562,
-    splitSignature: () => splitSignature,
-    stripZeros: () => stripZeros,
-    toUtf8Bytes: () => toUtf8Bytes,
-    toUtf8CodePoints: () => toUtf8CodePoints,
-    toUtf8String: () => toUtf8String,
-    verifyMessage: () => verifyMessage,
-    verifyTypedData: () => verifyTypedData,
-    zeroPad: () => zeroPad,
-  });
-  init_lib11();
-  init_lib7();
-  init_lib26();
-  init_lib17();
-  init_lib2();
-  init_lib10();
-  init_lib21();
-  init_lib23();
-  init_lib5();
-  init_lib();
-  init_lib18();
-  init_lib29();
-  init_lib22();
-  init_lib4();
-  init_lib6();
-  init_lib14();
-  init_lib9();
-  init_lib15();
-  init_lib30();
-  init_lib24();
-  init_lib27();
-  init_lib18();
-  init_lib9();
-
-  // node_modules/ethers/lib.esm/ethers.js
-  init_lib();
-
-  // node_modules/ethers/lib.esm/_version.js
-  var version28 = "ethers/5.5.4";
-
-  // node_modules/ethers/lib.esm/ethers.js
-  var logger60 = new Logger(version28);
-
-  // node_modules/ethers/lib.esm/index.js
-  try {
-    const anyGlobal2 = window;
-    if (anyGlobal2._ethers == null) {
-      anyGlobal2._ethers = ethers_exports2;
-    }
-  } catch (error) {}
-
-  // src/resolvers/eip137.ts
+  init_lib31();
   var import_url14 = __toESM(__require("url"), 1);
   var ENS = import_ensjs.default.default;
   var Eip137 = class extends SubResolverBase {
     async resolve(input, params = {}) {
       if (input.endsWith(".eth")) {
-        return await this.resolveEns(input);
+        return this.resolveEns(input);
       }
-      let hip5Data = input.split(".");
+      const hip5Data = input.split(".");
       if (2 <= hip5Data.length && "domain" in params) {
-        if (ethers_exports2.utils.isAddress(hip5Data[0])) {
-          return await this.resolveHip5(params.domain, hip5Data);
+        if (ethers_exports.utils.isAddress(hip5Data[0])) {
+          return this.resolveHip5(params.domain, hip5Data);
         }
       }
       return false;
     }
     async resolveEns(input) {
-      let data = [(0, import_ensjs.getEnsAddress)("1"), "eth-mainnet"];
+      const data = [(0, import_ensjs.getEnsAddress)("1"), "eth-mainnet"];
       return this.resolveHip5(input, data);
     }
     async resolveHip5(domain, data) {
-      let connection = this.getConnection(data[1].replace("_", ""));
+      const connection = this.getConnection(data[1].replace("_", ""));
       const ens = new ENS({ provider: connection, ensAddress: data[0] });
       try {
-        let name2 = await ens.name(domain);
-        let contentResult = await name2.getContent();
-        let url = await name2.getText("url");
+        const name2 = await ens.name(domain);
+        const contentResult = await name2.getContent();
+        const url = await name2.getText("url");
         let content;
         if (typeof contentResult === "string" && Number(contentResult) === 0) {
           content = false;
@@ -96470,23 +90958,22 @@
         }
         return content || url || false;
       } catch (e) {
-        console.log(e);
         return false;
       }
     }
     getConnection(chain) {
-      let apiUrl = new import_url14.default(
+      const apiUrl = new import_url14.default.URL(
         `https://${this.resolver.getPortal()}/pocketdns`
       );
       if (import_url14.default.URLSearchParams) {
-        let params = new import_url14.default.URLSearchParams();
+        const params = new import_url14.default.URLSearchParams();
         params.set("chain", chain);
         apiUrl.search = params.toString();
       } else {
         apiUrl.search = `?chain=${chain}`;
       }
-      return new ethers_exports2.providers.StaticJsonRpcProvider({
-        url: apiUrl.format(),
+      return new ethers_exports.providers.StaticJsonRpcProvider({
+        url: apiUrl.toString(),
       });
     }
   };

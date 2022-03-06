@@ -1,8 +1,7 @@
 import { isDomain } from "../lib/util.js";
 import resolver from "../index.js";
-// @ts-ignore
-import { NodeClient } from "@lumeweb/hs-client";
 import SubResolverBase from "../SubResolverBase.js";
+import HnsClient from "./handshake/HnsClient.js";
 export default class Icann extends SubResolverBase {
   async resolve(input, params = {}) {
     // @ts-ignore
@@ -19,13 +18,13 @@ export default class Icann extends SubResolverBase {
       port: 443,
       path: "/pocketdns",
       headers: {
-        "X-Chain": "icann",
+        "x-chain": "icann",
       },
     };
-    const client = new NodeClient(clientOptions);
+    const client = new HnsClient(clientOptions);
     let resp = false;
     try {
-      let rpcParams = {};
+      const rpcParams = {};
       // @ts-ignore
       rpcParams.domain = params.domain || input;
       // @ts-ignore
@@ -33,10 +32,9 @@ export default class Icann extends SubResolverBase {
       // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
       resp = await client.execute("dnslookup", rpcParams);
     } catch (e) {
-      console.error(e);
       return false;
     }
     // @ts-ignore
-    return resp.result;
+    return resp.result.pop();
   }
 }

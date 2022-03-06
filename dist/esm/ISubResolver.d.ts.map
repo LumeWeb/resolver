@@ -1,0 +1,1 @@
+{"version":3,"file":"ISubResolver.d.ts","sourceRoot":"","sources":["../../src/ISubResolver.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,eAAe,CAAC;AAErC,MAAM,CAAC,OAAO,WAAW,YAAY;IAGnC,WAAW,CAAC,QAAQ,EAAE,QAAQ,OAAE;IAEhC,OAAO,CAAC,KAAK,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM,GAAG,OAAO,CAAC,MAAM,GAAG,OAAO,CAAC,CAAC;CACnE"}

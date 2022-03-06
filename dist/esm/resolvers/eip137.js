@@ -7,30 +7,30 @@ const ENS = ENSRoot.default;
 export default class Eip137 extends SubResolverBase {
   async resolve(input, params = {}) {
     if (input.endsWith(".eth")) {
-      return await this.resolveEns(input);
+      return this.resolveEns(input);
     }
-    let hip5Data = input.split(".");
+    const hip5Data = input.split(".");
     // @ts-ignore
     if (2 <= hip5Data.length && "domain" in params) {
       if (ethers.utils.isAddress(hip5Data[0])) {
         // @ts-ignore
-        return await this.resolveHip5(params.domain, hip5Data);
+        return this.resolveHip5(params.domain, hip5Data);
       }
     }
     return false;
   }
   async resolveEns(input) {
-    let data = [getEnsAddress("1"), "eth-mainnet"];
+    const data = [getEnsAddress("1"), "eth-mainnet"];
     return this.resolveHip5(input, data);
   }
   async resolveHip5(domain, data) {
-    let connection = this.getConnection(data[1].replace("_", ""));
+    const connection = this.getConnection(data[1].replace("_", ""));
     // @ts-ignore
     const ens = new ENS({ provider: connection, ensAddress: data[0] });
     try {
-      let name = await ens.name(domain);
-      let contentResult = await name.getContent();
-      let url = await name.getText("url");
+      const name = await ens.name(domain);
+      const contentResult = await name.getContent();
+      const url = await name.getText("url");
       let content;
       if (typeof contentResult === "string" && 0 === Number(contentResult)) {
         content = false;
@@ -43,15 +43,16 @@ export default class Eip137 extends SubResolverBase {
       }
       return content || url || false;
     } catch (e) {
-      console.log(e);
       return false;
     }
   }
   getConnection(chain) {
     // @ts-ignore
-    let apiUrl = new URL(`https://${this.resolver.getPortal()}/pocketdns`);
+    const apiUrl = new URL.URL(
+      `https://${this.resolver.getPortal()}/pocketdns`
+    );
     if (URL.URLSearchParams) {
-      let params = new URL.URLSearchParams();
+      const params = new URL.URLSearchParams();
       params.set("chain", chain);
       apiUrl.search = params.toString();
     } else {
@@ -59,7 +60,7 @@ export default class Eip137 extends SubResolverBase {
     }
     return new ethers.providers.StaticJsonRpcProvider({
       // @ts-ignore
-      url: apiUrl.format(),
+      url: apiUrl.toString(),
     });
   }
 }

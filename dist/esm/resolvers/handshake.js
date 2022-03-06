@@ -1,6 +1,7 @@
 import {
   isDomain,
   isIp,
+  normalizeDomain,
   registryEntryRegExp,
   startsWithSkylinkRegExp,
 } from "../lib/util.js";
@@ -19,12 +20,12 @@ export default class Handshake extends SubResolverBase {
     if (input.includes(".")) {
       tld = input.split(".")[input.split(".").length - 1];
     }
-    let records = await this.query(tld);
+    const records = await this.query(tld);
     if (!records) {
       return false;
     }
     let result = false;
-    for (let record of records.reverse()) {
+    for (const record of records.reverse()) {
       // @ts-ignore
       switch (record.type) {
         case "NS": {
@@ -33,6 +34,19 @@ export default class Handshake extends SubResolverBase {
         }
         case "TXT": {
           result = await this.processTxt(record);
+          break;
+        }
+        case "SYNTH6": {
+          // @ts-ignore
+          if ("ipv6" in params && params.ipv6) {
+            // @ts-ignore
+            result = record.address;
+          }
+          break;
+        }
+        case "SYNTH4": {
+          // @ts-ignore
+          result = record.address;
           break;
         }
         // @ts-ignore
@@ -50,17 +64,26 @@ export default class Handshake extends SubResolverBase {
   // @ts-ignore
   async processNs(domain, record, records) {
     // @ts-ignore
-    let glue = records.slice().find(
-      // @ts-ignore
-      (item) => ["GLUE4", "GLUE6"].includes(item.type) && item.ns === record.ns
+    const glue = records.slice().find(
+      (item) =>
+        // @ts-ignore
+        ["GLUE4", "GLUE6"].includes(item.type) && item.ns === record.ns
     );
     if (glue) {
       return this.resolver.resolve(glue.address, { subquery: true, domain });
     }
-    if (isDomain(record.ns)) {
-      return this.resolver.resolve(record.ns, { subquery: true });
+    const foundDomain = normalizeDomain(record.ns);
+    if (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) {
+      const hnsNs = await this.resolver.resolve(foundDomain);
+      if (hnsNs) {
+        return this.resolver.resolve(hnsNs, {
+          subquery: true,
+          domain,
+        });
+      }
+      return this.resolver.resolve(foundDomain, { subquery: true });
     }
-    let result = await this.resolver.resolve(record.ns, { domain: domain });
+    const result = await this.resolver.resolve(record.ns, { domain });
     return result || record.ns;
   }
   async query(tld) {
@@ -71,7 +94,7 @@ export default class Handshake extends SubResolverBase {
       host: portal,
       port: 443,
       headers: {
-        "X-Chain": "hns",
+        "x-chain": "hns",
       },
     };
     const client = new HnsClient(clientOptions);
@@ -80,7 +103,6 @@ export default class Handshake extends SubResolverBase {
       // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
       resp = await client.execute("getnameresource", [tld]);
     } catch (e) {
-      console.error(e);
       return false;
     }
     // @ts-ignore
@@ -88,19 +110,21 @@ export default class Handshake extends SubResolverBase {
   }
   async processTxt(record) {
     // @ts-ignore
-    let matches;
+    let matches = record.txt.slice().pop().match(startsWithSkylinkRegExp);
     // @ts-ignore
-    if ((matches = record.txt.slice().pop().match(startsWithSkylinkRegExp))) {
+    if (matches) {
       return decodeURIComponent(matches[2]);
     }
     // @ts-ignore
-    if ((matches = record.txt.slice().pop().match(registryEntryRegExp))) {
+    matches = record.txt.slice().pop().match(registryEntryRegExp);
+    // @ts-ignore
+    if (matches) {
       const client = new SkynetClient(`https://${this.resolver.getPortal()}`);
-      let pubKey = decodeURIComponent(matches.groups.publickey).replace(
+      const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",
         ""
       );
-      let entry = await client.registry.getEntry(
+      const entry = await client.registry.getEntry(
         pubKey,
         matches.groups.datakey,
         // @ts-ignore
