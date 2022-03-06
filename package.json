@@ -12,6 +12,7 @@
     "buildtest": "npm run build && npm run test",
     "clean": "rimraf dist",
     "format": "prettier 'src/' 'tests/",
+    "prepare": "husky install",
     "lint": "tslint --project ."
   },
   "author": "",
