@@ -10,3 +10,4 @@ resolver.registerResolver(new Handshake(resolver));
 
 export { Resolver };
 export default resolver;
+export * from "./lib/util.js";
