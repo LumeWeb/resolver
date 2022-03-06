@@ -11,14 +11,15 @@ export default class HnsClient extends NodeClient {
     super(options);
   }
 
-  async execute(name: string, params: any[]): Promise<object> {
+  async execute(name: string, params: any): Promise<object> {
     // async execute(endpoint: string, method: string, params: any) {
     // @ts-ignore
     assert(typeof name === "string");
-    // @ts-ignore
-    assert(Array.isArray(params));
 
     this.sequence += 1;
+
+    // @ts-ignore
+    const chain = this.headers["x-chain"] ?? "hns";
 
     const res = await brq({
       method: "POST",
@@ -34,14 +35,12 @@ export default class HnsClient extends NodeClient {
       limit: this.limit,
       pool: true,
       query: {
-        // @ts-ignore
-        chain: this.headers["X-Chain"] ?? "hns",
+        chain,
       },
       json: {
         jsonrpc: "2.0",
         method: name,
         params,
-        chain: "hns",
         id: this.sequence,
       },
     });

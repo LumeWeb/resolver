@@ -89,7 +89,7 @@ export default class Handshake extends SubResolverBase {
       host: portal,
       port: 443,
       headers: {
-        "X-Chain": "hns",
+        "x-chain": "hns",
       },
     };
 
