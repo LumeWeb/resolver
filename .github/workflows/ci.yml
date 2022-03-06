@@ -30,4 +30,4 @@ jobs:
       - run: yarn lint
       - run: yarn test
         env:
-          TEST_PORTAL: "${{ env.TEST_PORTAL }}"
+          TEST_PORTAL: "${{ secrets.TEST_PORTAL }}"
