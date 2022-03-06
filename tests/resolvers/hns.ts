@@ -39,4 +39,14 @@ describe("Handshake", () => {
     const result = (await subresolver.resolve("proofofconcept")) as string;
     assert.equal(isIp(result), true);
   });
+  it("should to resolve bcoin.js to an ip address", async () => {
+    // @ts-ignore
+    const result = (await subresolver.resolve("bcoin.js")) as string;
+    assert.equal(isIp(result), true);
+  });
+  it("should to resolve handshake.txt to an ip address", async () => {
+    // @ts-ignore
+    const result = (await subresolver.resolve("handshake.txt")) as string;
+    assert.equal(isIp(result), true);
+  });
 });
