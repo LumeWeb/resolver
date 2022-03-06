@@ -1,7 +1,6 @@
 import resolver, { isIp, startsWithSkylinkRegExp } from "../../src/index.js";
 import Handshake from "../../src/resolvers/handshake.js";
 import assert from "assert";
-import { isIp, startsWithSkylinkRegExp } from "../../src/lib/util.js";
 
 resolver.registerPortal(process.env.TEST_PORTAL as string);
 
