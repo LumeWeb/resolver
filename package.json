@@ -24,7 +24,7 @@
   "dependencies": {
     "@lumeweb/ensjs": "^2.1.1",
     "@lumeweb/hs-client": "https://github.com/LumeWeb/hs-client.git",
-    "@lumeweb/skynet-js": "/home/derrick/Projects/lume/skynet-js",
+    "@lumeweb/skynet-js": "https://github.com/LumeWeb/skynet-js.git",
     "base32-decode": "^1.0.0",
     "base64-js": "^1.5.1",
     "brq": "^0.1.8",
