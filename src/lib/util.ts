@@ -13,3 +13,7 @@ export function isDomain(domain: string) {
 export const startsWithSkylinkRegExp = /^(sia:\/\/)?([a-zA-Z0-9_-]{46})/;
 export const registryEntryRegExp =
   /^skyns:\/\/(?<publickey>[a-zA-Z0-9%]+)\/(?<datakey>[a-zA-Z0-9%]+)$/;
+
+export function normalizeDomain(domain: string): string {
+  return domain.replace(/^\.+|\.+$/g, "").replace(/^\/+|\/+$/g, "");
+}
