@@ -4,6 +4,7 @@ import resolver from "../index.js";
 // @ts-ignore
 import { NodeClient } from "@lumeweb/hs-client";
 import SubResolverBase from "../SubResolverBase.js";
+import HnsClient from "./handshake/HnsClient.js";
 
 export default class Icann extends SubResolverBase {
   async resolve(input: string, params: object = {}): Promise<string | boolean> {
@@ -23,10 +24,10 @@ export default class Icann extends SubResolverBase {
       port: 443,
       path: "/pocketdns",
       headers: {
-        "X-Chain": "icann",
+        "x-chain": "icann",
       },
     };
-    const client = new NodeClient(clientOptions);
+    const client = new HnsClient(clientOptions);
     let resp: object | boolean = false;
     try {
       const rpcParams = {};
