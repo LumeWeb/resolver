@@ -347,7 +347,7 @@ var Icann = class extends SubResolverBase {
     } catch (e) {
       return false;
     }
-    return resp.result.pop();
+    return resp.result;
   }
 };
 

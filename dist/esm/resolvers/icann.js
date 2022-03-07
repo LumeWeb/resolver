@@ -35,6 +35,6 @@ export default class Icann extends SubResolverBase {
       return false;
     }
     // @ts-ignore
-    return resp.result.pop();
+    return resp.result;
   }
 }

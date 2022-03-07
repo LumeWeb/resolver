@@ -90913,7 +90913,7 @@
       } catch (e) {
         return false;
       }
-      return resp.result.pop();
+      return resp.result;
     }
   };
 
