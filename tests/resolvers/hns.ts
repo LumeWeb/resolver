@@ -42,15 +42,15 @@ describe("Handshake", () => {
     const result = (await subresolver.resolve("proofofconcept")) as string;
     assert.equal(isIp(result), true);
   });
-  it("should to resolve bcoin.js to an ip address", async () => {
+  it("should to resolve bcoin.js to a CNAME domain", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("bcoin.js")) as string;
-    assert.equal(isIp(result), true);
+    assert.equal(isDomain(result), true);
   });
-  it("should to resolve handshake.txt to an ip address", async () => {
+  it("should to resolve handshake.txt to a CNAME domain", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("handshake.txt")) as string;
-    assert.equal(isIp(result), true);
+    assert.equal(isDomain(result), true);
   });
   it("should to resolve domains.durendil to a domain testing GLUE records and CNAMES", async () => {
     // @ts-ignore
