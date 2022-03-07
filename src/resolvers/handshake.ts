@@ -11,6 +11,8 @@ import { NodeClient } from "hs-client";
 import HnsClient from "./handshake/HnsClient.js";
 import { SkynetClient } from "@lumeweb/skynet-js";
 import SubResolverBase from "../SubResolverBase.js";
+// @ts-ignore
+import tldEnum from "@lumeweb/tld-enum";
 
 export default class Handshake extends SubResolverBase {
   async resolve(input: string, params: object = {}): Promise<string | boolean> {
@@ -83,22 +85,36 @@ export default class Handshake extends SubResolverBase {
     );
 
     if (glue) {
-      return this.resolver.resolve(glue.address, { subquery: true, domain });
+      return this.resolver.resolve(domain, {
+        subquery: true,
+        nameserver: glue.address,
+      });
     }
 
     const foundDomain = normalizeDomain(record.ns);
-
+    let isIcann = false;
     if (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) {
-      const hnsNs = await this.resolver.resolve(foundDomain);
+      if (foundDomain.includes(".")) {
+        const tld = foundDomain.split(".")[foundDomain.split(".").length - 1];
 
-      if (hnsNs) {
-        return this.resolver.resolve(hnsNs as string, {
-          subquery: true,
-          domain,
-        });
+        isIcann = tldEnum.list.includes(tld);
       }
 
-      return this.resolver.resolve(foundDomain, { subquery: true });
+      if (!isIcann) {
+        const hnsNs = await this.resolver.resolve(foundDomain);
+
+        if (hnsNs) {
+          return this.resolver.resolve(domain, {
+            subquery: true,
+            nameserver: hnsNs,
+          });
+        }
+      }
+
+      return this.resolver.resolve(domain, {
+        subquery: true,
+        nameserver: foundDomain,
+      });
     }
 
     const result = await this.resolver.resolve(record.ns, { domain });
