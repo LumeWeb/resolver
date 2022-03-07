@@ -48,4 +48,9 @@ describe("Handshake", () => {
     const result = (await subresolver.resolve("handshake.txt")) as string;
     assert.equal(isIp(result), true);
   });
+  it("should to resolve domains.durendil to a domain", async () => {
+    // @ts-ignore
+    const result = (await subresolver.resolve("domains.durendil")) as string;
+    assert.equal(isDomain(result), true);
+  });
 });
