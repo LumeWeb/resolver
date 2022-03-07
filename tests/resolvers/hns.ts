@@ -10,7 +10,7 @@ resolver.registerPortal(process.env.TEST_PORTAL as string);
 
 describe("Handshake", () => {
   const subresolver = new Handshake(resolver);
-  it("should resolve homescreen/ correctly", async () => {
+  it("should resolve homescreen/ correctly for testing skynet resolver links", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("homescreen")) as string;
     assert.notEqual(result, null);
@@ -18,7 +18,7 @@ describe("Handshake", () => {
     assert.equal(startsWithSkylinkRegExp.test(result), true);
   });
 
-  it("should resolve skapp/ correctly", async () => {
+  it("should resolve skapp/ correctly for testing legacy skynet registry links", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("skapp")) as string;
     assert.notEqual(result, null);
@@ -32,12 +32,12 @@ describe("Handshake", () => {
     assert.equal(result, false);
   });
 
-  it("should to resolve welcome.nb/ to an ip address", async () => {
+  it("should to resolve welcome.nb/ to an ip address for testing GLUE records", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("welcome.nb")) as string;
     assert.equal(isIp(result), true);
   });
-  it("should to resolve proofofconcept/ to an ip address", async () => {
+  it("should to resolve proofofconcept/ to an ip address for testing a handshake domain nameserver", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("proofofconcept")) as string;
     assert.equal(isIp(result), true);
@@ -52,13 +52,13 @@ describe("Handshake", () => {
     const result = (await subresolver.resolve("handshake.txt")) as string;
     assert.equal(isIp(result), true);
   });
-  it("should to resolve domains.durendil to a domain", async () => {
+  it("should to resolve domains.durendil to a domain testing GLUE records and CNAMES", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("domains.durendil")) as string;
     assert.equal(isDomain(result), true);
   });
 
-  it("should to resolve humbly to an ip address", async () => {
+  it("should to resolve humbly to an ip address for testing ICANN nameservers", async () => {
     // @ts-ignore
     const result = (await subresolver.resolve("humbly")) as string;
     assert.equal(isIp(result), true);
