@@ -26,6 +26,10 @@ export default class Handshake extends SubResolverBase {
       return false;
     }
 
+    if ("subquery" in params) {
+      return false;
+    }
+
     if (input.includes(".")) {
       tld = input.split(".")[input.split(".").length - 1];
     }
