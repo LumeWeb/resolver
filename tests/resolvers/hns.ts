@@ -1,4 +1,8 @@
-import resolver, { isIp, startsWithSkylinkRegExp } from "../../src/index.js";
+import resolver, {
+  isDomain,
+  isIp,
+  startsWithSkylinkRegExp,
+} from "../../src/index.js";
 import Handshake from "../../src/resolvers/handshake.js";
 import assert from "assert";
 
