@@ -13,7 +13,8 @@ export default class Icann extends SubResolverBase {
       return false;
     }
 
-    if (!isDomain(input)) {
+    // @ts-ignore
+    if (!isDomain(input) && !("nameserver" in params || !params.nameserver)) {
       return false;
     }
 
@@ -33,9 +34,9 @@ export default class Icann extends SubResolverBase {
       const rpcParams = {};
 
       // @ts-ignore
-      rpcParams.domain = params.domain || input;
+      rpcParams.domain = input;
       // @ts-ignore
-      rpcParams.nameserver = !params.domain ? null : input;
+      rpcParams.nameserver = params.nameserver ?? undefined;
 
       // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
       resp = await client.execute("dnslookup", rpcParams);
