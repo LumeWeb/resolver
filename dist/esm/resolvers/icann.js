@@ -8,7 +8,8 @@ export default class Icann extends SubResolverBase {
     if (!params || !("subquery" in params) || !params.subquery) {
       return false;
     }
-    if (!isDomain(input)) {
+    // @ts-ignore
+    if (!isDomain(input) && !("nameserver" in params || !params.nameserver)) {
       return false;
     }
     const portal = resolver.getPortal();
@@ -26,9 +27,9 @@ export default class Icann extends SubResolverBase {
     try {
       const rpcParams = {};
       // @ts-ignore
-      rpcParams.domain = params.domain || input;
+      rpcParams.domain = input;
       // @ts-ignore
-      rpcParams.nameserver = !params.domain ? null : input;
+      rpcParams.nameserver = params.nameserver ?? undefined;
       // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
       resp = await client.execute("dnslookup", rpcParams);
     } catch (e) {

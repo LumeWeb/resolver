@@ -194,6 +194,7 @@ var SubResolverBase = class {
 };
 
 // src/resolvers/handshake.ts
+var import_tld_enum = __toESM(require("@lumeweb/tld-enum"), 1);
 var Handshake = class extends SubResolverBase {
   async resolve(input, params = {}) {
     let tld = input;
@@ -201,6 +202,9 @@ var Handshake = class extends SubResolverBase {
       return false;
     }
     if (input.endsWith(".eth")) {
+      return false;
+    }
+    if ("subquery" in params) {
       return false;
     }
     if (input.includes(".")) {
@@ -249,18 +253,31 @@ var Handshake = class extends SubResolverBase {
           ["GLUE4", "GLUE6"].includes(item.type) && item.ns === record.ns
       );
     if (glue) {
-      return this.resolver.resolve(glue.address, { subquery: true, domain });
+      return this.resolver.resolve(domain, {
+        subquery: true,
+        nameserver: glue.address,
+      });
     }
     const foundDomain = normalizeDomain(record.ns);
+    let isIcann = false;
     if (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) {
-      const hnsNs = await this.resolver.resolve(foundDomain);
-      if (hnsNs) {
-        return this.resolver.resolve(hnsNs, {
-          subquery: true,
-          domain,
-        });
+      if (foundDomain.includes(".")) {
+        const tld = foundDomain.split(".")[foundDomain.split(".").length - 1];
+        isIcann = import_tld_enum.default.list.includes(tld);
       }
-      return this.resolver.resolve(foundDomain, { subquery: true });
+      if (!isIcann) {
+        const hnsNs = await this.resolver.resolve(foundDomain);
+        if (hnsNs) {
+          return this.resolver.resolve(domain, {
+            subquery: true,
+            nameserver: hnsNs,
+          });
+        }
+      }
+      return this.resolver.resolve(domain, {
+        subquery: true,
+        nameserver: foundDomain,
+      });
     }
     const result = await this.resolver.resolve(record.ns, { domain });
     return result || record.ns;
@@ -321,10 +338,11 @@ var Handshake = class extends SubResolverBase {
 // src/resolvers/icann.ts
 var Icann = class extends SubResolverBase {
   async resolve(input, params = {}) {
+    var _a;
     if (!params || !("subquery" in params) || !params.subquery) {
       return false;
     }
-    if (!isDomain(input)) {
+    if (!isDomain(input) && !("nameserver" in params || !params.nameserver)) {
       return false;
     }
     const portal = src_default.getPortal();
@@ -341,8 +359,8 @@ var Icann = class extends SubResolverBase {
     let resp = false;
     try {
       const rpcParams = {};
-      rpcParams.domain = params.domain || input;
-      rpcParams.nameserver = !params.domain ? null : input;
+      rpcParams.domain = input;
+      rpcParams.nameserver = (_a = params.nameserver) != null ? _a : void 0;
       resp = await client.execute("dnslookup", rpcParams);
     } catch (e) {
       return false;

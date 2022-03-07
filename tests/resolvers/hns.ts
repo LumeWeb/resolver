@@ -6,7 +6,8 @@ import resolver, {
 import Handshake from "../../src/resolvers/handshake.js";
 import assert from "assert";
 
-resolver.registerPortal(process.env.TEST_PORTAL as string);
+resolver.registerPortal("skynet.derrickhammer.com");
+//resolver.registerPortal(process.env.TEST_PORTAL as string);
 
 describe("Handshake", () => {
   const subresolver = new Handshake(resolver);

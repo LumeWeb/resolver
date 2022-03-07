@@ -8,6 +8,8 @@ import {
 import HnsClient from "./handshake/HnsClient.js";
 import { SkynetClient } from "@lumeweb/skynet-js";
 import SubResolverBase from "../SubResolverBase.js";
+// @ts-ignore
+import tldEnum from "@lumeweb/tld-enum";
 export default class Handshake extends SubResolverBase {
   async resolve(input, params = {}) {
     let tld = input;
@@ -15,6 +17,9 @@ export default class Handshake extends SubResolverBase {
       return false;
     }
     if (input.endsWith(".eth")) {
+      return false;
+    }
+    if ("subquery" in params) {
       return false;
     }
     if (input.includes(".")) {
@@ -70,18 +75,31 @@ export default class Handshake extends SubResolverBase {
         ["GLUE4", "GLUE6"].includes(item.type) && item.ns === record.ns
     );
     if (glue) {
-      return this.resolver.resolve(glue.address, { subquery: true, domain });
+      return this.resolver.resolve(domain, {
+        subquery: true,
+        nameserver: glue.address,
+      });
     }
     const foundDomain = normalizeDomain(record.ns);
+    let isIcann = false;
     if (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) {
-      const hnsNs = await this.resolver.resolve(foundDomain);
-      if (hnsNs) {
-        return this.resolver.resolve(hnsNs, {
-          subquery: true,
-          domain,
-        });
+      if (foundDomain.includes(".")) {
+        const tld = foundDomain.split(".")[foundDomain.split(".").length - 1];
+        isIcann = tldEnum.list.includes(tld);
       }
-      return this.resolver.resolve(foundDomain, { subquery: true });
+      if (!isIcann) {
+        const hnsNs = await this.resolver.resolve(foundDomain);
+        if (hnsNs) {
+          return this.resolver.resolve(domain, {
+            subquery: true,
+            nameserver: hnsNs,
+          });
+        }
+      }
+      return this.resolver.resolve(domain, {
+        subquery: true,
+        nameserver: foundDomain,
+      });
     }
     const result = await this.resolver.resolve(record.ns, { domain });
     return result || record.ns;
