@@ -2,12 +2,6 @@
 import ENSRoot, { getEnsAddress } from "@lumeweb/ensjs";
 import { ethers, providers } from "ethers";
 import URL from "url";
-// @ts-ignore
-import contentHasher from "content-hash";
-// @ts-ignore
-import { profiles as contentHashProfiles } from "content-hash/src/profiles.js";
-// @ts-ignore
-import { encodeContenthash } from "@lumeweb/ensjs/dist/utils/contents.js";
 import SubResolverBase from "../SubResolverBase.js";
 
 const ENS = ENSRoot.default;
