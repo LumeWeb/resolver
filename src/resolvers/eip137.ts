@@ -78,7 +78,7 @@ export default class Eip137 extends SubResolverBase {
     }
     return new ethers.providers.StaticJsonRpcProvider({
       // @ts-ignore
-      url: apiUrl.toString(),
+      url: apiUrl.format(),
     });
   }
 }
