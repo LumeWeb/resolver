@@ -117425,7 +117425,7 @@
         apiUrl.search = `?chain=${chain}`;
       }
       return new ethers_exports.providers.StaticJsonRpcProvider({
-        url: apiUrl.toString(),
+        url: apiUrl.format(),
       });
     }
   };

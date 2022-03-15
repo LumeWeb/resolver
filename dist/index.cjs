@@ -425,7 +425,7 @@ var Eip137 = class extends SubResolverBase {
       apiUrl.search = `?chain=${chain}`;
     }
     return new import_ethers.ethers.providers.StaticJsonRpcProvider({
-      url: apiUrl.toString(),
+      url: apiUrl.format(),
     });
   }
 };
