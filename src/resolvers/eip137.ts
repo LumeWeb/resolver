@@ -66,7 +66,7 @@ export default class Eip137 extends SubResolverBase {
 
   private getConnection(chain: string): providers.StaticJsonRpcProvider {
     // @ts-ignore
-    const apiUrl = new URL.Url(
+    const apiUrl = new URL.parse(
       `https://${this.resolver.getPortal()}/pocketdns`
     );
     if (URL.URLSearchParams) {
