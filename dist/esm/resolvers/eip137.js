@@ -48,7 +48,7 @@ export default class Eip137 extends SubResolverBase {
   }
   getConnection(chain) {
     // @ts-ignore
-    const apiUrl = new URL.URL(
+    const apiUrl = new URL.parse(
       `https://${this.resolver.getPortal()}/pocketdns`
     );
     if (URL.URLSearchParams) {

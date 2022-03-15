@@ -414,7 +414,7 @@ var Eip137 = class extends SubResolverBase {
     }
   }
   getConnection(chain) {
-    const apiUrl = new import_url.default.URL(
+    const apiUrl = new import_url.default.parse(
       `https://${this.resolver.getPortal()}/pocketdns`
     );
     if (import_url.default.URLSearchParams) {

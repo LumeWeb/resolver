@@ -2480,7 +2480,7 @@
               if (!this._request) return;
               var secKey = this._request.headers["sec-websocket-key"],
                 protos = this._request.headers["sec-websocket-protocol"],
-                version27 = this._request.headers["sec-websocket-version"],
+                version89 = this._request.headers["sec-websocket-version"],
                 supported = this._protocols;
               this._headers.set("Upgrade", "websocket");
               this._headers.set("Connection", "Upgrade");
@@ -2496,7 +2496,7 @@
                 if (this.protocol)
                   this._headers.set("Sec-WebSocket-Protocol", this.protocol);
               }
-              this.version = "hybi-" + version27;
+              this.version = "hybi-" + version89;
             };
             util.inherits(Hybi, Base);
             Hybi.mask = function (payload, mask, offset) {
@@ -6894,7 +6894,7 @@
           serializedParams = params.toString();
         } else {
           var parts = [];
-          utils.forEach(params, function serialize3(val, key2) {
+          utils.forEach(params, function serialize4(val, key2) {
             if (val === null || typeof val === "undefined") {
               return;
             }
@@ -7534,7 +7534,7 @@
         options = options || {};
         var type = typeof val;
         if (type === "string" && val.length > 0) {
-          return parse5(val);
+          return parse6(val);
         } else if (type === "number" && isFinite(val)) {
           return options.long ? fmtLong(val) : fmtShort(val);
         }
@@ -7543,7 +7543,7 @@
             JSON.stringify(val)
         );
       };
-      function parse5(str) {
+      function parse6(str) {
         str = String(str);
         if (str.length > 100) {
           return;
@@ -8133,13 +8133,13 @@
           return 3;
         }
         if ("TERM_PROGRAM" in env) {
-          const version27 = parseInt(
+          const version89 = parseInt(
             (env.TERM_PROGRAM_VERSION || "").split(".")[0],
             10
           );
           switch (env.TERM_PROGRAM) {
             case "iTerm.app":
-              return version27 >= 3 ? 3 : 2;
+              return version89 >= 3 ? 3 : 2;
             case "Apple_Terminal":
               return 2;
           }
@@ -9570,7 +9570,7 @@
       var deprecatedWarnings = {};
       validators.transitional = function transitional(
         validator,
-        version27,
+        version89,
         message
       ) {
         function formatMessage(opt, desc) {
@@ -9589,17 +9589,17 @@
             throw new Error(
               formatMessage(
                 opt,
-                " has been removed" + (version27 ? " in " + version27 : "")
+                " has been removed" + (version89 ? " in " + version89 : "")
               )
             );
           }
-          if (version27 && !deprecatedWarnings[opt]) {
+          if (version89 && !deprecatedWarnings[opt]) {
             deprecatedWarnings[opt] = true;
             console.warn(
               formatMessage(
                 opt,
                 " has been deprecated since v" +
-                  version27 +
+                  version89 +
                   " and will be removed in the near future"
               )
             );
@@ -10311,7 +10311,7 @@
           "use strict";
           global2 = global2 || {};
           var _Base64 = global2.Base64;
-          var version27 = "2.6.4";
+          var version89 = "2.6.4";
           var b64chars =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
           var b64tab = (function (bin) {
@@ -10491,7 +10491,7 @@
             return Base643;
           };
           global2.Base64 = {
-            VERSION: version27,
+            VERSION: version89,
             atob: atob2,
             btoa: btoa2,
             fromBase64: decode3,
@@ -10786,7 +10786,7 @@
         }
         var relative,
           extracted,
-          parse5,
+          parse6,
           instruction,
           index,
           key2,
@@ -10822,15 +10822,15 @@
             address = instruction(address, url);
             continue;
           }
-          parse5 = instruction[0];
+          parse6 = instruction[0];
           key2 = instruction[1];
-          if (parse5 !== parse5) {
+          if (parse6 !== parse6) {
             url[key2] = address;
-          } else if (typeof parse5 === "string") {
+          } else if (typeof parse6 === "string") {
             index =
-              parse5 === "@"
-                ? address.lastIndexOf(parse5)
-                : address.indexOf(parse5);
+              parse6 === "@"
+                ? address.lastIndexOf(parse6)
+                : address.indexOf(parse6);
             if (~index) {
               if (typeof instruction[2] === "number") {
                 url[key2] = address.slice(0, index);
@@ -10840,7 +10840,7 @@
                 address = address.slice(0, index);
               }
             }
-          } else if ((index = parse5.exec(address))) {
+          } else if ((index = parse6.exec(address))) {
             url[key2] = index[1];
             address = address.slice(0, index.index);
           }
@@ -15563,7 +15563,7 @@
           }
           return _format("/", pathObject);
         },
-        parse: function parse5(path3) {
+        parse: function parse6(path3) {
           assertPath(path3);
           var ret = { root: "", dir: "", base: "", ext: "", name: "" };
           if (path3.length === 0) return ret;
@@ -36833,15 +36833,15 @@
     },
   });
 
-  // node_modules/@ethersproject/logger/lib.esm/_version.js
+  // node_modules/@ethersproject/bignumber/node_modules/@ethersproject/logger/lib.esm/_version.js
   var version;
   var init_version = __esm({
-    "node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+    "node_modules/@ethersproject/bignumber/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
       version = "logger/5.5.0";
     },
   });
 
-  // node_modules/@ethersproject/logger/lib.esm/index.js
+  // node_modules/@ethersproject/bignumber/node_modules/@ethersproject/logger/lib.esm/index.js
   function _checkNormalize() {
     try {
       const missing = [];
@@ -36879,7 +36879,7 @@
     HEX,
     Logger;
   var init_lib = __esm({
-    "node_modules/@ethersproject/logger/lib.esm/index.js"() {
+    "node_modules/@ethersproject/bignumber/node_modules/@ethersproject/logger/lib.esm/index.js"() {
       "use strict";
       init_version();
       _permanentCensorErrors = false;
@@ -36895,39 +36895,39 @@
       _logLevel = LogLevels["default"];
       _globalLogger = null;
       _normalizeError = _checkNormalize();
-      (function (LogLevel2) {
-        LogLevel2["DEBUG"] = "DEBUG";
-        LogLevel2["INFO"] = "INFO";
-        LogLevel2["WARNING"] = "WARNING";
-        LogLevel2["ERROR"] = "ERROR";
-        LogLevel2["OFF"] = "OFF";
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
       })(LogLevel || (LogLevel = {}));
-      (function (ErrorCode2) {
-        ErrorCode2["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
-        ErrorCode2["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
-        ErrorCode2["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
-        ErrorCode2["NETWORK_ERROR"] = "NETWORK_ERROR";
-        ErrorCode2["SERVER_ERROR"] = "SERVER_ERROR";
-        ErrorCode2["TIMEOUT"] = "TIMEOUT";
-        ErrorCode2["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
-        ErrorCode2["NUMERIC_FAULT"] = "NUMERIC_FAULT";
-        ErrorCode2["MISSING_NEW"] = "MISSING_NEW";
-        ErrorCode2["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
-        ErrorCode2["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
-        ErrorCode2["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
-        ErrorCode2["CALL_EXCEPTION"] = "CALL_EXCEPTION";
-        ErrorCode2["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
-        ErrorCode2["NONCE_EXPIRED"] = "NONCE_EXPIRED";
-        ErrorCode2["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
-        ErrorCode2["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
-        ErrorCode2["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
       })(ErrorCode || (ErrorCode = {}));
       HEX = "0123456789abcdef";
       Logger = class {
-        constructor(version27) {
+        constructor(version89) {
           Object.defineProperty(this, "version", {
             enumerable: true,
-            value: version27,
+            value: version89,
             writable: false,
           });
         }
@@ -37144,8 +37144,8 @@
           }
           _logLevel = level;
         }
-        static from(version27) {
-          return new Logger(version27);
+        static from(version89) {
+          return new Logger(version89);
         }
       };
       Logger.errors = ErrorCode;
@@ -37153,15 +37153,15 @@
     },
   });
 
-  // node_modules/@ethersproject/bytes/lib.esm/_version.js
+  // node_modules/@ethersproject/bignumber/node_modules/@ethersproject/bytes/lib.esm/_version.js
   var version2;
   var init_version2 = __esm({
-    "node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+    "node_modules/@ethersproject/bignumber/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
       version2 = "bytes/5.5.0";
     },
   });
 
-  // node_modules/@ethersproject/bytes/lib.esm/index.js
+  // node_modules/@ethersproject/bignumber/node_modules/@ethersproject/bytes/lib.esm/index.js
   function isHexable(value) {
     return !!value.toHexString;
   }
@@ -37174,9 +37174,6 @@
       return addSlice(new Uint8Array(Array.prototype.slice.apply(array, args)));
     };
     return array;
-  }
-  function isBytesLike(value) {
-    return (isHexString2(value) && !(value.length % 2)) || isBytes(value);
   }
   function isInteger(value) {
     return typeof value === "number" && value == value && value % 1 === 0;
@@ -37250,39 +37247,6 @@
     }
     return logger.throwArgumentError("invalid arrayify value", "value", value);
   }
-  function concat(items) {
-    const objects = items.map((item) => arrayify(item));
-    const length = objects.reduce((accum, item) => accum + item.length, 0);
-    const result = new Uint8Array(length);
-    objects.reduce((offset, object) => {
-      result.set(object, offset);
-      return offset + object.length;
-    }, 0);
-    return addSlice(result);
-  }
-  function stripZeros(value) {
-    let result = arrayify(value);
-    if (result.length === 0) {
-      return result;
-    }
-    let start = 0;
-    while (start < result.length && result[start] === 0) {
-      start++;
-    }
-    if (start) {
-      result = result.slice(start);
-    }
-    return result;
-  }
-  function zeroPad(value, length) {
-    value = arrayify(value);
-    if (value.length > length) {
-      logger.throwArgumentError("value out of range", "value", arguments[0]);
-    }
-    const result = new Uint8Array(length);
-    result.set(value, length - value.length);
-    return addSlice(result);
-  }
   function isHexString2(value, length) {
     if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
       return false;
@@ -37350,54 +37314,6 @@
     }
     return logger.throwArgumentError("invalid hexlify value", "value", value);
   }
-  function hexDataLength(data) {
-    if (typeof data !== "string") {
-      data = hexlify(data);
-    } else if (!isHexString2(data) || data.length % 2) {
-      return null;
-    }
-    return (data.length - 2) / 2;
-  }
-  function hexDataSlice(data, offset, endOffset) {
-    if (typeof data !== "string") {
-      data = hexlify(data);
-    } else if (!isHexString2(data) || data.length % 2) {
-      logger.throwArgumentError("invalid hexData", "value", data);
-    }
-    offset = 2 + 2 * offset;
-    if (endOffset != null) {
-      return "0x" + data.substring(offset, 2 + 2 * endOffset);
-    }
-    return "0x" + data.substring(offset);
-  }
-  function hexConcat(items) {
-    let result = "0x";
-    items.forEach((item) => {
-      result += hexlify(item).substring(2);
-    });
-    return result;
-  }
-  function hexValue(value) {
-    const trimmed = hexStripZeros(hexlify(value, { hexPad: "left" }));
-    if (trimmed === "0x") {
-      return "0x0";
-    }
-    return trimmed;
-  }
-  function hexStripZeros(value) {
-    if (typeof value !== "string") {
-      value = hexlify(value);
-    }
-    if (!isHexString2(value)) {
-      logger.throwArgumentError("invalid hex string", "value", value);
-    }
-    value = value.substring(2);
-    let offset = 0;
-    while (offset < value.length && value[offset] === "0") {
-      offset++;
-    }
-    return "0x" + value.substring(offset);
-  }
   function hexZeroPad(value, length) {
     if (typeof value !== "string") {
       value = hexlify(value);
@@ -37412,165 +37328,9 @@
     }
     return value;
   }
-  function splitSignature(signature2) {
-    const result = {
-      r: "0x",
-      s: "0x",
-      _vs: "0x",
-      recoveryParam: 0,
-      v: 0,
-    };
-    if (isBytesLike(signature2)) {
-      const bytes = arrayify(signature2);
-      if (bytes.length !== 65) {
-        logger.throwArgumentError(
-          "invalid signature string; must be 65 bytes",
-          "signature",
-          signature2
-        );
-      }
-      result.r = hexlify(bytes.slice(0, 32));
-      result.s = hexlify(bytes.slice(32, 64));
-      result.v = bytes[64];
-      if (result.v < 27) {
-        if (result.v === 0 || result.v === 1) {
-          result.v += 27;
-        } else {
-          logger.throwArgumentError(
-            "signature invalid v byte",
-            "signature",
-            signature2
-          );
-        }
-      }
-      result.recoveryParam = 1 - (result.v % 2);
-      if (result.recoveryParam) {
-        bytes[32] |= 128;
-      }
-      result._vs = hexlify(bytes.slice(32, 64));
-    } else {
-      result.r = signature2.r;
-      result.s = signature2.s;
-      result.v = signature2.v;
-      result.recoveryParam = signature2.recoveryParam;
-      result._vs = signature2._vs;
-      if (result._vs != null) {
-        const vs2 = zeroPad(arrayify(result._vs), 32);
-        result._vs = hexlify(vs2);
-        const recoveryParam = vs2[0] >= 128 ? 1 : 0;
-        if (result.recoveryParam == null) {
-          result.recoveryParam = recoveryParam;
-        } else if (result.recoveryParam !== recoveryParam) {
-          logger.throwArgumentError(
-            "signature recoveryParam mismatch _vs",
-            "signature",
-            signature2
-          );
-        }
-        vs2[0] &= 127;
-        const s2 = hexlify(vs2);
-        if (result.s == null) {
-          result.s = s2;
-        } else if (result.s !== s2) {
-          logger.throwArgumentError(
-            "signature v mismatch _vs",
-            "signature",
-            signature2
-          );
-        }
-      }
-      if (result.recoveryParam == null) {
-        if (result.v == null) {
-          logger.throwArgumentError(
-            "signature missing v and recoveryParam",
-            "signature",
-            signature2
-          );
-        } else if (result.v === 0 || result.v === 1) {
-          result.recoveryParam = result.v;
-        } else {
-          result.recoveryParam = 1 - (result.v % 2);
-        }
-      } else {
-        if (result.v == null) {
-          result.v = 27 + result.recoveryParam;
-        } else {
-          const recId =
-            result.v === 0 || result.v === 1 ? result.v : 1 - (result.v % 2);
-          if (result.recoveryParam !== recId) {
-            logger.throwArgumentError(
-              "signature recoveryParam mismatch v",
-              "signature",
-              signature2
-            );
-          }
-        }
-      }
-      if (result.r == null || !isHexString2(result.r)) {
-        logger.throwArgumentError(
-          "signature missing or invalid r",
-          "signature",
-          signature2
-        );
-      } else {
-        result.r = hexZeroPad(result.r, 32);
-      }
-      if (result.s == null || !isHexString2(result.s)) {
-        logger.throwArgumentError(
-          "signature missing or invalid s",
-          "signature",
-          signature2
-        );
-      } else {
-        result.s = hexZeroPad(result.s, 32);
-      }
-      const vs = arrayify(result.s);
-      if (vs[0] >= 128) {
-        logger.throwArgumentError(
-          "signature s out of range",
-          "signature",
-          signature2
-        );
-      }
-      if (result.recoveryParam) {
-        vs[0] |= 128;
-      }
-      const _vs = hexlify(vs);
-      if (result._vs) {
-        if (!isHexString2(result._vs)) {
-          logger.throwArgumentError(
-            "signature invalid _vs",
-            "signature",
-            signature2
-          );
-        }
-        result._vs = hexZeroPad(result._vs, 32);
-      }
-      if (result._vs == null) {
-        result._vs = _vs;
-      } else if (result._vs !== _vs) {
-        logger.throwArgumentError(
-          "signature _vs mismatch v and s",
-          "signature",
-          signature2
-        );
-      }
-    }
-    return result;
-  }
-  function joinSignature(signature2) {
-    signature2 = splitSignature(signature2);
-    return hexlify(
-      concat([
-        signature2.r,
-        signature2.s,
-        signature2.recoveryParam ? "0x1c" : "0x1b",
-      ])
-    );
-  }
   var logger, HexCharacters;
   var init_lib2 = __esm({
-    "node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+    "node_modules/@ethersproject/bignumber/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
       "use strict";
       init_lib();
       init_version2();
@@ -38363,15 +38123,335 @@
     },
   });
 
-  // node_modules/@ethersproject/properties/lib.esm/_version.js
+  // node_modules/@ethersproject/abi/node_modules/@ethersproject/logger/lib.esm/_version.js
   var version4;
   var init_version4 = __esm({
-    "node_modules/@ethersproject/properties/lib.esm/_version.js"() {
-      version4 = "properties/5.5.0";
+    "node_modules/@ethersproject/abi/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version4 = "logger/5.5.0";
     },
   });
 
-  // node_modules/@ethersproject/properties/lib.esm/index.js
+  // node_modules/@ethersproject/abi/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize2() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors2,
+    _censorErrors2,
+    LogLevels2,
+    _logLevel2,
+    _globalLogger2,
+    _normalizeError2,
+    LogLevel2,
+    ErrorCode2,
+    HEX2,
+    Logger2;
+  var init_lib4 = __esm({
+    "node_modules/@ethersproject/abi/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version4();
+      _permanentCensorErrors2 = false;
+      _censorErrors2 = false;
+      LogLevels2 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel2 = LogLevels2["default"];
+      _globalLogger2 = null;
+      _normalizeError2 = _checkNormalize2();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel2 || (LogLevel2 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode2 || (ErrorCode2 = {}));
+      HEX2 = "0123456789abcdef";
+      Logger2 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels2[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel2 > LogLevels2[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger2.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger2.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger2.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors2) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger2.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX2[value[i] >> 4];
+                  hex += HEX2[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger2.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError2) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger2.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError2,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger2.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger2.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger2.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger2.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger2.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger2.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger2.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger2) {
+            _globalLogger2 = new Logger2(version4);
+          }
+          return _globalLogger2;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger2.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors2) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger2.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors2 = !!censorship;
+          _permanentCensorErrors2 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels2[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger2.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel2 = level;
+        }
+        static from(version89) {
+          return new Logger2(version89);
+        }
+      };
+      Logger2.errors = ErrorCode2;
+      Logger2.levels = LogLevel2;
+    },
+  });
+
+  // node_modules/@ethersproject/abi/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version5;
+  var init_version5 = __esm({
+    "node_modules/@ethersproject/abi/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version5 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/abi/node_modules/@ethersproject/properties/lib.esm/index.js
   function defineReadOnly(object, name2, value) {
     Object.defineProperty(object, name2, {
       enumerable: true,
@@ -38390,40 +38470,6 @@
       ctor = Object.getPrototypeOf(ctor.prototype).constructor;
     }
     return null;
-  }
-  function resolveProperties(object) {
-    return __awaiter2(this, void 0, void 0, function* () {
-      const promises = Object.keys(object).map((key2) => {
-        const value = object[key2];
-        return Promise.resolve(value).then((v2) => ({ key: key2, value: v2 }));
-      });
-      const results = yield Promise.all(promises);
-      return results.reduce((accum, result) => {
-        accum[result.key] = result.value;
-        return accum;
-      }, {});
-    });
-  }
-  function checkProperties(object, properties) {
-    if (!object || typeof object !== "object") {
-      logger4.throwArgumentError("invalid object", "object", object);
-    }
-    Object.keys(object).forEach((key2) => {
-      if (!properties[key2]) {
-        logger4.throwArgumentError(
-          "invalid object key - " + key2,
-          "transaction:" + key2,
-          object
-        );
-      }
-    });
-  }
-  function shallowCopy(object) {
-    const result = {};
-    for (const key2 in object) {
-      result[key2] = object[key2];
-    }
-    return result;
   }
   function _isFrozen(object) {
     if (object === void 0 || object === null || opaque[typeof object]) {
@@ -38480,44 +38526,13 @@
   function deepCopy(object) {
     return _deepCopy(object);
   }
-  var __awaiter2, logger4, opaque, Description;
-  var init_lib4 = __esm({
-    "node_modules/@ethersproject/properties/lib.esm/index.js"() {
+  var logger4, opaque, Description;
+  var init_lib5 = __esm({
+    "node_modules/@ethersproject/abi/node_modules/@ethersproject/properties/lib.esm/index.js"() {
       "use strict";
-      init_lib();
-      init_version4();
-      __awaiter2 = function (thisArg, _arguments, P2, generator) {
-        function adopt(value) {
-          return value instanceof P2
-            ? value
-            : new P2(function (resolve2) {
-                resolve2(value);
-              });
-        }
-        return new (P2 || (P2 = Promise))(function (resolve2, reject) {
-          function fulfilled(value) {
-            try {
-              step(generator.next(value));
-            } catch (e) {
-              reject(e);
-            }
-          }
-          function rejected(value) {
-            try {
-              step(generator["throw"](value));
-            } catch (e) {
-              reject(e);
-            }
-          }
-          function step(result) {
-            result.done
-              ? resolve2(result.value)
-              : adopt(result.value).then(fulfilled, rejected);
-          }
-          step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-      };
-      logger4 = new Logger(version4);
+      init_lib4();
+      init_version5();
+      logger4 = new Logger2(version5);
       opaque = {
         bigint: true,
         boolean: true,
@@ -38536,10 +38551,10 @@
   });
 
   // node_modules/@ethersproject/abi/lib.esm/_version.js
-  var version5;
-  var init_version5 = __esm({
+  var version6;
+  var init_version6 = __esm({
     "node_modules/@ethersproject/abi/lib.esm/_version.js"() {
-      version5 = "abi/5.5.0";
+      version6 = "abi/5.5.0";
     },
   });
 
@@ -38937,10 +38952,10 @@
     "node_modules/@ethersproject/abi/lib.esm/fragments.js"() {
       "use strict";
       init_lib3();
+      init_lib5();
       init_lib4();
-      init_lib();
-      init_version5();
-      logger5 = new Logger(version5);
+      init_version6();
+      logger5 = new Logger2(version6);
       _constructorGuard3 = {};
       ModifiersBytes = { calldata: true, memory: true, storage: true };
       ModifiersNest = { calldata: true, memory: true };
@@ -38956,7 +38971,7 @@
           if (constructorGuard !== _constructorGuard3) {
             logger5.throwError(
               "use fromString",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger2.errors.UNSUPPORTED_OPERATION,
               {
                 operation: "new ParamType()",
               }
@@ -39076,7 +39091,7 @@
           if (constructorGuard !== _constructorGuard3) {
             logger5.throwError(
               "use a static from method",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger2.errors.UNSUPPORTED_OPERATION,
               {
                 operation: "new Fragment()",
               }
@@ -39254,7 +39269,7 @@
           if (format === FormatTypes.sighash) {
             logger5.throwError(
               "cannot format a constructor for sighash",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger2.errors.UNSUPPORTED_OPERATION,
               {
                 operation: "format(sighash)",
               }
@@ -39531,6 +39546,223 @@
     },
   });
 
+  // node_modules/@ethersproject/abi/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version7;
+  var init_version7 = __esm({
+    "node_modules/@ethersproject/abi/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version7 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/abi/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable2(value) {
+    return !!value.toHexString;
+  }
+  function addSlice2(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice2(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger2(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes2(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger2(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger2(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify2(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger6.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice2(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable2(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString3(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger6.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice2(new Uint8Array(result));
+    }
+    if (isBytes2(value)) {
+      return addSlice2(new Uint8Array(value));
+    }
+    return logger6.throwArgumentError("invalid arrayify value", "value", value);
+  }
+  function concat(items) {
+    const objects = items.map((item) => arrayify2(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice2(result);
+  }
+  function isHexString3(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify2(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger6.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters2[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable2(value)) {
+      return value.toHexString();
+    }
+    if (isHexString3(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger6.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes2(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters2[(v2 & 240) >> 4] + HexCharacters2[v2 & 15];
+      }
+      return result;
+    }
+    return logger6.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexDataSlice(data, offset, endOffset) {
+    if (typeof data !== "string") {
+      data = hexlify2(data);
+    } else if (!isHexString3(data) || data.length % 2) {
+      logger6.throwArgumentError("invalid hexData", "value", data);
+    }
+    offset = 2 + 2 * offset;
+    if (endOffset != null) {
+      return "0x" + data.substring(offset, 2 + 2 * endOffset);
+    }
+    return "0x" + data.substring(offset);
+  }
+  function hexConcat(items) {
+    let result = "0x";
+    items.forEach((item) => {
+      result += hexlify2(item).substring(2);
+    });
+    return result;
+  }
+  function hexZeroPad2(value, length) {
+    if (typeof value !== "string") {
+      value = hexlify2(value);
+    } else if (!isHexString3(value)) {
+      logger6.throwArgumentError("invalid hex string", "value", value);
+    }
+    if (value.length > 2 * length + 2) {
+      logger6.throwArgumentError("value out of range", "value", arguments[1]);
+    }
+    while (value.length < 2 * length + 2) {
+      value = "0x0" + value.substring(2);
+    }
+    return value;
+  }
+  var logger6, HexCharacters2;
+  var init_lib6 = __esm({
+    "node_modules/@ethersproject/abi/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib4();
+      init_version7();
+      logger6 = new Logger2(version7);
+      HexCharacters2 = "0123456789abcdef";
+    },
+  });
+
   // node_modules/@ethersproject/abi/lib.esm/coders/abstract-coder.js
   function checkResultErrors(result) {
     const errors = [];
@@ -39551,16 +39783,16 @@
     checkErrors([], result);
     return errors;
   }
-  var logger6, Coder, Writer, Reader;
+  var logger7, Coder, Writer, Reader;
   var init_abstract_coder = __esm({
     "node_modules/@ethersproject/abi/lib.esm/coders/abstract-coder.js"() {
       "use strict";
-      init_lib2();
+      init_lib6();
       init_lib3();
+      init_lib5();
       init_lib4();
-      init_lib();
-      init_version5();
-      logger6 = new Logger(version5);
+      init_version6();
+      logger7 = new Logger2(version6);
       Coder = class {
         constructor(name2, type, localName, dynamic) {
           this.name = name2;
@@ -39569,7 +39801,7 @@
           this.dynamic = dynamic;
         }
         _throwError(message, value) {
-          logger6.throwArgumentError(message, this.localName, value);
+          logger7.throwArgumentError(message, this.localName, value);
         }
       };
       Writer = class {
@@ -39594,7 +39826,7 @@
           return this._writeData(concat(writer._data));
         }
         writeBytes(value) {
-          let bytes = arrayify(value);
+          let bytes = arrayify2(value);
           const paddingOffset = bytes.length % this.wordSize;
           if (paddingOffset) {
             bytes = concat([bytes, this._padding.slice(paddingOffset)]);
@@ -39602,11 +39834,11 @@
           return this._writeData(bytes);
         }
         _getValue(value) {
-          let bytes = arrayify(BigNumber.from(value));
+          let bytes = arrayify2(BigNumber.from(value));
           if (bytes.length > this.wordSize) {
-            logger6.throwError(
+            logger7.throwError(
               "value out-of-bounds",
-              Logger.errors.BUFFER_OVERRUN,
+              Logger2.errors.BUFFER_OVERRUN,
               {
                 length: this.wordSize,
                 offset: bytes.length,
@@ -39635,14 +39867,14 @@
       };
       Reader = class {
         constructor(data, wordSize, coerceFunc, allowLoose) {
-          defineReadOnly(this, "_data", arrayify(data));
+          defineReadOnly(this, "_data", arrayify2(data));
           defineReadOnly(this, "wordSize", wordSize || 32);
           defineReadOnly(this, "_coerceFunc", coerceFunc);
           defineReadOnly(this, "allowLoose", allowLoose);
           this._offset = 0;
         }
         get data() {
-          return hexlify(this._data);
+          return hexlify2(this._data);
         }
         get consumed() {
           return this._offset;
@@ -39670,9 +39902,9 @@
             ) {
               alignedLength = length;
             } else {
-              logger6.throwError(
+              logger7.throwError(
                 "data out-of-bounds",
-                Logger.errors.BUFFER_OVERRUN,
+                Logger2.errors.BUFFER_OVERRUN,
                 {
                   length: this._data.length,
                   offset: this._offset + alignedLength,
@@ -39699,6 +39931,544 @@
           return BigNumber.from(this.readBytes(this.wordSize));
         }
       };
+    },
+  });
+
+  // node_modules/@ethersproject/address/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version8;
+  var init_version8 = __esm({
+    "node_modules/@ethersproject/address/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version8 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/address/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize3() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors3,
+    _censorErrors3,
+    LogLevels3,
+    _logLevel3,
+    _globalLogger3,
+    _normalizeError3,
+    LogLevel3,
+    ErrorCode3,
+    HEX3,
+    Logger3;
+  var init_lib7 = __esm({
+    "node_modules/@ethersproject/address/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version8();
+      _permanentCensorErrors3 = false;
+      _censorErrors3 = false;
+      LogLevels3 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel3 = LogLevels3["default"];
+      _globalLogger3 = null;
+      _normalizeError3 = _checkNormalize3();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel3 || (LogLevel3 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode3 || (ErrorCode3 = {}));
+      HEX3 = "0123456789abcdef";
+      Logger3 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels3[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel3 > LogLevels3[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger3.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger3.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger3.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors3) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger3.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX3[value[i] >> 4];
+                  hex += HEX3[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger3.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError3) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger3.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError3,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger3.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger3.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger3.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger3.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger3.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger3.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger3.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger3) {
+            _globalLogger3 = new Logger3(version8);
+          }
+          return _globalLogger3;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger3.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors3) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger3.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors3 = !!censorship;
+          _permanentCensorErrors3 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels3[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger3.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel3 = level;
+        }
+        static from(version89) {
+          return new Logger3(version89);
+        }
+      };
+      Logger3.errors = ErrorCode3;
+      Logger3.levels = LogLevel3;
+    },
+  });
+
+  // node_modules/@ethersproject/address/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version9;
+  var init_version9 = __esm({
+    "node_modules/@ethersproject/address/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version9 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/address/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable3(value) {
+    return !!value.toHexString;
+  }
+  function addSlice3(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice3(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger3(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes3(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger3(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger3(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify3(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger8.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice3(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable3(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString4(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger8.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice3(new Uint8Array(result));
+    }
+    if (isBytes3(value)) {
+      return addSlice3(new Uint8Array(value));
+    }
+    return logger8.throwArgumentError("invalid arrayify value", "value", value);
+  }
+  function concat2(items) {
+    const objects = items.map((item) => arrayify3(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice3(result);
+  }
+  function stripZeros(value) {
+    let result = arrayify3(value);
+    if (result.length === 0) {
+      return result;
+    }
+    let start = 0;
+    while (start < result.length && result[start] === 0) {
+      start++;
+    }
+    if (start) {
+      result = result.slice(start);
+    }
+    return result;
+  }
+  function isHexString4(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify3(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger8.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters3[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable3(value)) {
+      return value.toHexString();
+    }
+    if (isHexString4(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger8.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes3(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters3[(v2 & 240) >> 4] + HexCharacters3[v2 & 15];
+      }
+      return result;
+    }
+    return logger8.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexDataLength(data) {
+    if (typeof data !== "string") {
+      data = hexlify3(data);
+    } else if (!isHexString4(data) || data.length % 2) {
+      return null;
+    }
+    return (data.length - 2) / 2;
+  }
+  function hexDataSlice2(data, offset, endOffset) {
+    if (typeof data !== "string") {
+      data = hexlify3(data);
+    } else if (!isHexString4(data) || data.length % 2) {
+      logger8.throwArgumentError("invalid hexData", "value", data);
+    }
+    offset = 2 + 2 * offset;
+    if (endOffset != null) {
+      return "0x" + data.substring(offset, 2 + 2 * endOffset);
+    }
+    return "0x" + data.substring(offset);
+  }
+  var logger8, HexCharacters3;
+  var init_lib8 = __esm({
+    "node_modules/@ethersproject/address/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib7();
+      init_version9();
+      logger8 = new Logger3(version9);
+      HexCharacters3 = "0123456789abcdef";
     },
   });
 
@@ -40493,24 +41263,960 @@
     },
   });
 
+  // node_modules/@ethersproject/keccak256/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version10;
+  var init_version10 = __esm({
+    "node_modules/@ethersproject/keccak256/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version10 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/keccak256/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize4() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors4,
+    _censorErrors4,
+    LogLevels4,
+    _logLevel4,
+    _globalLogger4,
+    _normalizeError4,
+    LogLevel4,
+    ErrorCode4,
+    HEX4,
+    Logger4;
+  var init_lib9 = __esm({
+    "node_modules/@ethersproject/keccak256/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version10();
+      _permanentCensorErrors4 = false;
+      _censorErrors4 = false;
+      LogLevels4 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel4 = LogLevels4["default"];
+      _globalLogger4 = null;
+      _normalizeError4 = _checkNormalize4();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel4 || (LogLevel4 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode4 || (ErrorCode4 = {}));
+      HEX4 = "0123456789abcdef";
+      Logger4 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels4[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel4 > LogLevels4[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger4.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger4.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger4.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors4) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger4.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX4[value[i] >> 4];
+                  hex += HEX4[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger4.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError4) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger4.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError4,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger4.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger4.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger4.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger4.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger4.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger4.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger4.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger4) {
+            _globalLogger4 = new Logger4(version10);
+          }
+          return _globalLogger4;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger4.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors4) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger4.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors4 = !!censorship;
+          _permanentCensorErrors4 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels4[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger4.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel4 = level;
+        }
+        static from(version89) {
+          return new Logger4(version89);
+        }
+      };
+      Logger4.errors = ErrorCode4;
+      Logger4.levels = LogLevel4;
+    },
+  });
+
+  // node_modules/@ethersproject/keccak256/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version11;
+  var init_version11 = __esm({
+    "node_modules/@ethersproject/keccak256/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version11 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/keccak256/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable4(value) {
+    return !!value.toHexString;
+  }
+  function addSlice4(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice4(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger4(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes4(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger4(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger4(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify4(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger9.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice4(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable4(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString5(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger9.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice4(new Uint8Array(result));
+    }
+    if (isBytes4(value)) {
+      return addSlice4(new Uint8Array(value));
+    }
+    return logger9.throwArgumentError("invalid arrayify value", "value", value);
+  }
+  function isHexString5(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  var logger9;
+  var init_lib10 = __esm({
+    "node_modules/@ethersproject/keccak256/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib9();
+      init_version11();
+      logger9 = new Logger4(version11);
+    },
+  });
+
   // node_modules/@ethersproject/keccak256/lib.esm/index.js
   function keccak256(data) {
-    return "0x" + import_js_sha3.default.keccak_256(arrayify(data));
+    return "0x" + import_js_sha3.default.keccak_256(arrayify4(data));
   }
   var import_js_sha3;
-  var init_lib5 = __esm({
+  var init_lib11 = __esm({
     "node_modules/@ethersproject/keccak256/lib.esm/index.js"() {
       "use strict";
       import_js_sha3 = __toESM(require_sha3());
-      init_lib2();
+      init_lib10();
+    },
+  });
+
+  // node_modules/@ethersproject/rlp/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version12;
+  var init_version12 = __esm({
+    "node_modules/@ethersproject/rlp/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version12 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/rlp/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize5() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors5,
+    _censorErrors5,
+    LogLevels5,
+    _logLevel5,
+    _globalLogger5,
+    _normalizeError5,
+    LogLevel5,
+    ErrorCode5,
+    HEX5,
+    Logger5;
+  var init_lib12 = __esm({
+    "node_modules/@ethersproject/rlp/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version12();
+      _permanentCensorErrors5 = false;
+      _censorErrors5 = false;
+      LogLevels5 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel5 = LogLevels5["default"];
+      _globalLogger5 = null;
+      _normalizeError5 = _checkNormalize5();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel5 || (LogLevel5 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode5 || (ErrorCode5 = {}));
+      HEX5 = "0123456789abcdef";
+      Logger5 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels5[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel5 > LogLevels5[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger5.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger5.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger5.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors5) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger5.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX5[value[i] >> 4];
+                  hex += HEX5[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger5.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError5) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger5.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError5,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger5.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger5.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger5.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger5.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger5.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger5.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger5.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger5) {
+            _globalLogger5 = new Logger5(version12);
+          }
+          return _globalLogger5;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger5.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors5) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger5.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors5 = !!censorship;
+          _permanentCensorErrors5 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels5[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger5.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel5 = level;
+        }
+        static from(version89) {
+          return new Logger5(version89);
+        }
+      };
+      Logger5.errors = ErrorCode5;
+      Logger5.levels = LogLevel5;
+    },
+  });
+
+  // node_modules/@ethersproject/rlp/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version13;
+  var init_version13 = __esm({
+    "node_modules/@ethersproject/rlp/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version13 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/rlp/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable5(value) {
+    return !!value.toHexString;
+  }
+  function addSlice5(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice5(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isBytesLike(value) {
+    return (isHexString6(value) && !(value.length % 2)) || isBytes5(value);
+  }
+  function isInteger5(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes5(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger5(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger5(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify5(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger10.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice5(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable5(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString6(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger10.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice5(new Uint8Array(result));
+    }
+    if (isBytes5(value)) {
+      return addSlice5(new Uint8Array(value));
+    }
+    return logger10.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function isHexString6(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify4(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger10.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters4[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable5(value)) {
+      return value.toHexString();
+    }
+    if (isHexString6(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger10.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes5(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters4[(v2 & 240) >> 4] + HexCharacters4[v2 & 15];
+      }
+      return result;
+    }
+    return logger10.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  var logger10, HexCharacters4;
+  var init_lib13 = __esm({
+    "node_modules/@ethersproject/rlp/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib12();
+      init_version13();
+      logger10 = new Logger5(version13);
+      HexCharacters4 = "0123456789abcdef";
     },
   });
 
   // node_modules/@ethersproject/rlp/lib.esm/_version.js
-  var version6;
-  var init_version6 = __esm({
+  var version14;
+  var init_version14 = __esm({
     "node_modules/@ethersproject/rlp/lib.esm/_version.js"() {
-      version6 = "rlp/5.5.0";
+      version14 = "rlp/5.5.0";
     },
   });
 
@@ -40550,13 +42256,13 @@
       return length2.concat(payload);
     }
     if (!isBytesLike(object)) {
-      logger7.throwArgumentError(
+      logger11.throwArgumentError(
         "RLP object must be BytesLike",
         "object",
         object
       );
     }
-    const data = Array.prototype.slice.call(arrayify(object));
+    const data = Array.prototype.slice.call(arrayify5(object));
     if (data.length === 1 && data[0] <= 127) {
       return data;
     } else if (data.length <= 55) {
@@ -40568,7 +42274,7 @@
     return length.concat(data);
   }
   function encode(object) {
-    return hexlify(_encode(object));
+    return hexlify4(_encode(object));
   }
   function _decodeChildren(data, offset, childOffset, length) {
     const result = [];
@@ -40577,9 +42283,9 @@
       result.push(decoded.result);
       childOffset += decoded.consumed;
       if (childOffset > offset + 1 + length) {
-        logger7.throwError(
+        logger11.throwError(
           "child data too short",
-          Logger.errors.BUFFER_OVERRUN,
+          Logger5.errors.BUFFER_OVERRUN,
           {}
         );
       }
@@ -40588,22 +42294,22 @@
   }
   function _decode(data, offset) {
     if (data.length === 0) {
-      logger7.throwError("data too short", Logger.errors.BUFFER_OVERRUN, {});
+      logger11.throwError("data too short", Logger5.errors.BUFFER_OVERRUN, {});
     }
     if (data[offset] >= 248) {
       const lengthLength = data[offset] - 247;
       if (offset + 1 + lengthLength > data.length) {
-        logger7.throwError(
+        logger11.throwError(
           "data short segment too short",
-          Logger.errors.BUFFER_OVERRUN,
+          Logger5.errors.BUFFER_OVERRUN,
           {}
         );
       }
       const length = unarrayifyInteger(data, offset + 1, lengthLength);
       if (offset + 1 + lengthLength + length > data.length) {
-        logger7.throwError(
+        logger11.throwError(
           "data long segment too short",
-          Logger.errors.BUFFER_OVERRUN,
+          Logger5.errors.BUFFER_OVERRUN,
           {}
         );
       }
@@ -40616,9 +42322,9 @@
     } else if (data[offset] >= 192) {
       const length = data[offset] - 192;
       if (offset + 1 + length > data.length) {
-        logger7.throwError(
+        logger11.throwError(
           "data array too short",
-          Logger.errors.BUFFER_OVERRUN,
+          Logger5.errors.BUFFER_OVERRUN,
           {}
         );
       }
@@ -40626,21 +42332,21 @@
     } else if (data[offset] >= 184) {
       const lengthLength = data[offset] - 183;
       if (offset + 1 + lengthLength > data.length) {
-        logger7.throwError(
+        logger11.throwError(
           "data array too short",
-          Logger.errors.BUFFER_OVERRUN,
+          Logger5.errors.BUFFER_OVERRUN,
           {}
         );
       }
       const length = unarrayifyInteger(data, offset + 1, lengthLength);
       if (offset + 1 + lengthLength + length > data.length) {
-        logger7.throwError(
+        logger11.throwError(
           "data array too short",
-          Logger.errors.BUFFER_OVERRUN,
+          Logger5.errors.BUFFER_OVERRUN,
           {}
         );
       }
-      const result = hexlify(
+      const result = hexlify4(
         data.slice(
           offset + 1 + lengthLength,
           offset + 1 + lengthLength + length
@@ -40650,44 +42356,48 @@
     } else if (data[offset] >= 128) {
       const length = data[offset] - 128;
       if (offset + 1 + length > data.length) {
-        logger7.throwError("data too short", Logger.errors.BUFFER_OVERRUN, {});
+        logger11.throwError(
+          "data too short",
+          Logger5.errors.BUFFER_OVERRUN,
+          {}
+        );
       }
-      const result = hexlify(data.slice(offset + 1, offset + 1 + length));
+      const result = hexlify4(data.slice(offset + 1, offset + 1 + length));
       return { consumed: 1 + length, result };
     }
-    return { consumed: 1, result: hexlify(data[offset]) };
+    return { consumed: 1, result: hexlify4(data[offset]) };
   }
   function decode(data) {
-    const bytes = arrayify(data);
+    const bytes = arrayify5(data);
     const decoded = _decode(bytes, 0);
     if (decoded.consumed !== bytes.length) {
-      logger7.throwArgumentError("invalid rlp data", "data", data);
+      logger11.throwArgumentError("invalid rlp data", "data", data);
     }
     return decoded.result;
   }
-  var logger7;
-  var init_lib6 = __esm({
+  var logger11;
+  var init_lib14 = __esm({
     "node_modules/@ethersproject/rlp/lib.esm/index.js"() {
       "use strict";
-      init_lib2();
-      init_lib();
-      init_version6();
-      logger7 = new Logger(version6);
+      init_lib13();
+      init_lib12();
+      init_version14();
+      logger11 = new Logger5(version14);
     },
   });
 
   // node_modules/@ethersproject/address/lib.esm/_version.js
-  var version7;
-  var init_version7 = __esm({
+  var version15;
+  var init_version15 = __esm({
     "node_modules/@ethersproject/address/lib.esm/_version.js"() {
-      version7 = "address/5.5.0";
+      version15 = "address/5.5.0";
     },
   });
 
   // node_modules/@ethersproject/address/lib.esm/index.js
   function getChecksumAddress(address) {
-    if (!isHexString2(address, 20)) {
-      logger8.throwArgumentError("invalid address", "address", address);
+    if (!isHexString4(address, 20)) {
+      logger12.throwArgumentError("invalid address", "address", address);
     }
     address = address.toLowerCase();
     const chars = address.substring(2).split("");
@@ -40695,7 +42405,7 @@
     for (let i = 0; i < 40; i++) {
       expanded[i] = chars[i].charCodeAt(0);
     }
-    const hashed = arrayify(keccak256(expanded));
+    const hashed = arrayify3(keccak256(expanded));
     for (let i = 0; i < 40; i += 2) {
       if (hashed[i >> 1] >> 4 >= 8) {
         chars[i] = chars[i].toUpperCase();
@@ -40734,7 +42444,7 @@
   function getAddress(address) {
     let result = null;
     if (typeof address !== "string") {
-      logger8.throwArgumentError("invalid address", "address", address);
+      logger12.throwArgumentError("invalid address", "address", address);
     }
     if (address.match(/^(0x)?[0-9a-fA-F]{40}$/)) {
       if (address.substring(0, 2) !== "0x") {
@@ -40745,11 +42455,11 @@
         address.match(/([A-F].*[a-f])|([a-f].*[A-F])/) &&
         result !== address
       ) {
-        logger8.throwArgumentError("bad address checksum", "address", address);
+        logger12.throwArgumentError("bad address checksum", "address", address);
       }
     } else if (address.match(/^XE[0-9]{2}[0-9A-Za-z]{30,31}$/)) {
       if (address.substring(2, 4) !== ibanChecksum(address)) {
-        logger8.throwArgumentError("bad icap checksum", "address", address);
+        logger12.throwArgumentError("bad icap checksum", "address", address);
       }
       result = _base36To16(address.substring(4));
       while (result.length < 40) {
@@ -40757,7 +42467,7 @@
       }
       result = getChecksumAddress("0x" + result);
     } else {
-      logger8.throwArgumentError("invalid address", "address", address);
+      logger12.throwArgumentError("invalid address", "address", address);
     }
     return result;
   }
@@ -40780,46 +42490,46 @@
     try {
       from = getAddress(transaction.from);
     } catch (error) {
-      logger8.throwArgumentError(
+      logger12.throwArgumentError(
         "missing from address",
         "transaction",
         transaction
       );
     }
     const nonce = stripZeros(
-      arrayify(BigNumber.from(transaction.nonce).toHexString())
+      arrayify3(BigNumber.from(transaction.nonce).toHexString())
     );
-    return getAddress(hexDataSlice(keccak256(encode([from, nonce])), 12));
+    return getAddress(hexDataSlice2(keccak256(encode([from, nonce])), 12));
   }
   function getCreate2Address(from, salt, initCodeHash) {
     if (hexDataLength(salt) !== 32) {
-      logger8.throwArgumentError("salt must be 32 bytes", "salt", salt);
+      logger12.throwArgumentError("salt must be 32 bytes", "salt", salt);
     }
     if (hexDataLength(initCodeHash) !== 32) {
-      logger8.throwArgumentError(
+      logger12.throwArgumentError(
         "initCodeHash must be 32 bytes",
         "initCodeHash",
         initCodeHash
       );
     }
     return getAddress(
-      hexDataSlice(
-        keccak256(concat(["0xff", getAddress(from), salt, initCodeHash])),
+      hexDataSlice2(
+        keccak256(concat2(["0xff", getAddress(from), salt, initCodeHash])),
         12
       )
     );
   }
-  var logger8, MAX_SAFE_INTEGER, ibanLookup, safeDigits;
-  var init_lib7 = __esm({
+  var logger12, MAX_SAFE_INTEGER, ibanLookup, safeDigits;
+  var init_lib15 = __esm({
     "node_modules/@ethersproject/address/lib.esm/index.js"() {
       "use strict";
-      init_lib2();
+      init_lib8();
       init_lib3();
-      init_lib5();
-      init_lib6();
-      init_lib();
-      init_version7();
-      logger8 = new Logger(version7);
+      init_lib11();
+      init_lib14();
+      init_lib7();
+      init_version15();
+      logger12 = new Logger3(version15);
       MAX_SAFE_INTEGER = 9007199254740991;
       ibanLookup = {};
       for (let i = 0; i < 10; i++) {
@@ -40837,8 +42547,8 @@
   var init_address = __esm({
     "node_modules/@ethersproject/abi/lib.esm/coders/address.js"() {
       "use strict";
-      init_lib7();
-      init_lib2();
+      init_lib15();
+      init_lib6();
       init_abstract_coder();
       AddressCoder = class extends Coder {
         constructor(localName) {
@@ -40856,7 +42566,7 @@
           return writer.writeValue(value);
         }
         decode(reader) {
-          return getAddress(hexZeroPad(reader.readValue().toHexString(), 20));
+          return getAddress(hexZeroPad2(reader.readValue().toHexString(), 20));
         }
       };
     },
@@ -40896,9 +42606,9 @@
       arrayValues = coders.map((coder) => {
         const name2 = coder.localName;
         if (!name2) {
-          logger9.throwError(
+          logger13.throwError(
             "cannot encode object for signature with missing names",
-            Logger.errors.INVALID_ARGUMENT,
+            Logger2.errors.INVALID_ARGUMENT,
             {
               argument: "values",
               coder,
@@ -40907,9 +42617,9 @@
           );
         }
         if (unique[name2]) {
-          logger9.throwError(
+          logger13.throwError(
             "cannot encode object for signature with duplicate names",
-            Logger.errors.INVALID_ARGUMENT,
+            Logger2.errors.INVALID_ARGUMENT,
             {
               argument: "values",
               coder,
@@ -40921,10 +42631,10 @@
         return values[name2];
       });
     } else {
-      logger9.throwArgumentError("invalid tuple value", "tuple", values);
+      logger13.throwArgumentError("invalid tuple value", "tuple", values);
     }
     if (coders.length !== arrayValues.length) {
-      logger9.throwArgumentError(
+      logger13.throwArgumentError(
         "types/value length mismatch",
         "tuple",
         values
@@ -40964,7 +42674,7 @@
         try {
           value = coder.decode(offsetReader);
         } catch (error) {
-          if (error.code === Logger.errors.BUFFER_OVERRUN) {
+          if (error.code === Logger2.errors.BUFFER_OVERRUN) {
             throw error;
           }
           value = error;
@@ -40976,7 +42686,7 @@
         try {
           value = coder.decode(reader);
         } catch (error) {
-          if (error.code === Logger.errors.BUFFER_OVERRUN) {
+          if (error.code === Logger2.errors.BUFFER_OVERRUN) {
             throw error;
           }
           value = error;
@@ -41035,15 +42745,15 @@
     }
     return Object.freeze(values);
   }
-  var logger9, ArrayCoder;
+  var logger13, ArrayCoder;
   var init_array = __esm({
     "node_modules/@ethersproject/abi/lib.esm/coders/array.js"() {
       "use strict";
-      init_lib();
-      init_version5();
+      init_lib4();
+      init_version6();
       init_abstract_coder();
       init_anonymous();
-      logger9 = new Logger(version5);
+      logger13 = new Logger2(version6);
       ArrayCoder = class extends Coder {
         constructor(coder, length, localName) {
           const type = coder.type + "[" + (length >= 0 ? length : "") + "]";
@@ -41069,7 +42779,7 @@
             count = value.length;
             writer.writeValue(value.length);
           }
-          logger9.checkArgumentCount(
+          logger13.checkArgumentCount(
             value.length,
             count,
             "coder array" + (this.localName ? " " + this.localName : "")
@@ -41085,9 +42795,9 @@
           if (count === -1) {
             count = reader.readValue().toNumber();
             if (count * 32 > reader._data.length) {
-              logger9.throwError(
+              logger13.throwError(
                 "insufficient data length",
-                Logger.errors.BUFFER_OVERRUN,
+                Logger2.errors.BUFFER_OVERRUN,
                 {
                   length: reader._data.length,
                   count,
@@ -41133,7 +42843,7 @@
   var init_bytes = __esm({
     "node_modules/@ethersproject/abi/lib.esm/coders/bytes.js"() {
       "use strict";
-      init_lib2();
+      init_lib6();
       init_abstract_coder();
       DynamicBytesCoder = class extends Coder {
         constructor(type, localName) {
@@ -41143,7 +42853,7 @@
           return "0x";
         }
         encode(writer, value) {
-          value = arrayify(value);
+          value = arrayify2(value);
           let length = writer.writeValue(value.length);
           length += writer.writeBytes(value);
           return length;
@@ -41157,7 +42867,7 @@
           super("bytes", localName);
         }
         decode(reader) {
-          return reader.coerce(this.name, hexlify(super.decode(reader)));
+          return reader.coerce(this.name, hexlify2(super.decode(reader)));
         }
       };
     },
@@ -41168,7 +42878,7 @@
   var init_fixed_bytes = __esm({
     "node_modules/@ethersproject/abi/lib.esm/coders/fixed-bytes.js"() {
       "use strict";
-      init_lib2();
+      init_lib6();
       init_abstract_coder();
       FixedBytesCoder = class extends Coder {
         constructor(size, localName) {
@@ -41183,14 +42893,17 @@
           );
         }
         encode(writer, value) {
-          let data = arrayify(value);
+          let data = arrayify2(value);
           if (data.length !== this.size) {
             this._throwError("incorrect data length", value);
           }
           return writer.writeBytes(data);
         }
         decode(reader) {
-          return reader.coerce(this.name, hexlify(reader.readBytes(this.size)));
+          return reader.coerce(
+            this.name,
+            hexlify2(reader.readBytes(this.size))
+          );
         }
       };
     },
@@ -41292,7 +43005,7 @@
     WeiPerEther: () => WeiPerEther,
     Zero: () => Zero2,
   });
-  var init_lib8 = __esm({
+  var init_lib16 = __esm({
     "node_modules/@ethersproject/constants/lib.esm/index.js"() {
       "use strict";
       init_addresses();
@@ -41308,7 +43021,7 @@
     "node_modules/@ethersproject/abi/lib.esm/coders/number.js"() {
       "use strict";
       init_lib3();
-      init_lib8();
+      init_lib16();
       init_abstract_coder();
       NumberCoder = class extends Coder {
         constructor(size, signed, localName) {
@@ -41348,17 +43061,525 @@
     },
   });
 
+  // node_modules/@ethersproject/strings/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version16;
+  var init_version16 = __esm({
+    "node_modules/@ethersproject/strings/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version16 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/strings/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize6() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors6,
+    _censorErrors6,
+    LogLevels6,
+    _logLevel6,
+    _globalLogger6,
+    _normalizeError6,
+    LogLevel6,
+    ErrorCode6,
+    HEX6,
+    Logger6;
+  var init_lib17 = __esm({
+    "node_modules/@ethersproject/strings/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version16();
+      _permanentCensorErrors6 = false;
+      _censorErrors6 = false;
+      LogLevels6 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel6 = LogLevels6["default"];
+      _globalLogger6 = null;
+      _normalizeError6 = _checkNormalize6();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel6 || (LogLevel6 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode6 || (ErrorCode6 = {}));
+      HEX6 = "0123456789abcdef";
+      Logger6 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels6[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel6 > LogLevels6[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger6.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger6.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger6.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors6) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger6.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX6[value[i] >> 4];
+                  hex += HEX6[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger6.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError6) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger6.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError6,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger6.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger6.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger6.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger6.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger6.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger6.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger6.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger6) {
+            _globalLogger6 = new Logger6(version16);
+          }
+          return _globalLogger6;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger6.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors6) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger6.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors6 = !!censorship;
+          _permanentCensorErrors6 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels6[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger6.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel6 = level;
+        }
+        static from(version89) {
+          return new Logger6(version89);
+        }
+      };
+      Logger6.errors = ErrorCode6;
+      Logger6.levels = LogLevel6;
+    },
+  });
+
+  // node_modules/@ethersproject/strings/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version17;
+  var init_version17 = __esm({
+    "node_modules/@ethersproject/strings/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version17 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/strings/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable6(value) {
+    return !!value.toHexString;
+  }
+  function addSlice6(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice6(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger6(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes6(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger6(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger6(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify6(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger14.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice6(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable6(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString7(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger14.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice6(new Uint8Array(result));
+    }
+    if (isBytes6(value)) {
+      return addSlice6(new Uint8Array(value));
+    }
+    return logger14.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat3(items) {
+    const objects = items.map((item) => arrayify6(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice6(result);
+  }
+  function isHexString7(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify5(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger14.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters5[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable6(value)) {
+      return value.toHexString();
+    }
+    if (isHexString7(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger14.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes6(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters5[(v2 & 240) >> 4] + HexCharacters5[v2 & 15];
+      }
+      return result;
+    }
+    return logger14.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  var logger14, HexCharacters5;
+  var init_lib18 = __esm({
+    "node_modules/@ethersproject/strings/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib17();
+      init_version17();
+      logger14 = new Logger6(version17);
+      HexCharacters5 = "0123456789abcdef";
+    },
+  });
+
   // node_modules/@ethersproject/strings/lib.esm/_version.js
-  var version8;
-  var init_version8 = __esm({
+  var version18;
+  var init_version18 = __esm({
     "node_modules/@ethersproject/strings/lib.esm/_version.js"() {
-      version8 = "strings/5.5.0";
+      version18 = "strings/5.5.0";
     },
   });
 
   // node_modules/@ethersproject/strings/lib.esm/utf8.js
   function errorFunc(reason, offset, bytes, output, badCodepoint) {
-    return logger10.throwArgumentError(
+    return logger15.throwArgumentError(
       `invalid codepoint at offset ${offset}; ${reason}`,
       "bytes",
       bytes
@@ -41395,7 +43616,7 @@
     if (onError == null) {
       onError = Utf8ErrorFuncs.error;
     }
-    bytes = arrayify(bytes);
+    bytes = arrayify6(bytes);
     const result = [];
     let i = 0;
     while (i < bytes.length) {
@@ -41482,7 +43703,7 @@
   }
   function toUtf8Bytes(str, form = UnicodeNormalizationForm.current) {
     if (form != UnicodeNormalizationForm.current) {
-      logger10.checkNormalize();
+      logger15.checkNormalize();
       str = str.normalize(form);
     }
     let result = [];
@@ -41510,7 +43731,7 @@
         result.push((c2 & 63) | 128);
       }
     }
-    return arrayify(result);
+    return arrayify6(result);
   }
   function escapeChar(value) {
     const hex = "0000" + value.toString(16);
@@ -41573,14 +43794,14 @@
   function toUtf8CodePoints(str, form = UnicodeNormalizationForm.current) {
     return getUtf8CodePoints(toUtf8Bytes(str, form));
   }
-  var logger10, UnicodeNormalizationForm, Utf8ErrorReason, Utf8ErrorFuncs;
+  var logger15, UnicodeNormalizationForm, Utf8ErrorReason, Utf8ErrorFuncs;
   var init_utf8 = __esm({
     "node_modules/@ethersproject/strings/lib.esm/utf8.js"() {
       "use strict";
-      init_lib2();
-      init_lib();
-      init_version8();
-      logger10 = new Logger(version8);
+      init_lib18();
+      init_lib17();
+      init_version18();
+      logger15 = new Logger6(version18);
       (function (UnicodeNormalizationForm2) {
         UnicodeNormalizationForm2["current"] = "";
         UnicodeNormalizationForm2["NFC"] = "NFC";
@@ -41612,10 +43833,10 @@
     if (bytes.length > 31) {
       throw new Error("bytes32 string must be less than 32 bytes");
     }
-    return hexlify(concat([bytes, HashZero]).slice(0, 32));
+    return hexlify5(concat3([bytes, HashZero]).slice(0, 32));
   }
   function parseBytes32String(bytes) {
-    const data = arrayify(bytes);
+    const data = arrayify6(bytes);
     if (data.length !== 32) {
       throw new Error("invalid bytes32 - not 32 bytes long");
     }
@@ -41631,8 +43852,8 @@
   var init_bytes32 = __esm({
     "node_modules/@ethersproject/strings/lib.esm/bytes32.js"() {
       "use strict";
-      init_lib8();
-      init_lib2();
+      init_lib16();
+      init_lib18();
       init_utf8();
     },
   });
@@ -41853,7 +44074,7 @@
   });
 
   // node_modules/@ethersproject/strings/lib.esm/index.js
-  var init_lib9 = __esm({
+  var init_lib19 = __esm({
     "node_modules/@ethersproject/strings/lib.esm/index.js"() {
       "use strict";
       init_bytes32();
@@ -41867,7 +44088,7 @@
   var init_string = __esm({
     "node_modules/@ethersproject/abi/lib.esm/coders/string.js"() {
       "use strict";
-      init_lib9();
+      init_lib19();
       init_bytes();
       StringCoder = class extends DynamicBytesCoder {
         constructor(localName) {
@@ -41948,14 +44169,14 @@
   });
 
   // node_modules/@ethersproject/abi/lib.esm/abi-coder.js
-  var logger11, paramTypeBytes, paramTypeNumber, AbiCoder, defaultAbiCoder;
+  var logger16, paramTypeBytes, paramTypeNumber, AbiCoder, defaultAbiCoder;
   var init_abi_coder = __esm({
     "node_modules/@ethersproject/abi/lib.esm/abi-coder.js"() {
       "use strict";
-      init_lib2();
+      init_lib6();
+      init_lib5();
       init_lib4();
-      init_lib();
-      init_version5();
+      init_version6();
       init_abstract_coder();
       init_address();
       init_array();
@@ -41967,12 +44188,12 @@
       init_string();
       init_tuple();
       init_fragments();
-      logger11 = new Logger(version5);
+      logger16 = new Logger2(version6);
       paramTypeBytes = new RegExp(/^bytes([0-9]*)$/);
       paramTypeNumber = new RegExp(/^(u?int)([0-9]*)$/);
       AbiCoder = class {
         constructor(coerceFunc) {
-          logger11.checkNew(new.target, AbiCoder);
+          logger16.checkNew(new.target, AbiCoder);
           defineReadOnly(this, "coerceFunc", coerceFunc || null);
         }
         _getCoder(param) {
@@ -42005,7 +44226,7 @@
           if (match) {
             let size = parseInt(match[2] || "256");
             if (size === 0 || size > 256 || size % 8 !== 0) {
-              logger11.throwArgumentError(
+              logger16.throwArgumentError(
                 "invalid " + match[1] + " bit length",
                 "param",
                 param
@@ -42017,7 +44238,7 @@
           if (match) {
             let size = parseInt(match[1]);
             if (size === 0 || size > 32) {
-              logger11.throwArgumentError(
+              logger16.throwArgumentError(
                 "invalid bytes length",
                 "param",
                 param
@@ -42025,7 +44246,7 @@
             }
             return new FixedBytesCoder(size, param.name);
           }
-          return logger11.throwArgumentError(
+          return logger16.throwArgumentError(
             "invalid type",
             "type",
             param.type
@@ -42054,9 +44275,9 @@
         }
         encode(types, values) {
           if (types.length !== values.length) {
-            logger11.throwError(
+            logger16.throwError(
               "types/values length mismatch",
-              Logger.errors.INVALID_ARGUMENT,
+              Logger2.errors.INVALID_ARGUMENT,
               {
                 count: { types: types.length, values: values.length },
                 value: { types, values },
@@ -42076,7 +44297,7 @@
             this._getCoder(ParamType.from(type))
           );
           const coder = new TupleCoder(coders, "_");
-          return coder.decode(this._getReader(arrayify(data), loose));
+          return coder.decode(this._getReader(arrayify2(data), loose));
         }
       };
       defaultAbiCoder = new AbiCoder();
@@ -42089,16 +44310,545 @@
   }
   var init_id = __esm({
     "node_modules/@ethersproject/hash/lib.esm/id.js"() {
-      init_lib5();
-      init_lib9();
+      init_lib11();
+      init_lib19();
+    },
+  });
+
+  // node_modules/@ethersproject/hash/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version19;
+  var init_version19 = __esm({
+    "node_modules/@ethersproject/hash/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version19 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/hash/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize7() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors7,
+    _censorErrors7,
+    LogLevels7,
+    _logLevel7,
+    _globalLogger7,
+    _normalizeError7,
+    LogLevel7,
+    ErrorCode7,
+    HEX7,
+    Logger7;
+  var init_lib20 = __esm({
+    "node_modules/@ethersproject/hash/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version19();
+      _permanentCensorErrors7 = false;
+      _censorErrors7 = false;
+      LogLevels7 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel7 = LogLevels7["default"];
+      _globalLogger7 = null;
+      _normalizeError7 = _checkNormalize7();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel7 || (LogLevel7 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode7 || (ErrorCode7 = {}));
+      HEX7 = "0123456789abcdef";
+      Logger7 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels7[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel7 > LogLevels7[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger7.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger7.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger7.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors7) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger7.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX7[value[i] >> 4];
+                  hex += HEX7[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger7.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError7) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger7.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError7,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger7.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger7.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger7.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger7.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger7.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger7.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger7.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger7) {
+            _globalLogger7 = new Logger7(version19);
+          }
+          return _globalLogger7;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger7.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors7) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger7.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors7 = !!censorship;
+          _permanentCensorErrors7 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels7[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger7.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel7 = level;
+        }
+        static from(version89) {
+          return new Logger7(version89);
+        }
+      };
+      Logger7.errors = ErrorCode7;
+      Logger7.levels = LogLevel7;
+    },
+  });
+
+  // node_modules/@ethersproject/hash/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version20;
+  var init_version20 = __esm({
+    "node_modules/@ethersproject/hash/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version20 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/hash/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable7(value) {
+    return !!value.toHexString;
+  }
+  function addSlice7(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice7(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger7(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes7(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger7(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger7(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify7(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger17.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice7(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable7(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString8(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger17.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice7(new Uint8Array(result));
+    }
+    if (isBytes7(value)) {
+      return addSlice7(new Uint8Array(value));
+    }
+    return logger17.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat4(items) {
+    const objects = items.map((item) => arrayify7(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice7(result);
+  }
+  function isHexString8(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify6(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger17.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters6[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable7(value)) {
+      return value.toHexString();
+    }
+    if (isHexString8(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger17.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes7(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters6[(v2 & 240) >> 4] + HexCharacters6[v2 & 15];
+      }
+      return result;
+    }
+    return logger17.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexConcat2(items) {
+    let result = "0x";
+    items.forEach((item) => {
+      result += hexlify6(item).substring(2);
+    });
+    return result;
+  }
+  function hexZeroPad3(value, length) {
+    if (typeof value !== "string") {
+      value = hexlify6(value);
+    } else if (!isHexString8(value)) {
+      logger17.throwArgumentError("invalid hex string", "value", value);
+    }
+    if (value.length > 2 * length + 2) {
+      logger17.throwArgumentError("value out of range", "value", arguments[1]);
+    }
+    while (value.length < 2 * length + 2) {
+      value = "0x0" + value.substring(2);
+    }
+    return value;
+  }
+  var logger17, HexCharacters6;
+  var init_lib21 = __esm({
+    "node_modules/@ethersproject/hash/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib20();
+      init_version20();
+      logger17 = new Logger7(version20);
+      HexCharacters6 = "0123456789abcdef";
     },
   });
 
   // node_modules/@ethersproject/hash/lib.esm/_version.js
-  var version9;
-  var init_version9 = __esm({
+  var version21;
+  var init_version21 = __esm({
     "node_modules/@ethersproject/hash/lib.esm/_version.js"() {
-      version9 = "hash/5.5.0";
+      version21 = "hash/5.5.0";
     },
   });
 
@@ -42117,7 +44867,7 @@
   }
   function namehash(name2) {
     if (typeof name2 !== "string") {
-      logger12.throwArgumentError(
+      logger18.throwArgumentError(
         "invalid ENS name; not a string",
         "name",
         name2
@@ -42128,27 +44878,27 @@
     while (current.length) {
       const partition = current.match(Partition);
       if (partition == null || partition[2] === "") {
-        logger12.throwArgumentError(
+        logger18.throwArgumentError(
           "invalid ENS address; missing component",
           "name",
           name2
         );
       }
       const label = toUtf8Bytes(nameprep(partition[3]));
-      result = keccak256(concat([result, keccak256(label)]));
+      result = keccak256(concat4([result, keccak256(label)]));
       current = partition[2] || "";
     }
-    return hexlify(result);
+    return hexlify6(result);
   }
-  var logger12, Zeros, Partition;
+  var logger18, Zeros, Partition;
   var init_namehash = __esm({
     "node_modules/@ethersproject/hash/lib.esm/namehash.js"() {
-      init_lib2();
-      init_lib9();
-      init_lib5();
-      init_lib();
-      init_version9();
-      logger12 = new Logger(version9);
+      init_lib21();
+      init_lib19();
+      init_lib11();
+      init_lib20();
+      init_version21();
+      logger18 = new Logger7(version21);
       Zeros = new Uint8Array(32);
       Zeros.fill(0);
       Partition = new RegExp("^((.*)\\.)?([^.]+)$");
@@ -42161,7 +44911,7 @@
       message = toUtf8Bytes(message);
     }
     return keccak256(
-      concat([
+      concat4([
         toUtf8Bytes(messagePrefix),
         toUtf8Bytes(String(message.length)),
         message,
@@ -42171,26 +44921,121 @@
   var messagePrefix;
   var init_message = __esm({
     "node_modules/@ethersproject/hash/lib.esm/message.js"() {
-      init_lib2();
-      init_lib5();
-      init_lib9();
+      init_lib21();
+      init_lib11();
+      init_lib19();
       messagePrefix = "Ethereum Signed Message:\n";
+    },
+  });
+
+  // node_modules/@ethersproject/hash/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version22;
+  var init_version22 = __esm({
+    "node_modules/@ethersproject/hash/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version22 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/hash/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly2(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  function shallowCopy(object) {
+    const result = {};
+    for (const key2 in object) {
+      result[key2] = object[key2];
+    }
+    return result;
+  }
+  function _isFrozen2(object) {
+    if (object === void 0 || object === null || opaque2[typeof object]) {
+      return true;
+    }
+    if (Array.isArray(object) || typeof object === "object") {
+      if (!Object.isFrozen(object)) {
+        return false;
+      }
+      const keys = Object.keys(object);
+      for (let i = 0; i < keys.length; i++) {
+        let value = null;
+        try {
+          value = object[keys[i]];
+        } catch (error) {
+          continue;
+        }
+        if (!_isFrozen2(value)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return logger19.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function _deepCopy2(object) {
+    if (_isFrozen2(object)) {
+      return object;
+    }
+    if (Array.isArray(object)) {
+      return Object.freeze(object.map((item) => deepCopy2(item)));
+    }
+    if (typeof object === "object") {
+      const result = {};
+      for (const key2 in object) {
+        const value = object[key2];
+        if (value === void 0) {
+          continue;
+        }
+        defineReadOnly2(result, key2, deepCopy2(value));
+      }
+      return result;
+    }
+    return logger19.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function deepCopy2(object) {
+    return _deepCopy2(object);
+  }
+  var logger19, opaque2;
+  var init_lib22 = __esm({
+    "node_modules/@ethersproject/hash/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib20();
+      init_version22();
+      logger19 = new Logger7(version22);
+      opaque2 = {
+        bigint: true,
+        boolean: true,
+        function: true,
+        number: true,
+        string: true,
+      };
     },
   });
 
   // node_modules/@ethersproject/hash/lib.esm/typed-data.js
   function hexPadRight(value) {
-    const bytes = arrayify(value);
+    const bytes = arrayify7(value);
     const padOffset = bytes.length % 32;
     if (padOffset) {
-      return hexConcat([bytes, padding.slice(padOffset)]);
+      return hexConcat2([bytes, padding.slice(padOffset)]);
     }
-    return hexlify(bytes);
+    return hexlify6(bytes);
   }
   function checkString(key2) {
     return function (value) {
       if (typeof value !== "string") {
-        logger13.throwArgumentError(
+        logger20.throwArgumentError(
           `invalid domain value for ${JSON.stringify(key2)}`,
           `domain.${key2}`,
           value
@@ -42210,7 +45055,7 @@
           width > 256 ||
           (match[2] && match[2] !== String(width))
         ) {
-          logger13.throwArgumentError("invalid numeric width", "type", type);
+          logger20.throwArgumentError("invalid numeric width", "type", type);
         }
         const boundsUpper = MaxUint2562.mask(signed ? width - 1 : width);
         const boundsLower = signed
@@ -42219,13 +45064,13 @@
         return function (value) {
           const v2 = BigNumber.from(value);
           if (v2.lt(boundsLower) || v2.gt(boundsUpper)) {
-            logger13.throwArgumentError(
+            logger20.throwArgumentError(
               `value out-of-bounds for ${type}`,
               "value",
               value
             );
           }
-          return hexZeroPad(v2.toTwos(256).toHexString(), 32);
+          return hexZeroPad3(v2.toTwos(256).toHexString(), 32);
         };
       }
     }
@@ -42234,12 +45079,12 @@
       if (match) {
         const width = parseInt(match[1]);
         if (width === 0 || width > 32 || match[1] !== String(width)) {
-          logger13.throwArgumentError("invalid bytes width", "type", type);
+          logger20.throwArgumentError("invalid bytes width", "type", type);
         }
         return function (value) {
-          const bytes = arrayify(value);
+          const bytes = arrayify7(value);
           if (bytes.length !== width) {
-            logger13.throwArgumentError(
+            logger20.throwArgumentError(
               `invalid length for ${type}`,
               "value",
               value
@@ -42252,7 +45097,7 @@
     switch (type) {
       case "address":
         return function (value) {
-          return hexZeroPad(getAddress(value), 32);
+          return hexZeroPad3(getAddress(value), 32);
         };
       case "bool":
         return function (value) {
@@ -42274,8 +45119,8 @@
       .map(({ name: name3, type }) => type + " " + name3)
       .join(",")})`;
   }
-  var __awaiter3,
-    logger13,
+  var __awaiter2,
+    logger20,
     padding,
     NegativeOne3,
     Zero3,
@@ -42289,15 +45134,15 @@
     TypedDataEncoder;
   var init_typed_data = __esm({
     "node_modules/@ethersproject/hash/lib.esm/typed-data.js"() {
-      init_lib7();
+      init_lib15();
       init_lib3();
-      init_lib2();
-      init_lib5();
-      init_lib4();
-      init_lib();
-      init_version9();
+      init_lib21();
+      init_lib11();
+      init_lib22();
+      init_lib20();
+      init_version21();
       init_id();
-      __awaiter3 = function (thisArg, _arguments, P2, generator) {
+      __awaiter2 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -42328,7 +45173,7 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger13 = new Logger(version9);
+      logger20 = new Logger7(version21);
       padding = new Uint8Array(32);
       padding.fill(0);
       NegativeOne3 = BigNumber.from(-1);
@@ -42337,8 +45182,8 @@
       MaxUint2562 = BigNumber.from(
         "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
       );
-      hexTrue = hexZeroPad(One2.toHexString(), 32);
-      hexFalse = hexZeroPad(Zero3.toHexString(), 32);
+      hexTrue = hexZeroPad3(One2.toHexString(), 32);
+      hexFalse = hexZeroPad3(Zero3.toHexString(), 32);
       domainFieldTypes = {
         name: "string",
         version: "string",
@@ -42360,7 +45205,7 @@
           try {
             return BigNumber.from(value).toString();
           } catch (error) {}
-          return logger13.throwArgumentError(
+          return logger20.throwArgumentError(
             `invalid domain value for "chainId"`,
             "domain.chainId",
             value
@@ -42370,7 +45215,7 @@
           try {
             return getAddress(value).toLowerCase();
           } catch (error) {}
-          return logger13.throwArgumentError(
+          return logger20.throwArgumentError(
             `invalid domain value "verifyingContract"`,
             "domain.verifyingContract",
             value
@@ -42378,13 +45223,13 @@
         },
         salt: function (value) {
           try {
-            const bytes = arrayify(value);
+            const bytes = arrayify7(value);
             if (bytes.length !== 32) {
               throw new Error("bad length");
             }
-            return hexlify(bytes);
+            return hexlify6(bytes);
           } catch (error) {}
-          return logger13.throwArgumentError(
+          return logger20.throwArgumentError(
             `invalid domain value "salt"`,
             "domain.salt",
             value
@@ -42393,9 +45238,9 @@
       };
       TypedDataEncoder = class {
         constructor(types) {
-          defineReadOnly(this, "types", Object.freeze(deepCopy(types)));
-          defineReadOnly(this, "_encoderCache", {});
-          defineReadOnly(this, "_types", {});
+          defineReadOnly2(this, "types", Object.freeze(deepCopy2(types)));
+          defineReadOnly2(this, "_encoderCache", {});
+          defineReadOnly2(this, "_types", {});
           const links = {};
           const parents = {};
           const subtypes = {};
@@ -42408,7 +45253,7 @@
             const uniqueNames = {};
             types[name2].forEach((field) => {
               if (uniqueNames[field.name]) {
-                logger13.throwArgumentError(
+                logger20.throwArgumentError(
                   `duplicate variable name ${JSON.stringify(
                     field.name
                   )} in ${JSON.stringify(name2)}`,
@@ -42419,7 +45264,7 @@
               uniqueNames[field.name] = true;
               const baseType = field.type.match(/^([^\x5b]*)(\x5b|$)/)[1];
               if (baseType === name2) {
-                logger13.throwArgumentError(
+                logger20.throwArgumentError(
                   `circular type reference to ${JSON.stringify(baseType)}`,
                   "types",
                   types
@@ -42430,7 +45275,7 @@
                 return;
               }
               if (!parents[baseType]) {
-                logger13.throwArgumentError(
+                logger20.throwArgumentError(
                   `unknown type ${JSON.stringify(baseType)}`,
                   "types",
                   types
@@ -42444,9 +45289,9 @@
             (n) => parents[n].length === 0
           );
           if (primaryTypes.length === 0) {
-            logger13.throwArgumentError("missing primary type", "types", types);
+            logger20.throwArgumentError("missing primary type", "types", types);
           } else if (primaryTypes.length > 1) {
-            logger13.throwArgumentError(
+            logger20.throwArgumentError(
               `ambiguous primary types or unused types: ${primaryTypes
                 .map((t2) => JSON.stringify(t2))
                 .join(", ")}`,
@@ -42454,10 +45299,10 @@
               types
             );
           }
-          defineReadOnly(this, "primaryType", primaryTypes[0]);
+          defineReadOnly2(this, "primaryType", primaryTypes[0]);
           function checkCircular(type, found) {
             if (found[type]) {
-              logger13.throwArgumentError(
+              logger20.throwArgumentError(
                 `circular type reference to ${JSON.stringify(type)}`,
                 "types",
                 types
@@ -42505,7 +45350,7 @@
             const length = parseInt(match[3]);
             return (value) => {
               if (length >= 0 && value.length !== length) {
-                logger13.throwArgumentError(
+                logger20.throwArgumentError(
                   "array length mismatch; expected length ${ arrayLength }",
                   "value",
                   value
@@ -42515,7 +45360,7 @@
               if (this._types[subtype]) {
                 result = result.map(keccak256);
               }
-              return keccak256(hexConcat(result));
+              return keccak256(hexConcat2(result));
             };
           }
           const fields = this.types[type];
@@ -42530,10 +45375,10 @@
                 return result;
               });
               values.unshift(encodedType);
-              return hexConcat(values);
+              return hexConcat2(values);
             };
           }
-          return logger13.throwArgumentError(
+          return logger20.throwArgumentError(
             `unknown type: ${type}`,
             "type",
             type
@@ -42542,7 +45387,7 @@
         encodeType(name2) {
           const result = this._types[name2];
           if (!result) {
-            logger13.throwArgumentError(
+            logger20.throwArgumentError(
               `unknown type: ${JSON.stringify(name2)}`,
               "name",
               name2
@@ -42574,7 +45419,7 @@
             const subtype = match[1];
             const length = parseInt(match[3]);
             if (length >= 0 && value.length !== length) {
-              logger13.throwArgumentError(
+              logger20.throwArgumentError(
                 "array length mismatch; expected length ${ arrayLength }",
                 "value",
                 value
@@ -42589,7 +45434,7 @@
               return accum;
             }, {});
           }
-          return logger13.throwArgumentError(
+          return logger20.throwArgumentError(
             `unknown type: ${type}`,
             "type",
             type
@@ -42612,7 +45457,7 @@
           for (const name2 in domain) {
             const type = domainFieldTypes[name2];
             if (!type) {
-              logger13.throwArgumentError(
+              logger20.throwArgumentError(
                 `invalid typed-data domain key: ${JSON.stringify(name2)}`,
                 "domain",
                 domain
@@ -42633,7 +45478,7 @@
           );
         }
         static encode(domain, types, value) {
-          return hexConcat([
+          return hexConcat2([
             "0x1901",
             TypedDataEncoder.hashDomain(domain),
             TypedDataEncoder.from(types).hash(value),
@@ -42643,18 +45488,18 @@
           return keccak256(TypedDataEncoder.encode(domain, types, value));
         }
         static resolveNames(domain, types, value, resolveName2) {
-          return __awaiter3(this, void 0, void 0, function* () {
+          return __awaiter2(this, void 0, void 0, function* () {
             domain = shallowCopy(domain);
             const ensCache = {};
             if (
               domain.verifyingContract &&
-              !isHexString2(domain.verifyingContract, 20)
+              !isHexString8(domain.verifyingContract, 20)
             ) {
               ensCache[domain.verifyingContract] = "0x";
             }
             const encoder = TypedDataEncoder.from(types);
             encoder.visit(value, (type, value2) => {
-              if (type === "address" && !isHexString2(value2, 20)) {
+              if (type === "address" && !isHexString8(value2, 20)) {
                 ensCache[value2] = "0x";
               }
               return value2;
@@ -42692,7 +45537,7 @@
           const encoder = TypedDataEncoder.from(types);
           const typesWithDomain = shallowCopy(types);
           if (typesWithDomain.EIP712Domain) {
-            logger13.throwArgumentError(
+            logger20.throwArgumentError(
               "types must not contain EIP712Domain type",
               "types.EIP712Domain",
               types
@@ -42707,7 +45552,7 @@
             primaryType: encoder.primaryType,
             message: encoder.visit(value, (type, value2) => {
               if (type.match(/^bytes(\d*)/)) {
-                return hexlify(arrayify(value2));
+                return hexlify6(arrayify7(value2));
               }
               if (type.match(/^u?int/)) {
                 return BigNumber.from(value2).toString();
@@ -42719,7 +45564,7 @@
                   return !!value2;
                 case "string":
                   if (typeof value2 !== "string") {
-                    logger13.throwArgumentError(
+                    logger20.throwArgumentError(
                       `invalid string`,
                       "value",
                       value2
@@ -42727,7 +45572,7 @@
                   }
                   return value2;
               }
-              return logger13.throwArgumentError(
+              return logger20.throwArgumentError(
                 "unsupported type",
                 "type",
                 type
@@ -42740,7 +45585,7 @@
   });
 
   // node_modules/@ethersproject/hash/lib.esm/index.js
-  var init_lib10 = __esm({
+  var init_lib23 = __esm({
     "node_modules/@ethersproject/hash/lib.esm/index.js"() {
       "use strict";
       init_id();
@@ -42758,7 +45603,7 @@
     wrap.error = error;
     return wrap;
   }
-  var logger14,
+  var logger21,
     LogDescription,
     TransactionDescription,
     ErrorDescription,
@@ -42768,18 +45613,18 @@
   var init_interface = __esm({
     "node_modules/@ethersproject/abi/lib.esm/interface.js"() {
       "use strict";
-      init_lib7();
+      init_lib15();
       init_lib3();
-      init_lib2();
-      init_lib10();
+      init_lib6();
+      init_lib23();
+      init_lib11();
       init_lib5();
-      init_lib4();
       init_abi_coder();
       init_abstract_coder();
       init_fragments();
-      init_lib();
-      init_version5();
-      logger14 = new Logger(version5);
+      init_lib4();
+      init_version6();
+      logger21 = new Logger2(version6);
       LogDescription = class extends Description {};
       TransactionDescription = class extends Description {};
       ErrorDescription = class extends Description {};
@@ -42803,7 +45648,7 @@
       };
       Interface = class {
         constructor(fragments) {
-          logger14.checkNew(new.target, Interface);
+          logger21.checkNew(new.target, Interface);
           let abi = [];
           if (typeof fragments === "string") {
             abi = JSON.parse(fragments);
@@ -42833,7 +45678,7 @@
             switch (fragment.type) {
               case "constructor":
                 if (this.deploy) {
-                  logger14.warn("duplicate definition - constructor");
+                  logger21.warn("duplicate definition - constructor");
                   return;
                 }
                 defineReadOnly(this, "deploy", fragment);
@@ -42852,7 +45697,7 @@
             }
             let signature2 = fragment.format();
             if (bucket[signature2]) {
-              logger14.warn("duplicate definition - " + signature2);
+              logger21.warn("duplicate definition - " + signature2);
               return;
             }
             bucket[signature2] = fragment;
@@ -42874,7 +45719,7 @@
             format = FormatTypes.full;
           }
           if (format === FormatTypes.sighash) {
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               "interface does not support formatting sighash",
               "format",
               format
@@ -42899,13 +45744,13 @@
           return id(eventFragment.format());
         }
         getFunction(nameOrSignatureOrSighash) {
-          if (isHexString2(nameOrSignatureOrSighash)) {
+          if (isHexString3(nameOrSignatureOrSighash)) {
             for (const name2 in this.functions) {
               if (nameOrSignatureOrSighash === this.getSighash(name2)) {
                 return this.functions[name2];
               }
             }
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               "no matching function",
               "sighash",
               nameOrSignatureOrSighash
@@ -42917,13 +45762,13 @@
               (f2) => f2.split("(")[0] === name2
             );
             if (matching.length === 0) {
-              logger14.throwArgumentError(
+              logger21.throwArgumentError(
                 "no matching function",
                 "name",
                 name2
               );
             } else if (matching.length > 1) {
-              logger14.throwArgumentError(
+              logger21.throwArgumentError(
                 "multiple matching functions",
                 "name",
                 name2
@@ -42936,7 +45781,7 @@
               FunctionFragment.fromString(nameOrSignatureOrSighash).format()
             ];
           if (!result) {
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               "no matching function",
               "signature",
               nameOrSignatureOrSighash
@@ -42945,14 +45790,14 @@
           return result;
         }
         getEvent(nameOrSignatureOrTopic) {
-          if (isHexString2(nameOrSignatureOrTopic)) {
+          if (isHexString3(nameOrSignatureOrTopic)) {
             const topichash = nameOrSignatureOrTopic.toLowerCase();
             for (const name2 in this.events) {
               if (topichash === this.getEventTopic(name2)) {
                 return this.events[name2];
               }
             }
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               "no matching event",
               "topichash",
               topichash
@@ -42964,9 +45809,9 @@
               (f2) => f2.split("(")[0] === name2
             );
             if (matching.length === 0) {
-              logger14.throwArgumentError("no matching event", "name", name2);
+              logger21.throwArgumentError("no matching event", "name", name2);
             } else if (matching.length > 1) {
-              logger14.throwArgumentError(
+              logger21.throwArgumentError(
                 "multiple matching events",
                 "name",
                 name2
@@ -42979,7 +45824,7 @@
               EventFragment.fromString(nameOrSignatureOrTopic).format()
             ];
           if (!result) {
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               "no matching event",
               "signature",
               nameOrSignatureOrTopic
@@ -42988,7 +45833,7 @@
           return result;
         }
         getError(nameOrSignatureOrSighash) {
-          if (isHexString2(nameOrSignatureOrSighash)) {
+          if (isHexString3(nameOrSignatureOrSighash)) {
             const getSighash = getStatic(this.constructor, "getSighash");
             for (const name2 in this.errors) {
               const error = this.errors[name2];
@@ -42996,7 +45841,7 @@
                 return this.errors[name2];
               }
             }
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               "no matching error",
               "sighash",
               nameOrSignatureOrSighash
@@ -43008,9 +45853,9 @@
               (f2) => f2.split("(")[0] === name2
             );
             if (matching.length === 0) {
-              logger14.throwArgumentError("no matching error", "name", name2);
+              logger21.throwArgumentError("no matching error", "name", name2);
             } else if (matching.length > 1) {
-              logger14.throwArgumentError(
+              logger21.throwArgumentError(
                 "multiple matching errors",
                 "name",
                 name2
@@ -43023,7 +45868,7 @@
               FunctionFragment.fromString(nameOrSignatureOrSighash).format()
             ];
           if (!result) {
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               "no matching error",
               "signature",
               nameOrSignatureOrSighash
@@ -43064,12 +45909,12 @@
           if (typeof fragment === "string") {
             fragment = this.getError(fragment);
           }
-          const bytes = arrayify(data);
-          if (hexlify(bytes.slice(0, 4)) !== this.getSighash(fragment)) {
-            logger14.throwArgumentError(
+          const bytes = arrayify2(data);
+          if (hexlify2(bytes.slice(0, 4)) !== this.getSighash(fragment)) {
+            logger21.throwArgumentError(
               `data signature does not match error ${fragment.name}.`,
               "data",
-              hexlify(bytes)
+              hexlify2(bytes)
             );
           }
           return this._decodeParams(fragment.inputs, bytes.slice(4));
@@ -43078,7 +45923,7 @@
           if (typeof fragment === "string") {
             fragment = this.getError(fragment);
           }
-          return hexlify(
+          return hexlify2(
             concat([
               this.getSighash(fragment),
               this._encodeParams(fragment.inputs, values || []),
@@ -43089,14 +45934,14 @@
           if (typeof functionFragment === "string") {
             functionFragment = this.getFunction(functionFragment);
           }
-          const bytes = arrayify(data);
+          const bytes = arrayify2(data);
           if (
-            hexlify(bytes.slice(0, 4)) !== this.getSighash(functionFragment)
+            hexlify2(bytes.slice(0, 4)) !== this.getSighash(functionFragment)
           ) {
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               `data signature does not match function ${functionFragment.name}.`,
               "data",
-              hexlify(bytes)
+              hexlify2(bytes)
             );
           }
           return this._decodeParams(functionFragment.inputs, bytes.slice(4));
@@ -43105,7 +45950,7 @@
           if (typeof functionFragment === "string") {
             functionFragment = this.getFunction(functionFragment);
           }
-          return hexlify(
+          return hexlify2(
             concat([
               this.getSighash(functionFragment),
               this._encodeParams(functionFragment.inputs, values || []),
@@ -43116,7 +45961,7 @@
           if (typeof functionFragment === "string") {
             functionFragment = this.getFunction(functionFragment);
           }
-          let bytes = arrayify(data);
+          let bytes = arrayify2(data);
           let reason = null;
           let errorArgs = null;
           let errorName = null;
@@ -43128,7 +45973,7 @@
               } catch (error) {}
               break;
             case 4: {
-              const selector = hexlify(bytes.slice(0, 4));
+              const selector = hexlify2(bytes.slice(0, 4));
               const builtin = BuiltinErrors[selector];
               if (builtin) {
                 errorArgs = this._abiCoder.decode(
@@ -43156,9 +46001,9 @@
               break;
             }
           }
-          return logger14.throwError(
+          return logger21.throwError(
             "call revert exception",
-            Logger.errors.CALL_EXCEPTION,
+            Logger2.errors.CALL_EXCEPTION,
             {
               method: functionFragment.format(),
               errorArgs,
@@ -43172,7 +46017,7 @@
           if (typeof functionFragment === "string") {
             functionFragment = this.getFunction(functionFragment);
           }
-          return hexlify(
+          return hexlify2(
             this._abiCoder.encode(functionFragment.outputs, values || [])
           );
         }
@@ -43181,9 +46026,9 @@
             eventFragment = this.getEvent(eventFragment);
           }
           if (values.length > eventFragment.inputs.length) {
-            logger14.throwError(
+            logger21.throwError(
               "too many arguments for " + eventFragment.format(),
-              Logger.errors.UNEXPECTED_ARGUMENT,
+              Logger2.errors.UNEXPECTED_ARGUMENT,
               {
                 argument: "values",
                 value: values,
@@ -43198,18 +46043,18 @@
             if (param.type === "string") {
               return id(value);
             } else if (param.type === "bytes") {
-              return keccak256(hexlify(value));
+              return keccak256(hexlify2(value));
             }
             if (param.type === "address") {
               this._abiCoder.encode(["address"], [value]);
             }
-            return hexZeroPad(hexlify(value), 32);
+            return hexZeroPad2(hexlify2(value), 32);
           };
           values.forEach((value, index) => {
             let param = eventFragment.inputs[index];
             if (!param.indexed) {
               if (value != null) {
-                logger14.throwArgumentError(
+                logger21.throwArgumentError(
                   "cannot filter non-indexed parameters; must be null",
                   "contract." + param.name,
                   value
@@ -43223,7 +46068,7 @@
               param.baseType === "array" ||
               param.baseType === "tuple"
             ) {
-              logger14.throwArgumentError(
+              logger21.throwArgumentError(
                 "filtering with tuples or arrays not supported",
                 "contract." + param.name,
                 value
@@ -43250,7 +46095,7 @@
             topics.push(this.getEventTopic(eventFragment));
           }
           if (values.length !== eventFragment.inputs.length) {
-            logger14.throwArgumentError(
+            logger21.throwArgumentError(
               "event arguments/values mismatch",
               "values",
               values
@@ -43288,12 +46133,12 @@
           if (topics != null && !eventFragment.anonymous) {
             let topicHash = this.getEventTopic(eventFragment);
             if (
-              !isHexString2(topics[0], 32) ||
+              !isHexString3(topics[0], 32) ||
               topics[0].toLowerCase() !== topicHash
             ) {
-              logger14.throwError(
+              logger21.throwError(
                 "fragment/topic mismatch",
-                Logger.errors.INVALID_ARGUMENT,
+                Logger2.errors.INVALID_ARGUMENT,
                 { argument: "topics[0]", expected: topicHash, value: topics[0] }
               );
             }
@@ -43417,7 +46262,7 @@
           });
         }
         parseError(data) {
-          const hexData = hexlify(data);
+          const hexData = hexlify2(data);
           let fragment = this.getError(hexData.substring(0, 10).toLowerCase());
           if (!fragment) {
             return null;
@@ -43441,7 +46286,7 @@
   });
 
   // node_modules/@ethersproject/abi/lib.esm/index.js
-  var init_lib11 = __esm({
+  var init_lib24 = __esm({
     "node_modules/@ethersproject/abi/lib.esm/index.js"() {
       "use strict";
       init_fragments();
@@ -43450,23 +46295,482 @@
     },
   });
 
+  // node_modules/@ethersproject/abstract-provider/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version23;
+  var init_version23 = __esm({
+    "node_modules/@ethersproject/abstract-provider/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version23 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/abstract-provider/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize8() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors8,
+    _censorErrors8,
+    LogLevels8,
+    _logLevel8,
+    _globalLogger8,
+    _normalizeError8,
+    LogLevel8,
+    ErrorCode8,
+    HEX8,
+    Logger8;
+  var init_lib25 = __esm({
+    "node_modules/@ethersproject/abstract-provider/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version23();
+      _permanentCensorErrors8 = false;
+      _censorErrors8 = false;
+      LogLevels8 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel8 = LogLevels8["default"];
+      _globalLogger8 = null;
+      _normalizeError8 = _checkNormalize8();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel8 || (LogLevel8 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode8 || (ErrorCode8 = {}));
+      HEX8 = "0123456789abcdef";
+      Logger8 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels8[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel8 > LogLevels8[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger8.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger8.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger8.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors8) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger8.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX8[value[i] >> 4];
+                  hex += HEX8[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger8.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError8) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger8.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError8,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger8.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger8.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger8.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger8.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger8.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger8.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger8.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger8) {
+            _globalLogger8 = new Logger8(version23);
+          }
+          return _globalLogger8;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger8.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors8) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger8.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors8 = !!censorship;
+          _permanentCensorErrors8 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels8[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger8.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel8 = level;
+        }
+        static from(version89) {
+          return new Logger8(version89);
+        }
+      };
+      Logger8.errors = ErrorCode8;
+      Logger8.levels = LogLevel8;
+    },
+  });
+
+  // node_modules/@ethersproject/abstract-provider/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version24;
+  var init_version24 = __esm({
+    "node_modules/@ethersproject/abstract-provider/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version24 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/abstract-provider/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly3(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  function resolveProperties(object) {
+    return __awaiter3(this, void 0, void 0, function* () {
+      const promises = Object.keys(object).map((key2) => {
+        const value = object[key2];
+        return Promise.resolve(value).then((v2) => ({ key: key2, value: v2 }));
+      });
+      const results = yield Promise.all(promises);
+      return results.reduce((accum, result) => {
+        accum[result.key] = result.value;
+        return accum;
+      }, {});
+    });
+  }
+  function _isFrozen3(object) {
+    if (object === void 0 || object === null || opaque3[typeof object]) {
+      return true;
+    }
+    if (Array.isArray(object) || typeof object === "object") {
+      if (!Object.isFrozen(object)) {
+        return false;
+      }
+      const keys = Object.keys(object);
+      for (let i = 0; i < keys.length; i++) {
+        let value = null;
+        try {
+          value = object[keys[i]];
+        } catch (error) {
+          continue;
+        }
+        if (!_isFrozen3(value)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return logger22.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function _deepCopy3(object) {
+    if (_isFrozen3(object)) {
+      return object;
+    }
+    if (Array.isArray(object)) {
+      return Object.freeze(object.map((item) => deepCopy3(item)));
+    }
+    if (typeof object === "object") {
+      const result = {};
+      for (const key2 in object) {
+        const value = object[key2];
+        if (value === void 0) {
+          continue;
+        }
+        defineReadOnly3(result, key2, deepCopy3(value));
+      }
+      return result;
+    }
+    return logger22.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function deepCopy3(object) {
+    return _deepCopy3(object);
+  }
+  var __awaiter3, logger22, opaque3, Description2;
+  var init_lib26 = __esm({
+    "node_modules/@ethersproject/abstract-provider/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib25();
+      init_version24();
+      __awaiter3 = function (thisArg, _arguments, P2, generator) {
+        function adopt(value) {
+          return value instanceof P2
+            ? value
+            : new P2(function (resolve2) {
+                resolve2(value);
+              });
+        }
+        return new (P2 || (P2 = Promise))(function (resolve2, reject) {
+          function fulfilled(value) {
+            try {
+              step(generator.next(value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function rejected(value) {
+            try {
+              step(generator["throw"](value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function step(result) {
+            result.done
+              ? resolve2(result.value)
+              : adopt(result.value).then(fulfilled, rejected);
+          }
+          step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+      };
+      logger22 = new Logger8(version24);
+      opaque3 = {
+        bigint: true,
+        boolean: true,
+        function: true,
+        number: true,
+        string: true,
+      };
+      Description2 = class {
+        constructor(info) {
+          for (const key2 in info) {
+            this[key2] = deepCopy3(info[key2]);
+          }
+        }
+      };
+    },
+  });
+
   // node_modules/@ethersproject/abstract-provider/lib.esm/_version.js
-  var version10;
-  var init_version10 = __esm({
+  var version25;
+  var init_version25 = __esm({
     "node_modules/@ethersproject/abstract-provider/lib.esm/_version.js"() {
-      version10 = "abstract-provider/5.5.1";
+      version25 = "abstract-provider/5.5.1";
     },
   });
 
   // node_modules/@ethersproject/abstract-provider/lib.esm/index.js
-  var __awaiter4, logger15, ForkEvent, Provider;
-  var init_lib12 = __esm({
+  var __awaiter4, logger23, ForkEvent, Provider;
+  var init_lib27 = __esm({
     "node_modules/@ethersproject/abstract-provider/lib.esm/index.js"() {
       "use strict";
       init_lib3();
-      init_lib4();
-      init_lib();
-      init_version10();
+      init_lib26();
+      init_lib25();
+      init_version25();
       __awaiter4 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
@@ -43498,16 +46802,16 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger15 = new Logger(version10);
-      ForkEvent = class extends Description {
+      logger23 = new Logger8(version25);
+      ForkEvent = class extends Description2 {
         static isForkEvent(value) {
           return !!(value && value._isForkEvent);
         }
       };
       Provider = class {
         constructor() {
-          logger15.checkAbstract(new.target, Provider);
-          defineReadOnly(this, "_isProvider", true);
+          logger23.checkAbstract(new.target, Provider);
+          defineReadOnly3(this, "_isProvider", true);
         }
         getFeeData() {
           return __awaiter4(this, void 0, void 0, function* () {
@@ -43541,27 +46845,368 @@
     },
   });
 
-  // node_modules/@ethersproject/abstract-signer/lib.esm/_version.js
-  var version11;
-  var init_version11 = __esm({
-    "node_modules/@ethersproject/abstract-signer/lib.esm/_version.js"() {
-      version11 = "abstract-signer/5.5.0";
+  // node_modules/@ethersproject/abstract-signer/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version26;
+  var init_version26 = __esm({
+    "node_modules/@ethersproject/abstract-signer/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version26 = "logger/5.5.0";
     },
   });
 
-  // node_modules/@ethersproject/abstract-signer/lib.esm/index.js
-  var __awaiter5,
-    logger16,
-    allowedTransactionKeys,
-    forwardErrors,
-    Signer,
-    VoidSigner;
-  var init_lib13 = __esm({
-    "node_modules/@ethersproject/abstract-signer/lib.esm/index.js"() {
+  // node_modules/@ethersproject/abstract-signer/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize9() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors9,
+    _censorErrors9,
+    LogLevels9,
+    _logLevel9,
+    _globalLogger9,
+    _normalizeError9,
+    LogLevel9,
+    ErrorCode9,
+    HEX9,
+    Logger9;
+  var init_lib28 = __esm({
+    "node_modules/@ethersproject/abstract-signer/node_modules/@ethersproject/logger/lib.esm/index.js"() {
       "use strict";
-      init_lib4();
-      init_lib();
-      init_version11();
+      init_version26();
+      _permanentCensorErrors9 = false;
+      _censorErrors9 = false;
+      LogLevels9 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel9 = LogLevels9["default"];
+      _globalLogger9 = null;
+      _normalizeError9 = _checkNormalize9();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel9 || (LogLevel9 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode9 || (ErrorCode9 = {}));
+      HEX9 = "0123456789abcdef";
+      Logger9 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels9[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel9 > LogLevels9[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger9.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger9.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger9.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors9) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger9.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX9[value[i] >> 4];
+                  hex += HEX9[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger9.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError9) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger9.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError9,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger9.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger9.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger9.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger9.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger9.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger9.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger9.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger9) {
+            _globalLogger9 = new Logger9(version26);
+          }
+          return _globalLogger9;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger9.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors9) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger9.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors9 = !!censorship;
+          _permanentCensorErrors9 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels9[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger9.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel9 = level;
+        }
+        static from(version89) {
+          return new Logger9(version89);
+        }
+      };
+      Logger9.errors = ErrorCode9;
+      Logger9.levels = LogLevel9;
+    },
+  });
+
+  // node_modules/@ethersproject/abstract-signer/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version27;
+  var init_version27 = __esm({
+    "node_modules/@ethersproject/abstract-signer/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version27 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/abstract-signer/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly4(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  function resolveProperties2(object) {
+    return __awaiter5(this, void 0, void 0, function* () {
+      const promises = Object.keys(object).map((key2) => {
+        const value = object[key2];
+        return Promise.resolve(value).then((v2) => ({ key: key2, value: v2 }));
+      });
+      const results = yield Promise.all(promises);
+      return results.reduce((accum, result) => {
+        accum[result.key] = result.value;
+        return accum;
+      }, {});
+    });
+  }
+  function shallowCopy2(object) {
+    const result = {};
+    for (const key2 in object) {
+      result[key2] = object[key2];
+    }
+    return result;
+  }
+  var __awaiter5, logger24;
+  var init_lib29 = __esm({
+    "node_modules/@ethersproject/abstract-signer/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib28();
+      init_version27();
       __awaiter5 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
@@ -43593,7 +47238,63 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger16 = new Logger(version11);
+      logger24 = new Logger9(version27);
+    },
+  });
+
+  // node_modules/@ethersproject/abstract-signer/lib.esm/_version.js
+  var version28;
+  var init_version28 = __esm({
+    "node_modules/@ethersproject/abstract-signer/lib.esm/_version.js"() {
+      version28 = "abstract-signer/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/abstract-signer/lib.esm/index.js
+  var __awaiter6,
+    logger25,
+    allowedTransactionKeys,
+    forwardErrors,
+    Signer,
+    VoidSigner;
+  var init_lib30 = __esm({
+    "node_modules/@ethersproject/abstract-signer/lib.esm/index.js"() {
+      "use strict";
+      init_lib29();
+      init_lib28();
+      init_version28();
+      __awaiter6 = function (thisArg, _arguments, P2, generator) {
+        function adopt(value) {
+          return value instanceof P2
+            ? value
+            : new P2(function (resolve2) {
+                resolve2(value);
+              });
+        }
+        return new (P2 || (P2 = Promise))(function (resolve2, reject) {
+          function fulfilled(value) {
+            try {
+              step(generator.next(value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function rejected(value) {
+            try {
+              step(generator["throw"](value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function step(result) {
+            result.done
+              ? resolve2(result.value)
+              : adopt(result.value).then(fulfilled, rejected);
+          }
+          step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+      };
+      logger25 = new Logger9(version28);
       allowedTransactionKeys = [
         "accessList",
         "chainId",
@@ -43610,23 +47311,23 @@
         "value",
       ];
       forwardErrors = [
-        Logger.errors.INSUFFICIENT_FUNDS,
-        Logger.errors.NONCE_EXPIRED,
-        Logger.errors.REPLACEMENT_UNDERPRICED,
+        Logger9.errors.INSUFFICIENT_FUNDS,
+        Logger9.errors.NONCE_EXPIRED,
+        Logger9.errors.REPLACEMENT_UNDERPRICED,
       ];
       Signer = class {
         constructor() {
-          logger16.checkAbstract(new.target, Signer);
-          defineReadOnly(this, "_isSigner", true);
+          logger25.checkAbstract(new.target, Signer);
+          defineReadOnly4(this, "_isSigner", true);
         }
         getBalance(blockTag) {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("getBalance");
             return yield this.provider.getBalance(this.getAddress(), blockTag);
           });
         }
         getTransactionCount(blockTag) {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("getTransactionCount");
             return yield this.provider.getTransactionCount(
               this.getAddress(),
@@ -43635,25 +47336,25 @@
           });
         }
         estimateGas(transaction) {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("estimateGas");
-            const tx = yield resolveProperties(
+            const tx = yield resolveProperties2(
               this.checkTransaction(transaction)
             );
             return yield this.provider.estimateGas(tx);
           });
         }
         call(transaction, blockTag) {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("call");
-            const tx = yield resolveProperties(
+            const tx = yield resolveProperties2(
               this.checkTransaction(transaction)
             );
             return yield this.provider.call(tx, blockTag);
           });
         }
         sendTransaction(transaction) {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("sendTransaction");
             const tx = yield this.populateTransaction(transaction);
             const signedTx = yield this.signTransaction(tx);
@@ -43661,26 +47362,26 @@
           });
         }
         getChainId() {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("getChainId");
             const network = yield this.provider.getNetwork();
             return network.chainId;
           });
         }
         getGasPrice() {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("getGasPrice");
             return yield this.provider.getGasPrice();
           });
         }
         getFeeData() {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("getFeeData");
             return yield this.provider.getFeeData();
           });
         }
         resolveName(name2) {
-          return __awaiter5(this, void 0, void 0, function* () {
+          return __awaiter6(this, void 0, void 0, function* () {
             this._checkProvider("resolveName");
             return yield this.provider.resolveName(name2);
           });
@@ -43688,14 +47389,14 @@
         checkTransaction(transaction) {
           for (const key2 in transaction) {
             if (allowedTransactionKeys.indexOf(key2) === -1) {
-              logger16.throwArgumentError(
+              logger25.throwArgumentError(
                 "invalid transaction key: " + key2,
                 "transaction",
                 transaction
               );
             }
           }
-          const tx = shallowCopy(transaction);
+          const tx = shallowCopy2(transaction);
           if (tx.from == null) {
             tx.from = this.getAddress();
           } else {
@@ -43704,7 +47405,7 @@
               this.getAddress(),
             ]).then((result) => {
               if (result[0].toLowerCase() !== result[1].toLowerCase()) {
-                logger16.throwArgumentError(
+                logger25.throwArgumentError(
                   "from address mismatch",
                   "transaction",
                   transaction
@@ -43716,19 +47417,19 @@
           return tx;
         }
         populateTransaction(transaction) {
-          return __awaiter5(this, void 0, void 0, function* () {
-            const tx = yield resolveProperties(
+          return __awaiter6(this, void 0, void 0, function* () {
+            const tx = yield resolveProperties2(
               this.checkTransaction(transaction)
             );
             if (tx.to != null) {
               tx.to = Promise.resolve(tx.to).then((to) =>
-                __awaiter5(this, void 0, void 0, function* () {
+                __awaiter6(this, void 0, void 0, function* () {
                   if (to == null) {
                     return null;
                   }
                   const address = yield this.resolveName(to);
                   if (address == null) {
-                    logger16.throwArgumentError(
+                    logger25.throwArgumentError(
                       "provided ENS name resolves to null",
                       "tx.to",
                       to
@@ -43742,13 +47443,13 @@
             const hasEip1559 =
               tx.maxFeePerGas != null || tx.maxPriorityFeePerGas != null;
             if (tx.gasPrice != null && (tx.type === 2 || hasEip1559)) {
-              logger16.throwArgumentError(
+              logger25.throwArgumentError(
                 "eip-1559 transaction do not support gasPrice",
                 "transaction",
                 transaction
               );
             } else if ((tx.type === 0 || tx.type === 1) && hasEip1559) {
-              logger16.throwArgumentError(
+              logger25.throwArgumentError(
                 "pre-eip-1559 transaction do not support maxFeePerGas/maxPriorityFeePerGas",
                 "transaction",
                 transaction
@@ -43787,9 +47488,9 @@
                   }
                 } else if (feeData.gasPrice != null) {
                   if (hasEip1559) {
-                    logger16.throwError(
+                    logger25.throwError(
                       "network does not support EIP-1559",
-                      Logger.errors.UNSUPPORTED_OPERATION,
+                      Logger9.errors.UNSUPPORTED_OPERATION,
                       {
                         operation: "populateTransaction",
                       }
@@ -43800,9 +47501,9 @@
                   }
                   tx.type = 0;
                 } else {
-                  logger16.throwError(
+                  logger25.throwError(
                     "failed to get consistent fee data",
-                    Logger.errors.UNSUPPORTED_OPERATION,
+                    Logger9.errors.UNSUPPORTED_OPERATION,
                     {
                       operation: "signer.getFeeData",
                     }
@@ -43825,9 +47526,9 @@
                 if (forwardErrors.indexOf(error.code) >= 0) {
                   throw error;
                 }
-                return logger16.throwError(
+                return logger25.throwError(
                   "cannot estimate gas; transaction may fail or may require manual gas limit",
-                  Logger.errors.UNPREDICTABLE_GAS_LIMIT,
+                  Logger9.errors.UNPREDICTABLE_GAS_LIMIT,
                   {
                     error,
                     tx,
@@ -43843,7 +47544,7 @@
                 this.getChainId(),
               ]).then((results) => {
                 if (results[1] !== 0 && results[0] !== results[1]) {
-                  logger16.throwArgumentError(
+                  logger25.throwArgumentError(
                     "chainId address mismatch",
                     "transaction",
                     transaction
@@ -43852,14 +47553,14 @@
                 return results[0];
               });
             }
-            return yield resolveProperties(tx);
+            return yield resolveProperties2(tx);
           });
         }
         _checkProvider(operation) {
           if (!this.provider) {
-            logger16.throwError(
+            logger25.throwError(
               "missing provider",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger9.errors.UNSUPPORTED_OPERATION,
               {
                 operation: operation || "_checkProvider",
               }
@@ -43872,17 +47573,17 @@
       };
       VoidSigner = class extends Signer {
         constructor(address, provider) {
-          logger16.checkNew(new.target, VoidSigner);
+          logger25.checkNew(new.target, VoidSigner);
           super();
-          defineReadOnly(this, "address", address);
-          defineReadOnly(this, "provider", provider || null);
+          defineReadOnly4(this, "address", address);
+          defineReadOnly4(this, "provider", provider || null);
         }
         getAddress() {
           return Promise.resolve(this.address);
         }
         _fail(message, operation) {
           return Promise.resolve().then(() => {
-            logger16.throwError(message, Logger.errors.UNSUPPORTED_OPERATION, {
+            logger25.throwError(message, Logger9.errors.UNSUPPORTED_OPERATION, {
               operation,
             });
           });
@@ -43905,6 +47606,673 @@
         connect(provider) {
           return new VoidSigner(this.address, provider);
         }
+      };
+    },
+  });
+
+  // node_modules/@ethersproject/contracts/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version29;
+  var init_version29 = __esm({
+    "node_modules/@ethersproject/contracts/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version29 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/contracts/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize10() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors10,
+    _censorErrors10,
+    LogLevels10,
+    _logLevel10,
+    _globalLogger10,
+    _normalizeError10,
+    LogLevel10,
+    ErrorCode10,
+    HEX10,
+    Logger10;
+  var init_lib31 = __esm({
+    "node_modules/@ethersproject/contracts/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version29();
+      _permanentCensorErrors10 = false;
+      _censorErrors10 = false;
+      LogLevels10 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel10 = LogLevels10["default"];
+      _globalLogger10 = null;
+      _normalizeError10 = _checkNormalize10();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel10 || (LogLevel10 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode10 || (ErrorCode10 = {}));
+      HEX10 = "0123456789abcdef";
+      Logger10 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels10[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel10 > LogLevels10[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger10.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger10.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger10.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors10) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger10.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX10[value[i] >> 4];
+                  hex += HEX10[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger10.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError10) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger10.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError10,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger10.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger10.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger10.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger10.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger10.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger10.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger10.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger10) {
+            _globalLogger10 = new Logger10(version29);
+          }
+          return _globalLogger10;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger10.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors10) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger10.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors10 = !!censorship;
+          _permanentCensorErrors10 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels10[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger10.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel10 = level;
+        }
+        static from(version89) {
+          return new Logger10(version89);
+        }
+      };
+      Logger10.errors = ErrorCode10;
+      Logger10.levels = LogLevel10;
+    },
+  });
+
+  // node_modules/@ethersproject/contracts/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version30;
+  var init_version30 = __esm({
+    "node_modules/@ethersproject/contracts/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version30 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/contracts/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable8(value) {
+    return !!value.toHexString;
+  }
+  function addSlice8(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice8(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger8(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes8(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger8(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger8(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify8(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger26.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice8(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable8(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString9(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger26.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice8(new Uint8Array(result));
+    }
+    if (isBytes8(value)) {
+      return addSlice8(new Uint8Array(value));
+    }
+    return logger26.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat5(items) {
+    const objects = items.map((item) => arrayify8(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice8(result);
+  }
+  function isHexString9(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify7(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger26.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters7[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable8(value)) {
+      return value.toHexString();
+    }
+    if (isHexString9(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger26.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes8(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters7[(v2 & 240) >> 4] + HexCharacters7[v2 & 15];
+      }
+      return result;
+    }
+    return logger26.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexDataLength2(data) {
+    if (typeof data !== "string") {
+      data = hexlify7(data);
+    } else if (!isHexString9(data) || data.length % 2) {
+      return null;
+    }
+    return (data.length - 2) / 2;
+  }
+  var logger26, HexCharacters7;
+  var init_lib32 = __esm({
+    "node_modules/@ethersproject/contracts/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib31();
+      init_version30();
+      logger26 = new Logger10(version30);
+      HexCharacters7 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/contracts/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version31;
+  var init_version31 = __esm({
+    "node_modules/@ethersproject/contracts/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version31 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/contracts/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly5(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  function getStatic2(ctor, key2) {
+    for (let i = 0; i < 32; i++) {
+      if (ctor[key2]) {
+        return ctor[key2];
+      }
+      if (!ctor.prototype || typeof ctor.prototype !== "object") {
+        break;
+      }
+      ctor = Object.getPrototypeOf(ctor.prototype).constructor;
+    }
+    return null;
+  }
+  function resolveProperties3(object) {
+    return __awaiter7(this, void 0, void 0, function* () {
+      const promises = Object.keys(object).map((key2) => {
+        const value = object[key2];
+        return Promise.resolve(value).then((v2) => ({ key: key2, value: v2 }));
+      });
+      const results = yield Promise.all(promises);
+      return results.reduce((accum, result) => {
+        accum[result.key] = result.value;
+        return accum;
+      }, {});
+    });
+  }
+  function shallowCopy3(object) {
+    const result = {};
+    for (const key2 in object) {
+      result[key2] = object[key2];
+    }
+    return result;
+  }
+  function _isFrozen4(object) {
+    if (object === void 0 || object === null || opaque4[typeof object]) {
+      return true;
+    }
+    if (Array.isArray(object) || typeof object === "object") {
+      if (!Object.isFrozen(object)) {
+        return false;
+      }
+      const keys = Object.keys(object);
+      for (let i = 0; i < keys.length; i++) {
+        let value = null;
+        try {
+          value = object[keys[i]];
+        } catch (error) {
+          continue;
+        }
+        if (!_isFrozen4(value)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return logger27.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function _deepCopy4(object) {
+    if (_isFrozen4(object)) {
+      return object;
+    }
+    if (Array.isArray(object)) {
+      return Object.freeze(object.map((item) => deepCopy4(item)));
+    }
+    if (typeof object === "object") {
+      const result = {};
+      for (const key2 in object) {
+        const value = object[key2];
+        if (value === void 0) {
+          continue;
+        }
+        defineReadOnly5(result, key2, deepCopy4(value));
+      }
+      return result;
+    }
+    return logger27.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function deepCopy4(object) {
+    return _deepCopy4(object);
+  }
+  var __awaiter7, logger27, opaque4;
+  var init_lib33 = __esm({
+    "node_modules/@ethersproject/contracts/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib31();
+      init_version31();
+      __awaiter7 = function (thisArg, _arguments, P2, generator) {
+        function adopt(value) {
+          return value instanceof P2
+            ? value
+            : new P2(function (resolve2) {
+                resolve2(value);
+              });
+        }
+        return new (P2 || (P2 = Promise))(function (resolve2, reject) {
+          function fulfilled(value) {
+            try {
+              step(generator.next(value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function rejected(value) {
+            try {
+              step(generator["throw"](value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function step(result) {
+            result.done
+              ? resolve2(result.value)
+              : adopt(result.value).then(fulfilled, rejected);
+          }
+          step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+      };
+      logger27 = new Logger10(version31);
+      opaque4 = {
+        bigint: true,
+        boolean: true,
+        function: true,
+        number: true,
+        string: true,
       };
     },
   });
@@ -46801,11 +51169,707 @@
     },
   });
 
+  // node_modules/@ethersproject/signing-key/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version32;
+  var init_version32 = __esm({
+    "node_modules/@ethersproject/signing-key/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version32 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/signing-key/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize11() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors11,
+    _censorErrors11,
+    LogLevels11,
+    _logLevel11,
+    _globalLogger11,
+    _normalizeError11,
+    LogLevel11,
+    ErrorCode11,
+    HEX11,
+    Logger11;
+  var init_lib34 = __esm({
+    "node_modules/@ethersproject/signing-key/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version32();
+      _permanentCensorErrors11 = false;
+      _censorErrors11 = false;
+      LogLevels11 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel11 = LogLevels11["default"];
+      _globalLogger11 = null;
+      _normalizeError11 = _checkNormalize11();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel11 || (LogLevel11 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode11 || (ErrorCode11 = {}));
+      HEX11 = "0123456789abcdef";
+      Logger11 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels11[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel11 > LogLevels11[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger11.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger11.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger11.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors11) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger11.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX11[value[i] >> 4];
+                  hex += HEX11[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger11.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError11) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger11.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError11,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger11.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger11.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger11.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger11.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger11.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger11.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger11.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger11) {
+            _globalLogger11 = new Logger11(version32);
+          }
+          return _globalLogger11;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger11.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors11) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger11.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors11 = !!censorship;
+          _permanentCensorErrors11 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels11[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger11.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel11 = level;
+        }
+        static from(version89) {
+          return new Logger11(version89);
+        }
+      };
+      Logger11.errors = ErrorCode11;
+      Logger11.levels = LogLevel11;
+    },
+  });
+
+  // node_modules/@ethersproject/signing-key/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version33;
+  var init_version33 = __esm({
+    "node_modules/@ethersproject/signing-key/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version33 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/signing-key/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable9(value) {
+    return !!value.toHexString;
+  }
+  function addSlice9(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice9(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isBytesLike2(value) {
+    return (isHexString10(value) && !(value.length % 2)) || isBytes9(value);
+  }
+  function isInteger9(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes9(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger9(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger9(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify9(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger28.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice9(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable9(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString10(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger28.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice9(new Uint8Array(result));
+    }
+    if (isBytes9(value)) {
+      return addSlice9(new Uint8Array(value));
+    }
+    return logger28.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function zeroPad(value, length) {
+    value = arrayify9(value);
+    if (value.length > length) {
+      logger28.throwArgumentError("value out of range", "value", arguments[0]);
+    }
+    const result = new Uint8Array(length);
+    result.set(value, length - value.length);
+    return addSlice9(result);
+  }
+  function isHexString10(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify8(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger28.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters8[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable9(value)) {
+      return value.toHexString();
+    }
+    if (isHexString10(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger28.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes9(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters8[(v2 & 240) >> 4] + HexCharacters8[v2 & 15];
+      }
+      return result;
+    }
+    return logger28.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexZeroPad4(value, length) {
+    if (typeof value !== "string") {
+      value = hexlify8(value);
+    } else if (!isHexString10(value)) {
+      logger28.throwArgumentError("invalid hex string", "value", value);
+    }
+    if (value.length > 2 * length + 2) {
+      logger28.throwArgumentError("value out of range", "value", arguments[1]);
+    }
+    while (value.length < 2 * length + 2) {
+      value = "0x0" + value.substring(2);
+    }
+    return value;
+  }
+  function splitSignature(signature2) {
+    const result = {
+      r: "0x",
+      s: "0x",
+      _vs: "0x",
+      recoveryParam: 0,
+      v: 0,
+    };
+    if (isBytesLike2(signature2)) {
+      const bytes = arrayify9(signature2);
+      if (bytes.length !== 65) {
+        logger28.throwArgumentError(
+          "invalid signature string; must be 65 bytes",
+          "signature",
+          signature2
+        );
+      }
+      result.r = hexlify8(bytes.slice(0, 32));
+      result.s = hexlify8(bytes.slice(32, 64));
+      result.v = bytes[64];
+      if (result.v < 27) {
+        if (result.v === 0 || result.v === 1) {
+          result.v += 27;
+        } else {
+          logger28.throwArgumentError(
+            "signature invalid v byte",
+            "signature",
+            signature2
+          );
+        }
+      }
+      result.recoveryParam = 1 - (result.v % 2);
+      if (result.recoveryParam) {
+        bytes[32] |= 128;
+      }
+      result._vs = hexlify8(bytes.slice(32, 64));
+    } else {
+      result.r = signature2.r;
+      result.s = signature2.s;
+      result.v = signature2.v;
+      result.recoveryParam = signature2.recoveryParam;
+      result._vs = signature2._vs;
+      if (result._vs != null) {
+        const vs2 = zeroPad(arrayify9(result._vs), 32);
+        result._vs = hexlify8(vs2);
+        const recoveryParam = vs2[0] >= 128 ? 1 : 0;
+        if (result.recoveryParam == null) {
+          result.recoveryParam = recoveryParam;
+        } else if (result.recoveryParam !== recoveryParam) {
+          logger28.throwArgumentError(
+            "signature recoveryParam mismatch _vs",
+            "signature",
+            signature2
+          );
+        }
+        vs2[0] &= 127;
+        const s2 = hexlify8(vs2);
+        if (result.s == null) {
+          result.s = s2;
+        } else if (result.s !== s2) {
+          logger28.throwArgumentError(
+            "signature v mismatch _vs",
+            "signature",
+            signature2
+          );
+        }
+      }
+      if (result.recoveryParam == null) {
+        if (result.v == null) {
+          logger28.throwArgumentError(
+            "signature missing v and recoveryParam",
+            "signature",
+            signature2
+          );
+        } else if (result.v === 0 || result.v === 1) {
+          result.recoveryParam = result.v;
+        } else {
+          result.recoveryParam = 1 - (result.v % 2);
+        }
+      } else {
+        if (result.v == null) {
+          result.v = 27 + result.recoveryParam;
+        } else {
+          const recId =
+            result.v === 0 || result.v === 1 ? result.v : 1 - (result.v % 2);
+          if (result.recoveryParam !== recId) {
+            logger28.throwArgumentError(
+              "signature recoveryParam mismatch v",
+              "signature",
+              signature2
+            );
+          }
+        }
+      }
+      if (result.r == null || !isHexString10(result.r)) {
+        logger28.throwArgumentError(
+          "signature missing or invalid r",
+          "signature",
+          signature2
+        );
+      } else {
+        result.r = hexZeroPad4(result.r, 32);
+      }
+      if (result.s == null || !isHexString10(result.s)) {
+        logger28.throwArgumentError(
+          "signature missing or invalid s",
+          "signature",
+          signature2
+        );
+      } else {
+        result.s = hexZeroPad4(result.s, 32);
+      }
+      const vs = arrayify9(result.s);
+      if (vs[0] >= 128) {
+        logger28.throwArgumentError(
+          "signature s out of range",
+          "signature",
+          signature2
+        );
+      }
+      if (result.recoveryParam) {
+        vs[0] |= 128;
+      }
+      const _vs = hexlify8(vs);
+      if (result._vs) {
+        if (!isHexString10(result._vs)) {
+          logger28.throwArgumentError(
+            "signature invalid _vs",
+            "signature",
+            signature2
+          );
+        }
+        result._vs = hexZeroPad4(result._vs, 32);
+      }
+      if (result._vs == null) {
+        result._vs = _vs;
+      } else if (result._vs !== _vs) {
+        logger28.throwArgumentError(
+          "signature _vs mismatch v and s",
+          "signature",
+          signature2
+        );
+      }
+    }
+    return result;
+  }
+  var logger28, HexCharacters8;
+  var init_lib35 = __esm({
+    "node_modules/@ethersproject/signing-key/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib34();
+      init_version33();
+      logger28 = new Logger11(version33);
+      HexCharacters8 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/signing-key/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version34;
+  var init_version34 = __esm({
+    "node_modules/@ethersproject/signing-key/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version34 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/signing-key/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly6(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  var logger29;
+  var init_lib36 = __esm({
+    "node_modules/@ethersproject/signing-key/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib34();
+      init_version34();
+      logger29 = new Logger11(version34);
+    },
+  });
+
   // node_modules/@ethersproject/signing-key/lib.esm/_version.js
-  var version12;
-  var init_version12 = __esm({
+  var version35;
+  var init_version35 = __esm({
     "node_modules/@ethersproject/signing-key/lib.esm/_version.js"() {
-      version12 = "signing-key/5.5.0";
+      version35 = "signing-key/5.5.0";
     },
   });
 
@@ -46818,16 +51882,16 @@
   }
   function recoverPublicKey(digest, signature2) {
     const sig = splitSignature(signature2);
-    const rs = { r: arrayify(sig.r), s: arrayify(sig.s) };
+    const rs = { r: arrayify9(sig.r), s: arrayify9(sig.s) };
     return (
       "0x" +
       getCurve()
-        .recoverPubKey(arrayify(digest), rs, sig.recoveryParam)
+        .recoverPubKey(arrayify9(digest), rs, sig.recoveryParam)
         .encode("hex", false)
     );
   }
   function computePublicKey(key2, compressed) {
-    const bytes = arrayify(key2);
+    const bytes = arrayify9(key2);
     if (bytes.length === 32) {
       const signingKey = new SigningKey(bytes);
       if (compressed) {
@@ -46836,73 +51900,79 @@
       return signingKey.publicKey;
     } else if (bytes.length === 33) {
       if (compressed) {
-        return hexlify(bytes);
+        return hexlify8(bytes);
       }
       return "0x" + getCurve().keyFromPublic(bytes).getPublic(false, "hex");
     } else if (bytes.length === 65) {
       if (!compressed) {
-        return hexlify(bytes);
+        return hexlify8(bytes);
       }
       return "0x" + getCurve().keyFromPublic(bytes).getPublic(true, "hex");
     }
-    return logger17.throwArgumentError(
+    return logger30.throwArgumentError(
       "invalid public or private key",
       "key",
       "[REDACTED]"
     );
   }
-  var logger17, _curve, SigningKey;
-  var init_lib14 = __esm({
+  var logger30, _curve, SigningKey;
+  var init_lib37 = __esm({
     "node_modules/@ethersproject/signing-key/lib.esm/index.js"() {
       "use strict";
       init_elliptic();
-      init_lib2();
-      init_lib4();
-      init_lib();
-      init_version12();
-      logger17 = new Logger(version12);
+      init_lib35();
+      init_lib36();
+      init_lib34();
+      init_version35();
+      logger30 = new Logger11(version35);
       _curve = null;
       SigningKey = class {
         constructor(privateKey) {
-          defineReadOnly(this, "curve", "secp256k1");
-          defineReadOnly(this, "privateKey", hexlify(privateKey));
-          const keyPair2 = getCurve().keyFromPrivate(arrayify(this.privateKey));
-          defineReadOnly(
+          defineReadOnly6(this, "curve", "secp256k1");
+          defineReadOnly6(this, "privateKey", hexlify8(privateKey));
+          const keyPair2 = getCurve().keyFromPrivate(
+            arrayify9(this.privateKey)
+          );
+          defineReadOnly6(
             this,
             "publicKey",
             "0x" + keyPair2.getPublic(false, "hex")
           );
-          defineReadOnly(
+          defineReadOnly6(
             this,
             "compressedPublicKey",
             "0x" + keyPair2.getPublic(true, "hex")
           );
-          defineReadOnly(this, "_isSigningKey", true);
+          defineReadOnly6(this, "_isSigningKey", true);
         }
         _addPoint(other) {
-          const p0 = getCurve().keyFromPublic(arrayify(this.publicKey));
-          const p1 = getCurve().keyFromPublic(arrayify(other));
+          const p0 = getCurve().keyFromPublic(arrayify9(this.publicKey));
+          const p1 = getCurve().keyFromPublic(arrayify9(other));
           return "0x" + p0.pub.add(p1.pub).encodeCompressed("hex");
         }
         signDigest(digest) {
-          const keyPair2 = getCurve().keyFromPrivate(arrayify(this.privateKey));
-          const digestBytes = arrayify(digest);
+          const keyPair2 = getCurve().keyFromPrivate(
+            arrayify9(this.privateKey)
+          );
+          const digestBytes = arrayify9(digest);
           if (digestBytes.length !== 32) {
-            logger17.throwArgumentError("bad digest length", "digest", digest);
+            logger30.throwArgumentError("bad digest length", "digest", digest);
           }
           const signature2 = keyPair2.sign(digestBytes, { canonical: true });
           return splitSignature({
             recoveryParam: signature2.recoveryParam,
-            r: hexZeroPad("0x" + signature2.r.toString(16), 32),
-            s: hexZeroPad("0x" + signature2.s.toString(16), 32),
+            r: hexZeroPad4("0x" + signature2.r.toString(16), 32),
+            s: hexZeroPad4("0x" + signature2.s.toString(16), 32),
           });
         }
         computeSharedSecret(otherKey) {
-          const keyPair2 = getCurve().keyFromPrivate(arrayify(this.privateKey));
-          const otherKeyPair = getCurve().keyFromPublic(
-            arrayify(computePublicKey(otherKey))
+          const keyPair2 = getCurve().keyFromPrivate(
+            arrayify9(this.privateKey)
           );
-          return hexZeroPad(
+          const otherKeyPair = getCurve().keyFromPublic(
+            arrayify9(computePublicKey(otherKey))
+          );
+          return hexZeroPad4(
             "0x" + keyPair2.derive(otherKeyPair.getPublic()).toString(16),
             32
           );
@@ -46914,51 +51984,21 @@
     },
   });
 
-  // node_modules/@ethersproject/transactions/lib.esm/_version.js
-  var version13;
-  var init_version13 = __esm({
-    "node_modules/@ethersproject/transactions/lib.esm/_version.js"() {
-      version13 = "transactions/5.5.0";
+  // node_modules/@ethersproject/contracts/node_modules/@ethersproject/transactions/lib.esm/_version.js
+  var version36;
+  var init_version36 = __esm({
+    "node_modules/@ethersproject/contracts/node_modules/@ethersproject/transactions/lib.esm/_version.js"() {
+      version36 = "transactions/5.5.0";
     },
   });
 
-  // node_modules/@ethersproject/transactions/lib.esm/index.js
-  function handleAddress(value) {
-    if (value === "0x") {
-      return null;
-    }
-    return getAddress(value);
-  }
-  function handleNumber(value) {
-    if (value === "0x") {
-      return Zero2;
-    }
-    return BigNumber.from(value);
-  }
-  function computeAddress(key2) {
-    const publicKey = computePublicKey(key2);
-    return getAddress(hexDataSlice(keccak256(hexDataSlice(publicKey, 1)), 12));
-  }
-  function recoverAddress(digest, signature2) {
-    return computeAddress(recoverPublicKey(arrayify(digest), signature2));
-  }
-  function formatNumber(value, name2) {
-    const result = stripZeros(BigNumber.from(value).toHexString());
-    if (result.length > 32) {
-      logger18.throwArgumentError(
-        "invalid length for " + name2,
-        "transaction:" + name2,
-        value
-      );
-    }
-    return result;
-  }
+  // node_modules/@ethersproject/contracts/node_modules/@ethersproject/transactions/lib.esm/index.js
   function accessSetify(addr, storageKeys) {
     return {
       address: getAddress(addr),
       storageKeys: (storageKeys || []).map((storageKey, index) => {
-        if (hexDataLength(storageKey) !== 32) {
-          logger18.throwArgumentError(
+        if (hexDataLength2(storageKey) !== 32) {
+          logger31.throwArgumentError(
             "invalid access list storageKey",
             `accessList[${addr}:${index}]`,
             storageKey
@@ -46973,7 +52013,7 @@
       return value.map((set, index) => {
         if (Array.isArray(set)) {
           if (set.length > 2) {
-            logger18.throwArgumentError(
+            logger31.throwArgumentError(
               "access list expected to be [ address, storageKeys[] ]",
               `value[${index}]`,
               set
@@ -46994,395 +52034,37 @@
     result.sort((a2, b2) => a2.address.localeCompare(b2.address));
     return result;
   }
-  function formatAccessList(value) {
-    return accessListify(value).map((set) => [set.address, set.storageKeys]);
-  }
-  function _serializeEip1559(transaction, signature2) {
-    if (transaction.gasPrice != null) {
-      const gasPrice = BigNumber.from(transaction.gasPrice);
-      const maxFeePerGas = BigNumber.from(transaction.maxFeePerGas || 0);
-      if (!gasPrice.eq(maxFeePerGas)) {
-        logger18.throwArgumentError(
-          "mismatch EIP-1559 gasPrice != maxFeePerGas",
-          "tx",
-          {
-            gasPrice,
-            maxFeePerGas,
-          }
-        );
-      }
-    }
-    const fields = [
-      formatNumber(transaction.chainId || 0, "chainId"),
-      formatNumber(transaction.nonce || 0, "nonce"),
-      formatNumber(
-        transaction.maxPriorityFeePerGas || 0,
-        "maxPriorityFeePerGas"
-      ),
-      formatNumber(transaction.maxFeePerGas || 0, "maxFeePerGas"),
-      formatNumber(transaction.gasLimit || 0, "gasLimit"),
-      transaction.to != null ? getAddress(transaction.to) : "0x",
-      formatNumber(transaction.value || 0, "value"),
-      transaction.data || "0x",
-      formatAccessList(transaction.accessList || []),
-    ];
-    if (signature2) {
-      const sig = splitSignature(signature2);
-      fields.push(formatNumber(sig.recoveryParam, "recoveryParam"));
-      fields.push(stripZeros(sig.r));
-      fields.push(stripZeros(sig.s));
-    }
-    return hexConcat(["0x02", encode(fields)]);
-  }
-  function _serializeEip2930(transaction, signature2) {
-    const fields = [
-      formatNumber(transaction.chainId || 0, "chainId"),
-      formatNumber(transaction.nonce || 0, "nonce"),
-      formatNumber(transaction.gasPrice || 0, "gasPrice"),
-      formatNumber(transaction.gasLimit || 0, "gasLimit"),
-      transaction.to != null ? getAddress(transaction.to) : "0x",
-      formatNumber(transaction.value || 0, "value"),
-      transaction.data || "0x",
-      formatAccessList(transaction.accessList || []),
-    ];
-    if (signature2) {
-      const sig = splitSignature(signature2);
-      fields.push(formatNumber(sig.recoveryParam, "recoveryParam"));
-      fields.push(stripZeros(sig.r));
-      fields.push(stripZeros(sig.s));
-    }
-    return hexConcat(["0x01", encode(fields)]);
-  }
-  function _serialize(transaction, signature2) {
-    checkProperties(transaction, allowedTransactionKeys2);
-    const raw = [];
-    transactionFields.forEach(function (fieldInfo) {
-      let value = transaction[fieldInfo.name] || [];
-      const options = {};
-      if (fieldInfo.numeric) {
-        options.hexPad = "left";
-      }
-      value = arrayify(hexlify(value, options));
-      if (
-        fieldInfo.length &&
-        value.length !== fieldInfo.length &&
-        value.length > 0
-      ) {
-        logger18.throwArgumentError(
-          "invalid length for " + fieldInfo.name,
-          "transaction:" + fieldInfo.name,
-          value
-        );
-      }
-      if (fieldInfo.maxLength) {
-        value = stripZeros(value);
-        if (value.length > fieldInfo.maxLength) {
-          logger18.throwArgumentError(
-            "invalid length for " + fieldInfo.name,
-            "transaction:" + fieldInfo.name,
-            value
-          );
-        }
-      }
-      raw.push(hexlify(value));
-    });
-    let chainId = 0;
-    if (transaction.chainId != null) {
-      chainId = transaction.chainId;
-      if (typeof chainId !== "number") {
-        logger18.throwArgumentError(
-          "invalid transaction.chainId",
-          "transaction",
-          transaction
-        );
-      }
-    } else if (signature2 && !isBytesLike(signature2) && signature2.v > 28) {
-      chainId = Math.floor((signature2.v - 35) / 2);
-    }
-    if (chainId !== 0) {
-      raw.push(hexlify(chainId));
-      raw.push("0x");
-      raw.push("0x");
-    }
-    if (!signature2) {
-      return encode(raw);
-    }
-    const sig = splitSignature(signature2);
-    let v2 = 27 + sig.recoveryParam;
-    if (chainId !== 0) {
-      raw.pop();
-      raw.pop();
-      raw.pop();
-      v2 += chainId * 2 + 8;
-      if (sig.v > 28 && sig.v !== v2) {
-        logger18.throwArgumentError(
-          "transaction.chainId/signature.v mismatch",
-          "signature",
-          signature2
-        );
-      }
-    } else if (sig.v !== v2) {
-      logger18.throwArgumentError(
-        "transaction.chainId/signature.v mismatch",
-        "signature",
-        signature2
-      );
-    }
-    raw.push(hexlify(v2));
-    raw.push(stripZeros(arrayify(sig.r)));
-    raw.push(stripZeros(arrayify(sig.s)));
-    return encode(raw);
-  }
-  function serialize(transaction, signature2) {
-    if (transaction.type == null || transaction.type === 0) {
-      if (transaction.accessList != null) {
-        logger18.throwArgumentError(
-          "untyped transactions do not support accessList; include type: 1",
-          "transaction",
-          transaction
-        );
-      }
-      return _serialize(transaction, signature2);
-    }
-    switch (transaction.type) {
-      case 1:
-        return _serializeEip2930(transaction, signature2);
-      case 2:
-        return _serializeEip1559(transaction, signature2);
-      default:
-        break;
-    }
-    return logger18.throwError(
-      `unsupported transaction type: ${transaction.type}`,
-      Logger.errors.UNSUPPORTED_OPERATION,
-      {
-        operation: "serializeTransaction",
-        transactionType: transaction.type,
-      }
-    );
-  }
-  function _parseEipSignature(tx, fields, serialize3) {
-    try {
-      const recid = handleNumber(fields[0]).toNumber();
-      if (recid !== 0 && recid !== 1) {
-        throw new Error("bad recid");
-      }
-      tx.v = recid;
-    } catch (error) {
-      logger18.throwArgumentError(
-        "invalid v for transaction type: 1",
-        "v",
-        fields[0]
-      );
-    }
-    tx.r = hexZeroPad(fields[1], 32);
-    tx.s = hexZeroPad(fields[2], 32);
-    try {
-      const digest = keccak256(serialize3(tx));
-      tx.from = recoverAddress(digest, {
-        r: tx.r,
-        s: tx.s,
-        recoveryParam: tx.v,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  function _parseEip1559(payload) {
-    const transaction = decode(payload.slice(1));
-    if (transaction.length !== 9 && transaction.length !== 12) {
-      logger18.throwArgumentError(
-        "invalid component count for transaction type: 2",
-        "payload",
-        hexlify(payload)
-      );
-    }
-    const maxPriorityFeePerGas = handleNumber(transaction[2]);
-    const maxFeePerGas = handleNumber(transaction[3]);
-    const tx = {
-      type: 2,
-      chainId: handleNumber(transaction[0]).toNumber(),
-      nonce: handleNumber(transaction[1]).toNumber(),
-      maxPriorityFeePerGas,
-      maxFeePerGas,
-      gasPrice: null,
-      gasLimit: handleNumber(transaction[4]),
-      to: handleAddress(transaction[5]),
-      value: handleNumber(transaction[6]),
-      data: transaction[7],
-      accessList: accessListify(transaction[8]),
-    };
-    if (transaction.length === 9) {
-      return tx;
-    }
-    tx.hash = keccak256(payload);
-    _parseEipSignature(tx, transaction.slice(9), _serializeEip1559);
-    return tx;
-  }
-  function _parseEip2930(payload) {
-    const transaction = decode(payload.slice(1));
-    if (transaction.length !== 8 && transaction.length !== 11) {
-      logger18.throwArgumentError(
-        "invalid component count for transaction type: 1",
-        "payload",
-        hexlify(payload)
-      );
-    }
-    const tx = {
-      type: 1,
-      chainId: handleNumber(transaction[0]).toNumber(),
-      nonce: handleNumber(transaction[1]).toNumber(),
-      gasPrice: handleNumber(transaction[2]),
-      gasLimit: handleNumber(transaction[3]),
-      to: handleAddress(transaction[4]),
-      value: handleNumber(transaction[5]),
-      data: transaction[6],
-      accessList: accessListify(transaction[7]),
-    };
-    if (transaction.length === 8) {
-      return tx;
-    }
-    tx.hash = keccak256(payload);
-    _parseEipSignature(tx, transaction.slice(8), _serializeEip2930);
-    return tx;
-  }
-  function _parse(rawTransaction) {
-    const transaction = decode(rawTransaction);
-    if (transaction.length !== 9 && transaction.length !== 6) {
-      logger18.throwArgumentError(
-        "invalid raw transaction",
-        "rawTransaction",
-        rawTransaction
-      );
-    }
-    const tx = {
-      nonce: handleNumber(transaction[0]).toNumber(),
-      gasPrice: handleNumber(transaction[1]),
-      gasLimit: handleNumber(transaction[2]),
-      to: handleAddress(transaction[3]),
-      value: handleNumber(transaction[4]),
-      data: transaction[5],
-      chainId: 0,
-    };
-    if (transaction.length === 6) {
-      return tx;
-    }
-    try {
-      tx.v = BigNumber.from(transaction[6]).toNumber();
-    } catch (error) {
-      console.log(error);
-      return tx;
-    }
-    tx.r = hexZeroPad(transaction[7], 32);
-    tx.s = hexZeroPad(transaction[8], 32);
-    if (BigNumber.from(tx.r).isZero() && BigNumber.from(tx.s).isZero()) {
-      tx.chainId = tx.v;
-      tx.v = 0;
-    } else {
-      tx.chainId = Math.floor((tx.v - 35) / 2);
-      if (tx.chainId < 0) {
-        tx.chainId = 0;
-      }
-      let recoveryParam = tx.v - 27;
-      const raw = transaction.slice(0, 6);
-      if (tx.chainId !== 0) {
-        raw.push(hexlify(tx.chainId));
-        raw.push("0x");
-        raw.push("0x");
-        recoveryParam -= tx.chainId * 2 + 8;
-      }
-      const digest = keccak256(encode(raw));
-      try {
-        tx.from = recoverAddress(digest, {
-          r: hexlify(tx.r),
-          s: hexlify(tx.s),
-          recoveryParam,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      tx.hash = keccak256(rawTransaction);
-    }
-    tx.type = null;
-    return tx;
-  }
-  function parse4(rawTransaction) {
-    const payload = arrayify(rawTransaction);
-    if (payload[0] > 127) {
-      return _parse(payload);
-    }
-    switch (payload[0]) {
-      case 1:
-        return _parseEip2930(payload);
-      case 2:
-        return _parseEip1559(payload);
-      default:
-        break;
-    }
-    return logger18.throwError(
-      `unsupported transaction type: ${payload[0]}`,
-      Logger.errors.UNSUPPORTED_OPERATION,
-      {
-        operation: "parseTransaction",
-        transactionType: payload[0],
-      }
-    );
-  }
-  var logger18, TransactionTypes, transactionFields, allowedTransactionKeys2;
-  var init_lib15 = __esm({
-    "node_modules/@ethersproject/transactions/lib.esm/index.js"() {
+  var logger31, TransactionTypes;
+  var init_lib38 = __esm({
+    "node_modules/@ethersproject/contracts/node_modules/@ethersproject/transactions/lib.esm/index.js"() {
       "use strict";
-      init_lib7();
-      init_lib3();
-      init_lib2();
-      init_lib8();
-      init_lib5();
-      init_lib4();
-      init_lib6();
-      init_lib14();
-      init_lib();
-      init_version13();
-      logger18 = new Logger(version13);
-      (function (TransactionTypes2) {
-        TransactionTypes2[(TransactionTypes2["legacy"] = 0)] = "legacy";
-        TransactionTypes2[(TransactionTypes2["eip2930"] = 1)] = "eip2930";
-        TransactionTypes2[(TransactionTypes2["eip1559"] = 2)] = "eip1559";
+      init_lib15();
+      init_lib32();
+      init_lib31();
+      init_version36();
+      logger31 = new Logger10(version36);
+      (function (TransactionTypes7) {
+        TransactionTypes7[(TransactionTypes7["legacy"] = 0)] = "legacy";
+        TransactionTypes7[(TransactionTypes7["eip2930"] = 1)] = "eip2930";
+        TransactionTypes7[(TransactionTypes7["eip1559"] = 2)] = "eip1559";
       })(TransactionTypes || (TransactionTypes = {}));
-      transactionFields = [
-        { name: "nonce", maxLength: 32, numeric: true },
-        { name: "gasPrice", maxLength: 32, numeric: true },
-        { name: "gasLimit", maxLength: 32, numeric: true },
-        { name: "to", length: 20 },
-        { name: "value", maxLength: 32, numeric: true },
-        { name: "data" },
-      ];
-      allowedTransactionKeys2 = {
-        chainId: true,
-        data: true,
-        gasLimit: true,
-        gasPrice: true,
-        nonce: true,
-        to: true,
-        type: true,
-        value: true,
-      };
     },
   });
 
   // node_modules/@ethersproject/contracts/lib.esm/_version.js
-  var version14;
-  var init_version14 = __esm({
+  var version37;
+  var init_version37 = __esm({
     "node_modules/@ethersproject/contracts/lib.esm/_version.js"() {
-      version14 = "contracts/5.5.0";
+      version37 = "contracts/5.5.0";
     },
   });
 
   // node_modules/@ethersproject/contracts/lib.esm/index.js
   function resolveName(resolver2, nameOrPromise) {
-    return __awaiter6(this, void 0, void 0, function* () {
+    return __awaiter8(this, void 0, void 0, function* () {
       const name2 = yield nameOrPromise;
       if (typeof name2 !== "string") {
-        logger19.throwArgumentError(
+        logger32.throwArgumentError(
           "invalid address or ENS name",
           "name",
           name2
@@ -47392,9 +52074,9 @@
         return getAddress(name2);
       } catch (error) {}
       if (!resolver2) {
-        logger19.throwError(
+        logger32.throwError(
           "a provider or signer is needed to resolve ENS names",
-          Logger.errors.UNSUPPORTED_OPERATION,
+          Logger10.errors.UNSUPPORTED_OPERATION,
           {
             operation: "resolveName",
           }
@@ -47402,7 +52084,7 @@
       }
       const address = yield resolver2.resolveName(name2);
       if (address == null) {
-        logger19.throwArgumentError(
+        logger32.throwArgumentError(
           "resolver or addr is not configured for ENS name",
           "name",
           name2
@@ -47412,7 +52094,7 @@
     });
   }
   function resolveAddresses(resolver2, value, paramType) {
-    return __awaiter6(this, void 0, void 0, function* () {
+    return __awaiter8(this, void 0, void 0, function* () {
       if (Array.isArray(paramType)) {
         return yield Promise.all(
           paramType.map((paramType2, index) => {
@@ -47433,9 +52115,9 @@
       if (paramType.baseType === "array") {
         if (!Array.isArray(value)) {
           return Promise.reject(
-            logger19.makeError(
+            logger32.makeError(
               "invalid value for array",
-              Logger.errors.INVALID_ARGUMENT,
+              Logger10.errors.INVALID_ARGUMENT,
               {
                 argument: "value",
                 value,
@@ -47453,30 +52135,30 @@
     });
   }
   function populateTransaction(contract, fragment, args) {
-    return __awaiter6(this, void 0, void 0, function* () {
+    return __awaiter8(this, void 0, void 0, function* () {
       let overrides = {};
       if (
         args.length === fragment.inputs.length + 1 &&
         typeof args[args.length - 1] === "object"
       ) {
-        overrides = shallowCopy(args.pop());
+        overrides = shallowCopy3(args.pop());
       }
-      logger19.checkArgumentCount(
+      logger32.checkArgumentCount(
         args.length,
         fragment.inputs.length,
         "passed to contract"
       );
       if (contract.signer) {
         if (overrides.from) {
-          overrides.from = resolveProperties({
+          overrides.from = resolveProperties3({
             override: resolveName(contract.signer, overrides.from),
             signer: contract.signer.getAddress(),
           }).then((check) =>
-            __awaiter6(this, void 0, void 0, function* () {
+            __awaiter8(this, void 0, void 0, function* () {
               if (getAddress(check.signer) !== check.override) {
-                logger19.throwError(
+                logger32.throwError(
                   "Contract with a Signer cannot override from",
-                  Logger.errors.UNSUPPORTED_OPERATION,
+                  Logger10.errors.UNSUPPORTED_OPERATION,
                   {
                     operation: "overrides.from",
                   }
@@ -47491,14 +52173,14 @@
       } else if (overrides.from) {
         overrides.from = resolveName(contract.provider, overrides.from);
       }
-      const resolved = yield resolveProperties({
+      const resolved = yield resolveProperties3({
         args: resolveAddresses(
           contract.signer || contract.provider,
           args,
           fragment.inputs
         ),
         address: contract.resolvedAddress,
-        overrides: resolveProperties(overrides) || {},
+        overrides: resolveProperties3(overrides) || {},
       });
       const data = contract.interface.encodeFunctionData(
         fragment,
@@ -47535,7 +52217,7 @@
       }
       if (tx.gasLimit == null && fragment.gas != null) {
         let intrinsic = 21e3;
-        const bytes = arrayify(data);
+        const bytes = arrayify8(data);
         for (let i = 0; i < bytes.length; i++) {
           intrinsic += 4;
           if (bytes[i]) {
@@ -47547,9 +52229,9 @@
       if (ro.value) {
         const roValue = BigNumber.from(ro.value);
         if (!roValue.isZero() && !fragment.payable) {
-          logger19.throwError(
+          logger32.throwError(
             "non-payable method cannot override value",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger10.errors.UNSUPPORTED_OPERATION,
             {
               operation: "overrides.value",
               value: overrides.value,
@@ -47559,7 +52241,7 @@
         tx.value = roValue;
       }
       if (ro.customData) {
-        tx.customData = shallowCopy(ro.customData);
+        tx.customData = shallowCopy3(ro.customData);
       }
       delete overrides.nonce;
       delete overrides.gasLimit;
@@ -47575,11 +52257,11 @@
         (key2) => overrides[key2] != null
       );
       if (leftovers.length) {
-        logger19.throwError(
+        logger32.throwError(
           `cannot override ${leftovers
             .map((l2) => JSON.stringify(l2))
             .join(",")}`,
-          Logger.errors.UNSUPPORTED_OPERATION,
+          Logger10.errors.UNSUPPORTED_OPERATION,
           {
             operation: "overrides",
             overrides: leftovers,
@@ -47597,11 +52279,11 @@
   function buildEstimate(contract, fragment) {
     const signerOrProvider = contract.signer || contract.provider;
     return function (...args) {
-      return __awaiter6(this, void 0, void 0, function* () {
+      return __awaiter8(this, void 0, void 0, function* () {
         if (!signerOrProvider) {
-          logger19.throwError(
+          logger32.throwError(
             "estimate require a provider or signer",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger10.errors.UNSUPPORTED_OPERATION,
             {
               operation: "estimateGas",
             }
@@ -47617,7 +52299,7 @@
     tx.wait = (confirmations) => {
       return wait(confirmations).then((receipt) => {
         receipt.events = receipt.logs.map((log2) => {
-          let event = deepCopy(log2);
+          let event = deepCopy4(log2);
           let parsed = null;
           try {
             parsed = contract.interface.parseLog(log2);
@@ -47655,13 +52337,13 @@
   function buildCall(contract, fragment, collapseSimple) {
     const signerOrProvider = contract.signer || contract.provider;
     return function (...args) {
-      return __awaiter6(this, void 0, void 0, function* () {
+      return __awaiter8(this, void 0, void 0, function* () {
         let blockTag = void 0;
         if (
           args.length === fragment.inputs.length + 1 &&
           typeof args[args.length - 1] === "object"
         ) {
-          const overrides = shallowCopy(args.pop());
+          const overrides = shallowCopy3(args.pop());
           if (overrides.blockTag != null) {
             blockTag = yield overrides.blockTag;
           }
@@ -47680,7 +52362,7 @@
           }
           return value;
         } catch (error) {
-          if (error.code === Logger.errors.CALL_EXCEPTION) {
+          if (error.code === Logger10.errors.CALL_EXCEPTION) {
             error.address = contract.address;
             error.args = args;
             error.transaction = tx;
@@ -47692,11 +52374,11 @@
   }
   function buildSend(contract, fragment) {
     return function (...args) {
-      return __awaiter6(this, void 0, void 0, function* () {
+      return __awaiter8(this, void 0, void 0, function* () {
         if (!contract.signer) {
-          logger19.throwError(
+          logger32.throwError(
             "sending a transaction requires a signer",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger10.errors.UNSUPPORTED_OPERATION,
             {
               operation: "sendTransaction",
             }
@@ -47740,9 +52422,9 @@
         : "")
     );
   }
-  var __awaiter6,
-    logger19,
-    allowedTransactionKeys3,
+  var __awaiter8,
+    logger32,
+    allowedTransactionKeys2,
     RunningEvent,
     ErrorRunningEvent,
     FragmentRunningEvent,
@@ -47750,20 +52432,20 @@
     BaseContract,
     Contract,
     ContractFactory;
-  var init_lib16 = __esm({
+  var init_lib39 = __esm({
     "node_modules/@ethersproject/contracts/lib.esm/index.js"() {
       "use strict";
-      init_lib11();
-      init_lib12();
-      init_lib13();
-      init_lib7();
-      init_lib3();
-      init_lib2();
-      init_lib4();
+      init_lib24();
+      init_lib27();
+      init_lib30();
       init_lib15();
-      init_lib();
-      init_version14();
-      __awaiter6 = function (thisArg, _arguments, P2, generator) {
+      init_lib3();
+      init_lib32();
+      init_lib33();
+      init_lib38();
+      init_lib31();
+      init_version37();
+      __awaiter8 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -47794,8 +52476,8 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger19 = new Logger(version14);
-      allowedTransactionKeys3 = {
+      logger32 = new Logger10(version37);
+      allowedTransactionKeys2 = {
         chainId: true,
         data: true,
         from: true,
@@ -47812,8 +52494,8 @@
       };
       RunningEvent = class {
         constructor(tag, filter) {
-          defineReadOnly(this, "tag", tag);
-          defineReadOnly(this, "filter", filter);
+          defineReadOnly5(this, "tag", tag);
+          defineReadOnly5(this, "filter", filter);
           this._listeners = [];
         }
         addListener(listener, once) {
@@ -47867,16 +52549,16 @@
           let topic = contractInterface.getEventTopic(fragment);
           if (topics) {
             if (topic !== topics[0]) {
-              logger19.throwArgumentError("topic mismatch", "topics", topics);
+              logger32.throwArgumentError("topic mismatch", "topics", topics);
             }
             filter.topics = topics.slice();
           } else {
             filter.topics = [topic];
           }
           super(getEventTag(filter), filter);
-          defineReadOnly(this, "address", address);
-          defineReadOnly(this, "interface", contractInterface);
-          defineReadOnly(this, "fragment", fragment);
+          defineReadOnly5(this, "address", address);
+          defineReadOnly5(this, "interface", contractInterface);
+          defineReadOnly5(this, "fragment", fragment);
         }
         prepareEvent(event) {
           super.prepareEvent(event);
@@ -47909,8 +52591,8 @@
       WildcardRunningEvent = class extends RunningEvent {
         constructor(address, contractInterface) {
           super("*", { address });
-          defineReadOnly(this, "address", address);
-          defineReadOnly(this, "interface", contractInterface);
+          defineReadOnly5(this, "address", address);
+          defineReadOnly5(this, "interface", contractInterface);
         }
         prepareEvent(event) {
           super.prepareEvent(event);
@@ -47931,38 +52613,42 @@
       };
       BaseContract = class {
         constructor(addressOrName, contractInterface, signerOrProvider) {
-          logger19.checkNew(new.target, Contract);
-          defineReadOnly(
+          logger32.checkNew(new.target, Contract);
+          defineReadOnly5(
             this,
             "interface",
-            getStatic(new.target, "getInterface")(contractInterface)
+            getStatic2(new.target, "getInterface")(contractInterface)
           );
           if (signerOrProvider == null) {
-            defineReadOnly(this, "provider", null);
-            defineReadOnly(this, "signer", null);
+            defineReadOnly5(this, "provider", null);
+            defineReadOnly5(this, "signer", null);
           } else if (Signer.isSigner(signerOrProvider)) {
-            defineReadOnly(this, "provider", signerOrProvider.provider || null);
-            defineReadOnly(this, "signer", signerOrProvider);
+            defineReadOnly5(
+              this,
+              "provider",
+              signerOrProvider.provider || null
+            );
+            defineReadOnly5(this, "signer", signerOrProvider);
           } else if (Provider.isProvider(signerOrProvider)) {
-            defineReadOnly(this, "provider", signerOrProvider);
-            defineReadOnly(this, "signer", null);
+            defineReadOnly5(this, "provider", signerOrProvider);
+            defineReadOnly5(this, "signer", null);
           } else {
-            logger19.throwArgumentError(
+            logger32.throwArgumentError(
               "invalid signer or provider",
               "signerOrProvider",
               signerOrProvider
             );
           }
-          defineReadOnly(this, "callStatic", {});
-          defineReadOnly(this, "estimateGas", {});
-          defineReadOnly(this, "functions", {});
-          defineReadOnly(this, "populateTransaction", {});
-          defineReadOnly(this, "filters", {});
+          defineReadOnly5(this, "callStatic", {});
+          defineReadOnly5(this, "estimateGas", {});
+          defineReadOnly5(this, "functions", {});
+          defineReadOnly5(this, "populateTransaction", {});
+          defineReadOnly5(this, "filters", {});
           {
             const uniqueFilters = {};
             Object.keys(this.interface.events).forEach((eventSignature) => {
               const event = this.interface.events[eventSignature];
-              defineReadOnly(this.filters, eventSignature, (...args) => {
+              defineReadOnly5(this.filters, eventSignature, (...args) => {
                 return {
                   address: this.address,
                   topics: this.interface.encodeFilterTopics(event, args),
@@ -47976,41 +52662,41 @@
             Object.keys(uniqueFilters).forEach((name2) => {
               const filters = uniqueFilters[name2];
               if (filters.length === 1) {
-                defineReadOnly(this.filters, name2, this.filters[filters[0]]);
+                defineReadOnly5(this.filters, name2, this.filters[filters[0]]);
               } else {
-                logger19.warn(
+                logger32.warn(
                   `Duplicate definition of ${name2} (${filters.join(", ")})`
                 );
               }
             });
           }
-          defineReadOnly(this, "_runningEvents", {});
-          defineReadOnly(this, "_wrappedEmits", {});
+          defineReadOnly5(this, "_runningEvents", {});
+          defineReadOnly5(this, "_wrappedEmits", {});
           if (addressOrName == null) {
-            logger19.throwArgumentError(
+            logger32.throwArgumentError(
               "invalid contract address or ENS name",
               "addressOrName",
               addressOrName
             );
           }
-          defineReadOnly(this, "address", addressOrName);
+          defineReadOnly5(this, "address", addressOrName);
           if (this.provider) {
-            defineReadOnly(
+            defineReadOnly5(
               this,
               "resolvedAddress",
               resolveName(this.provider, addressOrName)
             );
           } else {
             try {
-              defineReadOnly(
+              defineReadOnly5(
                 this,
                 "resolvedAddress",
                 Promise.resolve(getAddress(addressOrName))
               );
             } catch (error) {
-              logger19.throwError(
+              logger32.throwError(
                 "provider is required to use ENS name as contract address",
-                Logger.errors.UNSUPPORTED_OPERATION,
+                Logger10.errors.UNSUPPORTED_OPERATION,
                 {
                   operation: "new Contract",
                 }
@@ -48022,7 +52708,7 @@
           Object.keys(this.interface.functions).forEach((signature2) => {
             const fragment = this.interface.functions[signature2];
             if (uniqueSignatures[signature2]) {
-              logger19.warn(
+              logger32.warn(
                 `Duplicate ABI entry for ${JSON.stringify(signature2)}`
               );
               return;
@@ -48036,35 +52722,35 @@
               uniqueNames[`%${name2}`].push(signature2);
             }
             if (this[signature2] == null) {
-              defineReadOnly(
+              defineReadOnly5(
                 this,
                 signature2,
                 buildDefault(this, fragment, true)
               );
             }
             if (this.functions[signature2] == null) {
-              defineReadOnly(
+              defineReadOnly5(
                 this.functions,
                 signature2,
                 buildDefault(this, fragment, false)
               );
             }
             if (this.callStatic[signature2] == null) {
-              defineReadOnly(
+              defineReadOnly5(
                 this.callStatic,
                 signature2,
                 buildCall(this, fragment, true)
               );
             }
             if (this.populateTransaction[signature2] == null) {
-              defineReadOnly(
+              defineReadOnly5(
                 this.populateTransaction,
                 signature2,
                 buildPopulate(this, fragment)
               );
             }
             if (this.estimateGas[signature2] == null) {
-              defineReadOnly(
+              defineReadOnly5(
                 this.estimateGas,
                 signature2,
                 buildEstimate(this, fragment)
@@ -48080,28 +52766,32 @@
             const signature2 = signatures[0];
             try {
               if (this[name2] == null) {
-                defineReadOnly(this, name2, this[signature2]);
+                defineReadOnly5(this, name2, this[signature2]);
               }
             } catch (e) {}
             if (this.functions[name2] == null) {
-              defineReadOnly(this.functions, name2, this.functions[signature2]);
+              defineReadOnly5(
+                this.functions,
+                name2,
+                this.functions[signature2]
+              );
             }
             if (this.callStatic[name2] == null) {
-              defineReadOnly(
+              defineReadOnly5(
                 this.callStatic,
                 name2,
                 this.callStatic[signature2]
               );
             }
             if (this.populateTransaction[name2] == null) {
-              defineReadOnly(
+              defineReadOnly5(
                 this.populateTransaction,
                 name2,
                 this.populateTransaction[signature2]
               );
             }
             if (this.estimateGas[name2] == null) {
-              defineReadOnly(
+              defineReadOnly5(
                 this.estimateGas,
                 name2,
                 this.estimateGas[signature2]
@@ -48132,9 +52822,9 @@
                 .getCode(this.address, blockTag)
                 .then((code) => {
                   if (code === "0x") {
-                    logger19.throwError(
+                    logger32.throwError(
                       "contract not deployed",
-                      Logger.errors.UNSUPPORTED_OPERATION,
+                      Logger10.errors.UNSUPPORTED_OPERATION,
                       {
                         contractAddress: this.address,
                         operation: "getDeployed",
@@ -48149,20 +52839,20 @@
         }
         fallback(overrides) {
           if (!this.signer) {
-            logger19.throwError(
+            logger32.throwError(
               "sending a transactions require a signer",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger10.errors.UNSUPPORTED_OPERATION,
               { operation: "sendTransaction(fallback)" }
             );
           }
-          const tx = shallowCopy(overrides || {});
+          const tx = shallowCopy3(overrides || {});
           ["from", "to"].forEach(function (key2) {
             if (tx[key2] == null) {
               return;
             }
-            logger19.throwError(
+            logger32.throwError(
               "cannot override " + key2,
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger10.errors.UNSUPPORTED_OPERATION,
               { operation: key2 }
             );
           });
@@ -48181,7 +52871,7 @@
             signerOrProvider
           );
           if (this.deployTransaction) {
-            defineReadOnly(
+            defineReadOnly5(
               contract,
               "deployTransaction",
               this.deployTransaction
@@ -48264,7 +52954,7 @@
           }
         }
         _wrapEvent(runningEvent, log2, listener) {
-          const event = deepCopy(log2);
+          const event = deepCopy4(log2);
           event.removeListener = () => {
             if (!listener) {
               return;
@@ -48286,9 +52976,9 @@
         }
         _addEventListener(runningEvent, listener, once) {
           if (!this.provider) {
-            logger19.throwError(
+            logger32.throwError(
               "events require a provider or a signer with a provider",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger10.errors.UNSUPPORTED_OPERATION,
               { operation: "once" }
             );
           }
@@ -48320,13 +53010,13 @@
         }
         queryFilter(event, fromBlockOrBlockhash, toBlock) {
           const runningEvent = this._getRunningEvent(event);
-          const filter = shallowCopy(runningEvent.filter);
+          const filter = shallowCopy3(runningEvent.filter);
           if (
             typeof fromBlockOrBlockhash === "string" &&
-            isHexString2(fromBlockOrBlockhash, 32)
+            isHexString9(fromBlockOrBlockhash, 32)
           ) {
             if (toBlock != null) {
-              logger19.throwArgumentError(
+              logger32.throwArgumentError(
                 "cannot specify toBlock with blockhash",
                 "toBlock",
                 toBlock
@@ -48423,8 +53113,8 @@
           let bytecodeHex = null;
           if (typeof bytecode === "string") {
             bytecodeHex = bytecode;
-          } else if (isBytes(bytecode)) {
-            bytecodeHex = hexlify(bytecode);
+          } else if (isBytes8(bytecode)) {
+            bytecodeHex = hexlify7(bytecode);
           } else if (bytecode && typeof bytecode.object === "string") {
             bytecodeHex = bytecode.object;
           } else {
@@ -48433,23 +53123,23 @@
           if (bytecodeHex.substring(0, 2) !== "0x") {
             bytecodeHex = "0x" + bytecodeHex;
           }
-          if (!isHexString2(bytecodeHex) || bytecodeHex.length % 2) {
-            logger19.throwArgumentError(
+          if (!isHexString9(bytecodeHex) || bytecodeHex.length % 2) {
+            logger32.throwArgumentError(
               "invalid bytecode",
               "bytecode",
               bytecode
             );
           }
           if (signer && !Signer.isSigner(signer)) {
-            logger19.throwArgumentError("invalid signer", "signer", signer);
+            logger32.throwArgumentError("invalid signer", "signer", signer);
           }
-          defineReadOnly(this, "bytecode", bytecodeHex);
-          defineReadOnly(
+          defineReadOnly5(this, "bytecode", bytecodeHex);
+          defineReadOnly5(
             this,
             "interface",
-            getStatic(new.target, "getInterface")(contractInterface)
+            getStatic2(new.target, "getInterface")(contractInterface)
           );
-          defineReadOnly(this, "signer", signer || null);
+          defineReadOnly5(this, "signer", signer || null);
         }
         getDeployTransaction(...args) {
           let tx = {};
@@ -48457,9 +53147,9 @@
             args.length === this.interface.deploy.inputs.length + 1 &&
             typeof args[args.length - 1] === "object"
           ) {
-            tx = shallowCopy(args.pop());
+            tx = shallowCopy3(args.pop());
             for (const key2 in tx) {
-              if (!allowedTransactionKeys3[key2]) {
+              if (!allowedTransactionKeys2[key2]) {
                 throw new Error("unknown transaction override " + key2);
               }
             }
@@ -48468,18 +53158,18 @@
             if (tx[key2] == null) {
               return;
             }
-            logger19.throwError(
+            logger32.throwError(
               "cannot override " + key2,
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger10.errors.UNSUPPORTED_OPERATION,
               { operation: key2 }
             );
           });
           if (tx.value) {
             const value = BigNumber.from(tx.value);
             if (!value.isZero() && !this.interface.deploy.payable) {
-              logger19.throwError(
+              logger32.throwError(
                 "non-payable constructor cannot override value",
-                Logger.errors.UNSUPPORTED_OPERATION,
+                Logger10.errors.UNSUPPORTED_OPERATION,
                 {
                   operation: "overrides.value",
                   value: tx.value,
@@ -48487,23 +53177,23 @@
               );
             }
           }
-          logger19.checkArgumentCount(
+          logger32.checkArgumentCount(
             args.length,
             this.interface.deploy.inputs.length,
             " in Contract constructor"
           );
-          tx.data = hexlify(
-            concat([this.bytecode, this.interface.encodeDeploy(args)])
+          tx.data = hexlify7(
+            concat5([this.bytecode, this.interface.encodeDeploy(args)])
           );
           return tx;
         }
         deploy(...args) {
-          return __awaiter6(this, void 0, void 0, function* () {
+          return __awaiter8(this, void 0, void 0, function* () {
             let overrides = {};
             if (args.length === this.interface.deploy.inputs.length + 1) {
               overrides = args.pop();
             }
-            logger19.checkArgumentCount(
+            logger32.checkArgumentCount(
               args.length,
               this.interface.deploy.inputs.length,
               " in Contract constructor"
@@ -48516,17 +53206,17 @@
             params.push(overrides);
             const unsignedTx = this.getDeployTransaction(...params);
             const tx = yield this.signer.sendTransaction(unsignedTx);
-            const address = getStatic(
+            const address = getStatic2(
               this.constructor,
               "getContractAddress"
             )(tx);
-            const contract = getStatic(this.constructor, "getContract")(
+            const contract = getStatic2(this.constructor, "getContract")(
               address,
               this.interface,
               this.signer
             );
             addContractWait(contract, tx);
-            defineReadOnly(contract, "deployTransaction", tx);
+            defineReadOnly5(contract, "deployTransaction", tx);
             return contract;
           });
         }
@@ -48542,9 +53232,9 @@
         }
         static fromSolidity(compilerOutput, signer) {
           if (compilerOutput == null) {
-            logger19.throwError(
+            logger32.throwError(
               "missing compiler output",
-              Logger.errors.MISSING_ARGUMENT,
+              Logger10.errors.MISSING_ARGUMENT,
               { argument: "compilerOutput" }
             );
           }
@@ -48573,24 +53263,1220 @@
     },
   });
 
+  // node_modules/@ethersproject/wallet/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version38;
+  var init_version38 = __esm({
+    "node_modules/@ethersproject/wallet/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version38 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/wallet/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize12() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors12,
+    _censorErrors12,
+    LogLevels12,
+    _logLevel12,
+    _globalLogger12,
+    _normalizeError12,
+    LogLevel12,
+    ErrorCode12,
+    HEX12,
+    Logger12;
+  var init_lib40 = __esm({
+    "node_modules/@ethersproject/wallet/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version38();
+      _permanentCensorErrors12 = false;
+      _censorErrors12 = false;
+      LogLevels12 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel12 = LogLevels12["default"];
+      _globalLogger12 = null;
+      _normalizeError12 = _checkNormalize12();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel12 || (LogLevel12 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode12 || (ErrorCode12 = {}));
+      HEX12 = "0123456789abcdef";
+      Logger12 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels12[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel12 > LogLevels12[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger12.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger12.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger12.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors12) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger12.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX12[value[i] >> 4];
+                  hex += HEX12[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger12.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError12) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger12.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError12,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger12.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger12.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger12.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger12.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger12.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger12.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger12.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger12) {
+            _globalLogger12 = new Logger12(version38);
+          }
+          return _globalLogger12;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger12.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors12) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger12.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors12 = !!censorship;
+          _permanentCensorErrors12 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels12[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger12.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel12 = level;
+        }
+        static from(version89) {
+          return new Logger12(version89);
+        }
+      };
+      Logger12.errors = ErrorCode12;
+      Logger12.levels = LogLevel12;
+    },
+  });
+
+  // node_modules/@ethersproject/wallet/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version39;
+  var init_version39 = __esm({
+    "node_modules/@ethersproject/wallet/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version39 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/wallet/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable10(value) {
+    return !!value.toHexString;
+  }
+  function addSlice10(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice10(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isBytesLike4(value) {
+    return (isHexString11(value) && !(value.length % 2)) || isBytes10(value);
+  }
+  function isInteger10(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes10(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger10(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger10(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify10(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger33.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice10(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable10(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString11(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger33.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice10(new Uint8Array(result));
+    }
+    if (isBytes10(value)) {
+      return addSlice10(new Uint8Array(value));
+    }
+    return logger33.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat6(items) {
+    const objects = items.map((item) => arrayify10(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice10(result);
+  }
+  function stripZeros3(value) {
+    let result = arrayify10(value);
+    if (result.length === 0) {
+      return result;
+    }
+    let start = 0;
+    while (start < result.length && result[start] === 0) {
+      start++;
+    }
+    if (start) {
+      result = result.slice(start);
+    }
+    return result;
+  }
+  function zeroPad2(value, length) {
+    value = arrayify10(value);
+    if (value.length > length) {
+      logger33.throwArgumentError("value out of range", "value", arguments[0]);
+    }
+    const result = new Uint8Array(length);
+    result.set(value, length - value.length);
+    return addSlice10(result);
+  }
+  function isHexString11(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify9(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger33.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters9[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable10(value)) {
+      return value.toHexString();
+    }
+    if (isHexString11(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger33.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes10(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters9[(v2 & 240) >> 4] + HexCharacters9[v2 & 15];
+      }
+      return result;
+    }
+    return logger33.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexDataLength3(data) {
+    if (typeof data !== "string") {
+      data = hexlify9(data);
+    } else if (!isHexString11(data) || data.length % 2) {
+      return null;
+    }
+    return (data.length - 2) / 2;
+  }
+  function hexDataSlice4(data, offset, endOffset) {
+    if (typeof data !== "string") {
+      data = hexlify9(data);
+    } else if (!isHexString11(data) || data.length % 2) {
+      logger33.throwArgumentError("invalid hexData", "value", data);
+    }
+    offset = 2 + 2 * offset;
+    if (endOffset != null) {
+      return "0x" + data.substring(offset, 2 + 2 * endOffset);
+    }
+    return "0x" + data.substring(offset);
+  }
+  function hexConcat4(items) {
+    let result = "0x";
+    items.forEach((item) => {
+      result += hexlify9(item).substring(2);
+    });
+    return result;
+  }
+  function hexZeroPad6(value, length) {
+    if (typeof value !== "string") {
+      value = hexlify9(value);
+    } else if (!isHexString11(value)) {
+      logger33.throwArgumentError("invalid hex string", "value", value);
+    }
+    if (value.length > 2 * length + 2) {
+      logger33.throwArgumentError("value out of range", "value", arguments[1]);
+    }
+    while (value.length < 2 * length + 2) {
+      value = "0x0" + value.substring(2);
+    }
+    return value;
+  }
+  function splitSignature3(signature2) {
+    const result = {
+      r: "0x",
+      s: "0x",
+      _vs: "0x",
+      recoveryParam: 0,
+      v: 0,
+    };
+    if (isBytesLike4(signature2)) {
+      const bytes = arrayify10(signature2);
+      if (bytes.length !== 65) {
+        logger33.throwArgumentError(
+          "invalid signature string; must be 65 bytes",
+          "signature",
+          signature2
+        );
+      }
+      result.r = hexlify9(bytes.slice(0, 32));
+      result.s = hexlify9(bytes.slice(32, 64));
+      result.v = bytes[64];
+      if (result.v < 27) {
+        if (result.v === 0 || result.v === 1) {
+          result.v += 27;
+        } else {
+          logger33.throwArgumentError(
+            "signature invalid v byte",
+            "signature",
+            signature2
+          );
+        }
+      }
+      result.recoveryParam = 1 - (result.v % 2);
+      if (result.recoveryParam) {
+        bytes[32] |= 128;
+      }
+      result._vs = hexlify9(bytes.slice(32, 64));
+    } else {
+      result.r = signature2.r;
+      result.s = signature2.s;
+      result.v = signature2.v;
+      result.recoveryParam = signature2.recoveryParam;
+      result._vs = signature2._vs;
+      if (result._vs != null) {
+        const vs2 = zeroPad2(arrayify10(result._vs), 32);
+        result._vs = hexlify9(vs2);
+        const recoveryParam = vs2[0] >= 128 ? 1 : 0;
+        if (result.recoveryParam == null) {
+          result.recoveryParam = recoveryParam;
+        } else if (result.recoveryParam !== recoveryParam) {
+          logger33.throwArgumentError(
+            "signature recoveryParam mismatch _vs",
+            "signature",
+            signature2
+          );
+        }
+        vs2[0] &= 127;
+        const s2 = hexlify9(vs2);
+        if (result.s == null) {
+          result.s = s2;
+        } else if (result.s !== s2) {
+          logger33.throwArgumentError(
+            "signature v mismatch _vs",
+            "signature",
+            signature2
+          );
+        }
+      }
+      if (result.recoveryParam == null) {
+        if (result.v == null) {
+          logger33.throwArgumentError(
+            "signature missing v and recoveryParam",
+            "signature",
+            signature2
+          );
+        } else if (result.v === 0 || result.v === 1) {
+          result.recoveryParam = result.v;
+        } else {
+          result.recoveryParam = 1 - (result.v % 2);
+        }
+      } else {
+        if (result.v == null) {
+          result.v = 27 + result.recoveryParam;
+        } else {
+          const recId =
+            result.v === 0 || result.v === 1 ? result.v : 1 - (result.v % 2);
+          if (result.recoveryParam !== recId) {
+            logger33.throwArgumentError(
+              "signature recoveryParam mismatch v",
+              "signature",
+              signature2
+            );
+          }
+        }
+      }
+      if (result.r == null || !isHexString11(result.r)) {
+        logger33.throwArgumentError(
+          "signature missing or invalid r",
+          "signature",
+          signature2
+        );
+      } else {
+        result.r = hexZeroPad6(result.r, 32);
+      }
+      if (result.s == null || !isHexString11(result.s)) {
+        logger33.throwArgumentError(
+          "signature missing or invalid s",
+          "signature",
+          signature2
+        );
+      } else {
+        result.s = hexZeroPad6(result.s, 32);
+      }
+      const vs = arrayify10(result.s);
+      if (vs[0] >= 128) {
+        logger33.throwArgumentError(
+          "signature s out of range",
+          "signature",
+          signature2
+        );
+      }
+      if (result.recoveryParam) {
+        vs[0] |= 128;
+      }
+      const _vs = hexlify9(vs);
+      if (result._vs) {
+        if (!isHexString11(result._vs)) {
+          logger33.throwArgumentError(
+            "signature invalid _vs",
+            "signature",
+            signature2
+          );
+        }
+        result._vs = hexZeroPad6(result._vs, 32);
+      }
+      if (result._vs == null) {
+        result._vs = _vs;
+      } else if (result._vs !== _vs) {
+        logger33.throwArgumentError(
+          "signature _vs mismatch v and s",
+          "signature",
+          signature2
+        );
+      }
+    }
+    return result;
+  }
+  function joinSignature(signature2) {
+    signature2 = splitSignature3(signature2);
+    return hexlify9(
+      concat6([
+        signature2.r,
+        signature2.s,
+        signature2.recoveryParam ? "0x1c" : "0x1b",
+      ])
+    );
+  }
+  var logger33, HexCharacters9;
+  var init_lib41 = __esm({
+    "node_modules/@ethersproject/wallet/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib40();
+      init_version39();
+      logger33 = new Logger12(version39);
+      HexCharacters9 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/basex/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version40;
+  var init_version40 = __esm({
+    "node_modules/@ethersproject/basex/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version40 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/basex/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize13() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors13,
+    _censorErrors13,
+    LogLevels13,
+    _logLevel13,
+    _globalLogger13,
+    _normalizeError13,
+    LogLevel13,
+    ErrorCode13,
+    HEX13,
+    Logger13;
+  var init_lib42 = __esm({
+    "node_modules/@ethersproject/basex/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version40();
+      _permanentCensorErrors13 = false;
+      _censorErrors13 = false;
+      LogLevels13 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel13 = LogLevels13["default"];
+      _globalLogger13 = null;
+      _normalizeError13 = _checkNormalize13();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel13 || (LogLevel13 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode13 || (ErrorCode13 = {}));
+      HEX13 = "0123456789abcdef";
+      Logger13 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels13[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel13 > LogLevels13[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger13.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger13.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger13.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors13) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger13.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX13[value[i] >> 4];
+                  hex += HEX13[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger13.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError13) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger13.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError13,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger13.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger13.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger13.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger13.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger13.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger13.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger13.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger13) {
+            _globalLogger13 = new Logger13(version40);
+          }
+          return _globalLogger13;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger13.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors13) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger13.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors13 = !!censorship;
+          _permanentCensorErrors13 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels13[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger13.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel13 = level;
+        }
+        static from(version89) {
+          return new Logger13(version89);
+        }
+      };
+      Logger13.errors = ErrorCode13;
+      Logger13.levels = LogLevel13;
+    },
+  });
+
+  // node_modules/@ethersproject/basex/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version41;
+  var init_version41 = __esm({
+    "node_modules/@ethersproject/basex/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version41 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/basex/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable11(value) {
+    return !!value.toHexString;
+  }
+  function addSlice11(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice11(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger11(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes11(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger11(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger11(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify11(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger34.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice11(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable11(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString12(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger34.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice11(new Uint8Array(result));
+    }
+    if (isBytes11(value)) {
+      return addSlice11(new Uint8Array(value));
+    }
+    return logger34.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function isHexString12(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  var logger34;
+  var init_lib43 = __esm({
+    "node_modules/@ethersproject/basex/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib42();
+      init_version41();
+      logger34 = new Logger13(version41);
+    },
+  });
+
+  // node_modules/@ethersproject/basex/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version42;
+  var init_version42 = __esm({
+    "node_modules/@ethersproject/basex/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version42 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/basex/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly7(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  var logger35;
+  var init_lib44 = __esm({
+    "node_modules/@ethersproject/basex/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib42();
+      init_version42();
+      logger35 = new Logger13(version42);
+    },
+  });
+
   // node_modules/@ethersproject/basex/lib.esm/index.js
   var BaseX, Base32, Base58;
-  var init_lib17 = __esm({
+  var init_lib45 = __esm({
     "node_modules/@ethersproject/basex/lib.esm/index.js"() {
-      init_lib2();
-      init_lib4();
+      init_lib43();
+      init_lib44();
       BaseX = class {
         constructor(alphabet) {
-          defineReadOnly(this, "alphabet", alphabet);
-          defineReadOnly(this, "base", alphabet.length);
-          defineReadOnly(this, "_alphabetMap", {});
-          defineReadOnly(this, "_leader", alphabet.charAt(0));
+          defineReadOnly7(this, "alphabet", alphabet);
+          defineReadOnly7(this, "base", alphabet.length);
+          defineReadOnly7(this, "_alphabetMap", {});
+          defineReadOnly7(this, "_leader", alphabet.charAt(0));
           for (let i = 0; i < alphabet.length; i++) {
             this._alphabetMap[alphabet.charAt(i)] = i;
           }
         }
         encode(value) {
-          let source = arrayify(value);
+          let source = arrayify11(value);
           if (source.length === 0) {
             return "";
           }
@@ -48648,13 +54534,1484 @@
           ) {
             bytes.push(0);
           }
-          return arrayify(new Uint8Array(bytes.reverse()));
+          return arrayify11(new Uint8Array(bytes.reverse()));
         }
       };
       Base32 = new BaseX("abcdefghijklmnopqrstuvwxyz234567");
       Base58 = new BaseX(
         "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
       );
+    },
+  });
+
+  // node_modules/@ethersproject/hdnode/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version43;
+  var init_version43 = __esm({
+    "node_modules/@ethersproject/hdnode/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version43 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/hdnode/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize14() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors14,
+    _censorErrors14,
+    LogLevels14,
+    _logLevel14,
+    _globalLogger14,
+    _normalizeError14,
+    LogLevel14,
+    ErrorCode14,
+    HEX14,
+    Logger14;
+  var init_lib46 = __esm({
+    "node_modules/@ethersproject/hdnode/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version43();
+      _permanentCensorErrors14 = false;
+      _censorErrors14 = false;
+      LogLevels14 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel14 = LogLevels14["default"];
+      _globalLogger14 = null;
+      _normalizeError14 = _checkNormalize14();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel14 || (LogLevel14 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode14 || (ErrorCode14 = {}));
+      HEX14 = "0123456789abcdef";
+      Logger14 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels14[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel14 > LogLevels14[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger14.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger14.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger14.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors14) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger14.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX14[value[i] >> 4];
+                  hex += HEX14[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger14.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError14) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger14.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError14,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger14.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger14.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger14.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger14.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger14.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger14.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger14.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger14) {
+            _globalLogger14 = new Logger14(version43);
+          }
+          return _globalLogger14;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger14.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors14) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger14.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors14 = !!censorship;
+          _permanentCensorErrors14 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels14[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger14.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel14 = level;
+        }
+        static from(version89) {
+          return new Logger14(version89);
+        }
+      };
+      Logger14.errors = ErrorCode14;
+      Logger14.levels = LogLevel14;
+    },
+  });
+
+  // node_modules/@ethersproject/hdnode/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version44;
+  var init_version44 = __esm({
+    "node_modules/@ethersproject/hdnode/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version44 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/hdnode/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable12(value) {
+    return !!value.toHexString;
+  }
+  function addSlice12(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice12(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger12(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes12(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger12(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger12(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify12(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger36.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice12(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable12(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString13(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger36.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice12(new Uint8Array(result));
+    }
+    if (isBytes12(value)) {
+      return addSlice12(new Uint8Array(value));
+    }
+    return logger36.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat7(items) {
+    const objects = items.map((item) => arrayify12(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice12(result);
+  }
+  function isHexString13(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify10(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger36.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters10[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable12(value)) {
+      return value.toHexString();
+    }
+    if (isHexString13(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger36.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes12(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters10[(v2 & 240) >> 4] + HexCharacters10[v2 & 15];
+      }
+      return result;
+    }
+    return logger36.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexDataSlice5(data, offset, endOffset) {
+    if (typeof data !== "string") {
+      data = hexlify10(data);
+    } else if (!isHexString13(data) || data.length % 2) {
+      logger36.throwArgumentError("invalid hexData", "value", data);
+    }
+    offset = 2 + 2 * offset;
+    if (endOffset != null) {
+      return "0x" + data.substring(offset, 2 + 2 * endOffset);
+    }
+    return "0x" + data.substring(offset);
+  }
+  function hexZeroPad7(value, length) {
+    if (typeof value !== "string") {
+      value = hexlify10(value);
+    } else if (!isHexString13(value)) {
+      logger36.throwArgumentError("invalid hex string", "value", value);
+    }
+    if (value.length > 2 * length + 2) {
+      logger36.throwArgumentError("value out of range", "value", arguments[1]);
+    }
+    while (value.length < 2 * length + 2) {
+      value = "0x0" + value.substring(2);
+    }
+    return value;
+  }
+  var logger36, HexCharacters10;
+  var init_lib47 = __esm({
+    "node_modules/@ethersproject/hdnode/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib46();
+      init_version44();
+      logger36 = new Logger14(version44);
+      HexCharacters10 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/pbkdf2/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version45;
+  var init_version45 = __esm({
+    "node_modules/@ethersproject/pbkdf2/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version45 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/pbkdf2/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize15() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors15,
+    _censorErrors15,
+    LogLevels15,
+    _logLevel15,
+    _globalLogger15,
+    _normalizeError15,
+    LogLevel15,
+    ErrorCode15,
+    HEX15,
+    Logger15;
+  var init_lib48 = __esm({
+    "node_modules/@ethersproject/pbkdf2/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version45();
+      _permanentCensorErrors15 = false;
+      _censorErrors15 = false;
+      LogLevels15 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel15 = LogLevels15["default"];
+      _globalLogger15 = null;
+      _normalizeError15 = _checkNormalize15();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel15 || (LogLevel15 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode15 || (ErrorCode15 = {}));
+      HEX15 = "0123456789abcdef";
+      Logger15 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels15[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel15 > LogLevels15[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger15.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger15.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger15.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors15) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger15.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX15[value[i] >> 4];
+                  hex += HEX15[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger15.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError15) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger15.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError15,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger15.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger15.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger15.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger15.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger15.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger15.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger15.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger15) {
+            _globalLogger15 = new Logger15(version45);
+          }
+          return _globalLogger15;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger15.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors15) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger15.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors15 = !!censorship;
+          _permanentCensorErrors15 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels15[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger15.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel15 = level;
+        }
+        static from(version89) {
+          return new Logger15(version89);
+        }
+      };
+      Logger15.errors = ErrorCode15;
+      Logger15.levels = LogLevel15;
+    },
+  });
+
+  // node_modules/@ethersproject/pbkdf2/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version46;
+  var init_version46 = __esm({
+    "node_modules/@ethersproject/pbkdf2/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version46 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/pbkdf2/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable13(value) {
+    return !!value.toHexString;
+  }
+  function addSlice13(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice13(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger13(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes13(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger13(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger13(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify13(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger37.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice13(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable13(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString14(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger37.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice13(new Uint8Array(result));
+    }
+    if (isBytes13(value)) {
+      return addSlice13(new Uint8Array(value));
+    }
+    return logger37.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function isHexString14(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify11(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger37.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters11[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable13(value)) {
+      return value.toHexString();
+    }
+    if (isHexString14(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger37.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes13(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters11[(v2 & 240) >> 4] + HexCharacters11[v2 & 15];
+      }
+      return result;
+    }
+    return logger37.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  var logger37, HexCharacters11;
+  var init_lib49 = __esm({
+    "node_modules/@ethersproject/pbkdf2/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib48();
+      init_version46();
+      logger37 = new Logger15(version46);
+      HexCharacters11 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/sha2/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version47;
+  var init_version47 = __esm({
+    "node_modules/@ethersproject/sha2/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version47 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/sha2/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize16() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors16,
+    _censorErrors16,
+    LogLevels16,
+    _logLevel16,
+    _globalLogger16,
+    _normalizeError16,
+    LogLevel16,
+    ErrorCode16,
+    HEX16,
+    Logger16;
+  var init_lib50 = __esm({
+    "node_modules/@ethersproject/sha2/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version47();
+      _permanentCensorErrors16 = false;
+      _censorErrors16 = false;
+      LogLevels16 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel16 = LogLevels16["default"];
+      _globalLogger16 = null;
+      _normalizeError16 = _checkNormalize16();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel16 || (LogLevel16 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode16 || (ErrorCode16 = {}));
+      HEX16 = "0123456789abcdef";
+      Logger16 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels16[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel16 > LogLevels16[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger16.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger16.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger16.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors16) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger16.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX16[value[i] >> 4];
+                  hex += HEX16[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger16.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError16) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger16.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError16,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger16.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger16.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger16.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger16.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger16.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger16.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger16.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger16) {
+            _globalLogger16 = new Logger16(version47);
+          }
+          return _globalLogger16;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger16.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors16) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger16.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors16 = !!censorship;
+          _permanentCensorErrors16 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels16[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger16.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel16 = level;
+        }
+        static from(version89) {
+          return new Logger16(version89);
+        }
+      };
+      Logger16.errors = ErrorCode16;
+      Logger16.levels = LogLevel16;
+    },
+  });
+
+  // node_modules/@ethersproject/sha2/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version48;
+  var init_version48 = __esm({
+    "node_modules/@ethersproject/sha2/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version48 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/sha2/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable14(value) {
+    return !!value.toHexString;
+  }
+  function addSlice14(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice14(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger14(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes14(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger14(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger14(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify14(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger38.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice14(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable14(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString15(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger38.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice14(new Uint8Array(result));
+    }
+    if (isBytes14(value)) {
+      return addSlice14(new Uint8Array(value));
+    }
+    return logger38.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function isHexString15(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  var logger38;
+  var init_lib51 = __esm({
+    "node_modules/@ethersproject/sha2/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib50();
+      init_version48();
+      logger38 = new Logger16(version48);
     },
   });
 
@@ -48670,10 +56027,10 @@
   });
 
   // node_modules/@ethersproject/sha2/lib.esm/_version.js
-  var version15;
-  var init_version15 = __esm({
+  var version49;
+  var init_version49 = __esm({
     "node_modules/@ethersproject/sha2/lib.esm/_version.js"() {
-      version15 = "sha2/5.5.0";
+      version49 = "sha2/5.5.0";
     },
   });
 
@@ -48681,24 +56038,26 @@
   function ripemd160(data) {
     return (
       "0x" +
-      import_hash3.default.ripemd160().update(arrayify(data)).digest("hex")
+      import_hash3.default.ripemd160().update(arrayify14(data)).digest("hex")
     );
   }
   function sha256(data) {
     return (
-      "0x" + import_hash3.default.sha256().update(arrayify(data)).digest("hex")
+      "0x" +
+      import_hash3.default.sha256().update(arrayify14(data)).digest("hex")
     );
   }
   function sha5122(data) {
     return (
-      "0x" + import_hash3.default.sha512().update(arrayify(data)).digest("hex")
+      "0x" +
+      import_hash3.default.sha512().update(arrayify14(data)).digest("hex")
     );
   }
   function computeHmac(algorithm, key2, data) {
     if (!SupportedAlgorithm[algorithm]) {
-      logger20.throwError(
+      logger39.throwError(
         "unsupported algorithm " + algorithm,
-        Logger.errors.UNSUPPORTED_OPERATION,
+        Logger16.errors.UNSUPPORTED_OPERATION,
         {
           operation: "hmac",
           algorithm,
@@ -48708,26 +56067,26 @@
     return (
       "0x" +
       import_hash3.default
-        .hmac(import_hash3.default[algorithm], arrayify(key2))
-        .update(arrayify(data))
+        .hmac(import_hash3.default[algorithm], arrayify14(key2))
+        .update(arrayify14(data))
         .digest("hex")
     );
   }
-  var import_hash3, logger20;
+  var import_hash3, logger39;
   var init_sha2 = __esm({
     "node_modules/@ethersproject/sha2/lib.esm/sha2.js"() {
       "use strict";
       import_hash3 = __toESM(require_hash());
-      init_lib2();
+      init_lib51();
       init_types();
-      init_lib();
-      init_version15();
-      logger20 = new Logger(version15);
+      init_lib50();
+      init_version49();
+      logger39 = new Logger16(version49);
     },
   });
 
   // node_modules/@ethersproject/sha2/lib.esm/index.js
-  var init_lib18 = __esm({
+  var init_lib52 = __esm({
     "node_modules/@ethersproject/sha2/lib.esm/index.js"() {
       init_sha2();
       init_types();
@@ -48736,8 +56095,8 @@
 
   // node_modules/@ethersproject/pbkdf2/lib.esm/pbkdf2.js
   function pbkdf2(password, salt, iterations, keylen, hashAlgorithm) {
-    password = arrayify(password);
-    salt = arrayify(salt);
+    password = arrayify13(password);
+    salt = arrayify13(salt);
     let hLen;
     let l2 = 1;
     const DK = new Uint8Array(keylen);
@@ -48750,7 +56109,7 @@
       block1[salt.length + 1] = (i >> 16) & 255;
       block1[salt.length + 2] = (i >> 8) & 255;
       block1[salt.length + 3] = i & 255;
-      let U2 = arrayify(computeHmac(hashAlgorithm, password, block1));
+      let U2 = arrayify13(computeHmac(hashAlgorithm, password, block1));
       if (!hLen) {
         hLen = U2.length;
         T2 = new Uint8Array(hLen);
@@ -48759,53 +56118,459 @@
       }
       T2.set(U2);
       for (let j2 = 1; j2 < iterations; j2++) {
-        U2 = arrayify(computeHmac(hashAlgorithm, password, U2));
+        U2 = arrayify13(computeHmac(hashAlgorithm, password, U2));
         for (let k2 = 0; k2 < hLen; k2++) T2[k2] ^= U2[k2];
       }
       const destPos = (i - 1) * hLen;
       const len = i === l2 ? r : hLen;
-      DK.set(arrayify(T2).slice(0, len), destPos);
+      DK.set(arrayify13(T2).slice(0, len), destPos);
     }
-    return hexlify(DK);
+    return hexlify11(DK);
   }
   var init_pbkdf2 = __esm({
     "node_modules/@ethersproject/pbkdf2/lib.esm/pbkdf2.js"() {
       "use strict";
-      init_lib2();
-      init_lib18();
+      init_lib49();
+      init_lib52();
     },
   });
 
   // node_modules/@ethersproject/pbkdf2/lib.esm/index.js
-  var init_lib19 = __esm({
+  var init_lib53 = __esm({
     "node_modules/@ethersproject/pbkdf2/lib.esm/index.js"() {
       init_pbkdf2();
     },
   });
 
+  // node_modules/@ethersproject/hdnode/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version50;
+  var init_version50 = __esm({
+    "node_modules/@ethersproject/hdnode/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version50 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/hdnode/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly8(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  var logger40;
+  var init_lib54 = __esm({
+    "node_modules/@ethersproject/hdnode/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib46();
+      init_version50();
+      logger40 = new Logger14(version50);
+    },
+  });
+
+  // node_modules/@ethersproject/hdnode/node_modules/@ethersproject/transactions/lib.esm/_version.js
+  var version51;
+  var init_version51 = __esm({
+    "node_modules/@ethersproject/hdnode/node_modules/@ethersproject/transactions/lib.esm/_version.js"() {
+      version51 = "transactions/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/hdnode/node_modules/@ethersproject/transactions/lib.esm/index.js
+  function computeAddress(key2) {
+    const publicKey = computePublicKey(key2);
+    return getAddress(
+      hexDataSlice5(keccak256(hexDataSlice5(publicKey, 1)), 12)
+    );
+  }
+  var logger41, TransactionTypes2;
+  var init_lib55 = __esm({
+    "node_modules/@ethersproject/hdnode/node_modules/@ethersproject/transactions/lib.esm/index.js"() {
+      "use strict";
+      init_lib15();
+      init_lib47();
+      init_lib11();
+      init_lib37();
+      init_lib46();
+      init_version51();
+      logger41 = new Logger14(version51);
+      (function (TransactionTypes7) {
+        TransactionTypes7[(TransactionTypes7["legacy"] = 0)] = "legacy";
+        TransactionTypes7[(TransactionTypes7["eip2930"] = 1)] = "eip2930";
+        TransactionTypes7[(TransactionTypes7["eip1559"] = 2)] = "eip1559";
+      })(TransactionTypes2 || (TransactionTypes2 = {}));
+    },
+  });
+
+  // node_modules/@ethersproject/wordlists/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version52;
+  var init_version52 = __esm({
+    "node_modules/@ethersproject/wordlists/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version52 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/wordlists/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize17() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors17,
+    _censorErrors17,
+    LogLevels17,
+    _logLevel17,
+    _globalLogger17,
+    _normalizeError17,
+    LogLevel17,
+    ErrorCode17,
+    HEX17,
+    Logger17;
+  var init_lib56 = __esm({
+    "node_modules/@ethersproject/wordlists/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version52();
+      _permanentCensorErrors17 = false;
+      _censorErrors17 = false;
+      LogLevels17 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel17 = LogLevels17["default"];
+      _globalLogger17 = null;
+      _normalizeError17 = _checkNormalize17();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel17 || (LogLevel17 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode17 || (ErrorCode17 = {}));
+      HEX17 = "0123456789abcdef";
+      Logger17 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels17[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel17 > LogLevels17[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger17.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger17.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger17.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors17) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger17.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX17[value[i] >> 4];
+                  hex += HEX17[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger17.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError17) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger17.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError17,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger17.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger17.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger17.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger17.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger17.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger17.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger17.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger17) {
+            _globalLogger17 = new Logger17(version52);
+          }
+          return _globalLogger17;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger17.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors17) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger17.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors17 = !!censorship;
+          _permanentCensorErrors17 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels17[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger17.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel17 = level;
+        }
+        static from(version89) {
+          return new Logger17(version89);
+        }
+      };
+      Logger17.errors = ErrorCode17;
+      Logger17.levels = LogLevel17;
+    },
+  });
+
+  // node_modules/@ethersproject/wordlists/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version53;
+  var init_version53 = __esm({
+    "node_modules/@ethersproject/wordlists/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version53 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/wordlists/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly9(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  var logger42;
+  var init_lib57 = __esm({
+    "node_modules/@ethersproject/wordlists/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib56();
+      init_version53();
+      logger42 = new Logger17(version53);
+    },
+  });
+
   // node_modules/@ethersproject/wordlists/lib.esm/_version.js
-  var version16;
-  var init_version16 = __esm({
+  var version54;
+  var init_version54 = __esm({
     "node_modules/@ethersproject/wordlists/lib.esm/_version.js"() {
-      version16 = "wordlists/5.5.0";
+      version54 = "wordlists/5.5.0";
     },
   });
 
   // node_modules/@ethersproject/wordlists/lib.esm/wordlist.js
-  var exportWordlist, logger21, Wordlist;
+  var exportWordlist, logger43, Wordlist;
   var init_wordlist = __esm({
     "node_modules/@ethersproject/wordlists/lib.esm/wordlist.js"() {
       "use strict";
-      init_lib10();
-      init_lib4();
-      init_lib();
-      init_version16();
+      init_lib23();
+      init_lib57();
+      init_lib56();
+      init_version54();
       exportWordlist = false;
-      logger21 = new Logger(version16);
+      logger43 = new Logger17(version54);
       Wordlist = class {
         constructor(locale) {
-          logger21.checkAbstract(new.target, Wordlist);
-          defineReadOnly(this, "locale", locale);
+          logger43.checkAbstract(new.target, Wordlist);
+          defineReadOnly9(this, "locale", locale);
         }
         split(mnemonic) {
           return mnemonic.toLowerCase().split(/ +/g);
@@ -48833,7 +56598,7 @@
               const anyGlobal2 = window;
               if (anyGlobal2._ethers && anyGlobal2._ethers.wordlists) {
                 if (!anyGlobal2._ethers.wordlists[name2]) {
-                  defineReadOnly(anyGlobal2._ethers.wordlists, name2, lang);
+                  defineReadOnly9(anyGlobal2._ethers.wordlists, name2, lang);
                 }
               }
             } catch (error) {}
@@ -48900,7 +56665,7 @@
   });
 
   // node_modules/@ethersproject/wordlists/lib.esm/index.js
-  var init_lib20 = __esm({
+  var init_lib58 = __esm({
     "node_modules/@ethersproject/wordlists/lib.esm/index.js"() {
       "use strict";
       init_wordlist();
@@ -48909,10 +56674,10 @@
   });
 
   // node_modules/@ethersproject/hdnode/lib.esm/_version.js
-  var version17;
-  var init_version17 = __esm({
+  var version55;
+  var init_version55 = __esm({
     "node_modules/@ethersproject/hdnode/lib.esm/_version.js"() {
-      version17 = "hdnode/5.5.0";
+      version55 = "hdnode/5.5.0";
     },
   });
 
@@ -48924,11 +56689,11 @@
     return (1 << bits) - 1;
   }
   function bytes32(value) {
-    return hexZeroPad(hexlify(value), 32);
+    return hexZeroPad7(hexlify10(value), 32);
   }
   function base58check(data) {
     return Base58.encode(
-      concat([data, hexDataSlice(sha256(sha256(data)), 0, 4)])
+      concat7([data, hexDataSlice5(sha256(sha256(data)), 0, 4)])
     );
   }
   function getWordlist(wordlist2) {
@@ -48938,7 +56703,7 @@
     if (typeof wordlist2 === "string") {
       const words2 = wordlists[wordlist2];
       if (words2 == null) {
-        logger22.throwArgumentError("unknown locale", "wordlist", wordlist2);
+        logger44.throwArgumentError("unknown locale", "wordlist", wordlist2);
       }
       return words2;
     }
@@ -48962,12 +56727,12 @@
   }
   function mnemonicToEntropy(mnemonic, wordlist2) {
     wordlist2 = getWordlist(wordlist2);
-    logger22.checkNormalize();
+    logger44.checkNormalize();
     const words2 = wordlist2.split(mnemonic);
     if (words2.length % 3 !== 0) {
       throw new Error("invalid mnemonic");
     }
-    const entropy = arrayify(
+    const entropy = arrayify12(
       new Uint8Array(Math.ceil((11 * words2.length) / 8))
     );
     let offset = 0;
@@ -48987,15 +56752,15 @@
     const checksumBits = words2.length / 3;
     const checksumMask = getUpperMask(checksumBits);
     const checksum =
-      arrayify(sha256(entropy.slice(0, entropyBits / 8)))[0] & checksumMask;
+      arrayify12(sha256(entropy.slice(0, entropyBits / 8)))[0] & checksumMask;
     if (checksum !== (entropy[entropy.length - 1] & checksumMask)) {
       throw new Error("invalid checksum");
     }
-    return hexlify(entropy.slice(0, entropyBits / 8));
+    return hexlify10(entropy.slice(0, entropyBits / 8));
   }
   function entropyToMnemonic(entropy, wordlist2) {
     wordlist2 = getWordlist(wordlist2);
-    entropy = arrayify(entropy);
+    entropy = arrayify12(entropy);
     if (
       entropy.length % 4 !== 0 ||
       entropy.length < 16 ||
@@ -49018,7 +56783,8 @@
       }
     }
     const checksumBits = entropy.length / 4;
-    const checksum = arrayify(sha256(entropy))[0] & getUpperMask(checksumBits);
+    const checksum =
+      arrayify12(sha256(entropy))[0] & getUpperMask(checksumBits);
     indices[indices.length - 1] <<= checksumBits;
     indices[indices.length - 1] |= checksum >> (8 - checksumBits);
     return wordlist2.join(indices.map((index) => wordlist2.getWord(index)));
@@ -49037,33 +56803,33 @@
       index >= HardenedBit ||
       index % 1
     ) {
-      logger22.throwArgumentError("invalid account index", "index", index);
+      logger44.throwArgumentError("invalid account index", "index", index);
     }
     return `m/44'/60'/${index}'/0/0`;
   }
-  var logger22,
+  var logger44,
     N,
     MasterSecret,
     HardenedBit,
     _constructorGuard4,
     defaultPath,
     HDNode;
-  var init_lib21 = __esm({
+  var init_lib59 = __esm({
     "node_modules/@ethersproject/hdnode/lib.esm/index.js"() {
       "use strict";
-      init_lib17();
-      init_lib2();
+      init_lib45();
+      init_lib47();
       init_lib3();
-      init_lib9();
       init_lib19();
-      init_lib4();
-      init_lib14();
-      init_lib18();
-      init_lib15();
-      init_lib20();
-      init_lib();
-      init_version17();
-      logger22 = new Logger(version17);
+      init_lib53();
+      init_lib54();
+      init_lib37();
+      init_lib52();
+      init_lib55();
+      init_lib58();
+      init_lib46();
+      init_version55();
+      logger44 = new Logger14(version55);
       N = BigNumber.from(
         "0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141"
       );
@@ -49082,37 +56848,37 @@
           depth,
           mnemonicOrPath
         ) {
-          logger22.checkNew(new.target, HDNode);
+          logger44.checkNew(new.target, HDNode);
           if (constructorGuard !== _constructorGuard4) {
             throw new Error("HDNode constructor cannot be called directly");
           }
           if (privateKey) {
             const signingKey = new SigningKey(privateKey);
-            defineReadOnly(this, "privateKey", signingKey.privateKey);
-            defineReadOnly(this, "publicKey", signingKey.compressedPublicKey);
+            defineReadOnly8(this, "privateKey", signingKey.privateKey);
+            defineReadOnly8(this, "publicKey", signingKey.compressedPublicKey);
           } else {
-            defineReadOnly(this, "privateKey", null);
-            defineReadOnly(this, "publicKey", hexlify(publicKey));
+            defineReadOnly8(this, "privateKey", null);
+            defineReadOnly8(this, "publicKey", hexlify10(publicKey));
           }
-          defineReadOnly(this, "parentFingerprint", parentFingerprint);
-          defineReadOnly(
+          defineReadOnly8(this, "parentFingerprint", parentFingerprint);
+          defineReadOnly8(
             this,
             "fingerprint",
-            hexDataSlice(ripemd160(sha256(this.publicKey)), 0, 4)
+            hexDataSlice5(ripemd160(sha256(this.publicKey)), 0, 4)
           );
-          defineReadOnly(this, "address", computeAddress(this.publicKey));
-          defineReadOnly(this, "chainCode", chainCode);
-          defineReadOnly(this, "index", index);
-          defineReadOnly(this, "depth", depth);
+          defineReadOnly8(this, "address", computeAddress(this.publicKey));
+          defineReadOnly8(this, "chainCode", chainCode);
+          defineReadOnly8(this, "index", index);
+          defineReadOnly8(this, "depth", depth);
           if (mnemonicOrPath == null) {
-            defineReadOnly(this, "mnemonic", null);
-            defineReadOnly(this, "path", null);
+            defineReadOnly8(this, "mnemonic", null);
+            defineReadOnly8(this, "path", null);
           } else if (typeof mnemonicOrPath === "string") {
-            defineReadOnly(this, "mnemonic", null);
-            defineReadOnly(this, "path", mnemonicOrPath);
+            defineReadOnly8(this, "mnemonic", null);
+            defineReadOnly8(this, "path", mnemonicOrPath);
           } else {
-            defineReadOnly(this, "mnemonic", mnemonicOrPath);
-            defineReadOnly(this, "path", mnemonicOrPath.path);
+            defineReadOnly8(this, "mnemonic", mnemonicOrPath);
+            defineReadOnly8(this, "path", mnemonicOrPath.path);
           }
         }
         get extendedKey() {
@@ -49120,14 +56886,14 @@
             throw new Error("Depth too large!");
           }
           return base58check(
-            concat([
+            concat7([
               this.privateKey != null ? "0x0488ADE4" : "0x0488B21E",
-              hexlify(this.depth),
+              hexlify10(this.depth),
               this.parentFingerprint,
-              hexZeroPad(hexlify(this.index), 4),
+              hexZeroPad7(hexlify10(this.index), 4),
               this.chainCode,
               this.privateKey != null
-                ? concat(["0x00", this.privateKey])
+                ? concat7(["0x00", this.privateKey])
                 : this.publicKey,
             ])
           );
@@ -49157,17 +56923,17 @@
             if (!this.privateKey) {
               throw new Error("cannot derive child of neutered node");
             }
-            data.set(arrayify(this.privateKey), 1);
+            data.set(arrayify12(this.privateKey), 1);
             if (path3) {
               path3 += "'";
             }
           } else {
-            data.set(arrayify(this.publicKey));
+            data.set(arrayify12(this.publicKey));
           }
           for (let i = 24; i >= 0; i -= 8) {
             data[33 + (i >> 3)] = (index >> (24 - i)) & 255;
           }
-          const I2 = arrayify(
+          const I2 = arrayify12(
             computeHmac(SupportedAlgorithm.sha512, this.chainCode, data)
           );
           const IL = I2.slice(0, 32);
@@ -49177,7 +56943,7 @@
           if (this.privateKey) {
             ki = bytes32(BigNumber.from(IL).add(this.privateKey).mod(N));
           } else {
-            const ek = new SigningKey(hexlify(IL));
+            const ek = new SigningKey(hexlify10(IL));
             Ki = ek._addPoint(this.publicKey);
           }
           let mnemonicOrPath = path3;
@@ -49235,11 +57001,11 @@
           return result;
         }
         static _fromSeed(seed, mnemonic) {
-          const seedArray = arrayify(seed);
+          const seedArray = arrayify12(seed);
           if (seedArray.length < 16 || seedArray.length > 64) {
             throw new Error("invalid seed");
           }
-          const I2 = arrayify(
+          const I2 = arrayify12(
             computeHmac(SupportedAlgorithm.sha512, MasterSecret, seedArray)
           );
           return new HDNode(
@@ -49274,24 +57040,27 @@
             bytes.length !== 82 ||
             base58check(bytes.slice(0, 78)) !== extendedKey
           ) {
-            logger22.throwArgumentError(
+            logger44.throwArgumentError(
               "invalid extended key",
               "extendedKey",
               "[REDACTED]"
             );
           }
           const depth = bytes[4];
-          const parentFingerprint = hexlify(bytes.slice(5, 9));
-          const index = parseInt(hexlify(bytes.slice(9, 13)).substring(2), 16);
-          const chainCode = hexlify(bytes.slice(13, 45));
+          const parentFingerprint = hexlify10(bytes.slice(5, 9));
+          const index = parseInt(
+            hexlify10(bytes.slice(9, 13)).substring(2),
+            16
+          );
+          const chainCode = hexlify10(bytes.slice(13, 45));
           const key2 = bytes.slice(45, 78);
-          switch (hexlify(bytes.slice(0, 4))) {
+          switch (hexlify10(bytes.slice(0, 4))) {
             case "0x0488b21e":
             case "0x043587cf":
               return new HDNode(
                 _constructorGuard4,
                 null,
-                hexlify(key2),
+                hexlify10(key2),
                 parentFingerprint,
                 chainCode,
                 index,
@@ -49305,7 +57074,7 @@
               }
               return new HDNode(
                 _constructorGuard4,
-                hexlify(key2.slice(1)),
+                hexlify10(key2.slice(1)),
                 null,
                 parentFingerprint,
                 chainCode,
@@ -49314,7 +57083,7 @@
                 null
               );
           }
-          return logger22.throwArgumentError(
+          return logger44.throwArgumentError(
             "invalid extended key",
             "extendedKey",
             "[REDACTED]"
@@ -49324,11 +57093,534 @@
     },
   });
 
+  // node_modules/@ethersproject/wallet/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version56;
+  var init_version56 = __esm({
+    "node_modules/@ethersproject/wallet/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version56 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/wallet/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly10(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  function resolveProperties4(object) {
+    return __awaiter9(this, void 0, void 0, function* () {
+      const promises = Object.keys(object).map((key2) => {
+        const value = object[key2];
+        return Promise.resolve(value).then((v2) => ({ key: key2, value: v2 }));
+      });
+      const results = yield Promise.all(promises);
+      return results.reduce((accum, result) => {
+        accum[result.key] = result.value;
+        return accum;
+      }, {});
+    });
+  }
+  function checkProperties(object, properties) {
+    if (!object || typeof object !== "object") {
+      logger45.throwArgumentError("invalid object", "object", object);
+    }
+    Object.keys(object).forEach((key2) => {
+      if (!properties[key2]) {
+        logger45.throwArgumentError(
+          "invalid object key - " + key2,
+          "transaction:" + key2,
+          object
+        );
+      }
+    });
+  }
+  var __awaiter9, logger45;
+  var init_lib60 = __esm({
+    "node_modules/@ethersproject/wallet/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib40();
+      init_version56();
+      __awaiter9 = function (thisArg, _arguments, P2, generator) {
+        function adopt(value) {
+          return value instanceof P2
+            ? value
+            : new P2(function (resolve2) {
+                resolve2(value);
+              });
+        }
+        return new (P2 || (P2 = Promise))(function (resolve2, reject) {
+          function fulfilled(value) {
+            try {
+              step(generator.next(value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function rejected(value) {
+            try {
+              step(generator["throw"](value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function step(result) {
+            result.done
+              ? resolve2(result.value)
+              : adopt(result.value).then(fulfilled, rejected);
+          }
+          step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+      };
+      logger45 = new Logger12(version56);
+    },
+  });
+
+  // node_modules/@ethersproject/random/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version57;
+  var init_version57 = __esm({
+    "node_modules/@ethersproject/random/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version57 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/random/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize18() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors18,
+    _censorErrors18,
+    LogLevels18,
+    _logLevel18,
+    _globalLogger18,
+    _normalizeError18,
+    LogLevel18,
+    ErrorCode18,
+    HEX18,
+    Logger18;
+  var init_lib61 = __esm({
+    "node_modules/@ethersproject/random/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version57();
+      _permanentCensorErrors18 = false;
+      _censorErrors18 = false;
+      LogLevels18 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel18 = LogLevels18["default"];
+      _globalLogger18 = null;
+      _normalizeError18 = _checkNormalize18();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel18 || (LogLevel18 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode18 || (ErrorCode18 = {}));
+      HEX18 = "0123456789abcdef";
+      Logger18 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels18[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel18 > LogLevels18[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger18.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger18.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger18.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors18) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger18.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX18[value[i] >> 4];
+                  hex += HEX18[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger18.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError18) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger18.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError18,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger18.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger18.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger18.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger18.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger18.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger18.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger18.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger18) {
+            _globalLogger18 = new Logger18(version57);
+          }
+          return _globalLogger18;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger18.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors18) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger18.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors18 = !!censorship;
+          _permanentCensorErrors18 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels18[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger18.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel18 = level;
+        }
+        static from(version89) {
+          return new Logger18(version89);
+        }
+      };
+      Logger18.errors = ErrorCode18;
+      Logger18.levels = LogLevel18;
+    },
+  });
+
+  // node_modules/@ethersproject/random/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version58;
+  var init_version58 = __esm({
+    "node_modules/@ethersproject/random/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version58 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/random/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable15(value) {
+    return !!value.toHexString;
+  }
+  function addSlice15(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice15(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger15(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes15(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger15(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger15(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify15(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger46.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice15(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable15(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString16(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger46.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice15(new Uint8Array(result));
+    }
+    if (isBytes15(value)) {
+      return addSlice15(new Uint8Array(value));
+    }
+    return logger46.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function isHexString16(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  var logger46;
+  var init_lib62 = __esm({
+    "node_modules/@ethersproject/random/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib61();
+      init_version58();
+      logger46 = new Logger18(version58);
+    },
+  });
+
   // node_modules/@ethersproject/random/lib.esm/_version.js
-  var version18;
-  var init_version18 = __esm({
+  var version59;
+  var init_version59 = __esm({
     "node_modules/@ethersproject/random/lib.esm/_version.js"() {
-      version18 = "random/5.5.1";
+      version59 = "random/5.5.1";
     },
   });
 
@@ -49347,29 +57639,29 @@
   }
   function randomBytes3(length) {
     if (length <= 0 || length > 1024 || length % 1 || length != length) {
-      logger23.throwArgumentError("invalid length", "length", length);
+      logger47.throwArgumentError("invalid length", "length", length);
     }
     const result = new Uint8Array(length);
     crypto.getRandomValues(result);
-    return arrayify(result);
+    return arrayify15(result);
   }
-  var logger23, anyGlobal, crypto;
+  var logger47, anyGlobal, crypto;
   var init_random = __esm({
     "node_modules/@ethersproject/random/lib.esm/random.js"() {
       "use strict";
-      init_lib2();
-      init_lib();
-      init_version18();
-      logger23 = new Logger(version18);
+      init_lib62();
+      init_lib61();
+      init_version59();
+      logger47 = new Logger18(version59);
       anyGlobal = getGlobal();
       crypto = anyGlobal.crypto || anyGlobal.msCrypto;
       if (!crypto || !crypto.getRandomValues) {
-        logger23.warn("WARNING: Missing strong random number source");
+        logger47.warn("WARNING: Missing strong random number source");
         crypto = {
           getRandomValues: function (buffer) {
-            return logger23.throwError(
+            return logger47.throwError(
               "no secure random source avaialble",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger18.errors.UNSUPPORTED_OPERATION,
               {
                 operation: "crypto.getRandomValues",
               }
@@ -49398,7 +57690,7 @@
   });
 
   // node_modules/@ethersproject/random/lib.esm/index.js
-  var init_lib22 = __esm({
+  var init_lib63 = __esm({
     "node_modules/@ethersproject/random/lib.esm/index.js"() {
       "use strict";
       init_random();
@@ -50666,11 +58958,626 @@
     },
   });
 
+  // node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version60;
+  var init_version60 = __esm({
+    "node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version60 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize19() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors19,
+    _censorErrors19,
+    LogLevels19,
+    _logLevel19,
+    _globalLogger19,
+    _normalizeError19,
+    LogLevel19,
+    ErrorCode19,
+    HEX19,
+    Logger19;
+  var init_lib64 = __esm({
+    "node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version60();
+      _permanentCensorErrors19 = false;
+      _censorErrors19 = false;
+      LogLevels19 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel19 = LogLevels19["default"];
+      _globalLogger19 = null;
+      _normalizeError19 = _checkNormalize19();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel19 || (LogLevel19 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode19 || (ErrorCode19 = {}));
+      HEX19 = "0123456789abcdef";
+      Logger19 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels19[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel19 > LogLevels19[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger19.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger19.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger19.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors19) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger19.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX19[value[i] >> 4];
+                  hex += HEX19[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger19.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError19) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger19.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError19,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger19.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger19.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger19.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger19.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger19.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger19.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger19.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger19) {
+            _globalLogger19 = new Logger19(version60);
+          }
+          return _globalLogger19;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger19.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors19) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger19.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors19 = !!censorship;
+          _permanentCensorErrors19 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels19[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger19.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel19 = level;
+        }
+        static from(version89) {
+          return new Logger19(version89);
+        }
+      };
+      Logger19.errors = ErrorCode19;
+      Logger19.levels = LogLevel19;
+    },
+  });
+
+  // node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version61;
+  var init_version61 = __esm({
+    "node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version61 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable16(value) {
+    return !!value.toHexString;
+  }
+  function addSlice16(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice16(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger16(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes16(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger16(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger16(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify16(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger48.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice16(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable16(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString17(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger48.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice16(new Uint8Array(result));
+    }
+    if (isBytes16(value)) {
+      return addSlice16(new Uint8Array(value));
+    }
+    return logger48.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat8(items) {
+    const objects = items.map((item) => arrayify16(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice16(result);
+  }
+  function isHexString17(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify12(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger48.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters12[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable16(value)) {
+      return value.toHexString();
+    }
+    if (isHexString17(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger48.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes16(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters12[(v2 & 240) >> 4] + HexCharacters12[v2 & 15];
+      }
+      return result;
+    }
+    return logger48.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexDataSlice6(data, offset, endOffset) {
+    if (typeof data !== "string") {
+      data = hexlify12(data);
+    } else if (!isHexString17(data) || data.length % 2) {
+      logger48.throwArgumentError("invalid hexData", "value", data);
+    }
+    offset = 2 + 2 * offset;
+    if (endOffset != null) {
+      return "0x" + data.substring(offset, 2 + 2 * endOffset);
+    }
+    return "0x" + data.substring(offset);
+  }
+  var logger48, HexCharacters12;
+  var init_lib65 = __esm({
+    "node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib64();
+      init_version61();
+      logger48 = new Logger19(version61);
+      HexCharacters12 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version62;
+  var init_version62 = __esm({
+    "node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version62 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly11(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  function _isFrozen5(object) {
+    if (object === void 0 || object === null || opaque5[typeof object]) {
+      return true;
+    }
+    if (Array.isArray(object) || typeof object === "object") {
+      if (!Object.isFrozen(object)) {
+        return false;
+      }
+      const keys = Object.keys(object);
+      for (let i = 0; i < keys.length; i++) {
+        let value = null;
+        try {
+          value = object[keys[i]];
+        } catch (error) {
+          continue;
+        }
+        if (!_isFrozen5(value)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return logger49.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function _deepCopy5(object) {
+    if (_isFrozen5(object)) {
+      return object;
+    }
+    if (Array.isArray(object)) {
+      return Object.freeze(object.map((item) => deepCopy5(item)));
+    }
+    if (typeof object === "object") {
+      const result = {};
+      for (const key2 in object) {
+        const value = object[key2];
+        if (value === void 0) {
+          continue;
+        }
+        defineReadOnly11(result, key2, deepCopy5(value));
+      }
+      return result;
+    }
+    return logger49.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function deepCopy5(object) {
+    return _deepCopy5(object);
+  }
+  var logger49, opaque5, Description3;
+  var init_lib66 = __esm({
+    "node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib64();
+      init_version62();
+      logger49 = new Logger19(version62);
+      opaque5 = {
+        bigint: true,
+        boolean: true,
+        function: true,
+        number: true,
+        string: true,
+      };
+      Description3 = class {
+        constructor(info) {
+          for (const key2 in info) {
+            this[key2] = deepCopy5(info[key2]);
+          }
+        }
+      };
+    },
+  });
+
   // node_modules/@ethersproject/json-wallets/lib.esm/_version.js
-  var version19;
-  var init_version19 = __esm({
+  var version63;
+  var init_version63 = __esm({
     "node_modules/@ethersproject/json-wallets/lib.esm/_version.js"() {
-      version19 = "json-wallets/5.5.0";
+      version63 = "json-wallets/5.5.0";
     },
   });
 
@@ -50679,7 +59586,7 @@
     if (typeof hexString === "string" && hexString.substring(0, 2) !== "0x") {
       hexString = "0x" + hexString;
     }
-    return arrayify(hexString);
+    return arrayify16(hexString);
   }
   function zpad(value, length) {
     value = String(value);
@@ -50692,7 +59599,7 @@
     if (typeof password === "string") {
       return toUtf8Bytes(password, UnicodeNormalizationForm.NFKC);
     }
-    return arrayify(password);
+    return arrayify16(password);
   }
   function searchPath(object, path3) {
     let currentChild = object;
@@ -50713,10 +59620,10 @@
     return currentChild;
   }
   function uuidV4(randomBytes4) {
-    const bytes = arrayify(randomBytes4);
+    const bytes = arrayify16(randomBytes4);
     bytes[6] = (bytes[6] & 15) | 64;
     bytes[8] = (bytes[8] & 63) | 128;
-    const value = hexlify(bytes);
+    const value = hexlify12(bytes);
     return [
       value.substring(2, 10),
       value.substring(10, 14),
@@ -50728,8 +59635,8 @@
   var init_utils = __esm({
     "node_modules/@ethersproject/json-wallets/lib.esm/utils.js"() {
       "use strict";
-      init_lib2();
-      init_lib9();
+      init_lib65();
+      init_lib19();
     },
   });
 
@@ -50740,17 +59647,16 @@
     const ethaddr = getAddress(searchPath(data, "ethaddr"));
     const encseed = looseArrayify(searchPath(data, "encseed"));
     if (!encseed || encseed.length % 16 !== 0) {
-      logger24.throwArgumentError("invalid encseed", "json", json);
+      logger50.throwArgumentError("invalid encseed", "json", json);
     }
-    const key2 = arrayify(pbkdf2(password, password, 2e3, 32, "sha256")).slice(
-      0,
-      16
-    );
+    const key2 = arrayify16(
+      pbkdf2(password, password, 2e3, 32, "sha256")
+    ).slice(0, 16);
     const iv = encseed.slice(0, 16);
     const encryptedSeed = encseed.slice(16);
     const aesCbc = new import_aes_js.default.ModeOfOperation.cbc(key2, iv);
     const seed = import_aes_js.default.padding.pkcs7.strip(
-      arrayify(aesCbc.decrypt(encryptedSeed))
+      arrayify16(aesCbc.decrypt(encryptedSeed))
     );
     let seedHex = "";
     for (let i = 0; i < seed.length; i++) {
@@ -50764,22 +59670,22 @@
       privateKey,
     });
   }
-  var import_aes_js, logger24, CrowdsaleAccount;
+  var import_aes_js, logger50, CrowdsaleAccount;
   var init_crowdsale = __esm({
     "node_modules/@ethersproject/json-wallets/lib.esm/crowdsale.js"() {
       "use strict";
       import_aes_js = __toESM(require_aes_js());
-      init_lib7();
-      init_lib2();
-      init_lib5();
+      init_lib15();
+      init_lib65();
+      init_lib11();
+      init_lib53();
       init_lib19();
-      init_lib9();
-      init_lib4();
-      init_lib();
-      init_version19();
+      init_lib66();
+      init_lib64();
+      init_version63();
       init_utils();
-      logger24 = new Logger(version19);
-      CrowdsaleAccount = class extends Description {
+      logger50 = new Logger19(version63);
+      CrowdsaleAccount = class extends Description3 {
         isCrowdsaleAccount(value) {
           return !!(value && value._isCrowdsaleAccount);
         }
@@ -50833,7 +59739,7 @@
   var init_inspect = __esm({
     "node_modules/@ethersproject/json-wallets/lib.esm/inspect.js"() {
       "use strict";
-      init_lib7();
+      init_lib15();
     },
   });
 
@@ -51329,6 +60235,40 @@
     },
   });
 
+  // node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/transactions/lib.esm/_version.js
+  var version64;
+  var init_version64 = __esm({
+    "node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/transactions/lib.esm/_version.js"() {
+      version64 = "transactions/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/transactions/lib.esm/index.js
+  function computeAddress2(key2) {
+    const publicKey = computePublicKey(key2);
+    return getAddress(
+      hexDataSlice6(keccak256(hexDataSlice6(publicKey, 1)), 12)
+    );
+  }
+  var logger51, TransactionTypes3;
+  var init_lib67 = __esm({
+    "node_modules/@ethersproject/json-wallets/node_modules/@ethersproject/transactions/lib.esm/index.js"() {
+      "use strict";
+      init_lib15();
+      init_lib65();
+      init_lib11();
+      init_lib37();
+      init_lib64();
+      init_version64();
+      logger51 = new Logger19(version64);
+      (function (TransactionTypes7) {
+        TransactionTypes7[(TransactionTypes7["legacy"] = 0)] = "legacy";
+        TransactionTypes7[(TransactionTypes7["eip2930"] = 1)] = "eip2930";
+        TransactionTypes7[(TransactionTypes7["eip1559"] = 2)] = "eip1559";
+      })(TransactionTypes3 || (TransactionTypes3 = {}));
+    },
+  });
+
   // node_modules/@ethersproject/json-wallets/lib.esm/keystore.js
   function hasMnemonic(value) {
     return value != null && value.mnemonic && value.mnemonic.phrase;
@@ -51342,30 +60282,30 @@
         key2,
         counter
       );
-      return arrayify(aesCtr.decrypt(ciphertext));
+      return arrayify16(aesCtr.decrypt(ciphertext));
     }
     return null;
   }
   function _getAccount(data, key2) {
     const ciphertext = looseArrayify(searchPath(data, "crypto/ciphertext"));
-    const computedMAC = hexlify(
-      keccak256(concat([key2.slice(16, 32), ciphertext]))
+    const computedMAC = hexlify12(
+      keccak256(concat8([key2.slice(16, 32), ciphertext]))
     ).substring(2);
     if (computedMAC !== searchPath(data, "crypto/mac").toLowerCase()) {
       throw new Error("invalid password");
     }
     const privateKey = _decrypt(data, key2.slice(0, 16), ciphertext);
     if (!privateKey) {
-      logger25.throwError(
+      logger52.throwError(
         "unsupported cipher",
-        Logger.errors.UNSUPPORTED_OPERATION,
+        Logger19.errors.UNSUPPORTED_OPERATION,
         {
           operation: "decrypt",
         }
       );
     }
     const mnemonicKey = key2.slice(32, 64);
-    const address = computeAddress(privateKey);
+    const address = computeAddress2(privateKey);
     if (data.address) {
       let check = data.address.toLowerCase();
       if (check.substring(0, 2) !== "0x") {
@@ -51378,7 +60318,7 @@
     const account = {
       _isKeystoreAccount: true,
       address,
-      privateKey: hexlify(privateKey),
+      privateKey: hexlify12(privateKey),
     };
     if (searchPath(data, "x-ethers/version") === "0.1") {
       const mnemonicCiphertext = looseArrayify(
@@ -51394,7 +60334,7 @@
       );
       const path3 = searchPath(data, "x-ethers/path") || defaultPath;
       const locale = searchPath(data, "x-ethers/locale") || "en";
-      const entropy = arrayify(mnemonicAesCtr.decrypt(mnemonicCiphertext));
+      const entropy = arrayify16(mnemonicAesCtr.decrypt(mnemonicCiphertext));
       try {
         const mnemonic = entropyToMnemonic(entropy, locale);
         const node = HDNode.fromMnemonic(mnemonic, null, locale).derivePath(
@@ -51406,7 +60346,7 @@
         account.mnemonic = node.mnemonic;
       } catch (error) {
         if (
-          error.code !== Logger.errors.INVALID_ARGUMENT ||
+          error.code !== Logger19.errors.INVALID_ARGUMENT ||
           error.argument !== "wordlist"
         ) {
           throw error;
@@ -51416,7 +60356,7 @@
     return new KeystoreAccount(account);
   }
   function pbkdf2Sync(passwordBytes, salt, count, dkLen, prfFunc) {
-    return arrayify(pbkdf2(passwordBytes, salt, count, dkLen, prfFunc));
+    return arrayify16(pbkdf2(passwordBytes, salt, count, dkLen, prfFunc));
   }
   function pbkdf22(passwordBytes, salt, count, dkLen, prfFunc) {
     return Promise.resolve(
@@ -51434,7 +60374,7 @@
     const kdf = searchPath(data, "crypto/kdf");
     if (kdf && typeof kdf === "string") {
       const throwError = function (name2, value) {
-        return logger25.throwArgumentError(
+        return logger52.throwArgumentError(
           "invalid key-derivation function parameters",
           name2,
           value
@@ -51475,7 +60415,7 @@
         return pbkdf2Func(passwordBytes, salt, count, dkLen, prfFunc);
       }
     }
-    return logger25.throwArgumentError(
+    return logger52.throwArgumentError(
       "unsupported key-derivation function",
       "kdf",
       kdf
@@ -51492,7 +60432,7 @@
     return _getAccount(data, key2);
   }
   function decrypt2(json, password, progressCallback) {
-    return __awaiter7(this, void 0, void 0, function* () {
+    return __awaiter10(this, void 0, void 0, function* () {
       const data = JSON.parse(json);
       const key2 = yield _computeKdfKey(
         data,
@@ -51506,7 +60446,7 @@
   }
   function encrypt(account, password, options, progressCallback) {
     try {
-      if (getAddress(account.address) !== computeAddress(account.privateKey)) {
+      if (getAddress(account.address) !== computeAddress2(account.privateKey)) {
         throw new Error("address/privateKey mismatch");
       }
       if (hasMnemonic(account)) {
@@ -51530,14 +60470,14 @@
     if (!options) {
       options = {};
     }
-    const privateKey = arrayify(account.privateKey);
+    const privateKey = arrayify16(account.privateKey);
     const passwordBytes = getPassword(password);
     let entropy = null;
     let path3 = null;
     let locale = null;
     if (hasMnemonic(account)) {
       const srcMnemonic = account.mnemonic;
-      entropy = arrayify(
+      entropy = arrayify16(
         mnemonicToEntropy(srcMnemonic.phrase, srcMnemonic.locale || "en")
       );
       path3 = srcMnemonic.path || defaultPath;
@@ -51549,13 +60489,13 @@
     }
     let salt = null;
     if (options.salt) {
-      salt = arrayify(options.salt);
+      salt = arrayify16(options.salt);
     } else {
       salt = randomBytes3(32);
     }
     let iv = null;
     if (options.iv) {
-      iv = arrayify(options.iv);
+      iv = arrayify16(options.iv);
       if (iv.length !== 16) {
         throw new Error("invalid iv");
       }
@@ -51564,7 +60504,7 @@
     }
     let uuidRandom = null;
     if (options.uuid) {
-      uuidRandom = arrayify(options.uuid);
+      uuidRandom = arrayify16(options.uuid);
       if (uuidRandom.length !== 16) {
         throw new Error("invalid uuid");
       }
@@ -51588,7 +60528,7 @@
     return import_scrypt_js.default
       .scrypt(passwordBytes, salt, N3, r, p2, 64, progressCallback)
       .then((key2) => {
-        key2 = arrayify(key2);
+        key2 = arrayify16(key2);
         const derivedKey = key2.slice(0, 16);
         const macPrefix = key2.slice(16, 32);
         const mnemonicKey = key2.slice(32, 64);
@@ -51597,8 +60537,8 @@
           derivedKey,
           counter
         );
-        const ciphertext = arrayify(aesCtr.encrypt(privateKey));
-        const mac = keccak256(concat([macPrefix, ciphertext]));
+        const ciphertext = arrayify16(aesCtr.encrypt(privateKey));
+        const mac = keccak256(concat8([macPrefix, ciphertext]));
         const data = {
           address: account.address.substring(2).toLowerCase(),
           id: uuidV4(uuidRandom),
@@ -51606,12 +60546,12 @@
           Crypto: {
             cipher: "aes-128-ctr",
             cipherparams: {
-              iv: hexlify(iv).substring(2),
+              iv: hexlify12(iv).substring(2),
             },
-            ciphertext: hexlify(ciphertext).substring(2),
+            ciphertext: hexlify12(ciphertext).substring(2),
             kdf: "scrypt",
             kdfparams: {
-              salt: hexlify(salt).substring(2),
+              salt: hexlify12(salt).substring(2),
               n: N3,
               dklen: 32,
               p: p2,
@@ -51629,7 +60569,9 @@
             mnemonicKey,
             mnemonicCounter
           );
-          const mnemonicCiphertext = arrayify(mnemonicAesCtr.encrypt(entropy));
+          const mnemonicCiphertext = arrayify16(
+            mnemonicAesCtr.encrypt(entropy)
+          );
           const now2 = new Date();
           const timestamp =
             now2.getUTCFullYear() +
@@ -51647,8 +60589,8 @@
           data["x-ethers"] = {
             client,
             gethFilename: "UTC--" + timestamp + "--" + data.address,
-            mnemonicCounter: hexlify(mnemonicIv).substring(2),
-            mnemonicCiphertext: hexlify(mnemonicCiphertext).substring(2),
+            mnemonicCounter: hexlify12(mnemonicIv).substring(2),
+            mnemonicCiphertext: hexlify12(mnemonicCiphertext).substring(2),
             path: path3,
             locale,
             version: "0.1",
@@ -51657,24 +60599,24 @@
         return JSON.stringify(data);
       });
   }
-  var import_aes_js2, import_scrypt_js, __awaiter7, logger25, KeystoreAccount;
+  var import_aes_js2, import_scrypt_js, __awaiter10, logger52, KeystoreAccount;
   var init_keystore = __esm({
     "node_modules/@ethersproject/json-wallets/lib.esm/keystore.js"() {
       "use strict";
       import_aes_js2 = __toESM(require_aes_js());
       import_scrypt_js = __toESM(require_scrypt());
-      init_lib7();
-      init_lib2();
-      init_lib21();
-      init_lib5();
-      init_lib19();
-      init_lib22();
-      init_lib4();
       init_lib15();
+      init_lib65();
+      init_lib59();
+      init_lib11();
+      init_lib53();
+      init_lib63();
+      init_lib66();
+      init_lib67();
       init_utils();
-      init_lib();
-      init_version19();
-      __awaiter7 = function (thisArg, _arguments, P2, generator) {
+      init_lib64();
+      init_version63();
+      __awaiter10 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -51705,8 +60647,8 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger25 = new Logger(version19);
-      KeystoreAccount = class extends Description {
+      logger52 = new Logger19(version63);
+      KeystoreAccount = class extends Description3 {
         isKeystoreAccount(value) {
           return !!(value && value._isKeystoreAccount);
         }
@@ -51740,7 +60682,7 @@
     }
     throw new Error("invalid JSON wallet");
   }
-  var init_lib23 = __esm({
+  var init_lib68 = __esm({
     "node_modules/@ethersproject/json-wallets/lib.esm/index.js"() {
       "use strict";
       init_crowdsale();
@@ -51749,11 +60691,288 @@
     },
   });
 
+  // node_modules/@ethersproject/wallet/node_modules/@ethersproject/transactions/lib.esm/_version.js
+  var version65;
+  var init_version65 = __esm({
+    "node_modules/@ethersproject/wallet/node_modules/@ethersproject/transactions/lib.esm/_version.js"() {
+      version65 = "transactions/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/wallet/node_modules/@ethersproject/transactions/lib.esm/index.js
+  function computeAddress3(key2) {
+    const publicKey = computePublicKey(key2);
+    return getAddress(
+      hexDataSlice4(keccak256(hexDataSlice4(publicKey, 1)), 12)
+    );
+  }
+  function recoverAddress(digest, signature2) {
+    return computeAddress3(recoverPublicKey(arrayify10(digest), signature2));
+  }
+  function formatNumber(value, name2) {
+    const result = stripZeros3(BigNumber.from(value).toHexString());
+    if (result.length > 32) {
+      logger53.throwArgumentError(
+        "invalid length for " + name2,
+        "transaction:" + name2,
+        value
+      );
+    }
+    return result;
+  }
+  function accessSetify2(addr, storageKeys) {
+    return {
+      address: getAddress(addr),
+      storageKeys: (storageKeys || []).map((storageKey, index) => {
+        if (hexDataLength3(storageKey) !== 32) {
+          logger53.throwArgumentError(
+            "invalid access list storageKey",
+            `accessList[${addr}:${index}]`,
+            storageKey
+          );
+        }
+        return storageKey.toLowerCase();
+      }),
+    };
+  }
+  function accessListify2(value) {
+    if (Array.isArray(value)) {
+      return value.map((set, index) => {
+        if (Array.isArray(set)) {
+          if (set.length > 2) {
+            logger53.throwArgumentError(
+              "access list expected to be [ address, storageKeys[] ]",
+              `value[${index}]`,
+              set
+            );
+          }
+          return accessSetify2(set[0], set[1]);
+        }
+        return accessSetify2(set.address, set.storageKeys);
+      });
+    }
+    const result = Object.keys(value).map((addr) => {
+      const storageKeys = value[addr].reduce((accum, storageKey) => {
+        accum[storageKey] = true;
+        return accum;
+      }, {});
+      return accessSetify2(addr, Object.keys(storageKeys).sort());
+    });
+    result.sort((a2, b2) => a2.address.localeCompare(b2.address));
+    return result;
+  }
+  function formatAccessList(value) {
+    return accessListify2(value).map((set) => [set.address, set.storageKeys]);
+  }
+  function _serializeEip1559(transaction, signature2) {
+    if (transaction.gasPrice != null) {
+      const gasPrice = BigNumber.from(transaction.gasPrice);
+      const maxFeePerGas = BigNumber.from(transaction.maxFeePerGas || 0);
+      if (!gasPrice.eq(maxFeePerGas)) {
+        logger53.throwArgumentError(
+          "mismatch EIP-1559 gasPrice != maxFeePerGas",
+          "tx",
+          {
+            gasPrice,
+            maxFeePerGas,
+          }
+        );
+      }
+    }
+    const fields = [
+      formatNumber(transaction.chainId || 0, "chainId"),
+      formatNumber(transaction.nonce || 0, "nonce"),
+      formatNumber(
+        transaction.maxPriorityFeePerGas || 0,
+        "maxPriorityFeePerGas"
+      ),
+      formatNumber(transaction.maxFeePerGas || 0, "maxFeePerGas"),
+      formatNumber(transaction.gasLimit || 0, "gasLimit"),
+      transaction.to != null ? getAddress(transaction.to) : "0x",
+      formatNumber(transaction.value || 0, "value"),
+      transaction.data || "0x",
+      formatAccessList(transaction.accessList || []),
+    ];
+    if (signature2) {
+      const sig = splitSignature3(signature2);
+      fields.push(formatNumber(sig.recoveryParam, "recoveryParam"));
+      fields.push(stripZeros3(sig.r));
+      fields.push(stripZeros3(sig.s));
+    }
+    return hexConcat4(["0x02", encode(fields)]);
+  }
+  function _serializeEip2930(transaction, signature2) {
+    const fields = [
+      formatNumber(transaction.chainId || 0, "chainId"),
+      formatNumber(transaction.nonce || 0, "nonce"),
+      formatNumber(transaction.gasPrice || 0, "gasPrice"),
+      formatNumber(transaction.gasLimit || 0, "gasLimit"),
+      transaction.to != null ? getAddress(transaction.to) : "0x",
+      formatNumber(transaction.value || 0, "value"),
+      transaction.data || "0x",
+      formatAccessList(transaction.accessList || []),
+    ];
+    if (signature2) {
+      const sig = splitSignature3(signature2);
+      fields.push(formatNumber(sig.recoveryParam, "recoveryParam"));
+      fields.push(stripZeros3(sig.r));
+      fields.push(stripZeros3(sig.s));
+    }
+    return hexConcat4(["0x01", encode(fields)]);
+  }
+  function _serialize(transaction, signature2) {
+    checkProperties(transaction, allowedTransactionKeys3);
+    const raw = [];
+    transactionFields.forEach(function (fieldInfo) {
+      let value = transaction[fieldInfo.name] || [];
+      const options = {};
+      if (fieldInfo.numeric) {
+        options.hexPad = "left";
+      }
+      value = arrayify10(hexlify9(value, options));
+      if (
+        fieldInfo.length &&
+        value.length !== fieldInfo.length &&
+        value.length > 0
+      ) {
+        logger53.throwArgumentError(
+          "invalid length for " + fieldInfo.name,
+          "transaction:" + fieldInfo.name,
+          value
+        );
+      }
+      if (fieldInfo.maxLength) {
+        value = stripZeros3(value);
+        if (value.length > fieldInfo.maxLength) {
+          logger53.throwArgumentError(
+            "invalid length for " + fieldInfo.name,
+            "transaction:" + fieldInfo.name,
+            value
+          );
+        }
+      }
+      raw.push(hexlify9(value));
+    });
+    let chainId = 0;
+    if (transaction.chainId != null) {
+      chainId = transaction.chainId;
+      if (typeof chainId !== "number") {
+        logger53.throwArgumentError(
+          "invalid transaction.chainId",
+          "transaction",
+          transaction
+        );
+      }
+    } else if (signature2 && !isBytesLike4(signature2) && signature2.v > 28) {
+      chainId = Math.floor((signature2.v - 35) / 2);
+    }
+    if (chainId !== 0) {
+      raw.push(hexlify9(chainId));
+      raw.push("0x");
+      raw.push("0x");
+    }
+    if (!signature2) {
+      return encode(raw);
+    }
+    const sig = splitSignature3(signature2);
+    let v2 = 27 + sig.recoveryParam;
+    if (chainId !== 0) {
+      raw.pop();
+      raw.pop();
+      raw.pop();
+      v2 += chainId * 2 + 8;
+      if (sig.v > 28 && sig.v !== v2) {
+        logger53.throwArgumentError(
+          "transaction.chainId/signature.v mismatch",
+          "signature",
+          signature2
+        );
+      }
+    } else if (sig.v !== v2) {
+      logger53.throwArgumentError(
+        "transaction.chainId/signature.v mismatch",
+        "signature",
+        signature2
+      );
+    }
+    raw.push(hexlify9(v2));
+    raw.push(stripZeros3(arrayify10(sig.r)));
+    raw.push(stripZeros3(arrayify10(sig.s)));
+    return encode(raw);
+  }
+  function serialize(transaction, signature2) {
+    if (transaction.type == null || transaction.type === 0) {
+      if (transaction.accessList != null) {
+        logger53.throwArgumentError(
+          "untyped transactions do not support accessList; include type: 1",
+          "transaction",
+          transaction
+        );
+      }
+      return _serialize(transaction, signature2);
+    }
+    switch (transaction.type) {
+      case 1:
+        return _serializeEip2930(transaction, signature2);
+      case 2:
+        return _serializeEip1559(transaction, signature2);
+      default:
+        break;
+    }
+    return logger53.throwError(
+      `unsupported transaction type: ${transaction.type}`,
+      Logger12.errors.UNSUPPORTED_OPERATION,
+      {
+        operation: "serializeTransaction",
+        transactionType: transaction.type,
+      }
+    );
+  }
+  var logger53, TransactionTypes4, transactionFields, allowedTransactionKeys3;
+  var init_lib69 = __esm({
+    "node_modules/@ethersproject/wallet/node_modules/@ethersproject/transactions/lib.esm/index.js"() {
+      "use strict";
+      init_lib15();
+      init_lib3();
+      init_lib41();
+      init_lib11();
+      init_lib60();
+      init_lib14();
+      init_lib37();
+      init_lib40();
+      init_version65();
+      logger53 = new Logger12(version65);
+      (function (TransactionTypes7) {
+        TransactionTypes7[(TransactionTypes7["legacy"] = 0)] = "legacy";
+        TransactionTypes7[(TransactionTypes7["eip2930"] = 1)] = "eip2930";
+        TransactionTypes7[(TransactionTypes7["eip1559"] = 2)] = "eip1559";
+      })(TransactionTypes4 || (TransactionTypes4 = {}));
+      transactionFields = [
+        { name: "nonce", maxLength: 32, numeric: true },
+        { name: "gasPrice", maxLength: 32, numeric: true },
+        { name: "gasLimit", maxLength: 32, numeric: true },
+        { name: "to", length: 20 },
+        { name: "value", maxLength: 32, numeric: true },
+        { name: "data" },
+      ];
+      allowedTransactionKeys3 = {
+        chainId: true,
+        data: true,
+        gasLimit: true,
+        gasPrice: true,
+        nonce: true,
+        to: true,
+        type: true,
+        value: true,
+      };
+    },
+  });
+
   // node_modules/@ethersproject/wallet/lib.esm/_version.js
-  var version20;
-  var init_version20 = __esm({
+  var version66;
+  var init_version66 = __esm({
     "node_modules/@ethersproject/wallet/lib.esm/_version.js"() {
-      version20 = "wallet/5.5.0";
+      version66 = "wallet/5.5.0";
     },
   });
 
@@ -51761,7 +60980,7 @@
   function isAccount(value) {
     return (
       value != null &&
-      isHexString2(value.privateKey, 32) &&
+      isHexString11(value.privateKey, 32) &&
       value.address != null
     );
   }
@@ -51778,25 +60997,25 @@
       signature2
     );
   }
-  var __awaiter8, logger26, Wallet;
-  var init_lib24 = __esm({
+  var __awaiter11, logger54, Wallet;
+  var init_lib70 = __esm({
     "node_modules/@ethersproject/wallet/lib.esm/index.js"() {
       "use strict";
-      init_lib7();
-      init_lib12();
-      init_lib13();
-      init_lib2();
-      init_lib10();
-      init_lib21();
-      init_lib5();
-      init_lib4();
-      init_lib22();
-      init_lib14();
-      init_lib23();
       init_lib15();
-      init_lib();
-      init_version20();
-      __awaiter8 = function (thisArg, _arguments, P2, generator) {
+      init_lib27();
+      init_lib30();
+      init_lib41();
+      init_lib23();
+      init_lib59();
+      init_lib11();
+      init_lib60();
+      init_lib63();
+      init_lib37();
+      init_lib68();
+      init_lib69();
+      init_lib40();
+      init_version66();
+      __awaiter11 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -51827,17 +61046,17 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger26 = new Logger(version20);
+      logger54 = new Logger12(version66);
       Wallet = class extends Signer {
         constructor(privateKey, provider) {
-          logger26.checkNew(new.target, Wallet);
+          logger54.checkNew(new.target, Wallet);
           super();
           if (isAccount(privateKey)) {
             const signingKey = new SigningKey(privateKey.privateKey);
-            defineReadOnly(this, "_signingKey", () => signingKey);
-            defineReadOnly(this, "address", computeAddress(this.publicKey));
+            defineReadOnly10(this, "_signingKey", () => signingKey);
+            defineReadOnly10(this, "address", computeAddress3(this.publicKey));
             if (this.address !== getAddress(privateKey.address)) {
-              logger26.throwArgumentError(
+              logger54.throwArgumentError(
                 "privateKey/address mismatch",
                 "privateKey",
                 "[REDACTED]"
@@ -51845,7 +61064,7 @@
             }
             if (hasMnemonic2(privateKey)) {
               const srcMnemonic = privateKey.mnemonic;
-              defineReadOnly(this, "_mnemonic", () => ({
+              defineReadOnly10(this, "_mnemonic", () => ({
                 phrase: srcMnemonic.phrase,
                 path: srcMnemonic.path || defaultPath,
                 locale: srcMnemonic.locale || "en",
@@ -51856,26 +61075,26 @@
                 null,
                 mnemonic.locale
               ).derivePath(mnemonic.path);
-              if (computeAddress(node.privateKey) !== this.address) {
-                logger26.throwArgumentError(
+              if (computeAddress3(node.privateKey) !== this.address) {
+                logger54.throwArgumentError(
                   "mnemonic/address mismatch",
                   "privateKey",
                   "[REDACTED]"
                 );
               }
             } else {
-              defineReadOnly(this, "_mnemonic", () => null);
+              defineReadOnly10(this, "_mnemonic", () => null);
             }
           } else {
             if (SigningKey.isSigningKey(privateKey)) {
               if (privateKey.curve !== "secp256k1") {
-                logger26.throwArgumentError(
+                logger54.throwArgumentError(
                   "unsupported curve; must be secp256k1",
                   "privateKey",
                   "[REDACTED]"
                 );
               }
-              defineReadOnly(this, "_signingKey", () => privateKey);
+              defineReadOnly10(this, "_signingKey", () => privateKey);
             } else {
               if (typeof privateKey === "string") {
                 if (
@@ -51886,19 +61105,19 @@
                 }
               }
               const signingKey = new SigningKey(privateKey);
-              defineReadOnly(this, "_signingKey", () => signingKey);
+              defineReadOnly10(this, "_signingKey", () => signingKey);
             }
-            defineReadOnly(this, "_mnemonic", () => null);
-            defineReadOnly(this, "address", computeAddress(this.publicKey));
+            defineReadOnly10(this, "_mnemonic", () => null);
+            defineReadOnly10(this, "address", computeAddress3(this.publicKey));
           }
           if (provider && !Provider.isProvider(provider)) {
-            logger26.throwArgumentError(
+            logger54.throwArgumentError(
               "invalid provider",
               "provider",
               provider
             );
           }
-          defineReadOnly(this, "provider", provider || null);
+          defineReadOnly10(this, "provider", provider || null);
         }
         get mnemonic() {
           return this._mnemonic();
@@ -51916,10 +61135,10 @@
           return new Wallet(this, provider);
         }
         signTransaction(transaction) {
-          return resolveProperties(transaction).then((tx) => {
+          return resolveProperties4(transaction).then((tx) => {
             if (tx.from != null) {
               if (getAddress(tx.from) !== this.address) {
-                logger26.throwArgumentError(
+                logger54.throwArgumentError(
                   "transaction from address mismatch",
                   "transaction.from",
                   transaction.from
@@ -51934,23 +61153,23 @@
           });
         }
         signMessage(message) {
-          return __awaiter8(this, void 0, void 0, function* () {
+          return __awaiter11(this, void 0, void 0, function* () {
             return joinSignature(
               this._signingKey().signDigest(hashMessage(message))
             );
           });
         }
         _signTypedData(domain, types, value) {
-          return __awaiter8(this, void 0, void 0, function* () {
+          return __awaiter11(this, void 0, void 0, function* () {
             const populated = yield TypedDataEncoder.resolveNames(
               domain,
               types,
               value,
               (name2) => {
                 if (this.provider == null) {
-                  logger26.throwError(
+                  logger54.throwError(
                     "cannot resolve ENS names without a provider",
-                    Logger.errors.UNSUPPORTED_OPERATION,
+                    Logger12.errors.UNSUPPORTED_OPERATION,
                     {
                       operation: "resolveName",
                       value: name2,
@@ -51986,9 +61205,9 @@
             options = {};
           }
           if (options.extraEntropy) {
-            entropy = arrayify(
-              hexDataSlice(
-                keccak256(concat([entropy, options.extraEntropy])),
+            entropy = arrayify10(
+              hexDataSlice4(
+                keccak256(concat6([entropy, options.extraEntropy])),
                 0,
                 16
               )
@@ -52019,15 +61238,335 @@
     },
   });
 
-  // node_modules/@ethersproject/networks/lib.esm/_version.js
-  var version21;
-  var init_version21 = __esm({
-    "node_modules/@ethersproject/networks/lib.esm/_version.js"() {
-      version21 = "networks/5.5.2";
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version67;
+  var init_version67 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version67 = "logger/5.5.0";
     },
   });
 
-  // node_modules/@ethersproject/networks/lib.esm/index.js
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize20() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors20,
+    _censorErrors20,
+    LogLevels20,
+    _logLevel20,
+    _globalLogger20,
+    _normalizeError20,
+    LogLevel20,
+    ErrorCode20,
+    HEX20,
+    Logger20;
+  var init_lib71 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version67();
+      _permanentCensorErrors20 = false;
+      _censorErrors20 = false;
+      LogLevels20 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel20 = LogLevels20["default"];
+      _globalLogger20 = null;
+      _normalizeError20 = _checkNormalize20();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel20 || (LogLevel20 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode20 || (ErrorCode20 = {}));
+      HEX20 = "0123456789abcdef";
+      Logger20 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels20[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel20 > LogLevels20[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger20.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger20.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger20.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors20) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger20.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX20[value[i] >> 4];
+                  hex += HEX20[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger20.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError20) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger20.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError20,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger20.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger20.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger20.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger20.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger20.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger20.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger20.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger20) {
+            _globalLogger20 = new Logger20(version67);
+          }
+          return _globalLogger20;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger20.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors20) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger20.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors20 = !!censorship;
+          _permanentCensorErrors20 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels20[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger20.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel20 = level;
+        }
+        static from(version89) {
+          return new Logger20(version89);
+        }
+      };
+      Logger20.errors = ErrorCode20;
+      Logger20.levels = LogLevel20;
+    },
+  });
+
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/networks/lib.esm/_version.js
+  var version68;
+  var init_version68 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/networks/lib.esm/_version.js"() {
+      version68 = "networks/5.5.2";
+    },
+  });
+
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/networks/lib.esm/index.js
   function isRenetworkable(value) {
     return value && typeof value.renetwork === "function";
   }
@@ -52139,7 +61678,7 @@
     const standard = networks[network.name];
     if (!standard) {
       if (typeof network.chainId !== "number") {
-        logger27.throwArgumentError(
+        logger55.throwArgumentError(
           "invalid network chainId",
           "network",
           network
@@ -52148,7 +61687,7 @@
       return network;
     }
     if (network.chainId !== 0 && network.chainId !== standard.chainId) {
-      logger27.throwArgumentError(
+      logger55.throwArgumentError(
         "network chainId mismatch",
         "network",
         network
@@ -52169,13 +61708,13 @@
       _defaultProvider: defaultProvider,
     };
   }
-  var logger27, homestead, ropsten, classicMordor, networks;
-  var init_lib25 = __esm({
-    "node_modules/@ethersproject/networks/lib.esm/index.js"() {
+  var logger55, homestead, ropsten, classicMordor, networks;
+  var init_lib72 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/networks/lib.esm/index.js"() {
       "use strict";
-      init_lib();
-      init_version21();
-      logger27 = new Logger(version21);
+      init_lib71();
+      init_version68();
+      logger55 = new Logger20(version68);
       homestead = {
         chainId: 1,
         ensAddress: "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e",
@@ -52254,6 +61793,1032 @@
     },
   });
 
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version69;
+  var init_version69 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version69 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable17(value) {
+    return !!value.toHexString;
+  }
+  function addSlice17(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice17(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isBytesLike7(value) {
+    return (isHexString18(value) && !(value.length % 2)) || isBytes17(value);
+  }
+  function isInteger17(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes17(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger17(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger17(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify17(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger56.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice17(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable17(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString18(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger56.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice17(new Uint8Array(result));
+    }
+    if (isBytes17(value)) {
+      return addSlice17(new Uint8Array(value));
+    }
+    return logger56.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat9(items) {
+    const objects = items.map((item) => arrayify17(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice17(result);
+  }
+  function stripZeros6(value) {
+    let result = arrayify17(value);
+    if (result.length === 0) {
+      return result;
+    }
+    let start = 0;
+    while (start < result.length && result[start] === 0) {
+      start++;
+    }
+    if (start) {
+      result = result.slice(start);
+    }
+    return result;
+  }
+  function zeroPad3(value, length) {
+    value = arrayify17(value);
+    if (value.length > length) {
+      logger56.throwArgumentError("value out of range", "value", arguments[0]);
+    }
+    const result = new Uint8Array(length);
+    result.set(value, length - value.length);
+    return addSlice17(result);
+  }
+  function isHexString18(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify13(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger56.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters13[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable17(value)) {
+      return value.toHexString();
+    }
+    if (isHexString18(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger56.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes17(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters13[(v2 & 240) >> 4] + HexCharacters13[v2 & 15];
+      }
+      return result;
+    }
+    return logger56.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexDataLength6(data) {
+    if (typeof data !== "string") {
+      data = hexlify13(data);
+    } else if (!isHexString18(data) || data.length % 2) {
+      return null;
+    }
+    return (data.length - 2) / 2;
+  }
+  function hexDataSlice7(data, offset, endOffset) {
+    if (typeof data !== "string") {
+      data = hexlify13(data);
+    } else if (!isHexString18(data) || data.length % 2) {
+      logger56.throwArgumentError("invalid hexData", "value", data);
+    }
+    offset = 2 + 2 * offset;
+    if (endOffset != null) {
+      return "0x" + data.substring(offset, 2 + 2 * endOffset);
+    }
+    return "0x" + data.substring(offset);
+  }
+  function hexConcat7(items) {
+    let result = "0x";
+    items.forEach((item) => {
+      result += hexlify13(item).substring(2);
+    });
+    return result;
+  }
+  function hexValue(value) {
+    const trimmed = hexStripZeros(hexlify13(value, { hexPad: "left" }));
+    if (trimmed === "0x") {
+      return "0x0";
+    }
+    return trimmed;
+  }
+  function hexStripZeros(value) {
+    if (typeof value !== "string") {
+      value = hexlify13(value);
+    }
+    if (!isHexString18(value)) {
+      logger56.throwArgumentError("invalid hex string", "value", value);
+    }
+    value = value.substring(2);
+    let offset = 0;
+    while (offset < value.length && value[offset] === "0") {
+      offset++;
+    }
+    return "0x" + value.substring(offset);
+  }
+  function hexZeroPad9(value, length) {
+    if (typeof value !== "string") {
+      value = hexlify13(value);
+    } else if (!isHexString18(value)) {
+      logger56.throwArgumentError("invalid hex string", "value", value);
+    }
+    if (value.length > 2 * length + 2) {
+      logger56.throwArgumentError("value out of range", "value", arguments[1]);
+    }
+    while (value.length < 2 * length + 2) {
+      value = "0x0" + value.substring(2);
+    }
+    return value;
+  }
+  function splitSignature6(signature2) {
+    const result = {
+      r: "0x",
+      s: "0x",
+      _vs: "0x",
+      recoveryParam: 0,
+      v: 0,
+    };
+    if (isBytesLike7(signature2)) {
+      const bytes = arrayify17(signature2);
+      if (bytes.length !== 65) {
+        logger56.throwArgumentError(
+          "invalid signature string; must be 65 bytes",
+          "signature",
+          signature2
+        );
+      }
+      result.r = hexlify13(bytes.slice(0, 32));
+      result.s = hexlify13(bytes.slice(32, 64));
+      result.v = bytes[64];
+      if (result.v < 27) {
+        if (result.v === 0 || result.v === 1) {
+          result.v += 27;
+        } else {
+          logger56.throwArgumentError(
+            "signature invalid v byte",
+            "signature",
+            signature2
+          );
+        }
+      }
+      result.recoveryParam = 1 - (result.v % 2);
+      if (result.recoveryParam) {
+        bytes[32] |= 128;
+      }
+      result._vs = hexlify13(bytes.slice(32, 64));
+    } else {
+      result.r = signature2.r;
+      result.s = signature2.s;
+      result.v = signature2.v;
+      result.recoveryParam = signature2.recoveryParam;
+      result._vs = signature2._vs;
+      if (result._vs != null) {
+        const vs2 = zeroPad3(arrayify17(result._vs), 32);
+        result._vs = hexlify13(vs2);
+        const recoveryParam = vs2[0] >= 128 ? 1 : 0;
+        if (result.recoveryParam == null) {
+          result.recoveryParam = recoveryParam;
+        } else if (result.recoveryParam !== recoveryParam) {
+          logger56.throwArgumentError(
+            "signature recoveryParam mismatch _vs",
+            "signature",
+            signature2
+          );
+        }
+        vs2[0] &= 127;
+        const s2 = hexlify13(vs2);
+        if (result.s == null) {
+          result.s = s2;
+        } else if (result.s !== s2) {
+          logger56.throwArgumentError(
+            "signature v mismatch _vs",
+            "signature",
+            signature2
+          );
+        }
+      }
+      if (result.recoveryParam == null) {
+        if (result.v == null) {
+          logger56.throwArgumentError(
+            "signature missing v and recoveryParam",
+            "signature",
+            signature2
+          );
+        } else if (result.v === 0 || result.v === 1) {
+          result.recoveryParam = result.v;
+        } else {
+          result.recoveryParam = 1 - (result.v % 2);
+        }
+      } else {
+        if (result.v == null) {
+          result.v = 27 + result.recoveryParam;
+        } else {
+          const recId =
+            result.v === 0 || result.v === 1 ? result.v : 1 - (result.v % 2);
+          if (result.recoveryParam !== recId) {
+            logger56.throwArgumentError(
+              "signature recoveryParam mismatch v",
+              "signature",
+              signature2
+            );
+          }
+        }
+      }
+      if (result.r == null || !isHexString18(result.r)) {
+        logger56.throwArgumentError(
+          "signature missing or invalid r",
+          "signature",
+          signature2
+        );
+      } else {
+        result.r = hexZeroPad9(result.r, 32);
+      }
+      if (result.s == null || !isHexString18(result.s)) {
+        logger56.throwArgumentError(
+          "signature missing or invalid s",
+          "signature",
+          signature2
+        );
+      } else {
+        result.s = hexZeroPad9(result.s, 32);
+      }
+      const vs = arrayify17(result.s);
+      if (vs[0] >= 128) {
+        logger56.throwArgumentError(
+          "signature s out of range",
+          "signature",
+          signature2
+        );
+      }
+      if (result.recoveryParam) {
+        vs[0] |= 128;
+      }
+      const _vs = hexlify13(vs);
+      if (result._vs) {
+        if (!isHexString18(result._vs)) {
+          logger56.throwArgumentError(
+            "signature invalid _vs",
+            "signature",
+            signature2
+          );
+        }
+        result._vs = hexZeroPad9(result._vs, 32);
+      }
+      if (result._vs == null) {
+        result._vs = _vs;
+      } else if (result._vs !== _vs) {
+        logger56.throwArgumentError(
+          "signature _vs mismatch v and s",
+          "signature",
+          signature2
+        );
+      }
+    }
+    return result;
+  }
+  var logger56, HexCharacters13;
+  var init_lib73 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib71();
+      init_version69();
+      logger56 = new Logger20(version69);
+      HexCharacters13 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version70;
+  var init_version70 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version70 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly12(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  function getStatic3(ctor, key2) {
+    for (let i = 0; i < 32; i++) {
+      if (ctor[key2]) {
+        return ctor[key2];
+      }
+      if (!ctor.prototype || typeof ctor.prototype !== "object") {
+        break;
+      }
+      ctor = Object.getPrototypeOf(ctor.prototype).constructor;
+    }
+    return null;
+  }
+  function resolveProperties5(object) {
+    return __awaiter12(this, void 0, void 0, function* () {
+      const promises = Object.keys(object).map((key2) => {
+        const value = object[key2];
+        return Promise.resolve(value).then((v2) => ({ key: key2, value: v2 }));
+      });
+      const results = yield Promise.all(promises);
+      return results.reduce((accum, result) => {
+        accum[result.key] = result.value;
+        return accum;
+      }, {});
+    });
+  }
+  function checkProperties2(object, properties) {
+    if (!object || typeof object !== "object") {
+      logger57.throwArgumentError("invalid object", "object", object);
+    }
+    Object.keys(object).forEach((key2) => {
+      if (!properties[key2]) {
+        logger57.throwArgumentError(
+          "invalid object key - " + key2,
+          "transaction:" + key2,
+          object
+        );
+      }
+    });
+  }
+  function shallowCopy4(object) {
+    const result = {};
+    for (const key2 in object) {
+      result[key2] = object[key2];
+    }
+    return result;
+  }
+  function _isFrozen6(object) {
+    if (object === void 0 || object === null || opaque6[typeof object]) {
+      return true;
+    }
+    if (Array.isArray(object) || typeof object === "object") {
+      if (!Object.isFrozen(object)) {
+        return false;
+      }
+      const keys = Object.keys(object);
+      for (let i = 0; i < keys.length; i++) {
+        let value = null;
+        try {
+          value = object[keys[i]];
+        } catch (error) {
+          continue;
+        }
+        if (!_isFrozen6(value)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return logger57.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function _deepCopy6(object) {
+    if (_isFrozen6(object)) {
+      return object;
+    }
+    if (Array.isArray(object)) {
+      return Object.freeze(object.map((item) => deepCopy6(item)));
+    }
+    if (typeof object === "object") {
+      const result = {};
+      for (const key2 in object) {
+        const value = object[key2];
+        if (value === void 0) {
+          continue;
+        }
+        defineReadOnly12(result, key2, deepCopy6(value));
+      }
+      return result;
+    }
+    return logger57.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function deepCopy6(object) {
+    return _deepCopy6(object);
+  }
+  var __awaiter12, logger57, opaque6;
+  var init_lib74 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib71();
+      init_version70();
+      __awaiter12 = function (thisArg, _arguments, P2, generator) {
+        function adopt(value) {
+          return value instanceof P2
+            ? value
+            : new P2(function (resolve2) {
+                resolve2(value);
+              });
+        }
+        return new (P2 || (P2 = Promise))(function (resolve2, reject) {
+          function fulfilled(value) {
+            try {
+              step(generator.next(value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function rejected(value) {
+            try {
+              step(generator["throw"](value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function step(result) {
+            result.done
+              ? resolve2(result.value)
+              : adopt(result.value).then(fulfilled, rejected);
+          }
+          step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+      };
+      logger57 = new Logger20(version70);
+      opaque6 = {
+        bigint: true,
+        boolean: true,
+        function: true,
+        number: true,
+        string: true,
+      };
+    },
+  });
+
+  // node_modules/@ethersproject/base64/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version71;
+  var init_version71 = __esm({
+    "node_modules/@ethersproject/base64/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version71 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/base64/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize21() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors21,
+    _censorErrors21,
+    LogLevels21,
+    _logLevel21,
+    _globalLogger21,
+    _normalizeError21,
+    LogLevel21,
+    ErrorCode21,
+    HEX21,
+    Logger21;
+  var init_lib75 = __esm({
+    "node_modules/@ethersproject/base64/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version71();
+      _permanentCensorErrors21 = false;
+      _censorErrors21 = false;
+      LogLevels21 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel21 = LogLevels21["default"];
+      _globalLogger21 = null;
+      _normalizeError21 = _checkNormalize21();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel21 || (LogLevel21 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode21 || (ErrorCode21 = {}));
+      HEX21 = "0123456789abcdef";
+      Logger21 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels21[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel21 > LogLevels21[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger21.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger21.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger21.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors21) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger21.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX21[value[i] >> 4];
+                  hex += HEX21[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger21.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError21) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger21.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError21,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger21.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger21.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger21.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger21.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger21.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger21.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger21.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger21) {
+            _globalLogger21 = new Logger21(version71);
+          }
+          return _globalLogger21;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger21.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors21) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger21.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors21 = !!censorship;
+          _permanentCensorErrors21 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels21[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger21.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel21 = level;
+        }
+        static from(version89) {
+          return new Logger21(version89);
+        }
+      };
+      Logger21.errors = ErrorCode21;
+      Logger21.levels = LogLevel21;
+    },
+  });
+
+  // node_modules/@ethersproject/base64/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version72;
+  var init_version72 = __esm({
+    "node_modules/@ethersproject/base64/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version72 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/base64/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable18(value) {
+    return !!value.toHexString;
+  }
+  function addSlice18(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice18(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger18(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes18(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger18(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger18(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify18(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger58.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice18(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable18(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString19(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger58.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice18(new Uint8Array(result));
+    }
+    if (isBytes18(value)) {
+      return addSlice18(new Uint8Array(value));
+    }
+    return logger58.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function isHexString19(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  var logger58;
+  var init_lib76 = __esm({
+    "node_modules/@ethersproject/base64/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib75();
+      init_version72();
+      logger58 = new Logger21(version72);
+    },
+  });
+
   // node_modules/@ethersproject/base64/lib.esm/base64.js
   function decode2(textData) {
     textData = atob(textData);
@@ -52261,10 +62826,10 @@
     for (let i = 0; i < textData.length; i++) {
       data.push(textData.charCodeAt(i));
     }
-    return arrayify(data);
+    return arrayify18(data);
   }
   function encode3(data) {
-    data = arrayify(data);
+    data = arrayify18(data);
     let textData = "";
     for (let i = 0; i < data.length; i++) {
       textData += String.fromCharCode(data[i]);
@@ -52274,7 +62839,7 @@
   var init_base64 = __esm({
     "node_modules/@ethersproject/base64/lib.esm/base64.js"() {
       "use strict";
-      init_lib2();
+      init_lib76();
     },
   });
 
@@ -52284,24 +62849,551 @@
     decode: () => decode2,
     encode: () => encode3,
   });
-  var init_lib26 = __esm({
+  var init_lib77 = __esm({
     "node_modules/@ethersproject/base64/lib.esm/index.js"() {
       "use strict";
       init_base64();
     },
   });
 
+  // node_modules/@ethersproject/web/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version73;
+  var init_version73 = __esm({
+    "node_modules/@ethersproject/web/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version73 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/web/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize22() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors22,
+    _censorErrors22,
+    LogLevels22,
+    _logLevel22,
+    _globalLogger22,
+    _normalizeError22,
+    LogLevel22,
+    ErrorCode22,
+    HEX22,
+    Logger22;
+  var init_lib78 = __esm({
+    "node_modules/@ethersproject/web/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version73();
+      _permanentCensorErrors22 = false;
+      _censorErrors22 = false;
+      LogLevels22 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel22 = LogLevels22["default"];
+      _globalLogger22 = null;
+      _normalizeError22 = _checkNormalize22();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel22 || (LogLevel22 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode22 || (ErrorCode22 = {}));
+      HEX22 = "0123456789abcdef";
+      Logger22 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels22[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel22 > LogLevels22[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger22.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger22.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger22.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors22) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger22.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX22[value[i] >> 4];
+                  hex += HEX22[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger22.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError22) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger22.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError22,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger22.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger22.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger22.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger22.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger22.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger22.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger22.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger22) {
+            _globalLogger22 = new Logger22(version73);
+          }
+          return _globalLogger22;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger22.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors22) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger22.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors22 = !!censorship;
+          _permanentCensorErrors22 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels22[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger22.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel22 = level;
+        }
+        static from(version89) {
+          return new Logger22(version89);
+        }
+      };
+      Logger22.errors = ErrorCode22;
+      Logger22.levels = LogLevel22;
+    },
+  });
+
+  // node_modules/@ethersproject/web/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version74;
+  var init_version74 = __esm({
+    "node_modules/@ethersproject/web/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version74 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/web/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable19(value) {
+    return !!value.toHexString;
+  }
+  function addSlice19(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice19(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isBytesLike8(value) {
+    return (isHexString20(value) && !(value.length % 2)) || isBytes19(value);
+  }
+  function isInteger19(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes19(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger19(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger19(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify19(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger59.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice19(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable19(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString20(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger59.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice19(new Uint8Array(result));
+    }
+    if (isBytes19(value)) {
+      return addSlice19(new Uint8Array(value));
+    }
+    return logger59.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function isHexString20(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify14(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger59.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters14[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable19(value)) {
+      return value.toHexString();
+    }
+    if (isHexString20(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger59.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes19(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters14[(v2 & 240) >> 4] + HexCharacters14[v2 & 15];
+      }
+      return result;
+    }
+    return logger59.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  var logger59, HexCharacters14;
+  var init_lib79 = __esm({
+    "node_modules/@ethersproject/web/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib78();
+      init_version74();
+      logger59 = new Logger22(version74);
+      HexCharacters14 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/web/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version75;
+  var init_version75 = __esm({
+    "node_modules/@ethersproject/web/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version75 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/web/node_modules/@ethersproject/properties/lib.esm/index.js
+  function shallowCopy5(object) {
+    const result = {};
+    for (const key2 in object) {
+      result[key2] = object[key2];
+    }
+    return result;
+  }
+  var logger60;
+  var init_lib80 = __esm({
+    "node_modules/@ethersproject/web/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib78();
+      init_version75();
+      logger60 = new Logger22(version75);
+    },
+  });
+
   // node_modules/@ethersproject/web/lib.esm/_version.js
-  var version22;
-  var init_version22 = __esm({
+  var version76;
+  var init_version76 = __esm({
     "node_modules/@ethersproject/web/lib.esm/_version.js"() {
-      version22 = "web/5.5.1";
+      version76 = "web/5.5.1";
     },
   });
 
   // node_modules/@ethersproject/web/lib.esm/geturl.js
   function getUrl(href, options) {
-    return __awaiter9(this, void 0, void 0, function* () {
+    return __awaiter13(this, void 0, void 0, function* () {
       if (options == null) {
         options = {};
       }
@@ -52333,16 +63425,16 @@
         headers,
         statusCode: response.status,
         statusMessage: response.statusText,
-        body: arrayify(new Uint8Array(body)),
+        body: arrayify19(new Uint8Array(body)),
       };
     });
   }
-  var __awaiter9;
+  var __awaiter13;
   var init_geturl = __esm({
     "node_modules/@ethersproject/web/lib.esm/geturl.js"() {
       "use strict";
-      init_lib2();
-      __awaiter9 = function (thisArg, _arguments, P2, generator) {
+      init_lib79();
+      __awaiter13 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -52389,7 +63481,7 @@
     if (typeof value === "string") {
       return value;
     }
-    if (isBytesLike(value)) {
+    if (isBytesLike8(value)) {
       if (
         type &&
         (type.split("/")[0] === "text" ||
@@ -52399,7 +63491,7 @@
           return toUtf8String(value);
         } catch (error) {}
       }
-      return hexlify(value);
+      return hexlify14(value);
     }
     return value;
   }
@@ -52408,7 +63500,7 @@
       typeof connection === "object" && connection.throttleLimit != null
         ? connection.throttleLimit
         : 12;
-    logger28.assertArgument(
+    logger61.assertArgument(
       attemptLimit > 0 && attemptLimit % 1 === 0,
       "invalid connection throttle limit",
       "connection.throttleLimit",
@@ -52421,7 +63513,7 @@
       typeof connection.throttleSlotInterval === "number"
         ? connection.throttleSlotInterval
         : 100;
-    logger28.assertArgument(
+    logger61.assertArgument(
       throttleSlotInterval > 0 && throttleSlotInterval % 1 === 0,
       "invalid connection throttle slot interval",
       "connection.throttleSlotInterval",
@@ -52438,7 +63530,7 @@
       url = connection;
     } else if (typeof connection === "object") {
       if (connection == null || connection.url == null) {
-        logger28.throwArgumentError(
+        logger61.throwArgumentError(
           "missing URL",
           "connection.url",
           connection
@@ -52469,9 +63561,9 @@
           url.substring(0, 6) !== "https:" &&
           connection.allowInsecureAuthentication !== true
         ) {
-          logger28.throwError(
+          logger61.throwError(
             "basic authentication requires a secure https url",
-            Logger.errors.INVALID_ARGUMENT,
+            Logger22.errors.INVALID_ARGUMENT,
             {
               argument: "url",
               url,
@@ -52506,9 +63598,9 @@
         }
         return Promise.resolve(result);
       } catch (error) {
-        logger28.throwError(
+        logger61.throwError(
           "processing response error",
-          Logger.errors.SERVER_ERROR,
+          Logger22.errors.SERVER_ERROR,
           {
             body: bodyify(dataMatch[1], dataMatch[2]),
             error,
@@ -52551,7 +63643,7 @@
             }
             timer2 = null;
             reject(
-              logger28.makeError("timeout", Logger.errors.TIMEOUT, {
+              logger61.makeError("timeout", Logger22.errors.TIMEOUT, {
                 requestBody: bodyify(options.body, flatHeaders["content-type"]),
                 requestMethod: options.method,
                 timeout,
@@ -52571,7 +63663,7 @@
       return { promise, cancel };
     })();
     const runningFetch = (function () {
-      return __awaiter10(this, void 0, void 0, function* () {
+      return __awaiter14(this, void 0, void 0, function* () {
         for (let attempt = 0; attempt < attemptLimit; attempt++) {
           let response = null;
           try {
@@ -52610,9 +63702,9 @@
             response = error.response;
             if (response == null) {
               runningTimeout.cancel();
-              logger28.throwError(
+              logger61.throwError(
                 "missing response",
-                Logger.errors.SERVER_ERROR,
+                Logger22.errors.SERVER_ERROR,
                 {
                   requestBody: bodyify(
                     options.body,
@@ -52630,7 +63722,7 @@
             body2 = null;
           } else if (response.statusCode < 200 || response.statusCode >= 300) {
             runningTimeout.cancel();
-            logger28.throwError("bad response", Logger.errors.SERVER_ERROR, {
+            logger61.throwError("bad response", Logger22.errors.SERVER_ERROR, {
               status: response.statusCode,
               headers: response.headers,
               body: bodyify(
@@ -52662,9 +63754,9 @@
                 }
               }
               runningTimeout.cancel();
-              logger28.throwError(
+              logger61.throwError(
                 "processing response error",
-                Logger.errors.SERVER_ERROR,
+                Logger22.errors.SERVER_ERROR,
                 {
                   body: bodyify(
                     body2,
@@ -52684,9 +63776,9 @@
           runningTimeout.cancel();
           return body2;
         }
-        return logger28.throwError(
+        return logger61.throwError(
           "failed response",
-          Logger.errors.SERVER_ERROR,
+          Logger22.errors.SERVER_ERROR,
           {
             requestBody: bodyify(options.body, flatHeaders["content-type"]),
             requestMethod: options.method,
@@ -52704,7 +63796,7 @@
         try {
           result = JSON.parse(toUtf8String(value));
         } catch (error) {
-          logger28.throwError("invalid JSON", Logger.errors.SERVER_ERROR, {
+          logger61.throwError("invalid JSON", Logger22.errors.SERVER_ERROR, {
             body: value,
             error,
           });
@@ -52721,14 +63813,14 @@
       const updated =
         typeof connection === "string"
           ? { url: connection }
-          : shallowCopy(connection);
+          : shallowCopy5(connection);
       if (updated.headers) {
         const hasContentType =
           Object.keys(updated.headers).filter(
             (k2) => k2.toLowerCase() === "content-type"
           ).length !== 0;
         if (!hasContentType) {
-          updated.headers = shallowCopy(updated.headers);
+          updated.headers = shallowCopy5(updated.headers);
           updated.headers["content-type"] = "application/json";
         }
       } else {
@@ -52742,7 +63834,7 @@
     if (!options) {
       options = {};
     }
-    options = shallowCopy(options);
+    options = shallowCopy5(options);
     if (options.floor == null) {
       options.floor = 0;
     }
@@ -52816,18 +63908,18 @@
       check();
     });
   }
-  var __awaiter10, logger28;
-  var init_lib27 = __esm({
+  var __awaiter14, logger61;
+  var init_lib81 = __esm({
     "node_modules/@ethersproject/web/lib.esm/index.js"() {
       "use strict";
-      init_lib26();
-      init_lib2();
-      init_lib4();
-      init_lib9();
-      init_lib();
-      init_version22();
+      init_lib77();
+      init_lib79();
+      init_lib80();
+      init_lib19();
+      init_lib78();
+      init_version76();
       init_geturl();
-      __awaiter10 = function (thisArg, _arguments, P2, generator) {
+      __awaiter14 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -52858,7 +63950,7 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger28 = new Logger(version22);
+      logger61 = new Logger22(version76);
     },
   });
 
@@ -53017,10 +64109,340 @@
   });
 
   // node_modules/@ethersproject/providers/lib.esm/_version.js
-  var version23;
-  var init_version23 = __esm({
+  var version77;
+  var init_version77 = __esm({
     "node_modules/@ethersproject/providers/lib.esm/_version.js"() {
-      version23 = "providers/5.5.3";
+      version77 = "providers/5.5.3";
+    },
+  });
+
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/transactions/lib.esm/_version.js
+  var version78;
+  var init_version78 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/transactions/lib.esm/_version.js"() {
+      version78 = "transactions/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/providers/node_modules/@ethersproject/transactions/lib.esm/index.js
+  function handleAddress(value) {
+    if (value === "0x") {
+      return null;
+    }
+    return getAddress(value);
+  }
+  function handleNumber(value) {
+    if (value === "0x") {
+      return Zero2;
+    }
+    return BigNumber.from(value);
+  }
+  function computeAddress4(key2) {
+    const publicKey = computePublicKey(key2);
+    return getAddress(
+      hexDataSlice7(keccak256(hexDataSlice7(publicKey, 1)), 12)
+    );
+  }
+  function recoverAddress2(digest, signature2) {
+    return computeAddress4(recoverPublicKey(arrayify17(digest), signature2));
+  }
+  function formatNumber2(value, name2) {
+    const result = stripZeros6(BigNumber.from(value).toHexString());
+    if (result.length > 32) {
+      logger62.throwArgumentError(
+        "invalid length for " + name2,
+        "transaction:" + name2,
+        value
+      );
+    }
+    return result;
+  }
+  function accessSetify3(addr, storageKeys) {
+    return {
+      address: getAddress(addr),
+      storageKeys: (storageKeys || []).map((storageKey, index) => {
+        if (hexDataLength6(storageKey) !== 32) {
+          logger62.throwArgumentError(
+            "invalid access list storageKey",
+            `accessList[${addr}:${index}]`,
+            storageKey
+          );
+        }
+        return storageKey.toLowerCase();
+      }),
+    };
+  }
+  function accessListify3(value) {
+    if (Array.isArray(value)) {
+      return value.map((set, index) => {
+        if (Array.isArray(set)) {
+          if (set.length > 2) {
+            logger62.throwArgumentError(
+              "access list expected to be [ address, storageKeys[] ]",
+              `value[${index}]`,
+              set
+            );
+          }
+          return accessSetify3(set[0], set[1]);
+        }
+        return accessSetify3(set.address, set.storageKeys);
+      });
+    }
+    const result = Object.keys(value).map((addr) => {
+      const storageKeys = value[addr].reduce((accum, storageKey) => {
+        accum[storageKey] = true;
+        return accum;
+      }, {});
+      return accessSetify3(addr, Object.keys(storageKeys).sort());
+    });
+    result.sort((a2, b2) => a2.address.localeCompare(b2.address));
+    return result;
+  }
+  function formatAccessList2(value) {
+    return accessListify3(value).map((set) => [set.address, set.storageKeys]);
+  }
+  function _serializeEip15592(transaction, signature2) {
+    if (transaction.gasPrice != null) {
+      const gasPrice = BigNumber.from(transaction.gasPrice);
+      const maxFeePerGas = BigNumber.from(transaction.maxFeePerGas || 0);
+      if (!gasPrice.eq(maxFeePerGas)) {
+        logger62.throwArgumentError(
+          "mismatch EIP-1559 gasPrice != maxFeePerGas",
+          "tx",
+          {
+            gasPrice,
+            maxFeePerGas,
+          }
+        );
+      }
+    }
+    const fields = [
+      formatNumber2(transaction.chainId || 0, "chainId"),
+      formatNumber2(transaction.nonce || 0, "nonce"),
+      formatNumber2(
+        transaction.maxPriorityFeePerGas || 0,
+        "maxPriorityFeePerGas"
+      ),
+      formatNumber2(transaction.maxFeePerGas || 0, "maxFeePerGas"),
+      formatNumber2(transaction.gasLimit || 0, "gasLimit"),
+      transaction.to != null ? getAddress(transaction.to) : "0x",
+      formatNumber2(transaction.value || 0, "value"),
+      transaction.data || "0x",
+      formatAccessList2(transaction.accessList || []),
+    ];
+    if (signature2) {
+      const sig = splitSignature6(signature2);
+      fields.push(formatNumber2(sig.recoveryParam, "recoveryParam"));
+      fields.push(stripZeros6(sig.r));
+      fields.push(stripZeros6(sig.s));
+    }
+    return hexConcat7(["0x02", encode(fields)]);
+  }
+  function _serializeEip29302(transaction, signature2) {
+    const fields = [
+      formatNumber2(transaction.chainId || 0, "chainId"),
+      formatNumber2(transaction.nonce || 0, "nonce"),
+      formatNumber2(transaction.gasPrice || 0, "gasPrice"),
+      formatNumber2(transaction.gasLimit || 0, "gasLimit"),
+      transaction.to != null ? getAddress(transaction.to) : "0x",
+      formatNumber2(transaction.value || 0, "value"),
+      transaction.data || "0x",
+      formatAccessList2(transaction.accessList || []),
+    ];
+    if (signature2) {
+      const sig = splitSignature6(signature2);
+      fields.push(formatNumber2(sig.recoveryParam, "recoveryParam"));
+      fields.push(stripZeros6(sig.r));
+      fields.push(stripZeros6(sig.s));
+    }
+    return hexConcat7(["0x01", encode(fields)]);
+  }
+  function _parseEipSignature(tx, fields, serialize4) {
+    try {
+      const recid = handleNumber(fields[0]).toNumber();
+      if (recid !== 0 && recid !== 1) {
+        throw new Error("bad recid");
+      }
+      tx.v = recid;
+    } catch (error) {
+      logger62.throwArgumentError(
+        "invalid v for transaction type: 1",
+        "v",
+        fields[0]
+      );
+    }
+    tx.r = hexZeroPad9(fields[1], 32);
+    tx.s = hexZeroPad9(fields[2], 32);
+    try {
+      const digest = keccak256(serialize4(tx));
+      tx.from = recoverAddress2(digest, {
+        r: tx.r,
+        s: tx.s,
+        recoveryParam: tx.v,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  function _parseEip1559(payload) {
+    const transaction = decode(payload.slice(1));
+    if (transaction.length !== 9 && transaction.length !== 12) {
+      logger62.throwArgumentError(
+        "invalid component count for transaction type: 2",
+        "payload",
+        hexlify13(payload)
+      );
+    }
+    const maxPriorityFeePerGas = handleNumber(transaction[2]);
+    const maxFeePerGas = handleNumber(transaction[3]);
+    const tx = {
+      type: 2,
+      chainId: handleNumber(transaction[0]).toNumber(),
+      nonce: handleNumber(transaction[1]).toNumber(),
+      maxPriorityFeePerGas,
+      maxFeePerGas,
+      gasPrice: null,
+      gasLimit: handleNumber(transaction[4]),
+      to: handleAddress(transaction[5]),
+      value: handleNumber(transaction[6]),
+      data: transaction[7],
+      accessList: accessListify3(transaction[8]),
+    };
+    if (transaction.length === 9) {
+      return tx;
+    }
+    tx.hash = keccak256(payload);
+    _parseEipSignature(tx, transaction.slice(9), _serializeEip15592);
+    return tx;
+  }
+  function _parseEip2930(payload) {
+    const transaction = decode(payload.slice(1));
+    if (transaction.length !== 8 && transaction.length !== 11) {
+      logger62.throwArgumentError(
+        "invalid component count for transaction type: 1",
+        "payload",
+        hexlify13(payload)
+      );
+    }
+    const tx = {
+      type: 1,
+      chainId: handleNumber(transaction[0]).toNumber(),
+      nonce: handleNumber(transaction[1]).toNumber(),
+      gasPrice: handleNumber(transaction[2]),
+      gasLimit: handleNumber(transaction[3]),
+      to: handleAddress(transaction[4]),
+      value: handleNumber(transaction[5]),
+      data: transaction[6],
+      accessList: accessListify3(transaction[7]),
+    };
+    if (transaction.length === 8) {
+      return tx;
+    }
+    tx.hash = keccak256(payload);
+    _parseEipSignature(tx, transaction.slice(8), _serializeEip29302);
+    return tx;
+  }
+  function _parse(rawTransaction) {
+    const transaction = decode(rawTransaction);
+    if (transaction.length !== 9 && transaction.length !== 6) {
+      logger62.throwArgumentError(
+        "invalid raw transaction",
+        "rawTransaction",
+        rawTransaction
+      );
+    }
+    const tx = {
+      nonce: handleNumber(transaction[0]).toNumber(),
+      gasPrice: handleNumber(transaction[1]),
+      gasLimit: handleNumber(transaction[2]),
+      to: handleAddress(transaction[3]),
+      value: handleNumber(transaction[4]),
+      data: transaction[5],
+      chainId: 0,
+    };
+    if (transaction.length === 6) {
+      return tx;
+    }
+    try {
+      tx.v = BigNumber.from(transaction[6]).toNumber();
+    } catch (error) {
+      console.log(error);
+      return tx;
+    }
+    tx.r = hexZeroPad9(transaction[7], 32);
+    tx.s = hexZeroPad9(transaction[8], 32);
+    if (BigNumber.from(tx.r).isZero() && BigNumber.from(tx.s).isZero()) {
+      tx.chainId = tx.v;
+      tx.v = 0;
+    } else {
+      tx.chainId = Math.floor((tx.v - 35) / 2);
+      if (tx.chainId < 0) {
+        tx.chainId = 0;
+      }
+      let recoveryParam = tx.v - 27;
+      const raw = transaction.slice(0, 6);
+      if (tx.chainId !== 0) {
+        raw.push(hexlify13(tx.chainId));
+        raw.push("0x");
+        raw.push("0x");
+        recoveryParam -= tx.chainId * 2 + 8;
+      }
+      const digest = keccak256(encode(raw));
+      try {
+        tx.from = recoverAddress2(digest, {
+          r: hexlify13(tx.r),
+          s: hexlify13(tx.s),
+          recoveryParam,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      tx.hash = keccak256(rawTransaction);
+    }
+    tx.type = null;
+    return tx;
+  }
+  function parse4(rawTransaction) {
+    const payload = arrayify17(rawTransaction);
+    if (payload[0] > 127) {
+      return _parse(payload);
+    }
+    switch (payload[0]) {
+      case 1:
+        return _parseEip2930(payload);
+      case 2:
+        return _parseEip1559(payload);
+      default:
+        break;
+    }
+    return logger62.throwError(
+      `unsupported transaction type: ${payload[0]}`,
+      Logger20.errors.UNSUPPORTED_OPERATION,
+      {
+        operation: "parseTransaction",
+        transactionType: payload[0],
+      }
+    );
+  }
+  var logger62, TransactionTypes5;
+  var init_lib82 = __esm({
+    "node_modules/@ethersproject/providers/node_modules/@ethersproject/transactions/lib.esm/index.js"() {
+      "use strict";
+      init_lib15();
+      init_lib3();
+      init_lib73();
+      init_lib16();
+      init_lib11();
+      init_lib14();
+      init_lib37();
+      init_lib71();
+      init_version78();
+      logger62 = new Logger20(version78);
+      (function (TransactionTypes7) {
+        TransactionTypes7[(TransactionTypes7["legacy"] = 0)] = "legacy";
+        TransactionTypes7[(TransactionTypes7["eip2930"] = 1)] = "eip2930";
+        TransactionTypes7[(TransactionTypes7["eip1559"] = 2)] = "eip1559";
+      })(TransactionTypes5 || (TransactionTypes5 = {}));
     },
   });
 
@@ -53059,22 +64481,22 @@
     console.log("For more details: https://docs.ethers.io/api-keys/");
     console.log("==========================");
   }
-  var logger29, Formatter, throttleMessage;
+  var logger63, Formatter, throttleMessage;
   var init_formatter = __esm({
     "node_modules/@ethersproject/providers/lib.esm/formatter.js"() {
       "use strict";
-      init_lib7();
-      init_lib3();
-      init_lib2();
-      init_lib8();
-      init_lib4();
       init_lib15();
-      init_lib();
-      init_version23();
-      logger29 = new Logger(version23);
+      init_lib3();
+      init_lib73();
+      init_lib16();
+      init_lib74();
+      init_lib82();
+      init_lib71();
+      init_version77();
+      logger63 = new Logger20(version77);
       Formatter = class {
         constructor() {
-          logger29.checkNew(new.target, Formatter);
+          logger63.checkNew(new.target, Formatter);
           this.formats = this.getDefaultFormats();
         }
         getDefaultFormats() {
@@ -53168,7 +64590,7 @@
             transactions: Formatter.allowNull(Formatter.arrayOf(hash4)),
             baseFeePerGas: Formatter.allowNull(bigNumber),
           };
-          formats.blockWithTransactions = shallowCopy(formats.block);
+          formats.blockWithTransactions = shallowCopy4(formats.block);
           formats.blockWithTransactions.transactions = Formatter.allowNull(
             Formatter.arrayOf(this.transactionResponse.bind(this))
           );
@@ -53193,7 +64615,7 @@
           return formats;
         }
         accessList(accessList) {
-          return accessListify(accessList || []);
+          return accessListify3(accessList || []);
         }
         number(number) {
           if (number === "0x") {
@@ -53230,11 +64652,11 @@
             if (!strict && value.substring(0, 2) !== "0x") {
               value = "0x" + value;
             }
-            if (isHexString2(value)) {
+            if (isHexString18(value)) {
               return value.toLowerCase();
             }
           }
-          return logger29.throwArgumentError("invalid hash", "value", value);
+          return logger63.throwArgumentError("invalid hash", "value", value);
         }
         data(value, strict) {
           const result = this.hex(value, strict);
@@ -53247,10 +64669,10 @@
           return getAddress(value);
         }
         callAddress(value) {
-          if (!isHexString2(value, 32)) {
+          if (!isHexString18(value, 32)) {
             return null;
           }
-          const address = getAddress(hexDataSlice(value, 12));
+          const address = getAddress(hexDataSlice7(value, 12));
           return address === AddressZero ? null : address;
         }
         contractAddress(value) {
@@ -53266,15 +64688,15 @@
           if (blockTag === "latest" || blockTag === "pending") {
             return blockTag;
           }
-          if (typeof blockTag === "number" || isHexString2(blockTag)) {
+          if (typeof blockTag === "number" || isHexString18(blockTag)) {
             return hexValue(blockTag);
           }
           throw new Error("invalid blockTag");
         }
         hash(value, strict) {
           const result = this.hex(value, strict);
-          if (hexDataLength(result) !== 32) {
-            return logger29.throwArgumentError("invalid hash", "value", value);
+          if (hexDataLength6(result) !== 32) {
+            return logger63.throwArgumentError("invalid hash", "value", value);
           }
           return result;
         }
@@ -53289,10 +64711,10 @@
           return null;
         }
         uint256(value) {
-          if (!isHexString2(value)) {
+          if (!isHexString18(value)) {
             throw new Error("invalid uint256");
           }
-          return hexZeroPad(value, 32);
+          return hexZeroPad9(value, 32);
         }
         _block(value, format) {
           if (value.author != null && value.miner == null) {
@@ -53336,7 +64758,7 @@
           const result = Formatter.check(this.formats.transaction, transaction);
           if (transaction.chainId != null) {
             let chainId = transaction.chainId;
-            if (isHexString2(chainId)) {
+            if (isHexString18(chainId)) {
               chainId = BigNumber.from(chainId).toNumber();
             }
             result.chainId = chainId;
@@ -53345,7 +64767,7 @@
             if (chainId == null && result.v == null) {
               chainId = transaction.chainId;
             }
-            if (isHexString2(chainId)) {
+            if (isHexString18(chainId)) {
               chainId = BigNumber.from(chainId).toNumber();
             }
             if (typeof chainId !== "number" && result.v != null) {
@@ -53378,7 +64800,7 @@
               const value2 = BigNumber.from(result.root).toNumber();
               if (value2 === 0 || value2 === 1) {
                 if (result.status != null && result.status !== value2) {
-                  logger29.throwArgumentError(
+                  logger63.throwArgumentError(
                     "alt-root-status/status mismatch",
                     "value",
                     { root: result.root, status: result.status }
@@ -53387,14 +64809,14 @@
                 result.status = value2;
                 delete result.root;
               } else {
-                logger29.throwArgumentError(
+                logger63.throwArgumentError(
                   "invalid alt-root-status",
                   "value.root",
                   result.root
                 );
               }
             } else if (result.root.length !== 66) {
-              logger29.throwArgumentError(
+              logger63.throwArgumentError(
                 "invalid root hash",
                 "value.root",
                 result.root
@@ -53474,8 +64896,8 @@
     if (topic == null) {
       return "null";
     }
-    if (hexDataLength(topic) !== 32) {
-      logger30.throwArgumentError("invalid topic", "topic", topic);
+    if (hexDataLength6(topic) !== 32) {
+      logger64.throwArgumentError("invalid topic", "topic", topic);
     }
     return topic.toLowerCase();
   }
@@ -53517,7 +64939,7 @@
   function getEventTag2(eventName) {
     if (typeof eventName === "string") {
       eventName = eventName.toLowerCase();
-      if (hexDataLength(eventName) === 32) {
+      if (hexDataLength6(eventName) === 32) {
         return "tx:" + eventName;
       }
       if (eventName.indexOf(":") === -1) {
@@ -53526,7 +64948,7 @@
     } else if (Array.isArray(eventName)) {
       return "filter:*:" + serializeTopics(eventName);
     } else if (ForkEvent.isForkEvent(eventName)) {
-      logger30.warn("not implemented");
+      logger64.warn("not implemented");
       throw new Error("not implemented");
     } else if (eventName && typeof eventName === "object") {
       return (
@@ -53547,11 +64969,11 @@
     });
   }
   function bytes32ify(value) {
-    return hexZeroPad(BigNumber.from(value).toHexString(), 32);
+    return hexZeroPad9(BigNumber.from(value).toHexString(), 32);
   }
   function base58Encode(data) {
     return Base58.encode(
-      concat([data, hexDataSlice(sha256(sha256(data)), 0, 4)])
+      concat9([data, hexDataSlice7(sha256(sha256(data)), 0, 4)])
     );
   }
   function _parseString(result) {
@@ -53564,11 +64986,11 @@
     if (result === "0x") {
       return null;
     }
-    const offset = BigNumber.from(hexDataSlice(result, 0, 32)).toNumber();
+    const offset = BigNumber.from(hexDataSlice7(result, 0, 32)).toNumber();
     const length = BigNumber.from(
-      hexDataSlice(result, offset, offset + 32)
+      hexDataSlice7(result, offset, offset + 32)
     ).toNumber();
-    return hexDataSlice(result, offset + 32, offset + 32 + length);
+    return hexDataSlice7(result, offset + 32, offset + 32 + length);
   }
   function getIpfsLink(link) {
     if (link.match(/^ipfs:\/\/ipfs\//i)) {
@@ -53576,13 +64998,13 @@
     } else if (link.match(/^ipfs:\/\//i)) {
       link = link.substring(7);
     } else {
-      logger30.throwArgumentError("unsupported IPFS format", "link", link);
+      logger64.throwArgumentError("unsupported IPFS format", "link", link);
     }
     return `https://gateway.ipfs.io/ipfs/${link}`;
   }
   var import_bech32,
-    __awaiter11,
-    logger30,
+    __awaiter15,
+    logger64,
     PollableEvents,
     Event,
     coinInfos,
@@ -53595,22 +65017,22 @@
   var init_base_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/base-provider.js"() {
       "use strict";
-      init_lib12();
-      init_lib17();
-      init_lib3();
-      init_lib2();
-      init_lib8();
-      init_lib10();
-      init_lib25();
-      init_lib4();
-      init_lib18();
-      init_lib9();
       init_lib27();
+      init_lib45();
+      init_lib3();
+      init_lib73();
+      init_lib16();
+      init_lib23();
+      init_lib72();
+      init_lib74();
+      init_lib52();
+      init_lib19();
+      init_lib81();
       import_bech32 = __toESM(require_bech32());
-      init_lib();
-      init_version23();
+      init_lib71();
+      init_version77();
       init_formatter();
-      __awaiter11 = function (thisArg, _arguments, P2, generator) {
+      __awaiter15 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -53641,13 +65063,13 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger30 = new Logger(version23);
+      logger64 = new Logger20(version77);
       PollableEvents = ["block", "network", "pending", "poll"];
       Event = class {
         constructor(tag, listener, once) {
-          defineReadOnly(this, "tag", tag);
-          defineReadOnly(this, "listener", listener);
-          defineReadOnly(this, "once", once);
+          defineReadOnly12(this, "tag", tag);
+          defineReadOnly12(this, "listener", listener);
+          defineReadOnly12(this, "once", once);
         }
         get event() {
           switch (this.type) {
@@ -53707,16 +65129,20 @@
       ];
       Resolver2 = class {
         constructor(provider, address, name2, resolvedAddress) {
-          defineReadOnly(this, "provider", provider);
-          defineReadOnly(this, "name", name2);
-          defineReadOnly(this, "address", provider.formatter.address(address));
-          defineReadOnly(this, "_resolvedAddress", resolvedAddress);
+          defineReadOnly12(this, "provider", provider);
+          defineReadOnly12(this, "name", name2);
+          defineReadOnly12(
+            this,
+            "address",
+            provider.formatter.address(address)
+          );
+          defineReadOnly12(this, "_resolvedAddress", resolvedAddress);
         }
         _fetchBytes(selector, parameters) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             const tx = {
               to: this.address,
-              data: hexConcat([
+              data: hexConcat7([
                 selector,
                 namehash(this.name),
                 parameters || "0x",
@@ -53725,7 +65151,7 @@
             try {
               return _parseBytes(yield this.provider.call(tx));
             } catch (error) {
-              if (error.code === Logger.errors.CALL_EXCEPTION) {
+              if (error.code === Logger20.errors.CALL_EXCEPTION) {
                 return null;
               }
               return null;
@@ -53735,9 +65161,9 @@
         _getAddress(coinType, hexBytes) {
           const coinInfo = coinInfos[String(coinType)];
           if (coinInfo == null) {
-            logger30.throwError(
+            logger64.throwError(
               `unsupported coin type: ${coinType}`,
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger20.errors.UNSUPPORTED_OPERATION,
               {
                 operation: `getAddress(${coinType})`,
               }
@@ -53746,7 +65172,7 @@
           if (coinInfo.ilk === "eth") {
             return this.provider.formatter.address(hexBytes);
           }
-          const bytes = arrayify(hexBytes);
+          const bytes = arrayify17(hexBytes);
           if (coinInfo.p2pkh != null) {
             const p2pkh = hexBytes.match(
               /^0x76a9([0-9a-f][0-9a-f])([0-9a-f]*)88ac$/
@@ -53759,7 +65185,7 @@
                 length <= 75
               ) {
                 return base58Encode(
-                  concat([[coinInfo.p2pkh], "0x" + p2pkh[2]])
+                  concat9([[coinInfo.p2pkh], "0x" + p2pkh[2]])
                 );
               }
             }
@@ -53775,35 +65201,35 @@
                 length >= 1 &&
                 length <= 75
               ) {
-                return base58Encode(concat([[coinInfo.p2sh], "0x" + p2sh[2]]));
+                return base58Encode(concat9([[coinInfo.p2sh], "0x" + p2sh[2]]));
               }
             }
           }
           if (coinInfo.prefix != null) {
             const length = bytes[1];
-            let version27 = bytes[0];
-            if (version27 === 0) {
+            let version89 = bytes[0];
+            if (version89 === 0) {
               if (length !== 20 && length !== 32) {
-                version27 = -1;
+                version89 = -1;
               }
             } else {
-              version27 = -1;
+              version89 = -1;
             }
             if (
-              version27 >= 0 &&
+              version89 >= 0 &&
               bytes.length === 2 + length &&
               length >= 1 &&
               length <= 75
             ) {
               const words2 = import_bech32.default.toWords(bytes.slice(2));
-              words2.unshift(version27);
+              words2.unshift(version89);
               return import_bech32.default.encode(coinInfo.prefix, words2);
             }
           }
           return null;
         }
         getAddress(coinType) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             if (coinType == null) {
               coinType = 60;
             }
@@ -53819,7 +65245,7 @@
                 }
                 return this.provider.formatter.callAddress(hexBytes2);
               } catch (error) {
-                if (error.code === Logger.errors.CALL_EXCEPTION) {
+                if (error.code === Logger20.errors.CALL_EXCEPTION) {
                   return null;
                 }
                 throw error;
@@ -53834,9 +65260,9 @@
             }
             const address = this._getAddress(coinType, hexBytes);
             if (address == null) {
-              logger30.throwError(
+              logger64.throwError(
                 `invalid or unsupported coin data`,
-                Logger.errors.UNSUPPORTED_OPERATION,
+                Logger20.errors.UNSUPPORTED_OPERATION,
                 {
                   operation: `getAddress(${coinType})`,
                   coinType,
@@ -53848,7 +65274,7 @@
           });
         }
         getAvatar() {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             const linkage = [{ type: "name", content: this.name }];
             try {
               const avatar = yield this.getText("avatar");
@@ -53885,7 +65311,7 @@
                     const addr = yield this.provider.formatter.address(
                       comps[0]
                     );
-                    const tokenId = hexZeroPad(
+                    const tokenId = hexZeroPad9(
                       BigNumber.from(comps[1]).toHexString(),
                       32
                     );
@@ -53893,7 +65319,7 @@
                       const tokenOwner = this.provider.formatter.callAddress(
                         yield this.provider.call({
                           to: addr,
-                          data: hexConcat(["0x6352211e", tokenId]),
+                          data: hexConcat7(["0x6352211e", tokenId]),
                         })
                       );
                       if (owner !== tokenOwner) {
@@ -53904,9 +65330,9 @@
                       const balance = BigNumber.from(
                         yield this.provider.call({
                           to: addr,
-                          data: hexConcat([
+                          data: hexConcat7([
                             "0x00fdd58e",
-                            hexZeroPad(owner, 32),
+                            hexZeroPad9(owner, 32),
                             tokenId,
                           ]),
                         })
@@ -53921,7 +65347,7 @@
                     }
                     const tx = {
                       to: this.provider.formatter.address(comps[0]),
-                      data: hexConcat([selector, tokenId]),
+                      data: hexConcat7([selector, tokenId]),
                     };
                     let metadataUrl = _parseString(
                       yield this.provider.call(tx)
@@ -53981,7 +65407,7 @@
           });
         }
         getContentHash() {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             const hexBytes = yield this._fetchBytes("0xbc1c58d1");
             if (hexBytes == null || hexBytes === "0x") {
               return null;
@@ -54001,9 +65427,9 @@
                 return "bzz://" + swarm[1];
               }
             }
-            return logger30.throwError(
+            return logger64.throwError(
               `invalid or unsupported content hash data`,
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger20.errors.UNSUPPORTED_OPERATION,
               {
                 operation: "getContentHash()",
                 data: hexBytes,
@@ -54012,22 +65438,22 @@
           });
         }
         getText(key2) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             let keyBytes = toUtf8Bytes(key2);
-            keyBytes = concat([
+            keyBytes = concat9([
               bytes32ify(64),
               bytes32ify(keyBytes.length),
               keyBytes,
             ]);
             if (keyBytes.length % 32 !== 0) {
-              keyBytes = concat([
+              keyBytes = concat9([
                 keyBytes,
-                hexZeroPad("0x", 32 - (key2.length % 32)),
+                hexZeroPad9("0x", 32 - (key2.length % 32)),
               ]);
             }
             const hexBytes = yield this._fetchBytes(
               "0x59d1d43c",
-              hexlify(keyBytes)
+              hexlify13(keyBytes)
             );
             if (hexBytes == null || hexBytes === "0x") {
               return null;
@@ -54040,12 +65466,12 @@
       nextPollId = 1;
       BaseProvider = class extends Provider {
         constructor(network) {
-          logger30.checkNew(new.target, Provider);
+          logger64.checkNew(new.target, Provider);
           super();
           this._events = [];
           this._emitted = { block: -2 };
           this.formatter = new.target.getFormatter();
-          defineReadOnly(this, "anyNetwork", network === "any");
+          defineReadOnly12(this, "anyNetwork", network === "any");
           if (this.anyNetwork) {
             network = this.detectNetwork();
           }
@@ -54054,12 +65480,12 @@
             network.catch((error) => {});
             this._ready().catch((error) => {});
           } else {
-            const knownNetwork = getStatic(new.target, "getNetwork")(network);
+            const knownNetwork = getStatic3(new.target, "getNetwork")(network);
             if (knownNetwork) {
-              defineReadOnly(this, "_network", knownNetwork);
+              defineReadOnly12(this, "_network", knownNetwork);
               this.emit("network", knownNetwork, null);
             } else {
-              logger30.throwArgumentError(
+              logger64.throwArgumentError(
                 "invalid network",
                 "network",
                 network
@@ -54072,7 +65498,7 @@
           this._fastQueryDate = 0;
         }
         _ready() {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             if (this._network == null) {
               let network = null;
               if (this._networkPromise) {
@@ -54084,9 +65510,9 @@
                 network = yield this.detectNetwork();
               }
               if (!network) {
-                logger30.throwError(
+                logger64.throwError(
                   "no network detected",
-                  Logger.errors.UNKNOWN_ERROR,
+                  Logger20.errors.UNKNOWN_ERROR,
                   {}
                 );
               }
@@ -54094,7 +65520,7 @@
                 if (this.anyNetwork) {
                   this._network = network;
                 } else {
-                  defineReadOnly(this, "_network", network);
+                  defineReadOnly12(this, "_network", network);
                 }
                 this.emit("network", network, null);
               }
@@ -54110,7 +65536,7 @@
               },
               (error) => {
                 if (
-                  error.code === Logger.errors.NETWORK_ERROR &&
+                  error.code === Logger20.errors.NETWORK_ERROR &&
                   error.event === "noNetwork"
                 ) {
                   return void 0;
@@ -54130,7 +65556,7 @@
           return getNetwork(network == null ? "homestead" : network);
         }
         _getInternalBlockNumber(maxAge) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this._ready();
             if (maxAge > 0) {
               while (this._internalBlockNumber) {
@@ -54149,7 +65575,7 @@
               }
             }
             const reqTime = getTime();
-            const checkInternalBlockNumber = resolveProperties({
+            const checkInternalBlockNumber = resolveProperties5({
               blockNumber: this.perform("getBlockNumber", {}),
               networkError: this.getNetwork().then(
                 (network) => null,
@@ -54181,7 +65607,7 @@
           });
         }
         poll() {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             const pollId = nextPollId++;
             const runners = [];
             let blockNumber = null;
@@ -54203,14 +65629,14 @@
               this._emitted.block = blockNumber - 1;
             }
             if (Math.abs(this._emitted.block - blockNumber) > 1e3) {
-              logger30.warn(
+              logger64.warn(
                 `network block skew detected; skipping block events (emitted=${this._emitted.block} blockNumber${blockNumber})`
               );
               this.emit(
                 "error",
-                logger30.makeError(
+                logger64.makeError(
                   "network block skew detected",
-                  Logger.errors.NETWORK_ERROR,
+                  Logger20.errors.NETWORK_ERROR,
                   {
                     blockNumber,
                     event: "blockSkew",
@@ -54306,10 +65732,10 @@
           return this._network;
         }
         detectNetwork() {
-          return __awaiter11(this, void 0, void 0, function* () {
-            return logger30.throwError(
+          return __awaiter15(this, void 0, void 0, function* () {
+            return logger64.throwError(
               "provider does not support network detection",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger20.errors.UNSUPPORTED_OPERATION,
               {
                 operation: "provider.detectNetwork",
               }
@@ -54317,7 +65743,7 @@
           });
         }
         getNetwork() {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             const network = yield this._ready();
             const currentNetwork = yield this.detectNetwork();
             if (network.chainId !== currentNetwork.chainId) {
@@ -54334,9 +65760,9 @@
                 yield stall(0);
                 return this._network;
               }
-              const error = logger30.makeError(
+              const error = logger64.makeError(
                 "underlying network changed",
-                Logger.errors.NETWORK_ERROR,
+                Logger20.errors.NETWORK_ERROR,
                 {
                   event: "changed",
                   network,
@@ -54436,7 +65862,7 @@
           }
         }
         waitForTransaction(transactionHash, confirmations, timeout) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             return this._waitForTransaction(
               transactionHash,
               confirmations == null ? 1 : confirmations,
@@ -54451,7 +65877,7 @@
           timeout,
           replaceable
         ) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             const receipt = yield this.getTransactionReceipt(transactionHash);
             if ((receipt ? receipt.confirmations : 0) >= confirmations) {
               return receipt;
@@ -54486,14 +65912,14 @@
                 let lastBlockNumber = replaceable.startBlock;
                 let scannedBlock = null;
                 const replaceHandler = (blockNumber) =>
-                  __awaiter11(this, void 0, void 0, function* () {
+                  __awaiter15(this, void 0, void 0, function* () {
                     if (done) {
                       return;
                     }
                     yield stall(1e3);
                     this.getTransactionCount(replaceable.from).then(
                       (nonce) =>
-                        __awaiter11(this, void 0, void 0, function* () {
+                        __awaiter15(this, void 0, void 0, function* () {
                           if (done) {
                             return;
                           }
@@ -54560,9 +65986,9 @@
                                     reason = "cancelled";
                                   }
                                   reject(
-                                    logger30.makeError(
+                                    logger64.makeError(
                                       "transaction was replaced",
-                                      Logger.errors.TRANSACTION_REPLACED,
+                                      Logger20.errors.TRANSACTION_REPLACED,
                                       {
                                         cancelled:
                                           reason === "replaced" ||
@@ -54607,9 +66033,9 @@
                     return;
                   }
                   reject(
-                    logger30.makeError(
+                    logger64.makeError(
                       "timeout exceeded",
-                      Logger.errors.TIMEOUT,
+                      Logger20.errors.TIMEOUT,
                       { timeout }
                     )
                   );
@@ -54625,20 +66051,20 @@
           });
         }
         getBlockNumber() {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             return this._getInternalBlockNumber(0);
           });
         }
         getGasPrice() {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
             const result = yield this.perform("getGasPrice", {});
             try {
               return BigNumber.from(result);
             } catch (error) {
-              return logger30.throwError(
+              return logger64.throwError(
                 "bad result from backend",
-                Logger.errors.SERVER_ERROR,
+                Logger20.errors.SERVER_ERROR,
                 {
                   method: "getGasPrice",
                   result,
@@ -54649,9 +66075,9 @@
           });
         }
         getBalance(addressOrName, blockTag) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
-            const params = yield resolveProperties({
+            const params = yield resolveProperties5({
               address: this._getAddress(addressOrName),
               blockTag: this._getBlockTag(blockTag),
             });
@@ -54659,9 +66085,9 @@
             try {
               return BigNumber.from(result);
             } catch (error) {
-              return logger30.throwError(
+              return logger64.throwError(
                 "bad result from backend",
-                Logger.errors.SERVER_ERROR,
+                Logger20.errors.SERVER_ERROR,
                 {
                   method: "getBalance",
                   params,
@@ -54673,9 +66099,9 @@
           });
         }
         getTransactionCount(addressOrName, blockTag) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
-            const params = yield resolveProperties({
+            const params = yield resolveProperties5({
               address: this._getAddress(addressOrName),
               blockTag: this._getBlockTag(blockTag),
             });
@@ -54683,9 +66109,9 @@
             try {
               return BigNumber.from(result).toNumber();
             } catch (error) {
-              return logger30.throwError(
+              return logger64.throwError(
                 "bad result from backend",
-                Logger.errors.SERVER_ERROR,
+                Logger20.errors.SERVER_ERROR,
                 {
                   method: "getTransactionCount",
                   params,
@@ -54697,19 +66123,19 @@
           });
         }
         getCode(addressOrName, blockTag) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
-            const params = yield resolveProperties({
+            const params = yield resolveProperties5({
               address: this._getAddress(addressOrName),
               blockTag: this._getBlockTag(blockTag),
             });
             const result = yield this.perform("getCode", params);
             try {
-              return hexlify(result);
+              return hexlify13(result);
             } catch (error) {
-              return logger30.throwError(
+              return logger64.throwError(
                 "bad result from backend",
-                Logger.errors.SERVER_ERROR,
+                Logger20.errors.SERVER_ERROR,
                 {
                   method: "getCode",
                   params,
@@ -54721,20 +66147,20 @@
           });
         }
         getStorageAt(addressOrName, position, blockTag) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
-            const params = yield resolveProperties({
+            const params = yield resolveProperties5({
               address: this._getAddress(addressOrName),
               blockTag: this._getBlockTag(blockTag),
               position: Promise.resolve(position).then((p2) => hexValue(p2)),
             });
             const result = yield this.perform("getStorageAt", params);
             try {
-              return hexlify(result);
+              return hexlify13(result);
             } catch (error) {
-              return logger30.throwError(
+              return logger64.throwError(
                 "bad result from backend",
-                Logger.errors.SERVER_ERROR,
+                Logger20.errors.SERVER_ERROR,
                 {
                   method: "getStorageAt",
                   params,
@@ -54746,19 +66172,19 @@
           });
         }
         _wrapTransaction(tx, hash4, startBlock) {
-          if (hash4 != null && hexDataLength(hash4) !== 32) {
+          if (hash4 != null && hexDataLength6(hash4) !== 32) {
             throw new Error("invalid response - sendTransaction");
           }
           const result = tx;
           if (hash4 != null && tx.hash !== hash4) {
-            logger30.throwError(
+            logger64.throwError(
               "Transaction hash mismatch from Provider.sendTransaction.",
-              Logger.errors.UNKNOWN_ERROR,
+              Logger20.errors.UNKNOWN_ERROR,
               { expectedHash: tx.hash, returnedHash: hash4 }
             );
           }
           result.wait = (confirms, timeout) =>
-            __awaiter11(this, void 0, void 0, function* () {
+            __awaiter15(this, void 0, void 0, function* () {
               if (confirms == null) {
                 confirms = 1;
               }
@@ -54787,9 +66213,9 @@
               }
               this._emitted["t:" + tx.hash] = receipt.blockNumber;
               if (receipt.status === 0) {
-                logger30.throwError(
+                logger64.throwError(
                   "transaction failed",
-                  Logger.errors.CALL_EXCEPTION,
+                  Logger20.errors.CALL_EXCEPTION,
                   {
                     transactionHash: tx.hash,
                     transaction: tx,
@@ -54802,10 +66228,10 @@
           return result;
         }
         sendTransaction(signedTransaction) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
             const hexTx = yield Promise.resolve(signedTransaction).then((t2) =>
-              hexlify(t2)
+              hexlify13(t2)
             );
             const tx = this.formatter.transaction(signedTransaction);
             if (tx.confirmations == null) {
@@ -54827,7 +66253,7 @@
           });
         }
         _getTransactionRequest(transaction) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             const values = yield transaction;
             const tx = {};
             ["from", "to"].forEach((key2) => {
@@ -54868,16 +66294,16 @@
                 return;
               }
               tx[key2] = Promise.resolve(values[key2]).then((v2) =>
-                v2 ? hexlify(v2) : null
+                v2 ? hexlify13(v2) : null
               );
             });
             return this.formatter.transactionRequest(
-              yield resolveProperties(tx)
+              yield resolveProperties5(tx)
             );
           });
         }
         _getFilter(filter) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             filter = yield filter;
             const result = {};
             if (filter.address != null) {
@@ -54895,23 +66321,23 @@
               }
               result[key2] = this._getBlockTag(filter[key2]);
             });
-            return this.formatter.filter(yield resolveProperties(result));
+            return this.formatter.filter(yield resolveProperties5(result));
           });
         }
         call(transaction, blockTag) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
-            const params = yield resolveProperties({
+            const params = yield resolveProperties5({
               transaction: this._getTransactionRequest(transaction),
               blockTag: this._getBlockTag(blockTag),
             });
             const result = yield this.perform("call", params);
             try {
-              return hexlify(result);
+              return hexlify13(result);
             } catch (error) {
-              return logger30.throwError(
+              return logger64.throwError(
                 "bad result from backend",
-                Logger.errors.SERVER_ERROR,
+                Logger20.errors.SERVER_ERROR,
                 {
                   method: "call",
                   params,
@@ -54923,18 +66349,18 @@
           });
         }
         estimateGas(transaction) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
-            const params = yield resolveProperties({
+            const params = yield resolveProperties5({
               transaction: this._getTransactionRequest(transaction),
             });
             const result = yield this.perform("estimateGas", params);
             try {
               return BigNumber.from(result);
             } catch (error) {
-              return logger30.throwError(
+              return logger64.throwError(
                 "bad result from backend",
-                Logger.errors.SERVER_ERROR,
+                Logger20.errors.SERVER_ERROR,
                 {
                   method: "estimateGas",
                   params,
@@ -54946,10 +66372,10 @@
           });
         }
         _getAddress(addressOrName) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             addressOrName = yield addressOrName;
             if (typeof addressOrName !== "string") {
-              logger30.throwArgumentError(
+              logger64.throwArgumentError(
                 "invalid address or ENS name",
                 "name",
                 addressOrName
@@ -54957,9 +66383,9 @@
             }
             const address = yield this.resolveName(addressOrName);
             if (address == null) {
-              logger30.throwError(
+              logger64.throwError(
                 "ENS name not configured",
-                Logger.errors.UNSUPPORTED_OPERATION,
+                Logger20.errors.UNSUPPORTED_OPERATION,
                 {
                   operation: `resolveName(${JSON.stringify(addressOrName)})`,
                 }
@@ -54969,23 +66395,23 @@
           });
         }
         _getBlock(blockHashOrBlockTag, includeTransactions) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
             blockHashOrBlockTag = yield blockHashOrBlockTag;
             let blockNumber = -128;
             const params = {
               includeTransactions: !!includeTransactions,
             };
-            if (isHexString2(blockHashOrBlockTag, 32)) {
+            if (isHexString18(blockHashOrBlockTag, 32)) {
               params.blockHash = blockHashOrBlockTag;
             } else {
               try {
                 params.blockTag = yield this._getBlockTag(blockHashOrBlockTag);
-                if (isHexString2(params.blockTag)) {
+                if (isHexString18(params.blockTag)) {
                   blockNumber = parseInt(params.blockTag.substring(2), 16);
                 }
               } catch (error) {
-                logger30.throwArgumentError(
+                logger64.throwArgumentError(
                   "invalid block hash or block tag",
                   "blockHashOrBlockTag",
                   blockHashOrBlockTag
@@ -54994,7 +66420,7 @@
             }
             return poll(
               () =>
-                __awaiter11(this, void 0, void 0, function* () {
+                __awaiter15(this, void 0, void 0, function* () {
                   const block = yield this.perform("getBlock", params);
                   if (block == null) {
                     if (params.blockHash != null) {
@@ -55048,7 +66474,7 @@
           return this._getBlock(blockHashOrBlockTag, true);
         }
         getTransaction(transactionHash) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
             transactionHash = yield transactionHash;
             const params = {
@@ -55056,7 +66482,7 @@
             };
             return poll(
               () =>
-                __awaiter11(this, void 0, void 0, function* () {
+                __awaiter15(this, void 0, void 0, function* () {
                   const result = yield this.perform("getTransaction", params);
                   if (result == null) {
                     if (this._emitted["t:" + transactionHash] == null) {
@@ -55084,7 +66510,7 @@
           });
         }
         getTransactionReceipt(transactionHash) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
             transactionHash = yield transactionHash;
             const params = {
@@ -55092,7 +66518,7 @@
             };
             return poll(
               () =>
-                __awaiter11(this, void 0, void 0, function* () {
+                __awaiter15(this, void 0, void 0, function* () {
                   const result = yield this.perform(
                     "getTransactionReceipt",
                     params
@@ -55126,9 +66552,9 @@
           });
         }
         getLogs(filter) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
-            const params = yield resolveProperties({
+            const params = yield resolveProperties5({
               filter: this._getFilter(filter),
             });
             const logs = yield this.perform("getLogs", params);
@@ -55143,17 +66569,17 @@
           });
         }
         getEtherPrice() {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             yield this.getNetwork();
             return this.perform("getEtherPrice", {});
           });
         }
         _getBlockTag(blockTag) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             blockTag = yield blockTag;
             if (typeof blockTag === "number" && blockTag < 0) {
               if (blockTag % 1) {
-                logger30.throwArgumentError(
+                logger64.throwArgumentError(
                   "invalid BlockTag",
                   "blockTag",
                   blockTag
@@ -55172,7 +66598,7 @@
           });
         }
         getResolver(name2) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             try {
               const address = yield this._getResolver(name2);
               if (address == null) {
@@ -55180,7 +66606,7 @@
               }
               return new Resolver2(this, address, name2);
             } catch (error) {
-              if (error.code === Logger.errors.CALL_EXCEPTION) {
+              if (error.code === Logger20.errors.CALL_EXCEPTION) {
                 return null;
               }
               throw error;
@@ -55188,12 +66614,12 @@
           });
         }
         _getResolver(name2) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             const network = yield this.getNetwork();
             if (!network.ensAddress) {
-              logger30.throwError(
+              logger64.throwError(
                 "network does not support ENS",
-                Logger.errors.UNSUPPORTED_OPERATION,
+                Logger20.errors.UNSUPPORTED_OPERATION,
                 { operation: "ENS", network: network.name }
               );
             }
@@ -55204,7 +66630,7 @@
             try {
               return this.formatter.callAddress(yield this.call(transaction));
             } catch (error) {
-              if (error.code === Logger.errors.CALL_EXCEPTION) {
+              if (error.code === Logger20.errors.CALL_EXCEPTION) {
                 return null;
               }
               throw error;
@@ -55212,17 +66638,17 @@
           });
         }
         resolveName(name2) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             name2 = yield name2;
             try {
               return Promise.resolve(this.formatter.address(name2));
             } catch (error) {
-              if (isHexString2(name2)) {
+              if (isHexString18(name2)) {
                 throw error;
               }
             }
             if (typeof name2 !== "string") {
-              logger30.throwArgumentError("invalid ENS name", "name", name2);
+              logger64.throwArgumentError("invalid ENS name", "name", name2);
             }
             const resolver2 = yield this.getResolver(name2);
             if (!resolver2) {
@@ -55232,7 +66658,7 @@
           });
         }
         lookupAddress(address) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             address = yield address;
             address = this.formatter.address(address);
             const reverseName =
@@ -55241,7 +66667,7 @@
             if (!resolverAddress) {
               return null;
             }
-            let bytes = arrayify(
+            let bytes = arrayify17(
               yield this.call({
                 to: resolverAddress,
                 data: "0x691f3431" + namehash(reverseName).substring(2),
@@ -55271,9 +66697,9 @@
           });
         }
         getAvatar(nameOrAddress) {
-          return __awaiter11(this, void 0, void 0, function* () {
+          return __awaiter15(this, void 0, void 0, function* () {
             let resolver2 = null;
-            if (isHexString2(nameOrAddress)) {
+            if (isHexString18(nameOrAddress)) {
               const address = this.formatter.address(nameOrAddress);
               const reverseName =
                 address.substring(2).toLowerCase() + ".addr.reverse";
@@ -55296,9 +66722,9 @@
           });
         }
         perform(method, params) {
-          return logger30.throwError(
+          return logger64.throwError(
             method + " not implemented",
-            Logger.errors.NOT_IMPLEMENTED,
+            Logger20.errors.NOT_IMPLEMENTED,
             { operation: method }
           );
         }
@@ -55410,14 +66836,14 @@
 
   // node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js
   function checkError(method, error, params) {
-    if (method === "call" && error.code === Logger.errors.SERVER_ERROR) {
+    if (method === "call" && error.code === Logger20.errors.SERVER_ERROR) {
       const e = error.error;
-      if (e && e.message.match("reverted") && isHexString2(e.data)) {
+      if (e && e.message.match("reverted") && isHexString18(e.data)) {
         return e.data;
       }
-      logger31.throwError(
+      logger65.throwError(
         "missing revert data in call exception",
-        Logger.errors.CALL_EXCEPTION,
+        Logger20.errors.CALL_EXCEPTION,
         {
           error,
           data: "0x",
@@ -55426,7 +66852,7 @@
     }
     let message = error.message;
     if (
-      error.code === Logger.errors.SERVER_ERROR &&
+      error.code === Logger20.errors.SERVER_ERROR &&
       error.error &&
       typeof error.error.message === "string"
     ) {
@@ -55439,9 +66865,9 @@
     message = (message || "").toLowerCase();
     const transaction = params.transaction || params.signedTransaction;
     if (message.match(/insufficient funds|base fee exceeds gas limit/)) {
-      logger31.throwError(
+      logger65.throwError(
         "insufficient funds for intrinsic transaction cost",
-        Logger.errors.INSUFFICIENT_FUNDS,
+        Logger20.errors.INSUFFICIENT_FUNDS,
         {
           error,
           method,
@@ -55450,9 +66876,9 @@
       );
     }
     if (message.match(/nonce too low/)) {
-      logger31.throwError(
+      logger65.throwError(
         "nonce has already been used",
-        Logger.errors.NONCE_EXPIRED,
+        Logger20.errors.NONCE_EXPIRED,
         {
           error,
           method,
@@ -55461,9 +66887,9 @@
       );
     }
     if (message.match(/replacement transaction underpriced/)) {
-      logger31.throwError(
+      logger65.throwError(
         "replacement fee too low",
-        Logger.errors.REPLACEMENT_UNDERPRICED,
+        Logger20.errors.REPLACEMENT_UNDERPRICED,
         {
           error,
           method,
@@ -55472,9 +66898,9 @@
       );
     }
     if (message.match(/only replay-protected/)) {
-      logger31.throwError(
+      logger65.throwError(
         "legacy pre-eip-155 transactions not supported",
-        Logger.errors.UNSUPPORTED_OPERATION,
+        Logger20.errors.UNSUPPORTED_OPERATION,
         {
           error,
           method,
@@ -55488,9 +66914,9 @@
         /gas required exceeds allowance|always failing transaction|execution reverted/
       )
     ) {
-      logger31.throwError(
+      logger65.throwError(
         "cannot estimate gas; transaction may fail or may require manual gas limit",
-        Logger.errors.UNPREDICTABLE_GAS_LIMIT,
+        Logger20.errors.UNPREDICTABLE_GAS_LIMIT,
         {
           error,
           method,
@@ -55520,8 +66946,8 @@
     }
     return value;
   }
-  var __awaiter12,
-    logger31,
+  var __awaiter16,
+    logger65,
     errorGas,
     _constructorGuard5,
     JsonRpcSigner,
@@ -55531,18 +66957,18 @@
   var init_json_rpc_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/json-rpc-provider.js"() {
       "use strict";
-      init_lib13();
+      init_lib30();
       init_lib3();
-      init_lib2();
-      init_lib10();
-      init_lib4();
-      init_lib9();
-      init_lib15();
-      init_lib27();
-      init_lib();
-      init_version23();
+      init_lib73();
+      init_lib23();
+      init_lib74();
+      init_lib19();
+      init_lib82();
+      init_lib81();
+      init_lib71();
+      init_version77();
       init_base_provider();
-      __awaiter12 = function (thisArg, _arguments, P2, generator) {
+      __awaiter16 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -55573,34 +66999,34 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger31 = new Logger(version23);
+      logger65 = new Logger20(version77);
       errorGas = ["call", "estimateGas"];
       _constructorGuard5 = {};
       JsonRpcSigner = class extends Signer {
         constructor(constructorGuard, provider, addressOrIndex) {
-          logger31.checkNew(new.target, JsonRpcSigner);
+          logger65.checkNew(new.target, JsonRpcSigner);
           super();
           if (constructorGuard !== _constructorGuard5) {
             throw new Error(
               "do not call the JsonRpcSigner constructor directly; use provider.getSigner"
             );
           }
-          defineReadOnly(this, "provider", provider);
+          defineReadOnly12(this, "provider", provider);
           if (addressOrIndex == null) {
             addressOrIndex = 0;
           }
           if (typeof addressOrIndex === "string") {
-            defineReadOnly(
+            defineReadOnly12(
               this,
               "_address",
               this.provider.formatter.address(addressOrIndex)
             );
-            defineReadOnly(this, "_index", null);
+            defineReadOnly12(this, "_index", null);
           } else if (typeof addressOrIndex === "number") {
-            defineReadOnly(this, "_index", addressOrIndex);
-            defineReadOnly(this, "_address", null);
+            defineReadOnly12(this, "_index", addressOrIndex);
+            defineReadOnly12(this, "_address", null);
           } else {
-            logger31.throwArgumentError(
+            logger65.throwArgumentError(
               "invalid address or index",
               "addressOrIndex",
               addressOrIndex
@@ -55608,9 +67034,9 @@
           }
         }
         connect(provider) {
-          return logger31.throwError(
+          return logger65.throwError(
             "cannot alter JSON-RPC Signer connection",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger20.errors.UNSUPPORTED_OPERATION,
             {
               operation: "connect",
             }
@@ -55629,9 +67055,9 @@
           }
           return this.provider.send("eth_accounts", []).then((accounts) => {
             if (accounts.length <= this._index) {
-              logger31.throwError(
+              logger65.throwError(
                 "unknown account #" + this._index,
-                Logger.errors.UNSUPPORTED_OPERATION,
+                Logger20.errors.UNSUPPORTED_OPERATION,
                 {
                   operation: "getAddress",
                 }
@@ -55641,7 +67067,7 @@
           });
         }
         sendUncheckedTransaction(transaction) {
-          transaction = shallowCopy(transaction);
+          transaction = shallowCopy4(transaction);
           const fromAddress = this.getAddress().then((address) => {
             if (address) {
               address = address.toLowerCase();
@@ -55649,19 +67075,19 @@
             return address;
           });
           if (transaction.gasLimit == null) {
-            const estimate = shallowCopy(transaction);
+            const estimate = shallowCopy4(transaction);
             estimate.from = fromAddress;
             transaction.gasLimit = this.provider.estimateGas(estimate);
           }
           if (transaction.to != null) {
             transaction.to = Promise.resolve(transaction.to).then((to) =>
-              __awaiter12(this, void 0, void 0, function* () {
+              __awaiter16(this, void 0, void 0, function* () {
                 if (to == null) {
                   return null;
                 }
                 const address = yield this.provider.resolveName(to);
                 if (address == null) {
-                  logger31.throwArgumentError(
+                  logger65.throwArgumentError(
                     "provided ENS name resolves to null",
                     "tx.to",
                     to
@@ -55671,13 +67097,13 @@
               })
             );
           }
-          return resolveProperties({
-            tx: resolveProperties(transaction),
+          return resolveProperties5({
+            tx: resolveProperties5(transaction),
             sender: fromAddress,
           }).then(({ tx, sender }) => {
             if (tx.from != null) {
               if (tx.from.toLowerCase() !== sender) {
-                logger31.throwArgumentError(
+                logger65.throwArgumentError(
                   "from address mismatch",
                   "transaction",
                   transaction
@@ -55700,16 +67126,16 @@
           });
         }
         signTransaction(transaction) {
-          return logger31.throwError(
+          return logger65.throwError(
             "signing transactions is unsupported",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger20.errors.UNSUPPORTED_OPERATION,
             {
               operation: "signTransaction",
             }
           );
         }
         sendTransaction(transaction) {
-          return __awaiter12(this, void 0, void 0, function* () {
+          return __awaiter16(this, void 0, void 0, function* () {
             const blockNumber = yield this.provider._getInternalBlockNumber(
               100 + 2 * this.provider.pollingInterval
             );
@@ -55717,7 +67143,7 @@
             try {
               return yield poll(
                 () =>
-                  __awaiter12(this, void 0, void 0, function* () {
+                  __awaiter16(this, void 0, void 0, function* () {
                     const tx = yield this.provider.getTransaction(hash4);
                     if (tx === null) {
                       return void 0;
@@ -55737,29 +67163,29 @@
           });
         }
         signMessage(message) {
-          return __awaiter12(this, void 0, void 0, function* () {
+          return __awaiter16(this, void 0, void 0, function* () {
             const data =
               typeof message === "string" ? toUtf8Bytes(message) : message;
             const address = yield this.getAddress();
             return yield this.provider.send("personal_sign", [
-              hexlify(data),
+              hexlify13(data),
               address.toLowerCase(),
             ]);
           });
         }
         _legacySignMessage(message) {
-          return __awaiter12(this, void 0, void 0, function* () {
+          return __awaiter16(this, void 0, void 0, function* () {
             const data =
               typeof message === "string" ? toUtf8Bytes(message) : message;
             const address = yield this.getAddress();
             return yield this.provider.send("eth_sign", [
               address.toLowerCase(),
-              hexlify(data),
+              hexlify13(data),
             ]);
           });
         }
         _signTypedData(domain, types, value) {
-          return __awaiter12(this, void 0, void 0, function* () {
+          return __awaiter16(this, void 0, void 0, function* () {
             const populated = yield TypedDataEncoder.resolveNames(
               domain,
               types,
@@ -55782,7 +67208,7 @@
           });
         }
         unlock(password) {
-          return __awaiter12(this, void 0, void 0, function* () {
+          return __awaiter16(this, void 0, void 0, function* () {
             const provider = this.provider;
             const address = yield this.getAddress();
             return provider.send("personal_unlockAccount", [
@@ -55828,7 +67254,7 @@
       };
       JsonRpcProvider = class extends BaseProvider {
         constructor(url, network) {
-          logger31.checkNew(new.target, JsonRpcProvider);
+          logger65.checkNew(new.target, JsonRpcProvider);
           let networkOrReady = network;
           if (networkOrReady == null) {
             networkOrReady = new Promise((resolve2, reject) => {
@@ -55846,10 +67272,10 @@
           }
           super(networkOrReady);
           if (!url) {
-            url = getStatic(this.constructor, "defaultUrl")();
+            url = getStatic3(this.constructor, "defaultUrl")();
           }
           if (typeof url === "string") {
-            defineReadOnly(
+            defineReadOnly12(
               this,
               "connection",
               Object.freeze({
@@ -55857,7 +67283,11 @@
               })
             );
           } else {
-            defineReadOnly(this, "connection", Object.freeze(shallowCopy(url)));
+            defineReadOnly12(
+              this,
+              "connection",
+              Object.freeze(shallowCopy4(url))
+            );
           }
           this._nextId = 42;
         }
@@ -55880,7 +67310,7 @@
           return this._cache["detectNetwork"];
         }
         _uncachedDetectNetwork() {
-          return __awaiter12(this, void 0, void 0, function* () {
+          return __awaiter16(this, void 0, void 0, function* () {
             yield timer(0);
             let chainId = null;
             try {
@@ -55891,13 +67321,13 @@
               } catch (error2) {}
             }
             if (chainId != null) {
-              const getNetwork2 = getStatic(this.constructor, "getNetwork");
+              const getNetwork2 = getStatic3(this.constructor, "getNetwork");
               try {
                 return getNetwork2(BigNumber.from(chainId).toNumber());
               } catch (error) {
-                return logger31.throwError(
+                return logger65.throwError(
                   "could not detect network",
-                  Logger.errors.NETWORK_ERROR,
+                  Logger20.errors.NETWORK_ERROR,
                   {
                     chainId,
                     event: "invalidNetwork",
@@ -55906,9 +67336,9 @@
                 );
               }
             }
-            return logger31.throwError(
+            return logger65.throwError(
               "could not detect network",
-              Logger.errors.NETWORK_ERROR,
+              Logger20.errors.NETWORK_ERROR,
               {
                 event: "noNetwork",
               }
@@ -55935,7 +67365,7 @@
           };
           this.emit("debug", {
             action: "request",
-            request: deepCopy(request),
+            request: deepCopy6(request),
             provider: this,
           });
           const cache = ["eth_chainId", "eth_blockNumber"].indexOf(method) >= 0;
@@ -56024,7 +67454,7 @@
             case "getTransactionReceipt":
               return ["eth_getTransactionReceipt", [params.transactionHash]];
             case "call": {
-              const hexlifyTransaction = getStatic(
+              const hexlifyTransaction = getStatic3(
                 this.constructor,
                 "hexlifyTransaction"
               );
@@ -56037,7 +67467,7 @@
               ];
             }
             case "estimateGas": {
-              const hexlifyTransaction = getStatic(
+              const hexlifyTransaction = getStatic3(
                 this.constructor,
                 "hexlifyTransaction"
               );
@@ -56057,7 +67487,7 @@
           return null;
         }
         perform(method, params) {
-          return __awaiter12(this, void 0, void 0, function* () {
+          return __awaiter16(this, void 0, void 0, function* () {
             if (method === "call" || method === "estimateGas") {
               const tx = params.transaction;
               if (tx && tx.type != null && BigNumber.from(tx.type).isZero()) {
@@ -56070,8 +67500,8 @@
                     feeData.maxFeePerGas == null &&
                     feeData.maxPriorityFeePerGas == null
                   ) {
-                    params = shallowCopy(params);
-                    params.transaction = shallowCopy(tx);
+                    params = shallowCopy4(params);
+                    params.transaction = shallowCopy4(tx);
                     delete params.transaction.type;
                   }
                 }
@@ -56079,9 +67509,9 @@
             }
             const args = this.prepareRequest(method, params);
             if (args == null) {
-              logger31.throwError(
+              logger65.throwError(
                 method + " not implemented",
-                Logger.errors.NOT_IMPLEMENTED,
+                Logger20.errors.NOT_IMPLEMENTED,
                 { operation: method }
               );
             }
@@ -56155,7 +67585,7 @@
           super._stopEvent(event);
         }
         static hexlifyTransaction(transaction, allowExtra) {
-          const allowed = shallowCopy(allowedTransactionKeys4);
+          const allowed = shallowCopy4(allowedTransactionKeys4);
           if (allowExtra) {
             for (const key2 in allowExtra) {
               if (allowExtra[key2]) {
@@ -56163,7 +67593,7 @@
               }
             }
           }
-          checkProperties(transaction, allowed);
+          checkProperties2(transaction, allowed);
           const result = {};
           [
             "gasLimit",
@@ -56187,10 +67617,10 @@
             if (transaction[key2] == null) {
               return;
             }
-            result[key2] = hexlify(transaction[key2]);
+            result[key2] = hexlify13(transaction[key2]);
           });
           if (transaction.accessList) {
-            result["accessList"] = accessListify(transaction.accessList);
+            result["accessList"] = accessListify3(transaction.accessList);
           }
           return result;
         }
@@ -56203,8 +67633,8 @@
   var init_ws = __esm({
     "node_modules/@ethersproject/providers/lib.esm/ws.js"() {
       "use strict";
-      init_lib();
-      init_version23();
+      init_lib71();
+      init_version77();
       WS = null;
       try {
         WS = WebSocket;
@@ -56212,11 +67642,11 @@
           throw new Error("inject please");
         }
       } catch (error) {
-        const logger46 = new Logger(version23);
+        const logger84 = new Logger20(version77);
         WS = function () {
-          logger46.throwError(
+          logger84.throwError(
             "WebSockets not supported in this environment",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger20.errors.UNSUPPORTED_OPERATION,
             {
               operation: "new WebSocket()",
             }
@@ -56227,17 +67657,17 @@
   });
 
   // node_modules/@ethersproject/providers/lib.esm/websocket-provider.js
-  var __awaiter13, logger32, NextId, WebSocketProvider;
+  var __awaiter17, logger66, NextId, WebSocketProvider;
   var init_websocket_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/websocket-provider.js"() {
       "use strict";
       init_lib3();
-      init_lib4();
+      init_lib74();
       init_json_rpc_provider();
       init_ws();
-      init_lib();
-      init_version23();
-      __awaiter13 = function (thisArg, _arguments, P2, generator) {
+      init_lib71();
+      init_version77();
+      __awaiter17 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -56268,14 +67698,14 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger32 = new Logger(version23);
+      logger66 = new Logger20(version77);
       NextId = 1;
       WebSocketProvider = class extends JsonRpcProvider {
         constructor(url, network) {
           if (network === "any") {
-            logger32.throwError(
+            logger66.throwError(
               "WebSocketProvider does not support 'any' network yet",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger20.errors.UNSUPPORTED_OPERATION,
               {
                 operation: "network:any",
               }
@@ -56284,11 +67714,11 @@
           super(url, network);
           this._pollingInterval = -1;
           this._wsReady = false;
-          defineReadOnly(this, "_websocket", new WS(this.connection.url));
-          defineReadOnly(this, "_requests", {});
-          defineReadOnly(this, "_subs", {});
-          defineReadOnly(this, "_subIds", {});
-          defineReadOnly(this, "_detectNetwork", super.detectNetwork());
+          defineReadOnly12(this, "_websocket", new WS(this.connection.url));
+          defineReadOnly12(this, "_requests", {});
+          defineReadOnly12(this, "_subs", {});
+          defineReadOnly12(this, "_subIds", {});
+          defineReadOnly12(this, "_detectNetwork", super.detectNetwork());
           this._websocket.onopen = () => {
             this._wsReady = true;
             Object.keys(this._requests).forEach((id2) => {
@@ -56314,8 +67744,8 @@
                 let error = null;
                 if (result.error) {
                   error = new Error(result.error.message || "unknown error");
-                  defineReadOnly(error, "code", result.error.code || null);
-                  defineReadOnly(error, "response", data);
+                  defineReadOnly12(error, "code", result.error.code || null);
+                  defineReadOnly12(error, "response", data);
                 } else {
                   error = new Error("unknown error");
                 }
@@ -56350,25 +67780,25 @@
           return 0;
         }
         resetEventsBlock(blockNumber) {
-          logger32.throwError(
+          logger66.throwError(
             "cannot reset events block on WebSocketProvider",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger20.errors.UNSUPPORTED_OPERATION,
             {
               operation: "resetEventBlock",
             }
           );
         }
         set pollingInterval(value) {
-          logger32.throwError(
+          logger66.throwError(
             "cannot set polling interval on WebSocketProvider",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger20.errors.UNSUPPORTED_OPERATION,
             {
               operation: "setPollingInterval",
             }
           );
         }
         poll() {
-          return __awaiter13(this, void 0, void 0, function* () {
+          return __awaiter17(this, void 0, void 0, function* () {
             return null;
           });
         }
@@ -56376,9 +67806,9 @@
           if (!value) {
             return;
           }
-          logger32.throwError(
+          logger66.throwError(
             "cannot set polling on WebSocketProvider",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger20.errors.UNSUPPORTED_OPERATION,
             {
               operation: "setPolling",
             }
@@ -56414,7 +67844,7 @@
           return "ws://localhost:8546";
         }
         _subscribe(tag, param, processFunc) {
-          return __awaiter13(this, void 0, void 0, function* () {
+          return __awaiter17(this, void 0, void 0, function* () {
             let subIdPromise = this._subIds[tag];
             if (subIdPromise == null) {
               subIdPromise = Promise.all(param).then((param2) => {
@@ -56509,7 +67939,7 @@
           });
         }
         destroy() {
-          return __awaiter13(this, void 0, void 0, function* () {
+          return __awaiter17(this, void 0, void 0, function* () {
             if (this._websocket.readyState === WS.CONNECTING) {
               yield new Promise((resolve2) => {
                 this._websocket.onopen = function () {
@@ -56528,15 +67958,15 @@
   });
 
   // node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js
-  var __awaiter14, logger33, StaticJsonRpcProvider, UrlJsonRpcProvider;
+  var __awaiter18, logger67, StaticJsonRpcProvider, UrlJsonRpcProvider;
   var init_url_json_rpc_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/url-json-rpc-provider.js"() {
       "use strict";
-      init_lib4();
-      init_lib();
-      init_version23();
+      init_lib74();
+      init_lib71();
+      init_version77();
       init_json_rpc_provider();
-      __awaiter14 = function (thisArg, _arguments, P2, generator) {
+      __awaiter18 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -56567,25 +67997,25 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger33 = new Logger(version23);
+      logger67 = new Logger20(version77);
       StaticJsonRpcProvider = class extends JsonRpcProvider {
         detectNetwork() {
           const _super = Object.create(null, {
             detectNetwork: { get: () => super.detectNetwork },
           });
-          return __awaiter14(this, void 0, void 0, function* () {
+          return __awaiter18(this, void 0, void 0, function* () {
             let network = this.network;
             if (network == null) {
               network = yield _super.detectNetwork.call(this);
               if (!network) {
-                logger33.throwError(
+                logger67.throwError(
                   "no network detected",
-                  Logger.errors.UNKNOWN_ERROR,
+                  Logger20.errors.UNKNOWN_ERROR,
                   {}
                 );
               }
               if (this._network == null) {
-                defineReadOnly(this, "_network", network);
+                defineReadOnly12(this, "_network", network);
                 this.emit("network", network, null);
               }
             }
@@ -56595,21 +68025,21 @@
       };
       UrlJsonRpcProvider = class extends StaticJsonRpcProvider {
         constructor(network, apiKey) {
-          logger33.checkAbstract(new.target, UrlJsonRpcProvider);
-          network = getStatic(new.target, "getNetwork")(network);
-          apiKey = getStatic(new.target, "getApiKey")(apiKey);
-          const connection = getStatic(new.target, "getUrl")(network, apiKey);
+          logger67.checkAbstract(new.target, UrlJsonRpcProvider);
+          network = getStatic3(new.target, "getNetwork")(network);
+          apiKey = getStatic3(new.target, "getApiKey")(apiKey);
+          const connection = getStatic3(new.target, "getUrl")(network, apiKey);
           super(connection, network);
           if (typeof apiKey === "string") {
-            defineReadOnly(this, "apiKey", apiKey);
+            defineReadOnly12(this, "apiKey", apiKey);
           } else if (apiKey != null) {
             Object.keys(apiKey).forEach((key2) => {
-              defineReadOnly(this, key2, apiKey[key2]);
+              defineReadOnly12(this, key2, apiKey[key2]);
             });
           }
         }
         _startPending() {
-          logger33.warn(
+          logger67.warn(
             "WARNING: API provider does not support pending filters"
           );
         }
@@ -56617,9 +68047,9 @@
           return false;
         }
         getSigner(address) {
-          return logger33.throwError(
+          return logger67.throwError(
             "API provider does not support signing",
-            Logger.errors.UNSUPPORTED_OPERATION,
+            Logger20.errors.UNSUPPORTED_OPERATION,
             { operation: "getSigner" }
           );
         }
@@ -56630,9 +68060,9 @@
           return apiKey;
         }
         static getUrl(network, apiKey) {
-          return logger33.throwError(
+          return logger67.throwError(
             "not implemented; sub-classes must override getUrl",
-            Logger.errors.NOT_IMPLEMENTED,
+            Logger20.errors.NOT_IMPLEMENTED,
             {
               operation: "getUrl",
             }
@@ -56643,17 +68073,17 @@
   });
 
   // node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js
-  var logger34, defaultApiKey, AlchemyWebSocketProvider, AlchemyProvider;
+  var logger68, defaultApiKey, AlchemyWebSocketProvider, AlchemyProvider;
   var init_alchemy_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/alchemy-provider.js"() {
       "use strict";
-      init_lib4();
+      init_lib74();
       init_formatter();
       init_websocket_provider();
-      init_lib();
-      init_version23();
+      init_lib71();
+      init_version77();
       init_url_json_rpc_provider();
-      logger34 = new Logger(version23);
+      logger68 = new Logger20(version77);
       defaultApiKey = "_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
       AlchemyWebSocketProvider = class extends WebSocketProvider {
         constructor(network, apiKey) {
@@ -56662,7 +68092,7 @@
             .replace(/^http/i, "ws")
             .replace(".alchemyapi.", ".ws.alchemyapi.");
           super(url, provider.network);
-          defineReadOnly(this, "apiKey", provider.apiKey);
+          defineReadOnly12(this, "apiKey", provider.apiKey);
         }
         isCommunityResource() {
           return this.apiKey === defaultApiKey;
@@ -56677,7 +68107,7 @@
             return defaultApiKey;
           }
           if (apiKey && typeof apiKey !== "string") {
-            logger34.throwArgumentError("invalid apiKey", "apiKey", apiKey);
+            logger68.throwArgumentError("invalid apiKey", "apiKey", apiKey);
           }
           return apiKey;
         }
@@ -56718,7 +68148,7 @@
               host = "opt-kovan.g.alchemy.com/v2/";
               break;
             default:
-              logger34.throwArgumentError(
+              logger68.throwArgumentError(
                 "unsupported network",
                 "network",
                 arguments[0]
@@ -56743,14 +68173,14 @@
   });
 
   // node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js
-  var __awaiter15, logger35, CloudflareProvider;
+  var __awaiter19, logger69, CloudflareProvider;
   var init_cloudflare_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/cloudflare-provider.js"() {
       "use strict";
       init_url_json_rpc_provider();
-      init_lib();
-      init_version23();
-      __awaiter15 = function (thisArg, _arguments, P2, generator) {
+      init_lib71();
+      init_version77();
+      __awaiter19 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -56781,11 +68211,11 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger35 = new Logger(version23);
+      logger69 = new Logger20(version77);
       CloudflareProvider = class extends UrlJsonRpcProvider {
         static getApiKey(apiKey) {
           if (apiKey != null) {
-            logger35.throwArgumentError(
+            logger69.throwArgumentError(
               "apiKey not supported for cloudflare",
               "apiKey",
               apiKey
@@ -56800,7 +68230,7 @@
               host = "https://cloudflare-eth.com/";
               break;
             default:
-              logger35.throwArgumentError(
+              logger69.throwArgumentError(
                 "unsupported network",
                 "network",
                 arguments[0]
@@ -56812,7 +68242,7 @@
           const _super = Object.create(null, {
             perform: { get: () => super.perform },
           });
-          return __awaiter15(this, void 0, void 0, function* () {
+          return __awaiter19(this, void 0, void 0, function* () {
             if (method === "getBlockNumber") {
               const block = yield _super.perform.call(this, "getBlock", {
                 blockTag: "latest",
@@ -56848,11 +68278,11 @@
           value: true,
         }[key2]
       ) {
-        value = hexValue(hexlify(value));
+        value = hexValue(hexlify13(value));
       } else if (key2 === "accessList") {
         value =
           "[" +
-          accessListify(value)
+          accessListify3(value)
             .map((set) => {
               return `{address:"${
                 set.address
@@ -56861,7 +68291,7 @@
             .join(",") +
           "]";
       } else {
-        value = hexlify(value);
+        value = hexlify13(value);
       }
       result[key2] = value;
     }
@@ -56924,7 +68354,7 @@
     return parseInt(blockTag.substring(2), 16);
   }
   function checkError2(method, error, transaction) {
-    if (method === "call" && error.code === Logger.errors.SERVER_ERROR) {
+    if (method === "call" && error.code === Logger20.errors.SERVER_ERROR) {
       const e = error.error;
       if (
         e &&
@@ -56934,12 +68364,12 @@
         if (data) {
           data = "0x" + data.replace(/^.*0x/i, "");
         }
-        if (isHexString2(data)) {
+        if (isHexString18(data)) {
           return data;
         }
-        logger36.throwError(
+        logger70.throwError(
           "missing revert data in call exception",
-          Logger.errors.CALL_EXCEPTION,
+          Logger20.errors.CALL_EXCEPTION,
           {
             error,
             data: "0x",
@@ -56948,7 +68378,7 @@
       }
     }
     let message = error.message;
-    if (error.code === Logger.errors.SERVER_ERROR) {
+    if (error.code === Logger20.errors.SERVER_ERROR) {
       if (error.error && typeof error.error.message === "string") {
         message = error.error.message;
       } else if (typeof error.body === "string") {
@@ -56959,9 +68389,9 @@
     }
     message = (message || "").toLowerCase();
     if (message.match(/insufficient funds/)) {
-      logger36.throwError(
+      logger70.throwError(
         "insufficient funds for intrinsic transaction cost",
-        Logger.errors.INSUFFICIENT_FUNDS,
+        Logger20.errors.INSUFFICIENT_FUNDS,
         {
           error,
           method,
@@ -56974,9 +68404,9 @@
         /same hash was already imported|transaction nonce is too low|nonce too low/
       )
     ) {
-      logger36.throwError(
+      logger70.throwError(
         "nonce has already been used",
-        Logger.errors.NONCE_EXPIRED,
+        Logger20.errors.NONCE_EXPIRED,
         {
           error,
           method,
@@ -56985,9 +68415,9 @@
       );
     }
     if (message.match(/another transaction with same nonce/)) {
-      logger36.throwError(
+      logger70.throwError(
         "replacement fee too low",
-        Logger.errors.REPLACEMENT_UNDERPRICED,
+        Logger20.errors.REPLACEMENT_UNDERPRICED,
         {
           error,
           method,
@@ -56998,9 +68428,9 @@
     if (
       message.match(/execution failed due to an exception|execution reverted/)
     ) {
-      logger36.throwError(
+      logger70.throwError(
         "cannot estimate gas; transaction may fail or may require manual gas limit",
-        Logger.errors.UNPREDICTABLE_GAS_LIMIT,
+        Logger20.errors.UNPREDICTABLE_GAS_LIMIT,
         {
           error,
           method,
@@ -57010,19 +68440,19 @@
     }
     throw error;
   }
-  var __awaiter16, logger36, defaultApiKey2, EtherscanProvider;
+  var __awaiter20, logger70, defaultApiKey2, EtherscanProvider;
   var init_etherscan_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/etherscan-provider.js"() {
       "use strict";
-      init_lib2();
-      init_lib4();
-      init_lib15();
-      init_lib27();
+      init_lib73();
+      init_lib74();
+      init_lib82();
+      init_lib81();
       init_formatter();
-      init_lib();
-      init_version23();
+      init_lib71();
+      init_version77();
       init_base_provider();
-      __awaiter16 = function (thisArg, _arguments, P2, generator) {
+      __awaiter20 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -57053,14 +68483,14 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger36 = new Logger(version23);
+      logger70 = new Logger20(version77);
       defaultApiKey2 = "9D13ZE7XSBTJ94N9BNJ2MA33VMAY2YPIRB";
       EtherscanProvider = class extends BaseProvider {
         constructor(network, apiKey) {
-          logger36.checkNew(new.target, EtherscanProvider);
+          logger70.checkNew(new.target, EtherscanProvider);
           super(network);
-          defineReadOnly(this, "baseUrl", this.getBaseUrl());
-          defineReadOnly(this, "apiKey", apiKey || defaultApiKey2);
+          defineReadOnly12(this, "baseUrl", this.getBaseUrl());
+          defineReadOnly12(this, "apiKey", apiKey || defaultApiKey2);
         }
         getBaseUrl() {
           switch (this.network ? this.network.name : "invalid") {
@@ -57076,7 +68506,7 @@
               return "https://api-goerli.etherscan.io";
             default:
           }
-          return logger36.throwArgumentError(
+          return logger70.throwArgumentError(
             "unsupported network",
             "network",
             name
@@ -57102,7 +68532,7 @@
           return params;
         }
         fetch(module, params, post) {
-          return __awaiter16(this, void 0, void 0, function* () {
+          return __awaiter20(this, void 0, void 0, function* () {
             const url = post ? this.getPostUrl() : this.getUrl(module, params);
             const payload = post ? this.getPostData(module, params) : null;
             const procFunc = module === "proxy" ? getJsonResult : getResult2;
@@ -57141,14 +68571,14 @@
             this.emit("debug", {
               action: "response",
               request: url,
-              response: deepCopy(result),
+              response: deepCopy6(result),
               provider: this,
             });
             return result;
           });
         }
         detectNetwork() {
-          return __awaiter16(this, void 0, void 0, function* () {
+          return __awaiter20(this, void 0, void 0, function* () {
             return this.network;
           });
         }
@@ -57156,7 +68586,7 @@
           const _super = Object.create(null, {
             perform: { get: () => super.perform },
           });
-          return __awaiter16(this, void 0, void 0, function* () {
+          return __awaiter20(this, void 0, void 0, function* () {
             switch (method) {
               case "getBlockNumber":
                 return this.fetch("proxy", { action: "eth_blockNumber" });
@@ -57259,18 +68689,18 @@
                 }
                 if (params.filter.topics && params.filter.topics.length > 0) {
                   if (params.filter.topics.length > 1) {
-                    logger36.throwError(
+                    logger70.throwError(
                       "unsupported topic count",
-                      Logger.errors.UNSUPPORTED_OPERATION,
+                      Logger20.errors.UNSUPPORTED_OPERATION,
                       { topics: params.filter.topics }
                     );
                   }
                   if (params.filter.topics.length === 1) {
                     const topic0 = params.filter.topics[0];
                     if (typeof topic0 !== "string" || topic0.length !== 66) {
-                      logger36.throwError(
+                      logger70.throwError(
                         "unsupported topic format",
-                        Logger.errors.UNSUPPORTED_OPERATION,
+                        Logger20.errors.UNSUPPORTED_OPERATION,
                         { topic0 }
                       );
                     }
@@ -57308,7 +68738,7 @@
           });
         }
         getHistory(addressOrName, startBlock, endBlock) {
-          return __awaiter16(this, void 0, void 0, function* () {
+          return __awaiter20(this, void 0, void 0, function* () {
             const params = {
               action: "txlist",
               address: yield this.resolveName(addressOrName),
@@ -57361,7 +68791,7 @@
               (result.ensAddress == null && network.ensAddress == null))
           )
         ) {
-          logger37.throwArgumentError(
+          logger71.throwArgumentError(
             "provider mismatch",
             "networks",
             networks2
@@ -57526,7 +68956,7 @@
           if (tx == null) {
             return null;
           }
-          tx = shallowCopy(tx);
+          tx = shallowCopy4(tx);
           tx.confirmations = -1;
           return serialize2(tx);
         };
@@ -57537,9 +68967,9 @@
             if (block == null) {
               return null;
             }
-            block = shallowCopy(block);
+            block = shallowCopy4(block);
             block.transactions = block.transactions.map((tx) => {
-              tx = shallowCopy(tx);
+              tx = shallowCopy4(tx);
               tx.confirmations = -1;
               return tx;
             });
@@ -57560,7 +68990,7 @@
     return normalizedTally(normalize, provider.quorum);
   }
   function waitForSync(config, blockNumber) {
-    return __awaiter17(this, void 0, void 0, function* () {
+    return __awaiter21(this, void 0, void 0, function* () {
       const provider = config.provider;
       if (
         (provider.blockNumber != null && provider.blockNumber >= blockNumber) ||
@@ -57587,7 +69017,7 @@
     });
   }
   function getRunner(config, currentBlockNumber, method, params) {
-    return __awaiter17(this, void 0, void 0, function* () {
+    return __awaiter21(this, void 0, void 0, function* () {
       let provider = config.provider;
       switch (method) {
         case "getBlockNumber":
@@ -57601,12 +69031,12 @@
         case "getBalance":
         case "getTransactionCount":
         case "getCode":
-          if (params.blockTag && isHexString2(params.blockTag)) {
+          if (params.blockTag && isHexString18(params.blockTag)) {
             provider = yield waitForSync(config, currentBlockNumber);
           }
           return provider[method](params.address, params.blockTag || "latest");
         case "getStorageAt":
-          if (params.blockTag && isHexString2(params.blockTag)) {
+          if (params.blockTag && isHexString18(params.blockTag)) {
             provider = yield waitForSync(config, currentBlockNumber);
           }
           return provider.getStorageAt(
@@ -57615,7 +69045,7 @@
             params.blockTag || "latest"
           );
         case "getBlock":
-          if (params.blockTag && isHexString2(params.blockTag)) {
+          if (params.blockTag && isHexString18(params.blockTag)) {
             provider = yield waitForSync(config, currentBlockNumber);
           }
           return provider[
@@ -57623,7 +69053,7 @@
           ](params.blockTag || params.blockHash);
         case "call":
         case "estimateGas":
-          if (params.blockTag && isHexString2(params.blockTag)) {
+          if (params.blockTag && isHexString18(params.blockTag)) {
             provider = yield waitForSync(config, currentBlockNumber);
           }
           return provider[method](params.transaction);
@@ -57633,17 +69063,17 @@
         case "getLogs": {
           let filter = params.filter;
           if (
-            (filter.fromBlock && isHexString2(filter.fromBlock)) ||
-            (filter.toBlock && isHexString2(filter.toBlock))
+            (filter.fromBlock && isHexString18(filter.fromBlock)) ||
+            (filter.toBlock && isHexString18(filter.toBlock))
           ) {
             provider = yield waitForSync(config, currentBlockNumber);
           }
           return provider.getLogs(filter);
         }
       }
-      return logger37.throwError(
+      return logger71.throwError(
         "unknown method error",
-        Logger.errors.UNKNOWN_ERROR,
+        Logger20.errors.UNKNOWN_ERROR,
         {
           method,
           params,
@@ -57651,8 +69081,8 @@
       );
     });
   }
-  var __awaiter17,
-    logger37,
+  var __awaiter21,
+    logger71,
     nextRid,
     ForwardErrors,
     ForwardProperties,
@@ -57660,17 +69090,17 @@
   var init_fallback_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/fallback-provider.js"() {
       "use strict";
-      init_lib12();
-      init_lib3();
-      init_lib2();
-      init_lib4();
-      init_lib22();
       init_lib27();
+      init_lib3();
+      init_lib73();
+      init_lib74();
+      init_lib63();
+      init_lib81();
       init_base_provider();
       init_formatter();
-      init_lib();
-      init_version23();
-      __awaiter17 = function (thisArg, _arguments, P2, generator) {
+      init_lib71();
+      init_version77();
+      __awaiter21 = function (thisArg, _arguments, P2, generator) {
         function adopt(value) {
           return value instanceof P2
             ? value
@@ -57701,14 +69131,14 @@
           step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
       };
-      logger37 = new Logger(version23);
+      logger71 = new Logger20(version77);
       nextRid = 1;
       ForwardErrors = [
-        Logger.errors.CALL_EXCEPTION,
-        Logger.errors.INSUFFICIENT_FUNDS,
-        Logger.errors.NONCE_EXPIRED,
-        Logger.errors.REPLACEMENT_UNDERPRICED,
-        Logger.errors.UNPREDICTABLE_GAS_LIMIT,
+        Logger20.errors.CALL_EXCEPTION,
+        Logger20.errors.INSUFFICIENT_FUNDS,
+        Logger20.errors.NONCE_EXPIRED,
+        Logger20.errors.REPLACEMENT_UNDERPRICED,
+        Logger20.errors.UNPREDICTABLE_GAS_LIMIT,
       ];
       ForwardProperties = [
         "address",
@@ -57720,9 +69150,9 @@
       ];
       FallbackProvider = class extends BaseProvider {
         constructor(providers2, quorum) {
-          logger37.checkNew(new.target, FallbackProvider);
+          logger71.checkNew(new.target, FallbackProvider);
           if (providers2.length === 0) {
-            logger37.throwArgumentError(
+            logger71.throwArgumentError(
               "missing providers",
               "providers",
               providers2
@@ -57741,7 +69171,7 @@
                 priority,
               });
             }
-            const config = shallowCopy(configOrProvider);
+            const config = shallowCopy4(configOrProvider);
             if (config.priority == null) {
               config.priority = 1;
             }
@@ -57755,7 +69185,7 @@
             }
             const weight = config.weight;
             if (weight % 1 || weight > 512 || weight < 1) {
-              logger37.throwArgumentError(
+              logger71.throwArgumentError(
                 "invalid weight; must be integer in [1, 512]",
                 `providers[${index}].weight`,
                 weight
@@ -57770,7 +69200,7 @@
           if (quorum == null) {
             quorum = total / 2;
           } else if (quorum > total) {
-            logger37.throwArgumentError(
+            logger71.throwArgumentError(
               "quorum will always fail; larger than total weight",
               "quorum",
               quorum
@@ -57787,16 +69217,16 @@
             });
           }
           super(networkOrReady);
-          defineReadOnly(
+          defineReadOnly12(
             this,
             "providerConfigs",
             Object.freeze(providerConfigs)
           );
-          defineReadOnly(this, "quorum", quorum);
+          defineReadOnly12(this, "quorum", quorum);
           this._highestBlockNumber = -1;
         }
         detectNetwork() {
-          return __awaiter17(this, void 0, void 0, function* () {
+          return __awaiter21(this, void 0, void 0, function* () {
             const networks2 = yield Promise.all(
               this.providerConfigs.map((c2) => c2.provider.getNetwork())
             );
@@ -57804,7 +69234,7 @@
           });
         }
         perform(method, params) {
-          return __awaiter17(this, void 0, void 0, function* () {
+          return __awaiter21(this, void 0, void 0, function* () {
             if (method === "sendTransaction") {
               const results = yield Promise.all(
                 this.providerConfigs.map((c2) => {
@@ -57835,7 +69265,7 @@
               yield this.getBlockNumber();
             }
             const processFunc = getProcessFunc(this, method, params);
-            const configs = shuffled(this.providerConfigs.map(shallowCopy));
+            const configs = shuffled(this.providerConfigs.map(shallowCopy4));
             configs.sort((a2, b2) => a2.priority - b2.priority);
             const currentBlockNumber = this._highestBlockNumber;
             let i = 0;
@@ -57867,7 +69297,7 @@
                         action: "request",
                         rid,
                         backend: exposeDebugConfig(config, now()),
-                        request: { method, params: deepCopy(params) },
+                        request: { method, params: deepCopy6(params) },
                         provider: this,
                       });
                     }
@@ -57880,7 +69310,7 @@
                         action: "request",
                         rid,
                         backend: exposeDebugConfig(config, now()),
-                        request: { method, params: deepCopy(params) },
+                        request: { method, params: deepCopy6(params) },
                         provider: this,
                       });
                     }
@@ -57891,7 +69321,7 @@
                     action: "request",
                     rid,
                     backend: exposeDebugConfig(config, null),
-                    request: { method, params: deepCopy(params) },
+                    request: { method, params: deepCopy6(params) },
                     provider: this,
                   });
                 }
@@ -57961,7 +69391,7 @@
                   }
                   props[name2] = e[name2];
                 });
-                logger37.throwError(e.reason || e.message, errorCode, props);
+                logger71.throwError(e.reason || e.message, errorCode, props);
               });
               if (configs.filter((c2) => !c2.done).length === 0) {
                 break;
@@ -57973,9 +69403,9 @@
               }
               c2.cancelled = true;
             });
-            return logger37.throwError(
+            return logger71.throwError(
               "failed to meet quorum",
-              Logger.errors.SERVER_ERROR,
+              Logger20.errors.SERVER_ERROR,
               {
                 method,
                 params,
@@ -57999,26 +69429,26 @@
   });
 
   // node_modules/@ethersproject/providers/lib.esm/infura-provider.js
-  var logger38, defaultProjectId, InfuraWebSocketProvider, InfuraProvider;
+  var logger72, defaultProjectId, InfuraWebSocketProvider, InfuraProvider;
   var init_infura_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/infura-provider.js"() {
       "use strict";
-      init_lib4();
+      init_lib74();
       init_websocket_provider();
       init_formatter();
-      init_lib();
-      init_version23();
+      init_lib71();
+      init_version77();
       init_url_json_rpc_provider();
-      logger38 = new Logger(version23);
+      logger72 = new Logger20(version77);
       defaultProjectId = "84842078b09946638c03157f83405213";
       InfuraWebSocketProvider = class extends WebSocketProvider {
         constructor(network, apiKey) {
           const provider = new InfuraProvider(network, apiKey);
           const connection = provider.connection;
           if (connection.password) {
-            logger38.throwError(
+            logger72.throwError(
               "INFURA WebSocket project secrets unsupported",
-              Logger.errors.UNSUPPORTED_OPERATION,
+              Logger20.errors.UNSUPPORTED_OPERATION,
               {
                 operation: "InfuraProvider.getWebSocketProvider()",
               }
@@ -58028,9 +69458,9 @@
             .replace(/^http/i, "ws")
             .replace("/v3/", "/ws/v3/");
           super(url, network);
-          defineReadOnly(this, "apiKey", provider.projectId);
-          defineReadOnly(this, "projectId", provider.projectId);
-          defineReadOnly(this, "projectSecret", provider.projectSecret);
+          defineReadOnly12(this, "apiKey", provider.projectId);
+          defineReadOnly12(this, "projectId", provider.projectId);
+          defineReadOnly12(this, "projectSecret", provider.projectSecret);
         }
         isCommunityResource() {
           return this.projectId === defaultProjectId;
@@ -58052,13 +69482,13 @@
           if (typeof apiKey === "string") {
             apiKeyObj.projectId = apiKey;
           } else if (apiKey.projectSecret != null) {
-            logger38.assertArgument(
+            logger72.assertArgument(
               typeof apiKey.projectId === "string",
               "projectSecret requires a projectId",
               "projectId",
               apiKey.projectId
             );
-            logger38.assertArgument(
+            logger72.assertArgument(
               typeof apiKey.projectSecret === "string",
               "invalid projectSecret",
               "projectSecret",
@@ -58109,9 +69539,9 @@
               host = "arbitrum-rinkeby.infura.io";
               break;
             default:
-              logger38.throwError(
+              logger72.throwError(
                 "unsupported network",
-                Logger.errors.INVALID_ARGUMENT,
+                Logger20.errors.INVALID_ARGUMENT,
                 {
                   argument: "network",
                   value: network,
@@ -58145,8 +69575,8 @@
   var JsonRpcBatchProvider;
   var init_json_rpc_batch_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/json-rpc-batch-provider.js"() {
-      init_lib4();
-      init_lib27();
+      init_lib74();
+      init_lib81();
       init_json_rpc_provider();
       JsonRpcBatchProvider = class extends JsonRpcProvider {
         send(method, params) {
@@ -58173,7 +69603,7 @@
               const request2 = batch.map((inflight) => inflight.request);
               this.emit("debug", {
                 action: "requestBatch",
-                request: deepCopy(request2),
+                request: deepCopy6(request2),
                 provider: this,
               });
               return fetchJson(this.connection, JSON.stringify(request2)).then(
@@ -58217,24 +69647,24 @@
   });
 
   // node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js
-  var logger39, defaultApiKey3, NodesmithProvider;
+  var logger73, defaultApiKey3, NodesmithProvider;
   var init_nodesmith_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/nodesmith-provider.js"() {
       "use strict";
       init_url_json_rpc_provider();
-      init_lib();
-      init_version23();
-      logger39 = new Logger(version23);
+      init_lib71();
+      init_version77();
+      logger73 = new Logger20(version77);
       defaultApiKey3 = "ETHERS_JS_SHARED";
       NodesmithProvider = class extends UrlJsonRpcProvider {
         static getApiKey(apiKey) {
           if (apiKey && typeof apiKey !== "string") {
-            logger39.throwArgumentError("invalid apiKey", "apiKey", apiKey);
+            logger73.throwArgumentError("invalid apiKey", "apiKey", apiKey);
           }
           return apiKey || defaultApiKey3;
         }
         static getUrl(network, apiKey) {
-          logger39.warn(
+          logger73.warn(
             "NodeSmith will be discontinued on 2019-12-20; please migrate to another platform."
           );
           let host = null;
@@ -58255,7 +69685,7 @@
               host = "https://ethereum.api.nodesmith.io/v1/kovan/jsonrpc";
               break;
             default:
-              logger39.throwArgumentError(
+              logger73.throwArgumentError(
                 "unsupported network",
                 "network",
                 arguments[0]
@@ -58268,15 +69698,15 @@
   });
 
   // node_modules/@ethersproject/providers/lib.esm/pocket-provider.js
-  var logger40, defaultApplicationIds, PocketProvider;
+  var logger74, defaultApplicationIds, PocketProvider;
   var init_pocket_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/pocket-provider.js"() {
       "use strict";
-      init_lib4();
-      init_lib();
-      init_version23();
+      init_lib74();
+      init_lib71();
+      init_version77();
       init_url_json_rpc_provider();
-      logger40 = new Logger(version23);
+      logger74 = new Logger20(version77);
       defaultApplicationIds = {
         homestead: "6004bcd10040261633ade990",
         ropsten: "6004bd4d0040261633ade991",
@@ -58286,7 +69716,7 @@
       PocketProvider = class extends UrlJsonRpcProvider {
         constructor(network, apiKey) {
           if (apiKey == null) {
-            const n = getStatic(new.target, "getNetwork")(network);
+            const n = getStatic3(new.target, "getNetwork")(network);
             if (n) {
               const applicationId = defaultApplicationIds[n.name];
               if (applicationId) {
@@ -58297,9 +69727,9 @@
               }
             }
             if (apiKey == null) {
-              logger40.throwError(
+              logger74.throwError(
                 "unsupported network",
-                Logger.errors.INVALID_ARGUMENT,
+                Logger20.errors.INVALID_ARGUMENT,
                 {
                   argument: "network",
                   value: network,
@@ -58311,7 +69741,7 @@
         }
         static getApiKey(apiKey) {
           if (apiKey == null) {
-            logger40.throwArgumentError(
+            logger74.throwArgumentError(
               "PocketProvider.getApiKey does not support null apiKey",
               "apiKey",
               apiKey
@@ -58325,13 +69755,13 @@
           if (typeof apiKey === "string") {
             apiKeyObj.applicationId = apiKey;
           } else if (apiKey.applicationSecretKey != null) {
-            logger40.assertArgument(
+            logger74.assertArgument(
               typeof apiKey.applicationId === "string",
               "applicationSecretKey requires an applicationId",
               "applicationId",
               apiKey.applicationId
             );
-            logger40.assertArgument(
+            logger74.assertArgument(
               typeof apiKey.applicationSecretKey === "string",
               "invalid applicationSecretKey",
               "applicationSecretKey",
@@ -58341,7 +69771,7 @@
             apiKeyObj.applicationSecretKey = apiKey.applicationSecretKey;
             apiKeyObj.loadBalancer = !!apiKey.loadBalancer;
           } else if (apiKey.applicationId) {
-            logger40.assertArgument(
+            logger74.assertArgument(
               typeof apiKey.applicationId === "string",
               "apiKey.applicationId must be a string",
               "apiKey.applicationId",
@@ -58350,7 +69780,7 @@
             apiKeyObj.applicationId = apiKey.applicationId;
             apiKeyObj.loadBalancer = !!apiKey.loadBalancer;
           } else {
-            logger40.throwArgumentError(
+            logger74.throwArgumentError(
               "unsupported PocketProvider apiKey",
               "apiKey",
               apiKey
@@ -58374,9 +69804,9 @@
               host = "eth-goerli.gateway.pokt.network";
               break;
             default:
-              logger40.throwError(
+              logger74.throwError(
                 "unsupported network",
-                Logger.errors.INVALID_ARGUMENT,
+                Logger20.errors.INVALID_ARGUMENT,
                 {
                   argument: "network",
                   value: network,
@@ -58420,7 +69850,7 @@
         this.emit("debug", {
           action: "request",
           fetcher,
-          request: deepCopy(request),
+          request: deepCopy6(request),
           provider: this,
         });
         sendFunc(request, (error, response) => {
@@ -58461,7 +69891,7 @@
       this.emit("debug", {
         action: "request",
         fetcher: "Eip1193Fetcher",
-        request: deepCopy(request),
+        request: deepCopy6(request),
         provider: this,
       });
       return provider.request(request).then(
@@ -58488,21 +69918,21 @@
       );
     };
   }
-  var logger41, _nextId, Web3Provider;
+  var logger75, _nextId, Web3Provider;
   var init_web3_provider = __esm({
     "node_modules/@ethersproject/providers/lib.esm/web3-provider.js"() {
       "use strict";
-      init_lib4();
-      init_lib();
-      init_version23();
+      init_lib74();
+      init_lib71();
+      init_version77();
       init_json_rpc_provider();
-      logger41 = new Logger(version23);
+      logger75 = new Logger20(version77);
       _nextId = 1;
       Web3Provider = class extends JsonRpcProvider {
         constructor(provider, network) {
-          logger41.checkNew(new.target, Web3Provider);
+          logger75.checkNew(new.target, Web3Provider);
           if (provider == null) {
-            logger41.throwArgumentError(
+            logger75.throwArgumentError(
               "missing provider",
               "provider",
               provider
@@ -58536,7 +69966,7 @@
                 provider.send.bind(provider)
               );
             } else {
-              logger41.throwArgumentError(
+              logger75.throwArgumentError(
                 "unsupported provider",
                 "provider",
                 provider
@@ -58547,8 +69977,8 @@
             }
           }
           super(path3, network);
-          defineReadOnly(this, "jsonRpcFetchFunc", jsonRpcFetchFunc);
-          defineReadOnly(this, "provider", subprovider);
+          defineReadOnly12(this, "jsonRpcFetchFunc", jsonRpcFetchFunc);
+          defineReadOnly12(this, "provider", subprovider);
         }
         send(method, params) {
           return this.jsonRpcFetchFunc(method, params);
@@ -58600,7 +70030,7 @@
           case "ws":
             return new WebSocketProvider(network);
           default:
-            logger42.throwArgumentError(
+            logger76.throwArgumentError(
               "unsupported URL scheme",
               "network",
               network
@@ -58610,9 +70040,9 @@
     }
     const n = getNetwork(network);
     if (!n || !n._defaultProvider) {
-      logger42.throwError(
+      logger76.throwError(
         "unsupported getDefaultProvider network",
-        Logger.errors.NETWORK_ERROR,
+        Logger20.errors.NETWORK_ERROR,
         {
           operation: "getDefaultProvider",
           network,
@@ -58635,12 +70065,12 @@
       options
     );
   }
-  var logger42;
-  var init_lib28 = __esm({
+  var logger76;
+  var init_lib83 = __esm({
     "node_modules/@ethersproject/providers/lib.esm/index.js"() {
       "use strict";
-      init_lib12();
-      init_lib25();
+      init_lib27();
+      init_lib72();
       init_base_provider();
       init_alchemy_provider();
       init_cloudflare_provider();
@@ -58656,17 +70086,1286 @@
       init_web3_provider();
       init_websocket_provider();
       init_formatter();
-      init_lib();
-      init_version23();
-      logger42 = new Logger(version23);
+      init_lib71();
+      init_version77();
+      logger76 = new Logger20(version77);
+    },
+  });
+
+  // node_modules/ethers/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version79;
+  var init_version79 = __esm({
+    "node_modules/ethers/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version79 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/ethers/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize23() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors23,
+    _censorErrors23,
+    LogLevels23,
+    _logLevel23,
+    _globalLogger23,
+    _normalizeError23,
+    LogLevel23,
+    ErrorCode23,
+    HEX23,
+    Logger23;
+  var init_lib84 = __esm({
+    "node_modules/ethers/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version79();
+      _permanentCensorErrors23 = false;
+      _censorErrors23 = false;
+      LogLevels23 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel23 = LogLevels23["default"];
+      _globalLogger23 = null;
+      _normalizeError23 = _checkNormalize23();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel23 || (LogLevel23 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode23 || (ErrorCode23 = {}));
+      HEX23 = "0123456789abcdef";
+      Logger23 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels23[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel23 > LogLevels23[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger23.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger23.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger23.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors23) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger23.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX23[value[i] >> 4];
+                  hex += HEX23[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger23.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError23) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger23.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError23,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger23.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger23.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger23.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger23.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger23.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger23.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger23.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger23) {
+            _globalLogger23 = new Logger23(version79);
+          }
+          return _globalLogger23;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger23.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors23) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger23.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors23 = !!censorship;
+          _permanentCensorErrors23 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels23[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger23.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel23 = level;
+        }
+        static from(version89) {
+          return new Logger23(version89);
+        }
+      };
+      Logger23.errors = ErrorCode23;
+      Logger23.levels = LogLevel23;
+    },
+  });
+
+  // node_modules/ethers/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version80;
+  var init_version80 = __esm({
+    "node_modules/ethers/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version80 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/ethers/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable20(value) {
+    return !!value.toHexString;
+  }
+  function addSlice20(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice20(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isBytesLike9(value) {
+    return (isHexString21(value) && !(value.length % 2)) || isBytes20(value);
+  }
+  function isInteger20(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes20(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger20(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger20(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify20(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger77.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice20(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable20(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString21(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger77.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice20(new Uint8Array(result));
+    }
+    if (isBytes20(value)) {
+      return addSlice20(new Uint8Array(value));
+    }
+    return logger77.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat10(items) {
+    const objects = items.map((item) => arrayify20(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice20(result);
+  }
+  function stripZeros7(value) {
+    let result = arrayify20(value);
+    if (result.length === 0) {
+      return result;
+    }
+    let start = 0;
+    while (start < result.length && result[start] === 0) {
+      start++;
+    }
+    if (start) {
+      result = result.slice(start);
+    }
+    return result;
+  }
+  function zeroPad4(value, length) {
+    value = arrayify20(value);
+    if (value.length > length) {
+      logger77.throwArgumentError("value out of range", "value", arguments[0]);
+    }
+    const result = new Uint8Array(length);
+    result.set(value, length - value.length);
+    return addSlice20(result);
+  }
+  function isHexString21(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify15(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger77.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters15[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable20(value)) {
+      return value.toHexString();
+    }
+    if (isHexString21(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger77.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes20(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters15[(v2 & 240) >> 4] + HexCharacters15[v2 & 15];
+      }
+      return result;
+    }
+    return logger77.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  function hexDataLength7(data) {
+    if (typeof data !== "string") {
+      data = hexlify15(data);
+    } else if (!isHexString21(data) || data.length % 2) {
+      return null;
+    }
+    return (data.length - 2) / 2;
+  }
+  function hexDataSlice8(data, offset, endOffset) {
+    if (typeof data !== "string") {
+      data = hexlify15(data);
+    } else if (!isHexString21(data) || data.length % 2) {
+      logger77.throwArgumentError("invalid hexData", "value", data);
+    }
+    offset = 2 + 2 * offset;
+    if (endOffset != null) {
+      return "0x" + data.substring(offset, 2 + 2 * endOffset);
+    }
+    return "0x" + data.substring(offset);
+  }
+  function hexConcat8(items) {
+    let result = "0x";
+    items.forEach((item) => {
+      result += hexlify15(item).substring(2);
+    });
+    return result;
+  }
+  function hexValue2(value) {
+    const trimmed = hexStripZeros2(hexlify15(value, { hexPad: "left" }));
+    if (trimmed === "0x") {
+      return "0x0";
+    }
+    return trimmed;
+  }
+  function hexStripZeros2(value) {
+    if (typeof value !== "string") {
+      value = hexlify15(value);
+    }
+    if (!isHexString21(value)) {
+      logger77.throwArgumentError("invalid hex string", "value", value);
+    }
+    value = value.substring(2);
+    let offset = 0;
+    while (offset < value.length && value[offset] === "0") {
+      offset++;
+    }
+    return "0x" + value.substring(offset);
+  }
+  function hexZeroPad10(value, length) {
+    if (typeof value !== "string") {
+      value = hexlify15(value);
+    } else if (!isHexString21(value)) {
+      logger77.throwArgumentError("invalid hex string", "value", value);
+    }
+    if (value.length > 2 * length + 2) {
+      logger77.throwArgumentError("value out of range", "value", arguments[1]);
+    }
+    while (value.length < 2 * length + 2) {
+      value = "0x0" + value.substring(2);
+    }
+    return value;
+  }
+  function splitSignature7(signature2) {
+    const result = {
+      r: "0x",
+      s: "0x",
+      _vs: "0x",
+      recoveryParam: 0,
+      v: 0,
+    };
+    if (isBytesLike9(signature2)) {
+      const bytes = arrayify20(signature2);
+      if (bytes.length !== 65) {
+        logger77.throwArgumentError(
+          "invalid signature string; must be 65 bytes",
+          "signature",
+          signature2
+        );
+      }
+      result.r = hexlify15(bytes.slice(0, 32));
+      result.s = hexlify15(bytes.slice(32, 64));
+      result.v = bytes[64];
+      if (result.v < 27) {
+        if (result.v === 0 || result.v === 1) {
+          result.v += 27;
+        } else {
+          logger77.throwArgumentError(
+            "signature invalid v byte",
+            "signature",
+            signature2
+          );
+        }
+      }
+      result.recoveryParam = 1 - (result.v % 2);
+      if (result.recoveryParam) {
+        bytes[32] |= 128;
+      }
+      result._vs = hexlify15(bytes.slice(32, 64));
+    } else {
+      result.r = signature2.r;
+      result.s = signature2.s;
+      result.v = signature2.v;
+      result.recoveryParam = signature2.recoveryParam;
+      result._vs = signature2._vs;
+      if (result._vs != null) {
+        const vs2 = zeroPad4(arrayify20(result._vs), 32);
+        result._vs = hexlify15(vs2);
+        const recoveryParam = vs2[0] >= 128 ? 1 : 0;
+        if (result.recoveryParam == null) {
+          result.recoveryParam = recoveryParam;
+        } else if (result.recoveryParam !== recoveryParam) {
+          logger77.throwArgumentError(
+            "signature recoveryParam mismatch _vs",
+            "signature",
+            signature2
+          );
+        }
+        vs2[0] &= 127;
+        const s2 = hexlify15(vs2);
+        if (result.s == null) {
+          result.s = s2;
+        } else if (result.s !== s2) {
+          logger77.throwArgumentError(
+            "signature v mismatch _vs",
+            "signature",
+            signature2
+          );
+        }
+      }
+      if (result.recoveryParam == null) {
+        if (result.v == null) {
+          logger77.throwArgumentError(
+            "signature missing v and recoveryParam",
+            "signature",
+            signature2
+          );
+        } else if (result.v === 0 || result.v === 1) {
+          result.recoveryParam = result.v;
+        } else {
+          result.recoveryParam = 1 - (result.v % 2);
+        }
+      } else {
+        if (result.v == null) {
+          result.v = 27 + result.recoveryParam;
+        } else {
+          const recId =
+            result.v === 0 || result.v === 1 ? result.v : 1 - (result.v % 2);
+          if (result.recoveryParam !== recId) {
+            logger77.throwArgumentError(
+              "signature recoveryParam mismatch v",
+              "signature",
+              signature2
+            );
+          }
+        }
+      }
+      if (result.r == null || !isHexString21(result.r)) {
+        logger77.throwArgumentError(
+          "signature missing or invalid r",
+          "signature",
+          signature2
+        );
+      } else {
+        result.r = hexZeroPad10(result.r, 32);
+      }
+      if (result.s == null || !isHexString21(result.s)) {
+        logger77.throwArgumentError(
+          "signature missing or invalid s",
+          "signature",
+          signature2
+        );
+      } else {
+        result.s = hexZeroPad10(result.s, 32);
+      }
+      const vs = arrayify20(result.s);
+      if (vs[0] >= 128) {
+        logger77.throwArgumentError(
+          "signature s out of range",
+          "signature",
+          signature2
+        );
+      }
+      if (result.recoveryParam) {
+        vs[0] |= 128;
+      }
+      const _vs = hexlify15(vs);
+      if (result._vs) {
+        if (!isHexString21(result._vs)) {
+          logger77.throwArgumentError(
+            "signature invalid _vs",
+            "signature",
+            signature2
+          );
+        }
+        result._vs = hexZeroPad10(result._vs, 32);
+      }
+      if (result._vs == null) {
+        result._vs = _vs;
+      } else if (result._vs !== _vs) {
+        logger77.throwArgumentError(
+          "signature _vs mismatch v and s",
+          "signature",
+          signature2
+        );
+      }
+    }
+    return result;
+  }
+  function joinSignature2(signature2) {
+    signature2 = splitSignature7(signature2);
+    return hexlify15(
+      concat10([
+        signature2.r,
+        signature2.s,
+        signature2.recoveryParam ? "0x1c" : "0x1b",
+      ])
+    );
+  }
+  var logger77, HexCharacters15;
+  var init_lib85 = __esm({
+    "node_modules/ethers/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib84();
+      init_version80();
+      logger77 = new Logger23(version80);
+      HexCharacters15 = "0123456789abcdef";
+    },
+  });
+
+  // node_modules/@ethersproject/solidity/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version81;
+  var init_version81 = __esm({
+    "node_modules/@ethersproject/solidity/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version81 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/solidity/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize24() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors24,
+    _censorErrors24,
+    LogLevels24,
+    _logLevel24,
+    _globalLogger24,
+    _normalizeError24,
+    LogLevel24,
+    ErrorCode24,
+    HEX24,
+    Logger24;
+  var init_lib86 = __esm({
+    "node_modules/@ethersproject/solidity/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version81();
+      _permanentCensorErrors24 = false;
+      _censorErrors24 = false;
+      LogLevels24 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel24 = LogLevels24["default"];
+      _globalLogger24 = null;
+      _normalizeError24 = _checkNormalize24();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel24 || (LogLevel24 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode24 || (ErrorCode24 = {}));
+      HEX24 = "0123456789abcdef";
+      Logger24 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels24[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel24 > LogLevels24[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger24.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger24.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger24.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors24) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger24.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX24[value[i] >> 4];
+                  hex += HEX24[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger24.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError24) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger24.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError24,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger24.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger24.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger24.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger24.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger24.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger24.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger24.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger24) {
+            _globalLogger24 = new Logger24(version81);
+          }
+          return _globalLogger24;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger24.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors24) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger24.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors24 = !!censorship;
+          _permanentCensorErrors24 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels24[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger24.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel24 = level;
+        }
+        static from(version89) {
+          return new Logger24(version89);
+        }
+      };
+      Logger24.errors = ErrorCode24;
+      Logger24.levels = LogLevel24;
+    },
+  });
+
+  // node_modules/@ethersproject/solidity/node_modules/@ethersproject/bytes/lib.esm/_version.js
+  var version82;
+  var init_version82 = __esm({
+    "node_modules/@ethersproject/solidity/node_modules/@ethersproject/bytes/lib.esm/_version.js"() {
+      version82 = "bytes/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/solidity/node_modules/@ethersproject/bytes/lib.esm/index.js
+  function isHexable21(value) {
+    return !!value.toHexString;
+  }
+  function addSlice21(array) {
+    if (array.slice) {
+      return array;
+    }
+    array.slice = function () {
+      const args = Array.prototype.slice.call(arguments);
+      return addSlice21(
+        new Uint8Array(Array.prototype.slice.apply(array, args))
+      );
+    };
+    return array;
+  }
+  function isInteger21(value) {
+    return typeof value === "number" && value == value && value % 1 === 0;
+  }
+  function isBytes21(value) {
+    if (value == null) {
+      return false;
+    }
+    if (value.constructor === Uint8Array) {
+      return true;
+    }
+    if (typeof value === "string") {
+      return false;
+    }
+    if (!isInteger21(value.length) || value.length < 0) {
+      return false;
+    }
+    for (let i = 0; i < value.length; i++) {
+      const v2 = value[i];
+      if (!isInteger21(v2) || v2 < 0 || v2 >= 256) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function arrayify21(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger78.checkSafeUint53(value, "invalid arrayify value");
+      const result = [];
+      while (value) {
+        result.unshift(value & 255);
+        value = parseInt(String(value / 256));
+      }
+      if (result.length === 0) {
+        result.push(0);
+      }
+      return addSlice21(new Uint8Array(result));
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable21(value)) {
+      value = value.toHexString();
+    }
+    if (isHexString22(value)) {
+      let hex = value.substring(2);
+      if (hex.length % 2) {
+        if (options.hexPad === "left") {
+          hex = "0x0" + hex.substring(2);
+        } else if (options.hexPad === "right") {
+          hex += "0";
+        } else {
+          logger78.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      const result = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        result.push(parseInt(hex.substring(i, i + 2), 16));
+      }
+      return addSlice21(new Uint8Array(result));
+    }
+    if (isBytes21(value)) {
+      return addSlice21(new Uint8Array(value));
+    }
+    return logger78.throwArgumentError(
+      "invalid arrayify value",
+      "value",
+      value
+    );
+  }
+  function concat11(items) {
+    const objects = items.map((item) => arrayify21(item));
+    const length = objects.reduce((accum, item) => accum + item.length, 0);
+    const result = new Uint8Array(length);
+    objects.reduce((offset, object) => {
+      result.set(object, offset);
+      return offset + object.length;
+    }, 0);
+    return addSlice21(result);
+  }
+  function zeroPad5(value, length) {
+    value = arrayify21(value);
+    if (value.length > length) {
+      logger78.throwArgumentError("value out of range", "value", arguments[0]);
+    }
+    const result = new Uint8Array(length);
+    result.set(value, length - value.length);
+    return addSlice21(result);
+  }
+  function isHexString22(value, length) {
+    if (typeof value !== "string" || !value.match(/^0x[0-9A-Fa-f]*$/)) {
+      return false;
+    }
+    if (length && value.length !== 2 + 2 * length) {
+      return false;
+    }
+    return true;
+  }
+  function hexlify16(value, options) {
+    if (!options) {
+      options = {};
+    }
+    if (typeof value === "number") {
+      logger78.checkSafeUint53(value, "invalid hexlify value");
+      let hex = "";
+      while (value) {
+        hex = HexCharacters16[value & 15] + hex;
+        value = Math.floor(value / 16);
+      }
+      if (hex.length) {
+        if (hex.length % 2) {
+          hex = "0" + hex;
+        }
+        return "0x" + hex;
+      }
+      return "0x00";
+    }
+    if (typeof value === "bigint") {
+      value = value.toString(16);
+      if (value.length % 2) {
+        return "0x0" + value;
+      }
+      return "0x" + value;
+    }
+    if (
+      options.allowMissingPrefix &&
+      typeof value === "string" &&
+      value.substring(0, 2) !== "0x"
+    ) {
+      value = "0x" + value;
+    }
+    if (isHexable21(value)) {
+      return value.toHexString();
+    }
+    if (isHexString22(value)) {
+      if (value.length % 2) {
+        if (options.hexPad === "left") {
+          value = "0x0" + value.substring(2);
+        } else if (options.hexPad === "right") {
+          value += "0";
+        } else {
+          logger78.throwArgumentError("hex data is odd-length", "value", value);
+        }
+      }
+      return value.toLowerCase();
+    }
+    if (isBytes21(value)) {
+      let result = "0x";
+      for (let i = 0; i < value.length; i++) {
+        let v2 = value[i];
+        result += HexCharacters16[(v2 & 240) >> 4] + HexCharacters16[v2 & 15];
+      }
+      return result;
+    }
+    return logger78.throwArgumentError("invalid hexlify value", "value", value);
+  }
+  var logger78, HexCharacters16;
+  var init_lib87 = __esm({
+    "node_modules/@ethersproject/solidity/node_modules/@ethersproject/bytes/lib.esm/index.js"() {
+      "use strict";
+      init_lib86();
+      init_version82();
+      logger78 = new Logger24(version82);
+      HexCharacters16 = "0123456789abcdef";
     },
   });
 
   // node_modules/@ethersproject/solidity/lib.esm/_version.js
-  var version24;
-  var init_version24 = __esm({
+  var version83;
+  var init_version83 = __esm({
     "node_modules/@ethersproject/solidity/lib.esm/_version.js"() {
-      version24 = "solidity/5.5.0";
+      version83 = "solidity/5.5.0";
     },
   });
 
@@ -58675,19 +71374,19 @@
     switch (type) {
       case "address":
         if (isArray) {
-          return zeroPad(value, 32);
+          return zeroPad5(value, 32);
         }
-        return arrayify(value);
+        return arrayify21(value);
       case "string":
         return toUtf8Bytes(value);
       case "bytes":
-        return arrayify(value);
+        return arrayify21(value);
       case "bool":
         value = value ? "0x01" : "0x00";
         if (isArray) {
-          return zeroPad(value, 32);
+          return zeroPad5(value, 32);
         }
-        return arrayify(value);
+        return arrayify21(value);
     }
     let match = type.match(regexNumber);
     if (match) {
@@ -58698,29 +71397,29 @@
         size === 0 ||
         size > 256
       ) {
-        logger43.throwArgumentError("invalid number type", "type", type);
+        logger79.throwArgumentError("invalid number type", "type", type);
       }
       if (isArray) {
         size = 256;
       }
       value = BigNumber.from(value).toTwos(size);
-      return zeroPad(value, size / 8);
+      return zeroPad5(value, size / 8);
     }
     match = type.match(regexBytes);
     if (match) {
       const size = parseInt(match[1]);
       if (String(size) !== match[1] || size === 0 || size > 32) {
-        logger43.throwArgumentError("invalid bytes type", "type", type);
+        logger79.throwArgumentError("invalid bytes type", "type", type);
       }
-      if (arrayify(value).byteLength !== size) {
-        logger43.throwArgumentError(
+      if (arrayify21(value).byteLength !== size) {
+        logger79.throwArgumentError(
           `invalid value for ${type}`,
           "value",
           value
         );
       }
       if (isArray) {
-        return arrayify((value + Zeros2).substring(0, 66));
+        return arrayify21((value + Zeros2).substring(0, 66));
       }
       return value;
     }
@@ -58729,7 +71428,7 @@
       const baseType = match[1];
       const count = parseInt(match[2] || String(value.length));
       if (count != value.length) {
-        logger43.throwArgumentError(
+        logger79.throwArgumentError(
           `invalid array length for ${type}`,
           "value",
           value
@@ -58739,13 +71438,13 @@
       value.forEach(function (value2) {
         result.push(_pack(baseType, value2, true));
       });
-      return concat(result);
+      return concat11(result);
     }
-    return logger43.throwArgumentError("invalid type", "type", type);
+    return logger79.throwArgumentError("invalid type", "type", type);
   }
   function pack2(types, values) {
     if (types.length != values.length) {
-      logger43.throwArgumentError(
+      logger79.throwArgumentError(
         "wrong number of values; expected ${ types.length }",
         "values",
         values
@@ -58755,7 +71454,7 @@
     types.forEach(function (type, index) {
       tight.push(_pack(type, values[index]));
     });
-    return hexlify(concat(tight));
+    return hexlify16(concat11(tight));
   }
   function keccak2562(types, values) {
     return keccak256(pack2(types, values));
@@ -58763,31 +71462,973 @@
   function sha2562(types, values) {
     return sha256(pack2(types, values));
   }
-  var regexBytes, regexNumber, regexArray, Zeros2, logger43;
-  var init_lib29 = __esm({
+  var regexBytes, regexNumber, regexArray, Zeros2, logger79;
+  var init_lib88 = __esm({
     "node_modules/@ethersproject/solidity/lib.esm/index.js"() {
       "use strict";
       init_lib3();
-      init_lib2();
-      init_lib5();
-      init_lib18();
-      init_lib9();
-      init_lib();
-      init_version24();
+      init_lib87();
+      init_lib11();
+      init_lib52();
+      init_lib19();
+      init_lib86();
+      init_version83();
       regexBytes = new RegExp("^bytes([0-9]+)$");
       regexNumber = new RegExp("^(u?int)([0-9]*)$");
       regexArray = new RegExp("^(.*)\\[([0-9]*)\\]$");
       Zeros2 =
         "0000000000000000000000000000000000000000000000000000000000000000";
-      logger43 = new Logger(version24);
+      logger79 = new Logger24(version83);
+    },
+  });
+
+  // node_modules/ethers/node_modules/@ethersproject/properties/lib.esm/_version.js
+  var version84;
+  var init_version84 = __esm({
+    "node_modules/ethers/node_modules/@ethersproject/properties/lib.esm/_version.js"() {
+      version84 = "properties/5.5.0";
+    },
+  });
+
+  // node_modules/ethers/node_modules/@ethersproject/properties/lib.esm/index.js
+  function defineReadOnly13(object, name2, value) {
+    Object.defineProperty(object, name2, {
+      enumerable: true,
+      value,
+      writable: false,
+    });
+  }
+  function getStatic4(ctor, key2) {
+    for (let i = 0; i < 32; i++) {
+      if (ctor[key2]) {
+        return ctor[key2];
+      }
+      if (!ctor.prototype || typeof ctor.prototype !== "object") {
+        break;
+      }
+      ctor = Object.getPrototypeOf(ctor.prototype).constructor;
+    }
+    return null;
+  }
+  function resolveProperties6(object) {
+    return __awaiter22(this, void 0, void 0, function* () {
+      const promises = Object.keys(object).map((key2) => {
+        const value = object[key2];
+        return Promise.resolve(value).then((v2) => ({ key: key2, value: v2 }));
+      });
+      const results = yield Promise.all(promises);
+      return results.reduce((accum, result) => {
+        accum[result.key] = result.value;
+        return accum;
+      }, {});
+    });
+  }
+  function checkProperties3(object, properties) {
+    if (!object || typeof object !== "object") {
+      logger80.throwArgumentError("invalid object", "object", object);
+    }
+    Object.keys(object).forEach((key2) => {
+      if (!properties[key2]) {
+        logger80.throwArgumentError(
+          "invalid object key - " + key2,
+          "transaction:" + key2,
+          object
+        );
+      }
+    });
+  }
+  function shallowCopy6(object) {
+    const result = {};
+    for (const key2 in object) {
+      result[key2] = object[key2];
+    }
+    return result;
+  }
+  function _isFrozen7(object) {
+    if (object === void 0 || object === null || opaque7[typeof object]) {
+      return true;
+    }
+    if (Array.isArray(object) || typeof object === "object") {
+      if (!Object.isFrozen(object)) {
+        return false;
+      }
+      const keys = Object.keys(object);
+      for (let i = 0; i < keys.length; i++) {
+        let value = null;
+        try {
+          value = object[keys[i]];
+        } catch (error) {
+          continue;
+        }
+        if (!_isFrozen7(value)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return logger80.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function _deepCopy7(object) {
+    if (_isFrozen7(object)) {
+      return object;
+    }
+    if (Array.isArray(object)) {
+      return Object.freeze(object.map((item) => deepCopy7(item)));
+    }
+    if (typeof object === "object") {
+      const result = {};
+      for (const key2 in object) {
+        const value = object[key2];
+        if (value === void 0) {
+          continue;
+        }
+        defineReadOnly13(result, key2, deepCopy7(value));
+      }
+      return result;
+    }
+    return logger80.throwArgumentError(
+      `Cannot deepCopy ${typeof object}`,
+      "object",
+      object
+    );
+  }
+  function deepCopy7(object) {
+    return _deepCopy7(object);
+  }
+  var __awaiter22, logger80, opaque7;
+  var init_lib89 = __esm({
+    "node_modules/ethers/node_modules/@ethersproject/properties/lib.esm/index.js"() {
+      "use strict";
+      init_lib84();
+      init_version84();
+      __awaiter22 = function (thisArg, _arguments, P2, generator) {
+        function adopt(value) {
+          return value instanceof P2
+            ? value
+            : new P2(function (resolve2) {
+                resolve2(value);
+              });
+        }
+        return new (P2 || (P2 = Promise))(function (resolve2, reject) {
+          function fulfilled(value) {
+            try {
+              step(generator.next(value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function rejected(value) {
+            try {
+              step(generator["throw"](value));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          function step(result) {
+            result.done
+              ? resolve2(result.value)
+              : adopt(result.value).then(fulfilled, rejected);
+          }
+          step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+      };
+      logger80 = new Logger23(version84);
+      opaque7 = {
+        bigint: true,
+        boolean: true,
+        function: true,
+        number: true,
+        string: true,
+      };
+    },
+  });
+
+  // node_modules/ethers/node_modules/@ethersproject/transactions/lib.esm/_version.js
+  var version85;
+  var init_version85 = __esm({
+    "node_modules/ethers/node_modules/@ethersproject/transactions/lib.esm/_version.js"() {
+      version85 = "transactions/5.5.0";
+    },
+  });
+
+  // node_modules/ethers/node_modules/@ethersproject/transactions/lib.esm/index.js
+  function handleAddress2(value) {
+    if (value === "0x") {
+      return null;
+    }
+    return getAddress(value);
+  }
+  function handleNumber2(value) {
+    if (value === "0x") {
+      return Zero2;
+    }
+    return BigNumber.from(value);
+  }
+  function computeAddress5(key2) {
+    const publicKey = computePublicKey(key2);
+    return getAddress(
+      hexDataSlice8(keccak256(hexDataSlice8(publicKey, 1)), 12)
+    );
+  }
+  function recoverAddress3(digest, signature2) {
+    return computeAddress5(recoverPublicKey(arrayify20(digest), signature2));
+  }
+  function formatNumber3(value, name2) {
+    const result = stripZeros7(BigNumber.from(value).toHexString());
+    if (result.length > 32) {
+      logger81.throwArgumentError(
+        "invalid length for " + name2,
+        "transaction:" + name2,
+        value
+      );
+    }
+    return result;
+  }
+  function accessSetify4(addr, storageKeys) {
+    return {
+      address: getAddress(addr),
+      storageKeys: (storageKeys || []).map((storageKey, index) => {
+        if (hexDataLength7(storageKey) !== 32) {
+          logger81.throwArgumentError(
+            "invalid access list storageKey",
+            `accessList[${addr}:${index}]`,
+            storageKey
+          );
+        }
+        return storageKey.toLowerCase();
+      }),
+    };
+  }
+  function accessListify4(value) {
+    if (Array.isArray(value)) {
+      return value.map((set, index) => {
+        if (Array.isArray(set)) {
+          if (set.length > 2) {
+            logger81.throwArgumentError(
+              "access list expected to be [ address, storageKeys[] ]",
+              `value[${index}]`,
+              set
+            );
+          }
+          return accessSetify4(set[0], set[1]);
+        }
+        return accessSetify4(set.address, set.storageKeys);
+      });
+    }
+    const result = Object.keys(value).map((addr) => {
+      const storageKeys = value[addr].reduce((accum, storageKey) => {
+        accum[storageKey] = true;
+        return accum;
+      }, {});
+      return accessSetify4(addr, Object.keys(storageKeys).sort());
+    });
+    result.sort((a2, b2) => a2.address.localeCompare(b2.address));
+    return result;
+  }
+  function formatAccessList3(value) {
+    return accessListify4(value).map((set) => [set.address, set.storageKeys]);
+  }
+  function _serializeEip15593(transaction, signature2) {
+    if (transaction.gasPrice != null) {
+      const gasPrice = BigNumber.from(transaction.gasPrice);
+      const maxFeePerGas = BigNumber.from(transaction.maxFeePerGas || 0);
+      if (!gasPrice.eq(maxFeePerGas)) {
+        logger81.throwArgumentError(
+          "mismatch EIP-1559 gasPrice != maxFeePerGas",
+          "tx",
+          {
+            gasPrice,
+            maxFeePerGas,
+          }
+        );
+      }
+    }
+    const fields = [
+      formatNumber3(transaction.chainId || 0, "chainId"),
+      formatNumber3(transaction.nonce || 0, "nonce"),
+      formatNumber3(
+        transaction.maxPriorityFeePerGas || 0,
+        "maxPriorityFeePerGas"
+      ),
+      formatNumber3(transaction.maxFeePerGas || 0, "maxFeePerGas"),
+      formatNumber3(transaction.gasLimit || 0, "gasLimit"),
+      transaction.to != null ? getAddress(transaction.to) : "0x",
+      formatNumber3(transaction.value || 0, "value"),
+      transaction.data || "0x",
+      formatAccessList3(transaction.accessList || []),
+    ];
+    if (signature2) {
+      const sig = splitSignature7(signature2);
+      fields.push(formatNumber3(sig.recoveryParam, "recoveryParam"));
+      fields.push(stripZeros7(sig.r));
+      fields.push(stripZeros7(sig.s));
+    }
+    return hexConcat8(["0x02", encode(fields)]);
+  }
+  function _serializeEip29303(transaction, signature2) {
+    const fields = [
+      formatNumber3(transaction.chainId || 0, "chainId"),
+      formatNumber3(transaction.nonce || 0, "nonce"),
+      formatNumber3(transaction.gasPrice || 0, "gasPrice"),
+      formatNumber3(transaction.gasLimit || 0, "gasLimit"),
+      transaction.to != null ? getAddress(transaction.to) : "0x",
+      formatNumber3(transaction.value || 0, "value"),
+      transaction.data || "0x",
+      formatAccessList3(transaction.accessList || []),
+    ];
+    if (signature2) {
+      const sig = splitSignature7(signature2);
+      fields.push(formatNumber3(sig.recoveryParam, "recoveryParam"));
+      fields.push(stripZeros7(sig.r));
+      fields.push(stripZeros7(sig.s));
+    }
+    return hexConcat8(["0x01", encode(fields)]);
+  }
+  function _serialize2(transaction, signature2) {
+    checkProperties3(transaction, allowedTransactionKeys5);
+    const raw = [];
+    transactionFields2.forEach(function (fieldInfo) {
+      let value = transaction[fieldInfo.name] || [];
+      const options = {};
+      if (fieldInfo.numeric) {
+        options.hexPad = "left";
+      }
+      value = arrayify20(hexlify15(value, options));
+      if (
+        fieldInfo.length &&
+        value.length !== fieldInfo.length &&
+        value.length > 0
+      ) {
+        logger81.throwArgumentError(
+          "invalid length for " + fieldInfo.name,
+          "transaction:" + fieldInfo.name,
+          value
+        );
+      }
+      if (fieldInfo.maxLength) {
+        value = stripZeros7(value);
+        if (value.length > fieldInfo.maxLength) {
+          logger81.throwArgumentError(
+            "invalid length for " + fieldInfo.name,
+            "transaction:" + fieldInfo.name,
+            value
+          );
+        }
+      }
+      raw.push(hexlify15(value));
+    });
+    let chainId = 0;
+    if (transaction.chainId != null) {
+      chainId = transaction.chainId;
+      if (typeof chainId !== "number") {
+        logger81.throwArgumentError(
+          "invalid transaction.chainId",
+          "transaction",
+          transaction
+        );
+      }
+    } else if (signature2 && !isBytesLike9(signature2) && signature2.v > 28) {
+      chainId = Math.floor((signature2.v - 35) / 2);
+    }
+    if (chainId !== 0) {
+      raw.push(hexlify15(chainId));
+      raw.push("0x");
+      raw.push("0x");
+    }
+    if (!signature2) {
+      return encode(raw);
+    }
+    const sig = splitSignature7(signature2);
+    let v2 = 27 + sig.recoveryParam;
+    if (chainId !== 0) {
+      raw.pop();
+      raw.pop();
+      raw.pop();
+      v2 += chainId * 2 + 8;
+      if (sig.v > 28 && sig.v !== v2) {
+        logger81.throwArgumentError(
+          "transaction.chainId/signature.v mismatch",
+          "signature",
+          signature2
+        );
+      }
+    } else if (sig.v !== v2) {
+      logger81.throwArgumentError(
+        "transaction.chainId/signature.v mismatch",
+        "signature",
+        signature2
+      );
+    }
+    raw.push(hexlify15(v2));
+    raw.push(stripZeros7(arrayify20(sig.r)));
+    raw.push(stripZeros7(arrayify20(sig.s)));
+    return encode(raw);
+  }
+  function serialize3(transaction, signature2) {
+    if (transaction.type == null || transaction.type === 0) {
+      if (transaction.accessList != null) {
+        logger81.throwArgumentError(
+          "untyped transactions do not support accessList; include type: 1",
+          "transaction",
+          transaction
+        );
+      }
+      return _serialize2(transaction, signature2);
+    }
+    switch (transaction.type) {
+      case 1:
+        return _serializeEip29303(transaction, signature2);
+      case 2:
+        return _serializeEip15593(transaction, signature2);
+      default:
+        break;
+    }
+    return logger81.throwError(
+      `unsupported transaction type: ${transaction.type}`,
+      Logger23.errors.UNSUPPORTED_OPERATION,
+      {
+        operation: "serializeTransaction",
+        transactionType: transaction.type,
+      }
+    );
+  }
+  function _parseEipSignature2(tx, fields, serialize4) {
+    try {
+      const recid = handleNumber2(fields[0]).toNumber();
+      if (recid !== 0 && recid !== 1) {
+        throw new Error("bad recid");
+      }
+      tx.v = recid;
+    } catch (error) {
+      logger81.throwArgumentError(
+        "invalid v for transaction type: 1",
+        "v",
+        fields[0]
+      );
+    }
+    tx.r = hexZeroPad10(fields[1], 32);
+    tx.s = hexZeroPad10(fields[2], 32);
+    try {
+      const digest = keccak256(serialize4(tx));
+      tx.from = recoverAddress3(digest, {
+        r: tx.r,
+        s: tx.s,
+        recoveryParam: tx.v,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  function _parseEip15592(payload) {
+    const transaction = decode(payload.slice(1));
+    if (transaction.length !== 9 && transaction.length !== 12) {
+      logger81.throwArgumentError(
+        "invalid component count for transaction type: 2",
+        "payload",
+        hexlify15(payload)
+      );
+    }
+    const maxPriorityFeePerGas = handleNumber2(transaction[2]);
+    const maxFeePerGas = handleNumber2(transaction[3]);
+    const tx = {
+      type: 2,
+      chainId: handleNumber2(transaction[0]).toNumber(),
+      nonce: handleNumber2(transaction[1]).toNumber(),
+      maxPriorityFeePerGas,
+      maxFeePerGas,
+      gasPrice: null,
+      gasLimit: handleNumber2(transaction[4]),
+      to: handleAddress2(transaction[5]),
+      value: handleNumber2(transaction[6]),
+      data: transaction[7],
+      accessList: accessListify4(transaction[8]),
+    };
+    if (transaction.length === 9) {
+      return tx;
+    }
+    tx.hash = keccak256(payload);
+    _parseEipSignature2(tx, transaction.slice(9), _serializeEip15593);
+    return tx;
+  }
+  function _parseEip29302(payload) {
+    const transaction = decode(payload.slice(1));
+    if (transaction.length !== 8 && transaction.length !== 11) {
+      logger81.throwArgumentError(
+        "invalid component count for transaction type: 1",
+        "payload",
+        hexlify15(payload)
+      );
+    }
+    const tx = {
+      type: 1,
+      chainId: handleNumber2(transaction[0]).toNumber(),
+      nonce: handleNumber2(transaction[1]).toNumber(),
+      gasPrice: handleNumber2(transaction[2]),
+      gasLimit: handleNumber2(transaction[3]),
+      to: handleAddress2(transaction[4]),
+      value: handleNumber2(transaction[5]),
+      data: transaction[6],
+      accessList: accessListify4(transaction[7]),
+    };
+    if (transaction.length === 8) {
+      return tx;
+    }
+    tx.hash = keccak256(payload);
+    _parseEipSignature2(tx, transaction.slice(8), _serializeEip29303);
+    return tx;
+  }
+  function _parse2(rawTransaction) {
+    const transaction = decode(rawTransaction);
+    if (transaction.length !== 9 && transaction.length !== 6) {
+      logger81.throwArgumentError(
+        "invalid raw transaction",
+        "rawTransaction",
+        rawTransaction
+      );
+    }
+    const tx = {
+      nonce: handleNumber2(transaction[0]).toNumber(),
+      gasPrice: handleNumber2(transaction[1]),
+      gasLimit: handleNumber2(transaction[2]),
+      to: handleAddress2(transaction[3]),
+      value: handleNumber2(transaction[4]),
+      data: transaction[5],
+      chainId: 0,
+    };
+    if (transaction.length === 6) {
+      return tx;
+    }
+    try {
+      tx.v = BigNumber.from(transaction[6]).toNumber();
+    } catch (error) {
+      console.log(error);
+      return tx;
+    }
+    tx.r = hexZeroPad10(transaction[7], 32);
+    tx.s = hexZeroPad10(transaction[8], 32);
+    if (BigNumber.from(tx.r).isZero() && BigNumber.from(tx.s).isZero()) {
+      tx.chainId = tx.v;
+      tx.v = 0;
+    } else {
+      tx.chainId = Math.floor((tx.v - 35) / 2);
+      if (tx.chainId < 0) {
+        tx.chainId = 0;
+      }
+      let recoveryParam = tx.v - 27;
+      const raw = transaction.slice(0, 6);
+      if (tx.chainId !== 0) {
+        raw.push(hexlify15(tx.chainId));
+        raw.push("0x");
+        raw.push("0x");
+        recoveryParam -= tx.chainId * 2 + 8;
+      }
+      const digest = keccak256(encode(raw));
+      try {
+        tx.from = recoverAddress3(digest, {
+          r: hexlify15(tx.r),
+          s: hexlify15(tx.s),
+          recoveryParam,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      tx.hash = keccak256(rawTransaction);
+    }
+    tx.type = null;
+    return tx;
+  }
+  function parse5(rawTransaction) {
+    const payload = arrayify20(rawTransaction);
+    if (payload[0] > 127) {
+      return _parse2(payload);
+    }
+    switch (payload[0]) {
+      case 1:
+        return _parseEip29302(payload);
+      case 2:
+        return _parseEip15592(payload);
+      default:
+        break;
+    }
+    return logger81.throwError(
+      `unsupported transaction type: ${payload[0]}`,
+      Logger23.errors.UNSUPPORTED_OPERATION,
+      {
+        operation: "parseTransaction",
+        transactionType: payload[0],
+      }
+    );
+  }
+  var logger81, TransactionTypes6, transactionFields2, allowedTransactionKeys5;
+  var init_lib90 = __esm({
+    "node_modules/ethers/node_modules/@ethersproject/transactions/lib.esm/index.js"() {
+      "use strict";
+      init_lib15();
+      init_lib3();
+      init_lib85();
+      init_lib16();
+      init_lib11();
+      init_lib89();
+      init_lib14();
+      init_lib37();
+      init_lib84();
+      init_version85();
+      logger81 = new Logger23(version85);
+      (function (TransactionTypes7) {
+        TransactionTypes7[(TransactionTypes7["legacy"] = 0)] = "legacy";
+        TransactionTypes7[(TransactionTypes7["eip2930"] = 1)] = "eip2930";
+        TransactionTypes7[(TransactionTypes7["eip1559"] = 2)] = "eip1559";
+      })(TransactionTypes6 || (TransactionTypes6 = {}));
+      transactionFields2 = [
+        { name: "nonce", maxLength: 32, numeric: true },
+        { name: "gasPrice", maxLength: 32, numeric: true },
+        { name: "gasLimit", maxLength: 32, numeric: true },
+        { name: "to", length: 20 },
+        { name: "value", maxLength: 32, numeric: true },
+        { name: "data" },
+      ];
+      allowedTransactionKeys5 = {
+        chainId: true,
+        data: true,
+        gasLimit: true,
+        gasPrice: true,
+        nonce: true,
+        to: true,
+        type: true,
+        value: true,
+      };
+    },
+  });
+
+  // node_modules/@ethersproject/units/node_modules/@ethersproject/logger/lib.esm/_version.js
+  var version86;
+  var init_version86 = __esm({
+    "node_modules/@ethersproject/units/node_modules/@ethersproject/logger/lib.esm/_version.js"() {
+      version86 = "logger/5.5.0";
+    },
+  });
+
+  // node_modules/@ethersproject/units/node_modules/@ethersproject/logger/lib.esm/index.js
+  function _checkNormalize25() {
+    try {
+      const missing = [];
+      ["NFD", "NFC", "NFKD", "NFKC"].forEach((form) => {
+        try {
+          if ("test".normalize(form) !== "test") {
+            throw new Error("bad normalize");
+          }
+        } catch (error) {
+          missing.push(form);
+        }
+      });
+      if (missing.length) {
+        throw new Error("missing " + missing.join(", "));
+      }
+      if (
+        String.fromCharCode(233).normalize("NFD") !==
+        String.fromCharCode(101, 769)
+      ) {
+        throw new Error("broken implementation");
+      }
+    } catch (error) {
+      return error.message;
+    }
+    return null;
+  }
+  var _permanentCensorErrors25,
+    _censorErrors25,
+    LogLevels25,
+    _logLevel25,
+    _globalLogger25,
+    _normalizeError25,
+    LogLevel25,
+    ErrorCode25,
+    HEX25,
+    Logger25;
+  var init_lib91 = __esm({
+    "node_modules/@ethersproject/units/node_modules/@ethersproject/logger/lib.esm/index.js"() {
+      "use strict";
+      init_version86();
+      _permanentCensorErrors25 = false;
+      _censorErrors25 = false;
+      LogLevels25 = {
+        debug: 1,
+        default: 2,
+        info: 2,
+        warning: 3,
+        error: 4,
+        off: 5,
+      };
+      _logLevel25 = LogLevels25["default"];
+      _globalLogger25 = null;
+      _normalizeError25 = _checkNormalize25();
+      (function (LogLevel26) {
+        LogLevel26["DEBUG"] = "DEBUG";
+        LogLevel26["INFO"] = "INFO";
+        LogLevel26["WARNING"] = "WARNING";
+        LogLevel26["ERROR"] = "ERROR";
+        LogLevel26["OFF"] = "OFF";
+      })(LogLevel25 || (LogLevel25 = {}));
+      (function (ErrorCode26) {
+        ErrorCode26["UNKNOWN_ERROR"] = "UNKNOWN_ERROR";
+        ErrorCode26["NOT_IMPLEMENTED"] = "NOT_IMPLEMENTED";
+        ErrorCode26["UNSUPPORTED_OPERATION"] = "UNSUPPORTED_OPERATION";
+        ErrorCode26["NETWORK_ERROR"] = "NETWORK_ERROR";
+        ErrorCode26["SERVER_ERROR"] = "SERVER_ERROR";
+        ErrorCode26["TIMEOUT"] = "TIMEOUT";
+        ErrorCode26["BUFFER_OVERRUN"] = "BUFFER_OVERRUN";
+        ErrorCode26["NUMERIC_FAULT"] = "NUMERIC_FAULT";
+        ErrorCode26["MISSING_NEW"] = "MISSING_NEW";
+        ErrorCode26["INVALID_ARGUMENT"] = "INVALID_ARGUMENT";
+        ErrorCode26["MISSING_ARGUMENT"] = "MISSING_ARGUMENT";
+        ErrorCode26["UNEXPECTED_ARGUMENT"] = "UNEXPECTED_ARGUMENT";
+        ErrorCode26["CALL_EXCEPTION"] = "CALL_EXCEPTION";
+        ErrorCode26["INSUFFICIENT_FUNDS"] = "INSUFFICIENT_FUNDS";
+        ErrorCode26["NONCE_EXPIRED"] = "NONCE_EXPIRED";
+        ErrorCode26["REPLACEMENT_UNDERPRICED"] = "REPLACEMENT_UNDERPRICED";
+        ErrorCode26["UNPREDICTABLE_GAS_LIMIT"] = "UNPREDICTABLE_GAS_LIMIT";
+        ErrorCode26["TRANSACTION_REPLACED"] = "TRANSACTION_REPLACED";
+      })(ErrorCode25 || (ErrorCode25 = {}));
+      HEX25 = "0123456789abcdef";
+      Logger25 = class {
+        constructor(version89) {
+          Object.defineProperty(this, "version", {
+            enumerable: true,
+            value: version89,
+            writable: false,
+          });
+        }
+        _log(logLevel, args) {
+          const level = logLevel.toLowerCase();
+          if (LogLevels25[level] == null) {
+            this.throwArgumentError(
+              "invalid log level name",
+              "logLevel",
+              logLevel
+            );
+          }
+          if (_logLevel25 > LogLevels25[level]) {
+            return;
+          }
+          console.log.apply(console, args);
+        }
+        debug(...args) {
+          this._log(Logger25.levels.DEBUG, args);
+        }
+        info(...args) {
+          this._log(Logger25.levels.INFO, args);
+        }
+        warn(...args) {
+          this._log(Logger25.levels.WARNING, args);
+        }
+        makeError(message, code, params) {
+          if (_censorErrors25) {
+            return this.makeError("censored error", code, {});
+          }
+          if (!code) {
+            code = Logger25.errors.UNKNOWN_ERROR;
+          }
+          if (!params) {
+            params = {};
+          }
+          const messageDetails = [];
+          Object.keys(params).forEach((key2) => {
+            const value = params[key2];
+            try {
+              if (value instanceof Uint8Array) {
+                let hex = "";
+                for (let i = 0; i < value.length; i++) {
+                  hex += HEX25[value[i] >> 4];
+                  hex += HEX25[value[i] & 15];
+                }
+                messageDetails.push(key2 + "=Uint8Array(0x" + hex + ")");
+              } else {
+                messageDetails.push(key2 + "=" + JSON.stringify(value));
+              }
+            } catch (error2) {
+              messageDetails.push(
+                key2 + "=" + JSON.stringify(params[key2].toString())
+              );
+            }
+          });
+          messageDetails.push(`code=${code}`);
+          messageDetails.push(`version=${this.version}`);
+          const reason = message;
+          if (messageDetails.length) {
+            message += " (" + messageDetails.join(", ") + ")";
+          }
+          const error = new Error(message);
+          error.reason = reason;
+          error.code = code;
+          Object.keys(params).forEach(function (key2) {
+            error[key2] = params[key2];
+          });
+          return error;
+        }
+        throwError(message, code, params) {
+          throw this.makeError(message, code, params);
+        }
+        throwArgumentError(message, name2, value) {
+          return this.throwError(message, Logger25.errors.INVALID_ARGUMENT, {
+            argument: name2,
+            value,
+          });
+        }
+        assert(condition, message, code, params) {
+          if (!!condition) {
+            return;
+          }
+          this.throwError(message, code, params);
+        }
+        assertArgument(condition, message, name2, value) {
+          if (!!condition) {
+            return;
+          }
+          this.throwArgumentError(message, name2, value);
+        }
+        checkNormalize(message) {
+          if (message == null) {
+            message = "platform missing String.prototype.normalize";
+          }
+          if (_normalizeError25) {
+            this.throwError(
+              "platform missing String.prototype.normalize",
+              Logger25.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "String.prototype.normalize",
+                form: _normalizeError25,
+              }
+            );
+          }
+        }
+        checkSafeUint53(value, message) {
+          if (typeof value !== "number") {
+            return;
+          }
+          if (message == null) {
+            message = "value not safe";
+          }
+          if (value < 0 || value >= 9007199254740991) {
+            this.throwError(message, Logger25.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "out-of-safe-range",
+              value,
+            });
+          }
+          if (value % 1) {
+            this.throwError(message, Logger25.errors.NUMERIC_FAULT, {
+              operation: "checkSafeInteger",
+              fault: "non-integer",
+              value,
+            });
+          }
+        }
+        checkArgumentCount(count, expectedCount, message) {
+          if (message) {
+            message = ": " + message;
+          } else {
+            message = "";
+          }
+          if (count < expectedCount) {
+            this.throwError(
+              "missing argument" + message,
+              Logger25.errors.MISSING_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+          if (count > expectedCount) {
+            this.throwError(
+              "too many arguments" + message,
+              Logger25.errors.UNEXPECTED_ARGUMENT,
+              {
+                count,
+                expectedCount,
+              }
+            );
+          }
+        }
+        checkNew(target, kind) {
+          if (target === Object || target == null) {
+            this.throwError("missing new", Logger25.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        checkAbstract(target, kind) {
+          if (target === kind) {
+            this.throwError(
+              "cannot instantiate abstract class " +
+                JSON.stringify(kind.name) +
+                " directly; use a sub-class",
+              Logger25.errors.UNSUPPORTED_OPERATION,
+              { name: target.name, operation: "new" }
+            );
+          } else if (target === Object || target == null) {
+            this.throwError("missing new", Logger25.errors.MISSING_NEW, {
+              name: kind.name,
+            });
+          }
+        }
+        static globalLogger() {
+          if (!_globalLogger25) {
+            _globalLogger25 = new Logger25(version86);
+          }
+          return _globalLogger25;
+        }
+        static setCensorship(censorship, permanent) {
+          if (!censorship && permanent) {
+            this.globalLogger().throwError(
+              "cannot permanently disable censorship",
+              Logger25.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          if (_permanentCensorErrors25) {
+            if (!censorship) {
+              return;
+            }
+            this.globalLogger().throwError(
+              "error censorship permanent",
+              Logger25.errors.UNSUPPORTED_OPERATION,
+              {
+                operation: "setCensorship",
+              }
+            );
+          }
+          _censorErrors25 = !!censorship;
+          _permanentCensorErrors25 = !!permanent;
+        }
+        static setLogLevel(logLevel) {
+          const level = LogLevels25[logLevel.toLowerCase()];
+          if (level == null) {
+            Logger25.globalLogger().warn("invalid log level - " + logLevel);
+            return;
+          }
+          _logLevel25 = level;
+        }
+        static from(version89) {
+          return new Logger25(version89);
+        }
+      };
+      Logger25.errors = ErrorCode25;
+      Logger25.levels = LogLevel25;
     },
   });
 
   // node_modules/@ethersproject/units/lib.esm/_version.js
-  var version25;
-  var init_version25 = __esm({
+  var version87;
+  var init_version87 = __esm({
     "node_modules/@ethersproject/units/lib.esm/_version.js"() {
-      version25 = "units/5.5.0";
+      version87 = "units/5.5.0";
     },
   });
 
@@ -58801,7 +72442,7 @@
       value === "." ||
       value === "-."
     ) {
-      logger44.throwArgumentError("invalid value", "value", value);
+      logger82.throwArgumentError("invalid value", "value", value);
     }
     let whole = comps[0];
     let negative = "";
@@ -58846,7 +72487,7 @@
   }
   function parseUnits(value, unitName) {
     if (typeof value !== "string") {
-      logger44.throwArgumentError("value must be a string", "value", value);
+      logger82.throwArgumentError("value must be a string", "value", value);
     }
     if (typeof unitName === "string") {
       const index = names.indexOf(unitName);
@@ -58862,14 +72503,14 @@
   function parseEther(ether) {
     return parseUnits(ether, 18);
   }
-  var logger44, names;
-  var init_lib30 = __esm({
+  var logger82, names;
+  var init_lib92 = __esm({
     "node_modules/@ethersproject/units/lib.esm/index.js"() {
       "use strict";
       init_lib3();
-      init_lib();
-      init_version25();
-      logger44 = new Logger(version25);
+      init_lib91();
+      init_version87();
+      logger82 = new Logger25(version87);
       names = ["wei", "kwei", "mwei", "gwei", "szabo", "finney", "ether"];
     },
   });
@@ -58888,34 +72529,34 @@
     Indexed: () => Indexed,
     Interface: () => Interface,
     LogDescription: () => LogDescription,
-    Logger: () => Logger,
+    Logger: () => Logger23,
     ParamType: () => ParamType,
     RLP: () => lib_exports,
     SigningKey: () => SigningKey,
     SupportedAlgorithm: () => SupportedAlgorithm,
     TransactionDescription: () => TransactionDescription,
-    TransactionTypes: () => TransactionTypes,
+    TransactionTypes: () => TransactionTypes6,
     UnicodeNormalizationForm: () => UnicodeNormalizationForm,
     Utf8ErrorFuncs: () => Utf8ErrorFuncs,
     Utf8ErrorReason: () => Utf8ErrorReason,
     _TypedDataEncoder: () => TypedDataEncoder,
     _fetchData: () => _fetchData,
     _toEscapedUtf8String: () => _toEscapedUtf8String,
-    accessListify: () => accessListify,
-    arrayify: () => arrayify,
+    accessListify: () => accessListify4,
+    arrayify: () => arrayify20,
     base58: () => Base58,
     base64: () => lib_exports3,
-    checkProperties: () => checkProperties,
+    checkProperties: () => checkProperties3,
     checkResultErrors: () => checkResultErrors,
     commify: () => commify,
-    computeAddress: () => computeAddress,
+    computeAddress: () => computeAddress5,
     computeHmac: () => computeHmac,
     computePublicKey: () => computePublicKey,
-    concat: () => concat,
-    deepCopy: () => deepCopy,
+    concat: () => concat10,
+    deepCopy: () => deepCopy7,
     defaultAbiCoder: () => defaultAbiCoder,
     defaultPath: () => defaultPath,
-    defineReadOnly: () => defineReadOnly,
+    defineReadOnly: () => defineReadOnly13,
     entropyToMnemonic: () => entropyToMnemonic,
     fetchJson: () => fetchJson,
     formatBytes32String: () => formatBytes32String,
@@ -58927,23 +72568,23 @@
     getCreate2Address: () => getCreate2Address,
     getIcapAddress: () => getIcapAddress,
     getJsonWalletAddress: () => getJsonWalletAddress,
-    getStatic: () => getStatic,
+    getStatic: () => getStatic4,
     hashMessage: () => hashMessage,
-    hexConcat: () => hexConcat,
-    hexDataLength: () => hexDataLength,
-    hexDataSlice: () => hexDataSlice,
-    hexStripZeros: () => hexStripZeros,
-    hexValue: () => hexValue,
-    hexZeroPad: () => hexZeroPad,
-    hexlify: () => hexlify,
+    hexConcat: () => hexConcat8,
+    hexDataLength: () => hexDataLength7,
+    hexDataSlice: () => hexDataSlice8,
+    hexStripZeros: () => hexStripZeros2,
+    hexValue: () => hexValue2,
+    hexZeroPad: () => hexZeroPad10,
+    hexlify: () => hexlify15,
     id: () => id,
     isAddress: () => isAddress,
-    isBytes: () => isBytes,
-    isBytesLike: () => isBytesLike,
-    isHexString: () => isHexString2,
+    isBytes: () => isBytes20,
+    isBytesLike: () => isBytesLike9,
+    isHexString: () => isHexString21,
     isValidMnemonic: () => isValidMnemonic,
     isValidName: () => isValidName,
-    joinSignature: () => joinSignature,
+    joinSignature: () => joinSignature2,
     keccak256: () => keccak256,
     mnemonicToEntropy: () => mnemonicToEntropy,
     mnemonicToSeed: () => mnemonicToSeed,
@@ -58951,65 +72592,65 @@
     nameprep: () => nameprep,
     parseBytes32String: () => parseBytes32String,
     parseEther: () => parseEther,
-    parseTransaction: () => parse4,
+    parseTransaction: () => parse5,
     parseUnits: () => parseUnits,
     poll: () => poll,
     randomBytes: () => randomBytes3,
-    recoverAddress: () => recoverAddress,
+    recoverAddress: () => recoverAddress3,
     recoverPublicKey: () => recoverPublicKey,
-    resolveProperties: () => resolveProperties,
+    resolveProperties: () => resolveProperties6,
     ripemd160: () => ripemd160,
-    serializeTransaction: () => serialize,
+    serializeTransaction: () => serialize3,
     sha256: () => sha256,
     sha512: () => sha5122,
-    shallowCopy: () => shallowCopy,
+    shallowCopy: () => shallowCopy6,
     shuffled: () => shuffled,
     solidityKeccak256: () => keccak2562,
     solidityPack: () => pack2,
     soliditySha256: () => sha2562,
-    splitSignature: () => splitSignature,
-    stripZeros: () => stripZeros,
+    splitSignature: () => splitSignature7,
+    stripZeros: () => stripZeros7,
     toUtf8Bytes: () => toUtf8Bytes,
     toUtf8CodePoints: () => toUtf8CodePoints,
     toUtf8String: () => toUtf8String,
     verifyMessage: () => verifyMessage,
     verifyTypedData: () => verifyTypedData,
-    zeroPad: () => zeroPad,
+    zeroPad: () => zeroPad4,
   });
   var init_utils2 = __esm({
     "node_modules/ethers/lib.esm/utils.js"() {
       "use strict";
-      init_lib11();
-      init_lib7();
-      init_lib26();
-      init_lib17();
-      init_lib2();
-      init_lib10();
-      init_lib21();
-      init_lib23();
-      init_lib5();
-      init_lib();
-      init_lib18();
-      init_lib29();
-      init_lib22();
-      init_lib4();
-      init_lib6();
-      init_lib14();
-      init_lib9();
-      init_lib15();
-      init_lib30();
       init_lib24();
-      init_lib27();
-      init_lib18();
-      init_lib9();
+      init_lib15();
+      init_lib77();
+      init_lib45();
+      init_lib85();
+      init_lib23();
+      init_lib59();
+      init_lib68();
+      init_lib11();
+      init_lib84();
+      init_lib52();
+      init_lib88();
+      init_lib63();
+      init_lib89();
+      init_lib14();
+      init_lib37();
+      init_lib19();
+      init_lib90();
+      init_lib92();
+      init_lib70();
+      init_lib81();
+      init_lib52();
+      init_lib19();
     },
   });
 
   // node_modules/ethers/lib.esm/_version.js
-  var version26;
-  var init_version26 = __esm({
+  var version88;
+  var init_version88 = __esm({
     "node_modules/ethers/lib.esm/_version.js"() {
-      version26 = "ethers/5.5.4";
+      version88 = "ethers/5.5.4";
     },
   });
 
@@ -59026,30 +72667,30 @@
     Wallet: () => Wallet,
     Wordlist: () => Wordlist,
     constants: () => lib_exports2,
-    errors: () => ErrorCode,
+    errors: () => ErrorCode23,
     getDefaultProvider: () => getDefaultProvider,
-    logger: () => logger45,
+    logger: () => logger83,
     providers: () => lib_exports4,
     utils: () => utils_exports,
-    version: () => version26,
+    version: () => version88,
     wordlists: () => wordlists,
   });
-  var logger45;
+  var logger83;
   var init_ethers = __esm({
     "node_modules/ethers/lib.esm/ethers.js"() {
       "use strict";
-      init_lib16();
+      init_lib39();
       init_lib3();
-      init_lib13();
-      init_lib24();
-      init_lib8();
-      init_lib28();
-      init_lib28();
-      init_lib20();
+      init_lib30();
+      init_lib70();
+      init_lib16();
+      init_lib83();
+      init_lib83();
+      init_lib58();
       init_utils2();
-      init_lib();
-      init_version26();
-      logger45 = new Logger(version26);
+      init_lib84();
+      init_version88();
+      logger83 = new Logger23(version88);
     },
   });
 
@@ -59066,16 +72707,16 @@
     Wallet: () => Wallet,
     Wordlist: () => Wordlist,
     constants: () => lib_exports2,
-    errors: () => ErrorCode,
+    errors: () => ErrorCode23,
     ethers: () => ethers_exports,
     getDefaultProvider: () => getDefaultProvider,
-    logger: () => logger45,
+    logger: () => logger83,
     providers: () => lib_exports4,
     utils: () => utils_exports,
-    version: () => version26,
+    version: () => version88,
     wordlists: () => wordlists,
   });
-  var init_lib31 = __esm({
+  var init_lib93 = __esm({
     "node_modules/ethers/lib.esm/index.js"() {
       "use strict";
       init_ethers();
@@ -59310,7 +72951,7 @@
           },
           {
             key: "concat",
-            value: function concat2(n) {
+            value: function concat12(n) {
               if (this.length === 0) return Buffer4.alloc(0);
               var ret = Buffer4.allocUnsafe(n >>> 0);
               var p2 = this.head;
@@ -94189,9 +107830,9 @@
       var CIDUtil = require_cid_util();
       var withIs = require_class_is();
       var CID = class {
-        constructor(version27, codec2, multihash, multibaseName) {
-          if (_CID.isCID(version27)) {
-            const cid = version27;
+        constructor(version89, codec2, multihash, multibaseName) {
+          if (_CID.isCID(version89)) {
+            const cid = version89;
             this.version = cid.version;
             this.codec = cid.codec;
             this.multihash = Buffer4.from(cid.multihash);
@@ -94199,10 +107840,10 @@
               cid.multibaseName || (cid.version === 0 ? "base58btc" : "base32");
             return;
           }
-          if (typeof version27 === "string") {
-            const baseName = multibase.isEncoded(version27);
+          if (typeof version89 === "string") {
+            const baseName = multibase.isEncoded(version89);
             if (baseName) {
-              const cid = multibase.decode(version27);
+              const cid = multibase.decode(version89);
               this.version = parseInt(cid.slice(0, 1).toString("hex"), 16);
               this.codec = multicodec.getCodec(cid.slice(1));
               this.multihash = multicodec.rmPrefix(cid.slice(1));
@@ -94210,18 +107851,18 @@
             } else {
               this.version = 0;
               this.codec = "dag-pb";
-              this.multihash = mh.fromB58String(version27);
+              this.multihash = mh.fromB58String(version89);
               this.multibaseName = "base58btc";
             }
             CID.validateCID(this);
-            Object.defineProperty(this, "string", { value: version27 });
+            Object.defineProperty(this, "string", { value: version89 });
             return;
           }
-          if (Buffer4.isBuffer(version27)) {
-            const firstByte = version27.slice(0, 1);
+          if (Buffer4.isBuffer(version89)) {
+            const firstByte = version89.slice(0, 1);
             const v2 = parseInt(firstByte.toString("hex"), 16);
             if (v2 === 1) {
-              const cid = version27;
+              const cid = version89;
               this.version = v2;
               this.codec = multicodec.getCodec(cid.slice(1));
               this.multihash = multicodec.rmPrefix(cid.slice(1));
@@ -94229,17 +107870,17 @@
             } else {
               this.version = 0;
               this.codec = "dag-pb";
-              this.multihash = version27;
+              this.multihash = version89;
               this.multibaseName = "base58btc";
             }
             CID.validateCID(this);
             return;
           }
-          this.version = version27;
+          this.version = version89;
           this.codec = codec2;
           this.multihash = multihash;
           this.multibaseName =
-            multibaseName || (version27 === 0 ? "base58btc" : "base32");
+            multibaseName || (version89 === 0 ? "base58btc" : "base32");
           CID.validateCID(this);
         }
         get buffer() {
@@ -94486,7 +108127,7 @@
       exports.isValidContenthash = isValidContenthash;
       exports.validateContent = validateContent;
       var _contentHash = _interopRequireDefault(require_src9());
-      var _ethers = (init_lib31(), __toCommonJS(lib_exports5));
+      var _ethers = (init_lib93(), __toCommonJS(lib_exports5));
       var _bs = _interopRequireDefault(require_bs58());
       var supportedCodecs = [
         "ipns-ns",
@@ -94712,7 +108353,7 @@
       });
       exports.uniq = exports.parseSearchTerm = void 0;
       exports.validateName = validateName;
-      var _ethers = (init_lib31(), __toCommonJS(lib_exports5));
+      var _ethers = (init_lib93(), __toCommonJS(lib_exports5));
       var _labelhash = require_labelhash();
       var _contents = require_contents();
       var _ethEnsNamehash = require_eth_ens_namehash();
@@ -94852,7 +108493,7 @@
       var _asyncToGenerator2 = _interopRequireDefault(
         require_asyncToGenerator()
       );
-      var _ethers = (init_lib31(), __toCommonJS(lib_exports5));
+      var _ethers = (init_lib93(), __toCommonJS(lib_exports5));
       var _addressEncoder =
         (init_index_module(), __toCommonJS(index_module_exports));
       var _ENS = require_ENS();
@@ -99162,8 +112803,8 @@
     return new SiaPublicKey(algorithm, publicKeyBytes);
   }
   function newSkylinkV2(siaPublicKey, tweak) {
-    const version27 = 2;
-    const bitfield = version27 - 1;
+    const version89 = 2;
+    const bitfield = version89 - 1;
     const merkleRoot = deriveRegistryEntryID(siaPublicKey, tweak);
     return new SiaSkylink(bitfield, merkleRoot);
   }
@@ -100579,9 +114220,9 @@
       "encrypted file metadata bytes",
       ENCRYPTION_HIDDEN_FIELD_METADATA_LENGTH
     );
-    const version27 = bytes[0];
+    const version89 = bytes[0];
     return {
-      version: version27,
+      version: version89,
     };
   }
   function encodeEncryptedFileMetadata(metadata) {
@@ -103730,7 +117371,7 @@
 
   // src/resolvers/eip137.ts
   var import_ensjs = __toESM(require_dist2(), 1);
-  init_lib31();
+  init_lib93();
   var import_url14 = __toESM(__require("url"), 1);
   var ENS = import_ensjs.default.default;
   var Eip137 = class extends SubResolverBase {
@@ -103773,7 +117414,7 @@
       }
     }
     getConnection(chain) {
-      const apiUrl = new import_url14.default.URL(
+      const apiUrl = new import_url14.default.parse(
         `https://${this.resolver.getPortal()}/pocketdns`
       );
       if (import_url14.default.URLSearchParams) {
