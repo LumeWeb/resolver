@@ -8,11 +8,11 @@ import {
 
 // @ts-ignore
 import { NodeClient } from "hs-client";
-import HnsClient from "./handshake/HnsClient.js";
 import { SkynetClient } from "@lumeweb/skynet-js";
 import SubResolverBase from "../SubResolverBase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
+import DnsQuery from "../DnsQuery";
 
 export default class Handshake extends SubResolverBase {
   async resolve(input: string, params: object = {}): Promise<string | boolean> {
@@ -127,28 +127,15 @@ export default class Handshake extends SubResolverBase {
   }
 
   private async query(tld: string): Promise<object | boolean> {
-    const portal = this.resolver.getPortal();
-    const clientOptions = {
-      ssl: true,
-      network: "main",
-      host: portal,
-      port: 443,
-      headers: {
-        "x-chain": "hns",
-      },
-    };
-
-    const client = new HnsClient(clientOptions);
-    let resp;
-    try {
-      // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
-      resp = await client.execute("getnameresource", [tld]);
-    } catch (e) {
-      return false;
-    }
+    const query: DnsQuery = this.resolver.dnsNetwork.query(
+      "getnameresource",
+      "hns",
+      [tld]
+    );
+    const resp = await query.promise;
 
     // @ts-ignore
-    return resp?.result?.records || [];
+    return resp?.records || [];
   }
 
   private async processTxt(record: object): Promise<string | boolean> {
@@ -164,7 +151,9 @@ export default class Handshake extends SubResolverBase {
 
     // @ts-ignore
     if (matches) {
-      const client = new SkynetClient(`https://${this.resolver.getPortal()}`);
+      const client = new SkynetClient(
+        `https://${this.resolver.getRandomPortal("registry")?.host}`
+      );
 
       const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",

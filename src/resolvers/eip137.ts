@@ -1,8 +1,8 @@
 // @ts-ignore
 import ENSRoot, { getEnsAddress } from "@lumeweb/ensjs";
-import { ethers, providers } from "ethers";
-import URL from "url";
+import { ethers } from "ethers";
 import SubResolverBase from "../SubResolverBase.js";
+import GunProvider from "./eip137/GunProvider.js";
 
 const ENS = ENSRoot.default;
 
@@ -34,8 +34,11 @@ export default class Eip137 extends SubResolverBase {
     domain: string,
     data: string[]
   ): Promise<string | boolean> {
-    const connection: providers.StaticJsonRpcProvider = this.getConnection(
-      data[1].replace("_", "")
+    const chain = data[1].replace("_", "");
+
+    const connection: GunProvider = new GunProvider(
+      chain,
+      this.resolver.dnsNetwork
     );
 
     // @ts-ignore
@@ -62,23 +65,5 @@ export default class Eip137 extends SubResolverBase {
     } catch (e) {
       return false;
     }
-  }
-
-  private getConnection(chain: string): providers.StaticJsonRpcProvider {
-    // @ts-ignore
-    const apiUrl = new URL.URL(
-      `https://${this.resolver.getPortal()}/pocketdns`
-    );
-    if (URL.URLSearchParams) {
-      const params = new URL.URLSearchParams();
-      params.set("chain", chain);
-      apiUrl.search = params.toString();
-    } else {
-      apiUrl.search = `?chain=${chain}`;
-    }
-    return new ethers.providers.StaticJsonRpcProvider({
-      // @ts-ignore
-      url: apiUrl.toString(),
-    });
   }
 }
