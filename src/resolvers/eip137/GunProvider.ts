@@ -152,14 +152,20 @@ function checkError(method: string, error: any, params: any): any {
 export default class GunProvider extends ethers.providers.BaseProvider {
   private _dnsChain: string;
   private _dnsNetwork: DnsNetwork;
+  private _force: boolean;
 
-  constructor(dnsChain: string, dnsNetwork: DnsNetwork) {
+  constructor(
+    dnsChain: string,
+    dnsNetwork: DnsNetwork,
+    force: boolean = false
+  ) {
     const networkOrReady:
       | ethersNetwork.Networkish
       | Promise<ethersNetwork.Network> = { name: "dummy", chainId: 0 };
     super(networkOrReady);
     this._dnsChain = dnsChain;
     this._dnsNetwork = dnsNetwork;
+    this._force = force;
   }
 
   async detectNetwork(): Promise<ethersNetwork.Network> {
@@ -167,7 +173,12 @@ export default class GunProvider extends ethers.providers.BaseProvider {
   }
 
   async send(method: string, params: any[]): Promise<any> {
-    const query = this._dnsNetwork.query(method, this._dnsChain, params);
+    const query = this._dnsNetwork.query(
+      method,
+      this._dnsChain,
+      params,
+      this._force
+    );
     return query.promise;
   }
 

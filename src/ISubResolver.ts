@@ -5,5 +5,9 @@ export default interface ISubResolver {
   // tslint:disable-next-line:no-misused-new
   constructor(resolver: Resolver);
 
-  resolve(input: string, params: object): Promise<string | boolean>;
+  resolve(
+    input: string,
+    params: { [key: string]: any },
+    force: boolean
+  ): Promise<string | boolean>;
 }

@@ -7,9 +7,13 @@ import GunProvider from "./eip137/GunProvider.js";
 const ENS = ENSRoot.default;
 
 export default class Eip137 extends SubResolverBase {
-  async resolve(input: string, params: object = {}): Promise<string | boolean> {
+  async resolve(
+    input: string,
+    params: { [key: string]: any } = {},
+    force: boolean = false
+  ): Promise<string | boolean> {
     if (input.endsWith(".eth")) {
-      return this.resolveEns(input);
+      return this.resolveEns(input, force);
     }
 
     const hip5Data = input.split(".");
@@ -17,28 +21,33 @@ export default class Eip137 extends SubResolverBase {
     if (2 <= hip5Data.length && "domain" in params) {
       if (ethers.utils.isAddress(hip5Data[0])) {
         // @ts-ignore
-        return this.resolveHip5(params.domain, hip5Data);
+        return this.resolveHip5(params.domain, hip5Data, force);
       }
     }
 
     return false;
   }
 
-  private async resolveEns(input: string): Promise<string | boolean> {
+  private async resolveEns(
+    input: string,
+    force: boolean = false
+  ): Promise<string | boolean> {
     const data = [getEnsAddress("1"), "eth-mainnet"];
 
-    return this.resolveHip5(input, data);
+    return this.resolveHip5(input, data, force);
   }
 
   private async resolveHip5(
     domain: string,
-    data: string[]
+    data: string[],
+    force: boolean = false
   ): Promise<string | boolean> {
     const chain = data[1].replace("_", "");
 
     const connection: GunProvider = new GunProvider(
       chain,
-      this.resolver.dnsNetwork
+      this.resolver.dnsNetwork,
+      force
     );
 
     // @ts-ignore

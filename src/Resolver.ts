@@ -26,10 +26,11 @@ export default class Resolver {
 
   public async resolve(
     input: string,
-    params: object = []
+    params: { [key: string]: any },
+    force: boolean = false
   ): Promise<string | boolean> {
     for (const resolver of this._resolvers) {
-      const result = await resolver.resolve(input, params);
+      const result = await resolver.resolve(input, params, force);
       if (result) {
         return result;
       }

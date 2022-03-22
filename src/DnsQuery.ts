@@ -33,10 +33,7 @@ export default class DnsQuery {
   private _cacheChecked = false;
   private _cachedTimers: { [peer: string]: NodeJS.Timer } = {};
 
-  constructor(
-    network: DnsNetwork,
-    query: { query: string; chain: string; data: object | any[] | string }
-  ) {
+  constructor(network: DnsNetwork, query: DnsRequest) {
     this._network = network;
     this._query = query;
     this.init();

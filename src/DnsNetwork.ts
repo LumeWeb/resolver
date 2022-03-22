@@ -103,9 +103,10 @@ export default class DnsNetwork extends EventEmitter {
   public query(
     query: string,
     chain: string,
-    data: object | any[] = {}
+    data: object | any[] = {},
+    force: boolean = false
   ): DnsQuery {
-    return new DnsQuery(this, { query, chain, data });
+    return new DnsQuery(this, { query, chain, data, force });
   }
 
   private _trackPeerHealth(peerDomain: string) {
