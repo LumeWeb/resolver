@@ -76,7 +76,7 @@ export default class DnsNetwork extends EventEmitter {
   addTrustedPeer(peer) {
     this._peers.push(peer);
     this._peers = [...new Set(this._peers)];
-    this.network.opt({ peers: [`http://${peer}/dns`] });
+    this.network.opt({ peers: [`https://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
   query(query, chain, data = {}) {
