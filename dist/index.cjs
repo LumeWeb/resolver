@@ -457,7 +457,7 @@ var Resolver = class {
     }
     return false;
   }
-  getPortals(supports = []) {
+  getPortals(supports = [], mode = "and") {
     const portals = {};
     if (!Array.isArray(supports)) {
       supports = [supports];
@@ -468,15 +468,20 @@ var Resolver = class {
         if (this._portals[portalDomain].supports.includes(service)) {
           portals[portalDomain] = portal;
         } else {
-          delete portals[portalDomain];
+          if (mode === "and") {
+            delete portals[portalDomain];
+          }
         }
       }
     }
     return portals;
   }
-  getRandomPortal(supports = []) {
-    const portals = this.getPortals(supports);
+  getRandomPortal(supports = [], mode = "and") {
+    const portals = this.getPortals(supports, mode);
     const portalDomains = Object.keys(portals);
+    if (!portalDomains.length) {
+      return false;
+    }
     const randPortalDomainIndex = Math.floor(
       Math.random() * (1 + portalDomains.length - 1)
     );
@@ -610,20 +615,18 @@ var Handshake = class extends SubResolverBase {
     return (resp == null ? void 0 : resp.records) || [];
   }
   async processTxt(record) {
-    var _a, _b;
+    var _a;
     let matches = record.txt.slice().pop().match(startsWithSkylinkRegExp);
     if (matches) {
       return decodeURIComponent(matches[2]);
     }
     matches = record.txt.slice().pop().match(registryEntryRegExp);
     if (matches) {
-      const client = new import_skynet_js.SkynetClient(
-        `https://${
-          (_a = this.resolver.getRandomPortal("registry")) == null
-            ? void 0
-            : _a.host
-        }`
-      );
+      const portal = this.resolver.getRandomPortal("registry");
+      if (!portal) {
+        return false;
+      }
+      const client = new import_skynet_js.SkynetClient(`https://${portal}`);
       const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",
         ""
@@ -634,7 +637,7 @@ var Handshake = class extends SubResolverBase {
         { hashedDataKeyHex: true }
       );
       return Buffer.from(
-        (_b = entry.entry) == null ? void 0 : _b.data
+        (_a = entry.entry) == null ? void 0 : _a.data
       ).toString();
     }
     return false;

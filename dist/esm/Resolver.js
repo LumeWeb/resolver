@@ -33,7 +33,7 @@ export default class Resolver {
     }
     return false;
   }
-  getPortals(supports = []) {
+  getPortals(supports = [], mode = "and") {
     const portals = {};
     if (!Array.isArray(supports)) {
       supports = [supports];
@@ -46,15 +46,20 @@ export default class Resolver {
         if (this._portals[portalDomain].supports.includes(service)) {
           portals[portalDomain] = portal;
         } else {
-          delete portals[portalDomain];
+          if (mode === "and") {
+            delete portals[portalDomain];
+          }
         }
       }
     }
     return portals;
   }
-  getRandomPortal(supports = []) {
-    const portals = this.getPortals(supports);
+  getRandomPortal(supports = [], mode = "and") {
+    const portals = this.getPortals(supports, mode);
     const portalDomains = Object.keys(portals);
+    if (!portalDomains.length) {
+      return false;
+    }
     const randPortalDomainIndex = Math.floor(
       Math.random() * (1 + portalDomains.length - 1)
     );

@@ -18,7 +18,10 @@ export default class Resolver {
   registerResolver(resolver: SubResolverBase): void;
   registerPortal(host: string, supports: string[], pubkey?: string): void;
   getPortal(hostname: string): Portal | boolean;
-  getPortals(supports?: string[] | string): PortalList;
-  getRandomPortal(supports?: string[] | string): Portal;
+  getPortals(supports?: string[] | string, mode?: "and" | "or"): PortalList;
+  getRandomPortal(
+    supports?: string[] | string,
+    mode?: "and" | "or"
+  ): Portal | boolean;
 }
 //# sourceMappingURL=Resolver.d.ts.map
