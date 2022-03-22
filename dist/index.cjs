@@ -53,7 +53,6 @@ var __toCommonJS = /* @__PURE__ */ ((cache) => {
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
-  Resolver: () => Resolver,
   default: () => src_default,
   isDomain: () => isDomain,
   isIp: () => isIp,
@@ -1132,7 +1131,6 @@ module.exports = __toCommonJS(src_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 &&
   (module.exports = {
-    Resolver,
     isDomain,
     isIp,
     normalizeDomain,
