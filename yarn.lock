@@ -596,7 +596,7 @@
 
 "@lumeweb/gun@https://github.com/LumeWeb/libgun.git":
   version "0.1.0"
-  resolved "https://github.com/LumeWeb/libgun.git#54ced52a071b3f1992d72bed66b4d6d9b8c1121a"
+  resolved "https://github.com/LumeWeb/libgun.git#7051d6082b372c5fd15db411692d6f42792def12"
   dependencies:
     gun "^0.2020.1236"
 
