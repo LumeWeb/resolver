@@ -80,8 +80,8 @@ export default class DnsNetwork extends EventEmitter {
     this.network.opt({ peers: [`https://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
-  query(query, chain, data = {}) {
-    return new DnsQuery(this, { query, chain, data });
+  query(query, chain, data = {}, force = false) {
+    return new DnsQuery(this, { query, chain, data, force });
   }
   _trackPeerHealth(peerDomain) {
     const peer = this._resolver.getPortal(peerDomain);

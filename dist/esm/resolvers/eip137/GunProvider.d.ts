@@ -8,7 +8,8 @@ import DnsNetwork from "../../DnsNetwork.js";
 export default class GunProvider extends ethers.providers.BaseProvider {
   private _dnsChain;
   private _dnsNetwork;
-  constructor(dnsChain: string, dnsNetwork: DnsNetwork);
+  private _force;
+  constructor(dnsChain: string, dnsNetwork: DnsNetwork, force?: boolean);
   detectNetwork(): Promise<ethersNetwork.Network>;
   send(method: string, params: any[]): Promise<any>;
   prepareRequest(method: string, params: any): [string, any[]] | null;

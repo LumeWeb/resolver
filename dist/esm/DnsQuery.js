@@ -29,6 +29,9 @@ export default class DnsQuery {
       .createHash("sha256")
       .update(JSON.stringify(this._query.data))
       .digest("hex");
+    if (this._query.force) {
+      this._query.force = true;
+    }
     this._requestId =
       this._requestId ?? `${this._query.query};${this._query.chain};${hash}`;
     this._promise =

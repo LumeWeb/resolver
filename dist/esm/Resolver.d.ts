@@ -14,7 +14,13 @@ export default class Resolver {
   private _dnsNetwork;
   constructor();
   get dnsNetwork(): DnsNetwork;
-  resolve(input: string, params?: object): Promise<string | boolean>;
+  resolve(
+    input: string,
+    params: {
+      [key: string]: any;
+    },
+    force?: boolean
+  ): Promise<string | boolean>;
   registerResolver(resolver: SubResolverBase): void;
   registerPortal(host: string, supports: string[], pubkey?: string): void;
   getPortal(hostname: string): Portal | boolean;

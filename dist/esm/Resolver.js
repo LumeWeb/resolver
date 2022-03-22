@@ -9,9 +9,9 @@ export default class Resolver {
   get dnsNetwork() {
     return this._dnsNetwork;
   }
-  async resolve(input, params = []) {
+  async resolve(input, params, force = false) {
     for (const resolver of this._resolvers) {
-      const result = await resolver.resolve(input, params);
+      const result = await resolver.resolve(input, params, force);
       if (result) {
         return result;
       }

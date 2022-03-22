@@ -1,1 +1,0 @@
-{"version":3,"file":"HnsClient.d.ts","sourceRoot":"","sources":["../../../../src/resolvers/handshake/HnsClient.ts"],"names":[],"mappings":"AAKA,OAAO,EAAE,UAAU,EAAE,MAAM,oBAAoB,CAAC;AAGhD,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,UAAU;gBACnC,OAAO,EAAE,MAAM;IAIrB,OAAO,CAAC,IAAI,EAAE,MAAM,EAAE,MAAM,EAAE,GAAG,GAAG,OAAO,CAAC,MAAM,CAAC;CA2D1D"}

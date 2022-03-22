@@ -8,6 +8,7 @@ export declare type DnsRequest = {
   query: string;
   chain: string;
   data: object | any[] | string;
+  force?: boolean;
 };
 export default class DnsQuery {
   private _network;
@@ -23,14 +24,7 @@ export default class DnsQuery {
   private _cachedResponses;
   private _cacheChecked;
   private _cachedTimers;
-  constructor(
-    network: DnsNetwork,
-    query: {
-      query: string;
-      chain: string;
-      data: object | any[] | string;
-    }
-  );
+  constructor(network: DnsNetwork, query: DnsRequest);
   get promise(): Promise<any>;
   private init;
   private _getResponseHandler;

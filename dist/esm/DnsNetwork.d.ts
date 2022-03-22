@@ -31,7 +31,12 @@ export default class DnsNetwork extends EventEmitter {
   };
   auth(): Promise<void>;
   addTrustedPeer(peer: string): void;
-  query(query: string, chain: string, data?: object | any[]): DnsQuery;
+  query(
+    query: string,
+    chain: string,
+    data?: object | any[],
+    force?: boolean
+  ): DnsQuery;
   private _trackPeerHealth;
   private getPeerPingHandler;
   private pruneDeadPeers;

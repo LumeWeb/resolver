@@ -94,6 +94,9 @@ var DnsQuery = class {
       .createHash("sha256")
       .update(JSON.stringify(this._query.data))
       .digest("hex");
+    if (this._query.force) {
+      this._query.force = true;
+    }
     this._requestId =
       (_a = this._requestId) != null
         ? _a
@@ -367,8 +370,8 @@ var DnsNetwork = class extends import_events.EventEmitter {
     this.network.opt({ peers: [`https://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
-  query(query, chain, data = {}) {
-    return new DnsQuery(this, { query, chain, data });
+  query(query, chain, data = {}, force = false) {
+    return new DnsQuery(this, { query, chain, data, force });
   }
   _trackPeerHealth(peerDomain) {
     const peer = this._resolver.getPortal(peerDomain);
@@ -432,9 +435,9 @@ var Resolver = class {
   get dnsNetwork() {
     return this._dnsNetwork;
   }
-  async resolve(input, params = []) {
+  async resolve(input, params, force = false) {
     for (const resolver2 of this._resolvers) {
-      const result = await resolver2.resolve(input, params);
+      const result = await resolver2.resolve(input, params, force);
       if (result) {
         return result;
       }
@@ -520,7 +523,7 @@ var SubResolverBase = class {
 // src/resolvers/handshake.ts
 var import_tld_enum = __toESM(require("@lumeweb/tld-enum"), 1);
 var Handshake = class extends SubResolverBase {
-  async resolve(input, params = {}) {
+  async resolve(input, params = {}, force = false) {
     let tld = input;
     if (isIp(input)) {
       return false;
@@ -542,7 +545,7 @@ var Handshake = class extends SubResolverBase {
     for (const record of records.reverse()) {
       switch (record.type) {
         case "NS": {
-          result = await this.processNs(input, record, records);
+          result = await this.processNs(input, record, records, force);
           break;
         }
         case "TXT": {
@@ -569,7 +572,7 @@ var Handshake = class extends SubResolverBase {
     }
     return result;
   }
-  async processNs(domain, record, records) {
+  async processNs(domain, record, records, force) {
     const glue = records
       .slice()
       .find(
@@ -577,10 +580,14 @@ var Handshake = class extends SubResolverBase {
           ["GLUE4", "GLUE6"].includes(item.type) && item.ns === record.ns
       );
     if (glue) {
-      return this.resolver.resolve(domain, {
-        subquery: true,
-        nameserver: glue.address,
-      });
+      return this.resolver.resolve(
+        domain,
+        {
+          subquery: true,
+          nameserver: glue.address,
+        },
+        force
+      );
     }
     const foundDomain = normalizeDomain(record.ns);
     let isIcann = false;
@@ -590,23 +597,28 @@ var Handshake = class extends SubResolverBase {
         isIcann = import_tld_enum.default.list.includes(tld);
       }
       if (!isIcann) {
-        const hnsNs = await this.resolver.resolve(foundDomain);
+        const hnsNs = await this.resolver.resolve(foundDomain, { force });
         if (hnsNs) {
           return this.resolver.resolve(domain, {
             subquery: true,
             nameserver: hnsNs,
+            force,
           });
         }
       }
-      return this.resolver.resolve(domain, {
-        subquery: true,
-        nameserver: foundDomain,
-      });
+      return this.resolver.resolve(
+        domain,
+        {
+          subquery: true,
+          nameserver: foundDomain,
+        },
+        force
+      );
     }
-    const result = await this.resolver.resolve(record.ns, { domain });
+    const result = await this.resolver.resolve(record.ns, { domain }, force);
     return result || record.ns;
   }
-  async query(tld) {
+  async query(tld, force = false) {
     const query = this.resolver.dnsNetwork.query("getnameresource", "hns", [
       tld,
     ]);
@@ -645,7 +657,7 @@ var Handshake = class extends SubResolverBase {
 
 // src/resolvers/icann.ts
 var Icann = class extends SubResolverBase {
-  async resolve(input, params = {}) {
+  async resolve(input, params = {}, force = false) {
     var _a;
     if (!params || !("subquery" in params) || !params.subquery) {
       return false;
@@ -657,7 +669,12 @@ var Icann = class extends SubResolverBase {
       domain: input,
       nameserver: (_a = params.nameserver) != null ? _a : void 0,
     };
-    const query = this.resolver.dnsNetwork.query("dnslookup", "icann", data);
+    const query = this.resolver.dnsNetwork.query(
+      "dnslookup",
+      "icann",
+      data,
+      force
+    );
     return query.promise;
   }
 };
@@ -798,17 +815,24 @@ function checkError(method, error, params) {
 var GunProvider = class extends ethers.providers.BaseProvider {
   _dnsChain;
   _dnsNetwork;
-  constructor(dnsChain, dnsNetwork) {
+  _force;
+  constructor(dnsChain, dnsNetwork, force = false) {
     const networkOrReady = { name: "dummy", chainId: 0 };
     super(networkOrReady);
     this._dnsChain = dnsChain;
     this._dnsNetwork = dnsNetwork;
+    this._force = force;
   }
   async detectNetwork() {
     return { name: "dummy", chainId: 0 };
   }
   async send(method, params) {
-    const query = this._dnsNetwork.query(method, this._dnsChain, params);
+    const query = this._dnsNetwork.query(
+      method,
+      this._dnsChain,
+      params,
+      this._force
+    );
     return query.promise;
   }
   prepareRequest(method, params) {
@@ -1080,25 +1104,25 @@ var GunSigner = class extends ethersAbstractSigner.Signer {
 // src/resolvers/eip137.ts
 var ENS = import_ensjs.default.default;
 var Eip137 = class extends SubResolverBase {
-  async resolve(input, params = {}) {
+  async resolve(input, params = {}, force = false) {
     if (input.endsWith(".eth")) {
-      return this.resolveEns(input);
+      return this.resolveEns(input, force);
     }
     const hip5Data = input.split(".");
     if (2 <= hip5Data.length && "domain" in params) {
       if (import_ethers.ethers.utils.isAddress(hip5Data[0])) {
-        return this.resolveHip5(params.domain, hip5Data);
+        return this.resolveHip5(params.domain, hip5Data, force);
       }
     }
     return false;
   }
-  async resolveEns(input) {
+  async resolveEns(input, force = false) {
     const data = [(0, import_ensjs.getEnsAddress)("1"), "eth-mainnet"];
-    return this.resolveHip5(input, data);
+    return this.resolveHip5(input, data, force);
   }
-  async resolveHip5(domain, data) {
+  async resolveHip5(domain, data, force = false) {
     const chain = data[1].replace("_", "");
-    const connection = new GunProvider(chain, this.resolver.dnsNetwork);
+    const connection = new GunProvider(chain, this.resolver.dnsNetwork, force);
     const ens = new ENS({ provider: connection, ensAddress: data[0] });
     try {
       const name = await ens.name(domain);

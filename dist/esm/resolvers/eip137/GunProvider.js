@@ -134,17 +134,24 @@ function checkError(method, error, params) {
 export default class GunProvider extends ethers.providers.BaseProvider {
   _dnsChain;
   _dnsNetwork;
-  constructor(dnsChain, dnsNetwork) {
+  _force;
+  constructor(dnsChain, dnsNetwork, force = false) {
     const networkOrReady = { name: "dummy", chainId: 0 };
     super(networkOrReady);
     this._dnsChain = dnsChain;
     this._dnsNetwork = dnsNetwork;
+    this._force = force;
   }
   async detectNetwork() {
     return { name: "dummy", chainId: 0 };
   }
   async send(method, params) {
-    const query = this._dnsNetwork.query(method, this._dnsChain, params);
+    const query = this._dnsNetwork.query(
+      method,
+      this._dnsChain,
+      params,
+      this._force
+    );
     return query.promise;
   }
   prepareRequest(method, params) {

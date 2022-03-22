@@ -5,12 +5,13 @@ import {
   registryEntryRegExp,
   startsWithSkylinkRegExp,
 } from "../lib/util.js";
+// @ts-ignore
 import { SkynetClient } from "@lumeweb/skynet-js";
 import SubResolverBase from "../SubResolverBase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
 export default class Handshake extends SubResolverBase {
-  async resolve(input, params = {}) {
+  async resolve(input, params = {}, force = false) {
     let tld = input;
     if (isIp(input)) {
       return false;
@@ -30,10 +31,9 @@ export default class Handshake extends SubResolverBase {
     }
     let result = false;
     for (const record of records.reverse()) {
-      // @ts-ignore
       switch (record.type) {
         case "NS": {
-          result = await this.processNs(input, record, records);
+          result = await this.processNs(input, record, records, force);
           break;
         }
         case "TXT": {
@@ -41,21 +41,16 @@ export default class Handshake extends SubResolverBase {
           break;
         }
         case "SYNTH6": {
-          // @ts-ignore
           if ("ipv6" in params && params.ipv6) {
-            // @ts-ignore
             result = record.address;
           }
           break;
         }
         case "SYNTH4": {
-          // @ts-ignore
           result = record.address;
           break;
         }
-        // @ts-ignore
         default: {
-          // @ts-ignore
           break;
         }
       }
@@ -66,7 +61,7 @@ export default class Handshake extends SubResolverBase {
     return result;
   }
   // @ts-ignore
-  async processNs(domain, record, records) {
+  async processNs(domain, record, records, force) {
     // @ts-ignore
     const glue = records.slice().find(
       (item) =>
@@ -74,10 +69,14 @@ export default class Handshake extends SubResolverBase {
         ["GLUE4", "GLUE6"].includes(item.type) && item.ns === record.ns
     );
     if (glue) {
-      return this.resolver.resolve(domain, {
-        subquery: true,
-        nameserver: glue.address,
-      });
+      return this.resolver.resolve(
+        domain,
+        {
+          subquery: true,
+          nameserver: glue.address,
+        },
+        force
+      );
     }
     const foundDomain = normalizeDomain(record.ns);
     let isIcann = false;
@@ -87,23 +86,28 @@ export default class Handshake extends SubResolverBase {
         isIcann = tldEnum.list.includes(tld);
       }
       if (!isIcann) {
-        const hnsNs = await this.resolver.resolve(foundDomain);
+        const hnsNs = await this.resolver.resolve(foundDomain, { force });
         if (hnsNs) {
           return this.resolver.resolve(domain, {
             subquery: true,
             nameserver: hnsNs,
+            force,
           });
         }
       }
-      return this.resolver.resolve(domain, {
-        subquery: true,
-        nameserver: foundDomain,
-      });
+      return this.resolver.resolve(
+        domain,
+        {
+          subquery: true,
+          nameserver: foundDomain,
+        },
+        force
+      );
     }
-    const result = await this.resolver.resolve(record.ns, { domain });
+    const result = await this.resolver.resolve(record.ns, { domain }, force);
     return result || record.ns;
   }
-  async query(tld) {
+  async query(tld, force = false) {
     const query = this.resolver.dnsNetwork.query("getnameresource", "hns", [
       tld,
     ]);
