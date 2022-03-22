@@ -5,7 +5,6 @@ import {
   registryEntryRegExp,
   startsWithSkylinkRegExp,
 } from "../lib/util.js";
-import HnsClient from "./handshake/HnsClient.js";
 import { SkynetClient } from "@lumeweb/skynet-js";
 import SubResolverBase from "../SubResolverBase.js";
 // @ts-ignore
@@ -105,26 +104,12 @@ export default class Handshake extends SubResolverBase {
     return result || record.ns;
   }
   async query(tld) {
-    const portal = this.resolver.getPortal();
-    const clientOptions = {
-      ssl: true,
-      network: "main",
-      host: portal,
-      port: 443,
-      headers: {
-        "x-chain": "hns",
-      },
-    };
-    const client = new HnsClient(clientOptions);
-    let resp;
-    try {
-      // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
-      resp = await client.execute("getnameresource", [tld]);
-    } catch (e) {
-      return false;
-    }
+    const query = this.resolver.dnsNetwork.query("getnameresource", "hns", [
+      tld,
+    ]);
+    const resp = await query.promise;
     // @ts-ignore
-    return resp?.result?.records || [];
+    return resp?.records || [];
   }
   async processTxt(record) {
     // @ts-ignore
@@ -137,7 +122,9 @@ export default class Handshake extends SubResolverBase {
     matches = record.txt.slice().pop().match(registryEntryRegExp);
     // @ts-ignore
     if (matches) {
-      const client = new SkynetClient(`https://${this.resolver.getPortal()}`);
+      const client = new SkynetClient(
+        `https://${this.resolver.getRandomPortal("registry")?.host}`
+      );
       const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",
         ""

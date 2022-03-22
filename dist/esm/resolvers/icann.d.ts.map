@@ -1,1 +1,1 @@
-{"version":3,"file":"icann.d.ts","sourceRoot":"","sources":["../../../src/resolvers/icann.ts"],"names":[],"mappings":"AAKA,OAAO,eAAe,MAAM,uBAAuB,CAAC;AAGpD,MAAM,CAAC,OAAO,OAAO,KAAM,SAAQ,eAAe;IAC1C,OAAO,CAAC,KAAK,EAAE,MAAM,EAAE,MAAM,GAAE,MAAW,GAAG,OAAO,CAAC,MAAM,GAAG,OAAO,CAAC;CAwC7E"}
+{"version":3,"file":"icann.d.ts","sourceRoot":"","sources":["../../../src/resolvers/icann.ts"],"names":[],"mappings":"AAIA,OAAO,eAAe,MAAM,uBAAuB,CAAC;AAEpD,MAAM,CAAC,OAAO,OAAO,KAAM,SAAQ,eAAe;IAC1C,OAAO,CAAC,KAAK,EAAE,MAAM,EAAE,MAAM,GAAE,MAAW,GAAG,OAAO,CAAC,MAAM,GAAG,OAAO,CAAC;CAqB7E"}
