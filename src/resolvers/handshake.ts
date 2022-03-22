@@ -7,7 +7,6 @@ import {
 } from "../lib/util.js";
 
 // @ts-ignore
-import { NodeClient } from "hs-client";
 import { SkynetClient } from "@lumeweb/skynet-js";
 import SubResolverBase from "../SubResolverBase.js";
 // @ts-ignore

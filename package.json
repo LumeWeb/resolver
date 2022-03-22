@@ -34,7 +34,6 @@
     "@ethersproject/web": "^5.6.0",
     "@lumeweb/ensjs": "^2.1.1",
     "@lumeweb/gun": "https://github.com/LumeWeb/libgun.git",
-    "@lumeweb/hs-client": "https://github.com/LumeWeb/hs-client.git",
     "@lumeweb/skynet-js": "^4.0.21-beta",
     "@lumeweb/tld-enum": "https://github.com/LumeWeb/list-of-top-level-domains",
     "base32-decode": "^1.0.0",
