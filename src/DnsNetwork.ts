@@ -95,7 +95,7 @@ export default class DnsNetwork extends EventEmitter {
     this._peers.push(peer);
     this._peers = [...new Set(this._peers)];
 
-    this.network.opt({ peers: [`http://${peer}/gun`] });
+    this.network.opt({ peers: [`http://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
 
