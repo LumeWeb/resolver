@@ -151,9 +151,12 @@ export default class Handshake extends SubResolverBase {
 
     // @ts-ignore
     if (matches) {
-      const client = new SkynetClient(
-        `https://${this.resolver.getRandomPortal("registry")?.host}`
-      );
+      const portal = this.resolver.getRandomPortal("registry");
+      if (!portal) {
+        return false;
+      }
+
+      const client = new SkynetClient(`https://${portal}`);
 
       const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",
