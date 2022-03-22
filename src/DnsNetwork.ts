@@ -3,6 +3,7 @@ import DnsQuery from "./DnsQuery.js";
 // @ts-ignore
 import Gun from "@lumeweb/gun";
 import { EventEmitter } from "events";
+import { clearTimeout, setTimeout, setInterval } from "timers";
 export default class DnsNetwork extends EventEmitter {
   // @ts-ignore
   private _network: Gun;
@@ -81,12 +82,12 @@ export default class DnsNetwork extends EventEmitter {
 
   async auth() {
     const keyPair = await Gun.SEA.pair();
-    await new Promise(async (resolve) =>
-      this._network.user().create(keyPair, resolve)
-    );
-    await new Promise(async (resolve) =>
-      this._network.user().auth(keyPair, resolve)
-    );
+    await this.promiseRetry((resolve: () => void) => {
+      this._network.user().create(keyPair, resolve);
+    });
+    await this.promiseRetry((resolve: () => void) => {
+      this._network.user().auth(keyPair, resolve);
+    });
 
     this._user = this._network.user();
   }
@@ -147,6 +148,23 @@ export default class DnsNetwork extends EventEmitter {
           resolve();
         }
       }, 10);
+    });
+  }
+
+  // tslint:disable-next-line:ban-types
+  private promiseRetry(callback: Function) {
+    let timer: NodeJS.Timeout;
+
+    return new Promise<void>((resolve) => {
+      timer = setTimeout(() => {
+        resolve(this.promiseRetry(callback));
+      }, 100);
+
+      callback(() => {
+        // tslint:disable-next-line:no-unused-expression
+        timer && clearTimeout(timer);
+        resolve();
+      });
     });
   }
 }
