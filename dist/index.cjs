@@ -229,12 +229,18 @@ var DnsQuery = class {
     this.cleanHandlers();
     this.init();
   }
-  sendRequest(query, id = (0, import_uuid.v4)()) {
+  sendRequest(query, id = (0, import_uuid.v4)(), count = 0) {
     if (this._timeout) {
       return;
     }
+    if (count > 3) {
+      id = (0, import_uuid.v4)();
+      count = 0;
+    } else {
+      count++;
+    }
     const timer = (0, import_timers.setTimeout)(() => {
-      this.sendRequest(query, id);
+      this.sendRequest(query, id, count);
     }, 100);
     this._network.network
       .get("requests")
@@ -242,13 +248,13 @@ var DnsQuery = class {
       .put(query, (ack) => {
         (0, import_timers.clearTimeout)(timer);
         if (ack.err) {
-          this.sendRequest(query, id);
+          this.sendRequest(query, id, count);
         }
       });
     this._network.network.get("requests").get(id, (data) => {
       (0, import_timers.clearTimeout)(timer);
       if (!data.put) {
-        this.sendRequest(query, id);
+        this.sendRequest(query, id, count);
       }
     });
   }
