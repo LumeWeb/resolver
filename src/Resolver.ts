@@ -60,7 +60,10 @@ export default class Resolver {
     }
     return false;
   }
-  public getPortals(supports: string[] | string = []): PortalList {
+  public getPortals(
+    supports: string[] | string = [],
+    mode: "and" | "or" = "and"
+  ): PortalList {
     const portals: PortalList = {};
 
     if (!Array.isArray(supports)) {
@@ -75,7 +78,9 @@ export default class Resolver {
         if (this._portals[portalDomain].supports.includes(service)) {
           portals[portalDomain] = portal;
         } else {
-          delete portals[portalDomain];
+          if (mode === "and") {
+            delete portals[portalDomain];
+          }
         }
       }
     }
@@ -83,8 +88,11 @@ export default class Resolver {
     return portals;
   }
 
-  public getRandomPortal(supports: string[] | string = []): Portal {
-    const portals = this.getPortals(supports);
+  public getRandomPortal(
+    supports: string[] | string = [],
+    mode: "and" | "or" = "and"
+  ): Portal {
+    const portals = this.getPortals(supports, mode);
 
     const portalDomains = Object.keys(portals);
     const randPortalDomainIndex = Math.floor(
