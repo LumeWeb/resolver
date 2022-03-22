@@ -60,6 +60,7 @@ export default class Resolver {
     }
     return false;
   }
+
   public getPortals(
     supports: string[] | string = [],
     mode: "and" | "or" = "and"
@@ -91,10 +92,15 @@ export default class Resolver {
   public getRandomPortal(
     supports: string[] | string = [],
     mode: "and" | "or" = "and"
-  ): Portal {
+  ): Portal | boolean {
     const portals = this.getPortals(supports, mode);
 
     const portalDomains = Object.keys(portals);
+
+    if (!portalDomains.length) {
+      return false;
+    }
+
     const randPortalDomainIndex = Math.floor(
       Math.random() * (1 + portalDomains.length - 1)
     );
