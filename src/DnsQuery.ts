@@ -1,7 +1,7 @@
 import DnsNetwork from "./DnsNetwork.js";
 import crypto from "crypto";
 import { Portal } from "./Resolver";
-import { clearTimeout } from "timers";
+import { clearTimeout, setTimeout, setInterval } from "timers";
 import { v4 as uuidv4 } from "uuid";
 import { IGunSubscription, subscribe } from "gun-util";
 
