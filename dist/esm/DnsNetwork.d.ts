@@ -36,5 +36,6 @@ export default class DnsNetwork extends EventEmitter {
   private getPeerPingHandler;
   private pruneDeadPeers;
   waitForPeers(count?: number): Promise<void>;
+  private promiseRetry;
 }
 //# sourceMappingURL=DnsNetwork.d.ts.map

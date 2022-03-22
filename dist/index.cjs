@@ -291,6 +291,7 @@ var DnsQuery = class {
 // src/DnsNetwork.ts
 var import_gun = __toESM(require("@lumeweb/gun"), 1);
 var import_events = require("events");
+var import_timers2 = require("timers");
 var DnsNetwork = class extends import_events.EventEmitter {
   _network;
   _resolver;
@@ -353,12 +354,12 @@ var DnsNetwork = class extends import_events.EventEmitter {
   }
   async auth() {
     const keyPair = await import_gun.default.SEA.pair();
-    await new Promise(async (resolve) =>
-      this._network.user().create(keyPair, resolve)
-    );
-    await new Promise(async (resolve) =>
-      this._network.user().auth(keyPair, resolve)
-    );
+    await this.promiseRetry((resolve) => {
+      this._network.user().create(keyPair, resolve);
+    });
+    await this.promiseRetry((resolve) => {
+      this._network.user().auth(keyPair, resolve);
+    });
     this._user = this._network.user();
   }
   addTrustedPeer(peer) {
@@ -399,12 +400,24 @@ var DnsNetwork = class extends import_events.EventEmitter {
       return Promise.resolve();
     }
     return new Promise((resolve) => {
-      const timer = setInterval(() => {
+      const timer = (0, import_timers2.setInterval)(() => {
         if (hasPeers()) {
           clearInterval(timer);
           resolve();
         }
       }, 10);
+    });
+  }
+  promiseRetry(callback) {
+    let timer;
+    return new Promise((resolve) => {
+      timer = (0, import_timers2.setTimeout)(() => {
+        resolve(this.promiseRetry(callback));
+      }, 100);
+      callback(() => {
+        timer && (0, import_timers2.clearTimeout)(timer);
+        resolve();
+      });
     });
   }
 };
