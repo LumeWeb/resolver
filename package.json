@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "test": "mocha --trace-warnings  'tests/**/*.ts'",
-    "build": "tsup && tsc",
+    "build": "rimraf node_modules/@types/web && tsup && tsc",
     "buildtest": "npm run build && npm run test",
     "clean": "rimraf dist",
     "format": "prettier 'src/' 'tests/'",
