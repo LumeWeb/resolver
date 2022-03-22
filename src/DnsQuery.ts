@@ -212,13 +212,20 @@ export default class DnsQuery {
     this.init();
   }
 
-  private sendRequest(query: DnsRequest, id = uuidv4()) {
+  private sendRequest(query: DnsRequest, id = uuidv4(), count = 0) {
     if (this._timeout) {
       return;
     }
 
+    if (count > 3) {
+      id = uuidv4();
+      count = 0;
+    } else {
+      count++;
+    }
+
     const timer = setTimeout(() => {
-      this.sendRequest(query, id);
+      this.sendRequest(query, id, count);
     }, 100);
 
     this._network.network
@@ -228,7 +235,7 @@ export default class DnsQuery {
         clearTimeout(timer);
         // @ts-ignore
         if (ack.err) {
-          this.sendRequest(query, id);
+          this.sendRequest(query, id, count);
         }
       });
 
@@ -236,7 +243,7 @@ export default class DnsQuery {
       clearTimeout(timer);
       // @ts-ignore
       if (!data.put) {
-        this.sendRequest(query, id);
+        this.sendRequest(query, id, count);
       }
     });
   }
