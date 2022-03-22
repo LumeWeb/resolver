@@ -112,7 +112,10 @@ var DnsQuery = class {
     this._timeoutTimer =
       (_c = this._timeoutTimer) != null
         ? _c
-        : setTimeout(this.handeTimeout.bind(this), this._network.queryTimeout);
+        : (0, import_timers.setTimeout)(
+            this.handeTimeout.bind(this),
+            this._network.queryTimeout
+          );
   }
   _getResponseHandler(pubkey) {
     return (value) => {
@@ -230,7 +233,7 @@ var DnsQuery = class {
     if (this._timeout) {
       return;
     }
-    const timer = setTimeout(() => {
+    const timer = (0, import_timers.setTimeout)(() => {
       this.sendRequest(query, id);
     }, 100);
     this._network.network
@@ -253,7 +256,7 @@ var DnsQuery = class {
     await this._network.authed;
     if (!this._cacheChecked && !(pubkey in this._cachedHandler)) {
       this._cachedHandler[pubkey] = true;
-      this._cachedTimers[pubkey] = setInterval(() => {
+      this._cachedTimers[pubkey] = (0, import_timers.setInterval)(() => {
         if (pubkey in this._cachedResponses) {
           clearInterval(this._cachedTimers[pubkey]);
           delete this._cachedTimers[pubkey];

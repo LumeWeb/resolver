@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { clearTimeout } from "timers";
+import { clearTimeout, setTimeout, setInterval } from "timers";
 import { v4 as uuidv4 } from "uuid";
 import { subscribe } from "gun-util";
 export default class DnsQuery {
