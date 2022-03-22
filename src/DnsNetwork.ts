@@ -1,6 +1,7 @@
 import Resolver, { Portal } from "./Resolver.js";
 import DnsQuery from "./DnsQuery.js";
-import Gun from "./Gun.js";
+// @ts-ignore
+import Gun from "@lumeweb/gun";
 import { EventEmitter } from "events";
 export default class DnsNetwork extends EventEmitter {
   // @ts-ignore
