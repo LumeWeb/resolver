@@ -62,14 +62,6 @@ __export(src_exports, {
   startsWithSkylinkRegExp: () => startsWithSkylinkRegExp,
 });
 
-// node_modules/tsup/assets/cjs_shims.js
-var getImportMetaUrl = () =>
-  typeof document === "undefined"
-    ? new URL("file:" + __filename).href
-    : (document.currentScript && document.currentScript.src) ||
-      new URL("main.js", document.baseURI).href;
-var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
-
 // src/DnsQuery.ts
 var import_crypto = __toESM(require("crypto"), 1);
 var import_timers = require("timers");
@@ -287,16 +279,8 @@ var DnsQuery = class {
   }
 };
 
-// src/Gun.ts
-var import_module = require("module");
-var require2 = (0, import_module.createRequire)(importMetaUrl);
-var Gun = require2("gun");
-require2("gun/nts.js");
-Gun.Rmem = require2("gun/lib/rmem.js");
-var GunClass = Gun;
-var Gun_default = GunClass;
-
 // src/DnsNetwork.ts
+var import_gun = __toESM(require("@lumeweb/gun"), 1);
 var import_events = require("events");
 var DnsNetwork = class extends import_events.EventEmitter {
   _network;
@@ -312,9 +296,9 @@ var DnsNetwork = class extends import_events.EventEmitter {
   constructor(resolver2) {
     super();
     this._resolver = resolver2;
-    this._network = new Gun_default({
+    this._network = new import_gun.default({
       localStorage: false,
-      store: Gun_default.Rmem(),
+      store: import_gun.default.Rmem(),
       axe: false,
     });
     this._authed = this.auth();
@@ -359,7 +343,7 @@ var DnsNetwork = class extends import_events.EventEmitter {
     return this._activePeers;
   }
   async auth() {
-    const keyPair = await Gun_default.SEA.pair();
+    const keyPair = await import_gun.default.SEA.pair();
     await new Promise(async (resolve) =>
       this._network.user().create(keyPair, resolve)
     );
@@ -371,7 +355,7 @@ var DnsNetwork = class extends import_events.EventEmitter {
   addTrustedPeer(peer) {
     this._peers.push(peer);
     this._peers = [...new Set(this._peers)];
-    this.network.opt({ peers: [`http://${peer}/gun`] });
+    this.network.opt({ peers: [`http://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
   query(query, chain, data = {}) {
