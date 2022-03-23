@@ -61,6 +61,10 @@ export default class DnsQuery {
         this._promiseResolve = resolve;
       });
 
+    if (this._query.force) {
+      this._cacheChecked = true;
+    }
+
     this.addPeer = this.addPeer.bind(this);
     this._network.on("newActivePeer", this.addPeer);
 
@@ -253,7 +257,11 @@ export default class DnsQuery {
   private async addPeer(pubkey: string) {
     await this._network.authed;
 
-    if (!this._cacheChecked && !(pubkey in this._cachedHandler)) {
+    if (
+      !this._cacheChecked &&
+      !(pubkey in this._cachedHandler) &&
+      !this._query.force
+    ) {
       this._cachedHandler[pubkey] = true;
       this._cachedTimers[pubkey] = setInterval(() => {
         if (pubkey in this._cachedResponses) {
@@ -267,6 +275,7 @@ export default class DnsQuery {
           .get(this._requestId)
           .once(this.getCachedRecordHandler(pubkey), { wait: 100 });
       }, 100);
+      return;
     }
 
     if (!(pubkey in this._handlers)) {
