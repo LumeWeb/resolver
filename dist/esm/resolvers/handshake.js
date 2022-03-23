@@ -25,7 +25,7 @@ export default class Handshake extends SubResolverBase {
     if (input.includes(".")) {
       tld = input.split(".")[input.split(".").length - 1];
     }
-    const records = await this.query(tld);
+    const records = await this.query(tld, force);
     if (!records) {
       return false;
     }
