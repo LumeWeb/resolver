@@ -69,7 +69,10 @@ export default class DnsQuery {
     this._network.on("newActivePeer", this.addPeer);
 
     await this._network.waitForPeers();
-    Object.keys(this._network.activePeers).forEach(this.addPeer);
+
+    Object.keys(this._network.activePeers).forEach((peer) =>
+      this.addPeer(peer)
+    );
     this._timeoutTimer =
       this._timeoutTimer ??
       setTimeout(this.handeTimeout.bind(this), this._network.queryTimeout);
@@ -197,7 +200,9 @@ export default class DnsQuery {
   }
 
   private fetch() {
-    Object.keys(this._network.activePeers).forEach(this.addPeer);
+    Object.keys(this._network.activePeers).forEach((peer) =>
+      this.addPeer(peer, true)
+    );
 
     const query = this._query;
     query.data = JSON.stringify(query.data);
@@ -254,8 +259,12 @@ export default class DnsQuery {
     });
   }
 
-  private async addPeer(pubkey: string) {
+  private async addPeer(pubkey: string, fromFetch = false) {
     await this._network.authed;
+
+    if (!fromFetch && (this._cacheChecked || this._query.force)) {
+      this.fetch();
+    }
 
     if (
       !this._cacheChecked &&
