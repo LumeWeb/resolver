@@ -537,6 +537,60 @@ var SubResolverBase = class {
 
 // src/resolvers/handshake.ts
 var import_tld_enum = __toESM(require("@lumeweb/tld-enum"), 1);
+var b64ToBuf = (b64) => {
+  const b64regex = /^[0-9a-zA-Z-_/+=]*$/;
+  if (!b64regex.test(b64)) {
+    return [null, null];
+  }
+  b64 = b64.replace(/-/g, "+").replace(/_/g, "/");
+  const binStr = atob(b64);
+  const len = binStr.length;
+  const buf = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    buf[i] = binStr.charCodeAt(i);
+  }
+  return [buf, null];
+};
+var parseSkylinkBitfield = (skylink) => {
+  if (skylink.length !== 34) {
+    return [0, 0, 0, new Error("provided skylink has incorrect length")];
+  }
+  let bitfield = new DataView(skylink.buffer).getUint16(0, true);
+  const version = (bitfield & 3) + 1;
+  if (version !== 1 && version !== 2) {
+    return [0, 0, 0, new Error("provided skylink has unrecognized version")];
+  }
+  bitfield = bitfield >> 2;
+  if ((bitfield & 255) === 255) {
+    return [0, 0, 0, new Error("provided skylink has an unrecognized version")];
+  }
+  let mode = 0;
+  for (let i = 0; i < 8; i++) {
+    if ((bitfield & 1) === 0) {
+      bitfield = bitfield >> 1;
+      break;
+    }
+    bitfield = bitfield >> 1;
+    mode++;
+  }
+  if (mode > 7) {
+    return [0, 0, 0, new Error("provided skylink has an invalid v1 bitfield")];
+  }
+  const offsetIncrement = 4096 << mode;
+  let fetchSizeIncrement = 4096;
+  if (mode > 0) {
+    fetchSizeIncrement = fetchSizeIncrement << (mode - 1);
+  }
+  let fetchSizeBits = bitfield & 7;
+  fetchSizeBits++;
+  const fetchSize = fetchSizeBits * fetchSizeIncrement;
+  bitfield = bitfield >> 3;
+  const offset = bitfield * offsetIncrement;
+  if (offset + fetchSize > 1 << 22) {
+    return [0, 0, 0, new Error("provided skylink has an invalid v1 bitfield")];
+  }
+  return [version, offset, fetchSize, null];
+};
 var Handshake = class extends SubResolverBase {
   async resolve(input, params = {}, force = false) {
     let tld = input;
@@ -647,6 +701,17 @@ var Handshake = class extends SubResolverBase {
     var _a;
     let matches = record.txt.slice().pop().match(startsWithSkylinkRegExp);
     if (matches) {
+      const [u8Link, err64] = b64ToBuf(matches[2]);
+      if (err64 !== null) {
+        return false;
+      }
+      if (u8Link.length !== 34) {
+        return false;
+      }
+      const [version, offset, fetchSize, errBF] = parseSkylinkBitfield(u8Link);
+      if (errBF !== null) {
+        return false;
+      }
       return decodeURIComponent(matches[2]);
     }
     matches = record.txt.slice().pop().match(registryEntryRegExp);
