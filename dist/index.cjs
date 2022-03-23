@@ -626,10 +626,13 @@ var Handshake = class extends SubResolverBase {
     const result = await this.resolver.resolve(record.ns, { domain }, force);
     return result || record.ns;
   }
-  async query(tld, force = false) {
-    const query = this.resolver.dnsNetwork.query("getnameresource", "hns", [
-      tld,
-    ]);
+  async query(tld, force) {
+    const query = this.resolver.dnsNetwork.query(
+      "getnameresource",
+      "hns",
+      [tld],
+      force
+    );
     const resp = await query.promise;
     return (resp == null ? void 0 : resp.records) || [];
   }

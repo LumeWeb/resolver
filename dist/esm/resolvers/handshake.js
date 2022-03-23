@@ -107,10 +107,13 @@ export default class Handshake extends SubResolverBase {
     const result = await this.resolver.resolve(record.ns, { domain }, force);
     return result || record.ns;
   }
-  async query(tld, force = false) {
-    const query = this.resolver.dnsNetwork.query("getnameresource", "hns", [
-      tld,
-    ]);
+  async query(tld, force) {
+    const query = this.resolver.dnsNetwork.query(
+      "getnameresource",
+      "hns",
+      [tld],
+      force
+    );
     const resp = await query.promise;
     // @ts-ignore
     return resp?.records || [];
