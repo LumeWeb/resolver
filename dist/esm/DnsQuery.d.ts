@@ -2,7 +2,7 @@ import DnsNetwork from "./DnsNetwork.js";
 export declare type DnsResponse = {
   updated: number;
   requests: number;
-  data: object | string;
+  data: object | string | boolean;
 };
 export declare type DnsRequest = {
   query: string;
@@ -39,5 +39,6 @@ export default class DnsQuery {
   private retry;
   private sendRequest;
   private addPeer;
+  private isInvalidResponse;
 }
 //# sourceMappingURL=DnsQuery.d.ts.map

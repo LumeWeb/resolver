@@ -233,7 +233,7 @@ export default class Handshake extends SubResolverBase {
       if (!portal) {
         return false;
       }
-      const client = new SkynetClient(`https://${portal}`);
+      const client = new SkynetClient(`https://${portal.host}`);
       const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",
         ""

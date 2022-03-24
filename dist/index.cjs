@@ -2,8 +2,28 @@ var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) =>
+  key in obj
+    ? __defProp(obj, key, {
+        enumerable: true,
+        configurable: true,
+        writable: true,
+        value,
+      })
+    : (obj[key] = value);
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop)) __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop)) __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
 var __markAsModule = (target) =>
   __defProp(target, "__esModule", { value: true });
 var __export = (target, all) => {
@@ -126,7 +146,14 @@ var DnsQuery = class {
   }
   _getResponseHandler(pubkey) {
     return (value) => {
-      this._responses[pubkey] = this.hasResponseExpired(value) ? null : value;
+      if (pubkey in this._responses) {
+        return;
+      }
+      this._responses[pubkey] = this.hasResponseExpired(value)
+        ? null
+        : this.isInvalidResponse(value)
+        ? { data: false, updated: 0, requests: 0 }
+        : value;
       this.pruneDeadPeers();
       this.checkResponses();
     };
@@ -203,7 +230,9 @@ var DnsQuery = class {
       }
       if (response) {
         if (!this.hasResponseExpired(response)) {
-          this._cachedResponses[pubkey] = response;
+          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
+            ? { data: false, updated: 0, requests: 0 }
+            : response;
         }
       } else {
         this._cachedResponses[pubkey] = null;
@@ -302,6 +331,18 @@ var DnsQuery = class {
         this._getResponseHandler(pubkey)
       );
     }
+  }
+  isInvalidResponse(response) {
+    if (typeof response.data === "object" && !Array.isArray(response.data)) {
+      const data = __spreadValues({}, response.data);
+      if (data["#"]) {
+        delete data["#"];
+      }
+      if (Object.keys(data).length === 0) {
+        return true;
+      }
+    }
+    return false;
   }
 };
 
@@ -720,7 +761,9 @@ var Handshake = class extends SubResolverBase {
       if (!portal) {
         return false;
       }
-      const client = new import_skynet_js.SkynetClient(`https://${portal}`);
+      const client = new import_skynet_js.SkynetClient(
+        `https://${portal.host}`
+      );
       const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",
         ""
