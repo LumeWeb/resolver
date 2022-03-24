@@ -152,7 +152,13 @@ export default class GunProvider extends ethers.providers.BaseProvider {
       params,
       this._force
     );
-    return query.promise;
+    let resp = await query.promise;
+    try {
+      hexlify(resp);
+    } catch (e) {
+      resp = "0x" + "0".repeat(65);
+    }
+    return resp;
   }
   prepareRequest(method, params) {
     switch (method) {
