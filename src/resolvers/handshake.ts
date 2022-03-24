@@ -12,6 +12,7 @@ import SubResolverBase from "../SubResolverBase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
 import DnsQuery from "../DnsQuery.js";
+import { Portal } from "../Resolver.js";
 
 /*
  Copied from https://github.com/SkynetLabs/skynet-kernel/blob/4d44170fa4445004da9d9485148c5553ea668e57/extension/lib/encoding.ts
@@ -273,12 +274,14 @@ export default class Handshake extends SubResolverBase {
 
     // @ts-ignore
     if (matches) {
-      const portal = this.resolver.getRandomPortal("registry");
+      const portal: Portal = this.resolver.getRandomPortal(
+        "registry"
+      ) as Portal;
       if (!portal) {
         return false;
       }
 
-      const client = new SkynetClient(`https://${portal}`);
+      const client = new SkynetClient(`https://${portal.host}`);
 
       const pubKey = decodeURIComponent(matches.groups.publickey).replace(
         "ed25519:",
