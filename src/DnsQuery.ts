@@ -8,7 +8,7 @@ import { IGunSubscription, subscribe } from "gun-util";
 export type DnsResponse = {
   updated: number;
   requests: number;
-  data: object | string;
+  data: object | string | boolean;
 };
 
 export type DnsRequest = {
@@ -86,7 +86,7 @@ export default class DnsQuery {
       this._responses[pubkey] = this.hasResponseExpired(value)
         ? null
         : this.isInvalidResponse(value)
-        ? null
+        ? { data: false, updated: 0, requests: 0 }
         : value;
 
       this.pruneDeadPeers();
@@ -187,7 +187,7 @@ export default class DnsQuery {
       if (response) {
         if (!this.hasResponseExpired(response)) {
           this._cachedResponses[pubkey] = this.isInvalidResponse(response)
-            ? null
+            ? { data: false, updated: 0, requests: 0 }
             : response;
         }
       } else {
