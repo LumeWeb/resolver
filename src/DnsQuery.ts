@@ -80,7 +80,14 @@ export default class DnsQuery {
 
   private _getResponseHandler(pubkey: string) {
     return (value: DnsResponse) => {
-      this._responses[pubkey] = this.hasResponseExpired(value) ? null : value;
+      if (pubkey in this._responses) {
+        return;
+      }
+      this._responses[pubkey] = this.hasResponseExpired(value)
+        ? null
+        : this.isInvalidResponse(value)
+        ? null
+        : value;
 
       this.pruneDeadPeers();
       this.checkResponses();
@@ -179,7 +186,9 @@ export default class DnsQuery {
       }
       if (response) {
         if (!this.hasResponseExpired(response)) {
-          this._cachedResponses[pubkey] = response;
+          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
+            ? null
+            : response;
         }
       } else {
         this._cachedResponses[pubkey] = null;
@@ -294,5 +303,22 @@ export default class DnsQuery {
         .get(this._requestId);
       this._handlers[pubkey] = subscribe(ref, this._getResponseHandler(pubkey));
     }
+  }
+
+  private isInvalidResponse(response: DnsResponse): boolean {
+    if (typeof response.data === "object" && !Array.isArray(response.data)) {
+      const data = { ...response.data };
+
+      // @ts-ignore
+      if (data["#"]) {
+        // @ts-ignore
+        delete data["#"];
+      }
+      if (0 === Object.keys(data).length) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
