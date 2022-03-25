@@ -12,7 +12,7 @@ export default class DnsNetwork extends EventEmitter {
   private _user: object = {};
   private _peerTimeout = 5;
   private _queryTimeout = 30;
-  private _forceTimeout = 5;
+  private _forceTimeout = 10;
   private _majorityThreshold = 0.75;
   private _maxTtl = 12 * 60 * 60;
   private _activePeers: { [pubkey: string]: number } = {};
