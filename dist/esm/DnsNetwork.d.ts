@@ -9,11 +9,14 @@ export default class DnsNetwork extends EventEmitter {
   private _user;
   private _peerTimeout;
   private _queryTimeout;
+  private _forceTimeout;
   private _majorityThreshold;
   private _maxTtl;
   private _activePeers;
   private _authed;
   constructor(resolver: Resolver);
+  get forceTimeout(): number;
+  set forceTimeout(value: number);
   get authed(): Promise<any>;
   get maxTtl(): number;
   set maxTtl(value: number);
@@ -37,10 +40,10 @@ export default class DnsNetwork extends EventEmitter {
     data?: object | any[],
     force?: boolean
   ): DnsQuery;
+  waitForPeers(count?: number): Promise<void>;
   private _trackPeerHealth;
   private getPeerPingHandler;
   private pruneDeadPeers;
-  waitForPeers(count?: number): Promise<void>;
   private promiseRetry;
 }
 //# sourceMappingURL=DnsNetwork.d.ts.map

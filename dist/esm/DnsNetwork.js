@@ -9,8 +9,9 @@ export default class DnsNetwork extends EventEmitter {
   _resolver;
   _peers = [];
   _user = {};
-  _peerTimeout = 5000;
-  _queryTimeout = 30000;
+  _peerTimeout = 5;
+  _queryTimeout = 30;
+  _forceTimeout = 10;
   _majorityThreshold = 0.75;
   _maxTtl = 12 * 60 * 60;
   _activePeers = {};
@@ -24,6 +25,12 @@ export default class DnsNetwork extends EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+  get forceTimeout() {
+    return this._forceTimeout;
+  }
+  set forceTimeout(value) {
+    this._forceTimeout = value;
   }
   get authed() {
     return this._authed;
@@ -83,6 +90,20 @@ export default class DnsNetwork extends EventEmitter {
   query(query, chain, data = {}, force = false) {
     return new DnsQuery(this, { query, chain, data, force });
   }
+  async waitForPeers(count = 1) {
+    const hasPeers = () => Object.values(this._activePeers).length >= count;
+    if (hasPeers()) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      const timer = setInterval(() => {
+        if (hasPeers()) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 10);
+    });
+  }
   _trackPeerHealth(peerDomain) {
     const peer = this._resolver.getPortal(peerDomain);
     this._network
@@ -101,24 +122,10 @@ export default class DnsNetwork extends EventEmitter {
   }
   pruneDeadPeers() {
     for (const peer in this._activePeers) {
-      if (Date.now() - this._activePeers[peer] > this._peerTimeout) {
+      if (Date.now() - this._activePeers[peer] > this._peerTimeout * 1000) {
         delete this._activePeers[peer];
       }
     }
-  }
-  async waitForPeers(count = 1) {
-    const hasPeers = () => Object.values(this._activePeers).length >= count;
-    if (hasPeers()) {
-      return Promise.resolve();
-    }
-    return new Promise((resolve) => {
-      const timer = setInterval(() => {
-        if (hasPeers()) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, 10);
-    });
   }
   // tslint:disable-next-line:ban-types
   promiseRetry(callback) {

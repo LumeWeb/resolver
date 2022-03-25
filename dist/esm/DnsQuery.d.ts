@@ -27,13 +27,13 @@ export default class DnsQuery {
   constructor(network: DnsNetwork, query: DnsRequest);
   get promise(): Promise<any>;
   private init;
-  private _getResponseHandler;
+  private getResponseHandler;
+  private getCachedRecordHandler;
   private pruneDeadPeers;
   private checkResponses;
   private handeTimeout;
   private resolve;
   private cleanHandlers;
-  private getCachedRecordHandler;
   private fetch;
   private hasResponseExpired;
   private retry;

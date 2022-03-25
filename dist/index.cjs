@@ -141,12 +141,18 @@ var DnsQuery = class {
         ? _c
         : (0, import_timers.setTimeout)(
             this.handeTimeout.bind(this),
-            this._network.queryTimeout
+            this._network.queryTimeout * 1e3
           );
   }
-  _getResponseHandler(pubkey) {
+  getResponseHandler(pubkey) {
     return (value) => {
       if (pubkey in this._responses) {
+        return;
+      }
+      if (
+        this._query.force &&
+        Date.now() - value.updated > this._network.forceTimeout * 1e3
+      ) {
         return;
       }
       this._responses[pubkey] = this.hasResponseExpired(value)
@@ -156,6 +162,32 @@ var DnsQuery = class {
         : value;
       this.pruneDeadPeers();
       this.checkResponses();
+    };
+  }
+  getCachedRecordHandler(pubkey) {
+    return (response) => {
+      if (pubkey in this._cachedResponses) {
+        return;
+      }
+      if (response) {
+        if (!this.hasResponseExpired(response)) {
+          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
+            ? { data: false, updated: 0, requests: 0 }
+            : response;
+        }
+      } else {
+        this._cachedResponses[pubkey] = null;
+      }
+      const success = this.checkResponses(true);
+      if (
+        Object.keys(this._cachedResponses).length ===
+          Object.keys(this._network.activePeers).length &&
+        !success &&
+        !this._timeout
+      ) {
+        this._cacheChecked = true;
+        this.fetch();
+      }
     };
   }
   pruneDeadPeers() {
@@ -222,32 +254,6 @@ var DnsQuery = class {
     this._cachedTimers = {};
     this._network.off("newActivePeer", this.addPeer);
     this._cachedHandler = {};
-  }
-  getCachedRecordHandler(pubkey) {
-    return (response) => {
-      if (pubkey in this._cachedResponses) {
-        return;
-      }
-      if (response) {
-        if (!this.hasResponseExpired(response)) {
-          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
-            ? { data: false, updated: 0, requests: 0 }
-            : response;
-        }
-      } else {
-        this._cachedResponses[pubkey] = null;
-      }
-      const success = this.checkResponses(true);
-      if (
-        Object.keys(this._cachedResponses).length ===
-          Object.keys(this._network.activePeers).length &&
-        !success &&
-        !this._timeout
-      ) {
-        this._cacheChecked = true;
-        this.fetch();
-      }
-    };
   }
   fetch() {
     Object.keys(this._network.activePeers).forEach((peer) =>
@@ -328,7 +334,7 @@ var DnsQuery = class {
         .get(this._requestId);
       this._handlers[pubkey] = (0, import_gun_util.subscribe)(
         ref,
-        this._getResponseHandler(pubkey)
+        this.getResponseHandler(pubkey)
       );
     }
   }
@@ -355,8 +361,9 @@ var DnsNetwork = class extends import_events.EventEmitter {
   _resolver;
   _peers = [];
   _user = {};
-  _peerTimeout = 5e3;
-  _queryTimeout = 3e4;
+  _peerTimeout = 5;
+  _queryTimeout = 30;
+  _forceTimeout = 10;
   _majorityThreshold = 0.75;
   _maxTtl = 12 * 60 * 60;
   _activePeers = {};
@@ -370,6 +377,12 @@ var DnsNetwork = class extends import_events.EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+  get forceTimeout() {
+    return this._forceTimeout;
+  }
+  set forceTimeout(value) {
+    this._forceTimeout = value;
   }
   get authed() {
     return this._authed;
@@ -429,6 +442,20 @@ var DnsNetwork = class extends import_events.EventEmitter {
   query(query, chain, data = {}, force = false) {
     return new DnsQuery(this, { query, chain, data, force });
   }
+  async waitForPeers(count = 1) {
+    const hasPeers = () => Object.values(this._activePeers).length >= count;
+    if (hasPeers()) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      const timer = (0, import_timers2.setInterval)(() => {
+        if (hasPeers()) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 10);
+    });
+  }
   _trackPeerHealth(peerDomain) {
     const peer = this._resolver.getPortal(peerDomain);
     this._network
@@ -447,24 +474,10 @@ var DnsNetwork = class extends import_events.EventEmitter {
   }
   pruneDeadPeers() {
     for (const peer in this._activePeers) {
-      if (Date.now() - this._activePeers[peer] > this._peerTimeout) {
+      if (Date.now() - this._activePeers[peer] > this._peerTimeout * 1e3) {
         delete this._activePeers[peer];
       }
     }
-  }
-  async waitForPeers(count = 1) {
-    const hasPeers = () => Object.values(this._activePeers).length >= count;
-    if (hasPeers()) {
-      return Promise.resolve();
-    }
-    return new Promise((resolve) => {
-      const timer = (0, import_timers2.setInterval)(() => {
-        if (hasPeers()) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, 10);
-    });
   }
   promiseRetry(callback) {
     let timer;
