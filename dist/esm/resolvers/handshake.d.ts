@@ -8,6 +8,7 @@ export default class Handshake extends SubResolverBase {
     force?: boolean
   ): Promise<string | boolean>;
   private processNs;
+  private processGlue;
   private query;
   private processTxt;
 }

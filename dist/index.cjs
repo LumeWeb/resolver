@@ -658,6 +658,10 @@ var Handshake = class extends SubResolverBase {
           result = await this.processNs(input, record, records, force);
           break;
         }
+        case "GLUE4": {
+          result = await this.processGlue(input, record, force);
+          break;
+        }
         case "TXT": {
           result = await this.processTxt(record);
           break;
@@ -690,14 +694,7 @@ var Handshake = class extends SubResolverBase {
           ["GLUE4", "GLUE6"].includes(item.type) && item.ns === record.ns
       );
     if (glue) {
-      return this.resolver.resolve(
-        domain,
-        {
-          subquery: true,
-          nameserver: glue.address,
-        },
-        force
-      );
+      return this.processGlue(domain, record, force);
     }
     const foundDomain = normalizeDomain(record.ns);
     let isIcann = false;
@@ -727,6 +724,19 @@ var Handshake = class extends SubResolverBase {
     }
     const result = await this.resolver.resolve(record.ns, { domain }, force);
     return result || record.ns;
+  }
+  async processGlue(domain, record, force) {
+    if (isDomain(record.ns) && isIp(record.address)) {
+      return this.resolver.resolve(
+        domain,
+        {
+          subquery: true,
+          nameserver: record.address,
+        },
+        force
+      );
+    }
+    return false;
   }
   async query(tld, force) {
     const query = this.resolver.dnsNetwork.query(
