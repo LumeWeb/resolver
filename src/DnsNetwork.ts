@@ -12,6 +12,7 @@ export default class DnsNetwork extends EventEmitter {
   private _user: object = {};
   private _peerTimeout = 5;
   private _queryTimeout = 30;
+  private _forceTimeout = 5;
   private _majorityThreshold = 0.75;
   private _maxTtl = 12 * 60 * 60;
   private _activePeers: { [pubkey: string]: number } = {};
@@ -26,6 +27,14 @@ export default class DnsNetwork extends EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+
+  get forceTimeout(): number {
+    return this._forceTimeout;
+  }
+
+  set forceTimeout(value: number) {
+    this._forceTimeout = value;
   }
 
   get authed() {
@@ -109,6 +118,23 @@ export default class DnsNetwork extends EventEmitter {
     return new DnsQuery(this, { query, chain, data, force });
   }
 
+  public async waitForPeers(count = 1): Promise<void> {
+    const hasPeers = () => Object.values(this._activePeers).length >= count;
+
+    if (hasPeers()) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      const timer = setInterval(() => {
+        if (hasPeers()) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 10);
+    });
+  }
+
   private _trackPeerHealth(peerDomain: string) {
     const peer: Portal = this._resolver.getPortal(peerDomain) as Portal;
     this._network
@@ -133,23 +159,6 @@ export default class DnsNetwork extends EventEmitter {
         delete this._activePeers[peer];
       }
     }
-  }
-
-  public async waitForPeers(count = 1): Promise<void> {
-    const hasPeers = () => Object.values(this._activePeers).length >= count;
-
-    if (hasPeers()) {
-      return Promise.resolve();
-    }
-
-    return new Promise((resolve) => {
-      const timer = setInterval(() => {
-        if (hasPeers()) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, 10);
-    });
   }
 
   // tslint:disable-next-line:ban-types

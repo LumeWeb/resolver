@@ -81,11 +81,19 @@ export default class DnsQuery {
       );
   }
 
-  private _getResponseHandler(pubkey: string) {
+  private getResponseHandler(pubkey: string) {
     return (value: DnsResponse) => {
       if (pubkey in this._responses) {
         return;
       }
+
+      if (
+        this._query.force &&
+        Date.now() - value.updated > this._network.forceTimeout * 1000
+      ) {
+        return;
+      }
+
       this._responses[pubkey] = this.hasResponseExpired(value)
         ? null
         : this.isInvalidResponse(value)
@@ -94,6 +102,35 @@ export default class DnsQuery {
 
       this.pruneDeadPeers();
       this.checkResponses();
+    };
+  }
+
+  private getCachedRecordHandler(pubkey: string) {
+    return (response?: DnsResponse) => {
+      if (pubkey in this._cachedResponses) {
+        return;
+      }
+      if (response) {
+        if (!this.hasResponseExpired(response)) {
+          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
+            ? { data: false, updated: 0, requests: 0 }
+            : response;
+        }
+      } else {
+        this._cachedResponses[pubkey] = null;
+      }
+
+      const success = this.checkResponses(true);
+
+      if (
+        Object.keys(this._cachedResponses).length ===
+          Object.keys(this._network.activePeers).length &&
+        !success &&
+        !this._timeout
+      ) {
+        this._cacheChecked = true;
+        this.fetch();
+      }
     };
   }
 
@@ -180,35 +217,6 @@ export default class DnsQuery {
     this._cachedTimers = {};
     this._network.off("newActivePeer", this.addPeer as (pubkey: string) => any);
     this._cachedHandler = {};
-  }
-
-  private getCachedRecordHandler(pubkey: string) {
-    return (response?: DnsResponse) => {
-      if (pubkey in this._cachedResponses) {
-        return;
-      }
-      if (response) {
-        if (!this.hasResponseExpired(response)) {
-          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
-            ? { data: false, updated: 0, requests: 0 }
-            : response;
-        }
-      } else {
-        this._cachedResponses[pubkey] = null;
-      }
-
-      const success = this.checkResponses(true);
-
-      if (
-        Object.keys(this._cachedResponses).length ===
-          Object.keys(this._network.activePeers).length &&
-        !success &&
-        !this._timeout
-      ) {
-        this._cacheChecked = true;
-        this.fetch();
-      }
-    };
   }
 
   private fetch() {
@@ -304,7 +312,7 @@ export default class DnsQuery {
         .user(pubkey)
         .get("responses")
         .get(this._requestId);
-      this._handlers[pubkey] = subscribe(ref, this._getResponseHandler(pubkey));
+      this._handlers[pubkey] = subscribe(ref, this.getResponseHandler(pubkey));
     }
   }
 
