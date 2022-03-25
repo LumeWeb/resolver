@@ -152,6 +152,10 @@ export default class Handshake extends SubResolverBase {
           result = await this.processNs(input, record, records, force);
           break;
         }
+        case "GLUE4": {
+          result = await this.processGlue(input, record, force);
+          break;
+        }
         case "TXT": {
           result = await this.processTxt(record);
           break;
@@ -180,7 +184,7 @@ export default class Handshake extends SubResolverBase {
   }
 
   // @ts-ignore
-  private async processNs(domain, record, records, force) {
+  private async processNs(domain: string, record, records, force: boolean) {
     // @ts-ignore
     const glue = records.slice().find(
       (item: object) =>
@@ -189,14 +193,7 @@ export default class Handshake extends SubResolverBase {
     );
 
     if (glue) {
-      return this.resolver.resolve(
-        domain,
-        {
-          subquery: true,
-          nameserver: glue.address,
-        },
-        force
-      );
+      return this.processGlue(domain, record, force);
     }
 
     const foundDomain = normalizeDomain(record.ns);
@@ -233,6 +230,21 @@ export default class Handshake extends SubResolverBase {
     const result = await this.resolver.resolve(record.ns, { domain }, force);
 
     return result || record.ns;
+  }
+
+  private async processGlue(domain: string, record: any, force: boolean) {
+    if (isDomain(record.ns) && isIp(record.address)) {
+      return this.resolver.resolve(
+        domain,
+        {
+          subquery: true,
+          nameserver: record.address,
+        },
+        force
+      );
+    }
+
+    return false;
   }
 
   private async query(tld: string, force: boolean): Promise<object | boolean> {
