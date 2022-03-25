@@ -10,8 +10,8 @@ export default class DnsNetwork extends EventEmitter {
   private _resolver: Resolver;
   private _peers: string[] = [];
   private _user: object = {};
-  private _peerTimeout = 5000;
-  private _queryTimeout = 30000;
+  private _peerTimeout = 5;
+  private _queryTimeout = 30;
   private _majorityThreshold = 0.75;
   private _maxTtl = 12 * 60 * 60;
   private _activePeers: { [pubkey: string]: number } = {};
@@ -129,7 +129,7 @@ export default class DnsNetwork extends EventEmitter {
 
   private pruneDeadPeers(): void {
     for (const peer in this._activePeers) {
-      if (Date.now() - this._activePeers[peer] > this._peerTimeout) {
+      if (Date.now() - this._activePeers[peer] > this._peerTimeout * 1000) {
         delete this._activePeers[peer];
       }
     }

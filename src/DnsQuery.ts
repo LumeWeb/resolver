@@ -75,7 +75,10 @@ export default class DnsQuery {
     );
     this._timeoutTimer =
       this._timeoutTimer ??
-      setTimeout(this.handeTimeout.bind(this), this._network.queryTimeout);
+      setTimeout(
+        this.handeTimeout.bind(this),
+        this._network.queryTimeout * 1000
+      );
   }
 
   private _getResponseHandler(pubkey: string) {
