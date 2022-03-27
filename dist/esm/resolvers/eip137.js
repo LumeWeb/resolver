@@ -1,30 +1,31 @@
 // @ts-ignore
 import ENSRoot, { getEnsAddress } from "@lumeweb/ensjs";
 import { ethers } from "ethers";
-import URL from "url";
 import SubResolverBase from "../SubResolverBase.js";
+import GunProvider from "./eip137/GunProvider.js";
 const ENS = ENSRoot.default;
 export default class Eip137 extends SubResolverBase {
-  async resolve(input, params = {}) {
+  async resolve(input, params = {}, force = false) {
     if (input.endsWith(".eth")) {
-      return this.resolveEns(input);
+      return this.resolveEns(input, force);
     }
     const hip5Data = input.split(".");
     // @ts-ignore
     if (2 <= hip5Data.length && "domain" in params) {
       if (ethers.utils.isAddress(hip5Data[0])) {
         // @ts-ignore
-        return this.resolveHip5(params.domain, hip5Data);
+        return this.resolveHip5(params.domain, hip5Data, force);
       }
     }
     return false;
   }
-  async resolveEns(input) {
+  async resolveEns(input, force = false) {
     const data = [getEnsAddress("1"), "eth-mainnet"];
-    return this.resolveHip5(input, data);
+    return this.resolveHip5(input, data, force);
   }
-  async resolveHip5(domain, data) {
-    const connection = this.getConnection(data[1].replace("_", ""));
+  async resolveHip5(domain, data, force = false) {
+    const chain = data[1].replace("_", "");
+    const connection = new GunProvider(chain, this.resolver.dnsNetwork, force);
     // @ts-ignore
     const ens = new ENS({ provider: connection, ensAddress: data[0] });
     try {
@@ -45,22 +46,5 @@ export default class Eip137 extends SubResolverBase {
     } catch (e) {
       return false;
     }
-  }
-  getConnection(chain) {
-    // @ts-ignore
-    const apiUrl = new URL.parse(
-      `https://${this.resolver.getPortal()}/pocketdns`
-    );
-    if (URL.URLSearchParams) {
-      const params = new URL.URLSearchParams();
-      params.set("chain", chain);
-      apiUrl.search = params.toString();
-    } else {
-      apiUrl.search = `?chain=${chain}`;
-    }
-    return new ethers.providers.StaticJsonRpcProvider({
-      // @ts-ignore
-      url: apiUrl.format(),
-    });
   }
 }

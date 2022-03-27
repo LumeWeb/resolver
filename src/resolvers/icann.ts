@@ -1,50 +1,35 @@
 import { isDomain } from "../lib/util.js";
-import resolver from "../index.js";
 
 // @ts-ignore
 import { NodeClient } from "@lumeweb/hs-client";
 import SubResolverBase from "../SubResolverBase.js";
-import HnsClient from "./handshake/HnsClient.js";
 
 export default class Icann extends SubResolverBase {
-  async resolve(input: string, params: object = {}): Promise<string | boolean> {
-    // @ts-ignore
+  async resolve(
+    input: string,
+    params: { [key: string]: any } = {},
+    force = false
+  ): Promise<string | boolean> {
     if (!params || !("subquery" in params) || !params.subquery) {
       return false;
     }
 
-    // @ts-ignore
     if (!isDomain(input) && !("nameserver" in params || !params.nameserver)) {
       return false;
     }
 
-    const portal = resolver.getPortal();
-    const clientOptions = {
-      ssl: true,
-      host: portal,
-      port: 443,
-      path: "/pocketdns",
-      headers: {
-        "x-chain": "icann",
-      },
+    const data = {
+      domain: input,
+      nameserver: params.nameserver ?? undefined,
     };
-    const client = new HnsClient(clientOptions);
-    let resp: object | boolean = false;
-    try {
-      const rpcParams = {};
 
-      // @ts-ignore
-      rpcParams.domain = input;
-      // @ts-ignore
-      rpcParams.nameserver = params.nameserver ?? undefined;
+    const query = this.resolver.dnsNetwork.query(
+      "dnslookup",
+      "icann",
+      data,
+      force
+    );
 
-      // noinspection TypeScriptValidateJSTypes,JSVoidFunctionReturnValueUsed
-      resp = await client.execute("dnslookup", rpcParams);
-    } catch (e) {
-      return false;
-    }
-
-    // @ts-ignore
-    return resp.result;
+    return query.promise;
   }
 }

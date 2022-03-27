@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "test": "mocha --trace-warnings  'tests/**/*.ts'",
-    "build": "tsup && tsc",
+    "build": "rimraf node_modules/@types/web && tsup && tsc",
     "buildtest": "npm run build && npm run test",
     "clean": "rimraf dist",
     "format": "prettier 'src/' 'tests/'",
@@ -22,8 +22,18 @@
     "url": "https://github.com/LumeWeb/resolver.git"
   },
   "dependencies": {
+    "@ethersproject/abstract-provider": "^5.6.0",
+    "@ethersproject/abstract-signer": "^5.6.0",
+    "@ethersproject/bytes": "^5.6.0",
+    "@ethersproject/hash": "^5.6.0",
+    "@ethersproject/logger": "^5.6.0",
+    "@ethersproject/networks": "^5.6.0",
+    "@ethersproject/properties": "^5.6.0",
+    "@ethersproject/strings": "^5.6.0",
+    "@ethersproject/transactions": "^5.6.0",
+    "@ethersproject/web": "^5.6.0",
     "@lumeweb/ensjs": "^2.1.1",
-    "@lumeweb/hs-client": "https://github.com/LumeWeb/hs-client.git",
+    "@lumeweb/gun": "https://github.com/LumeWeb/libgun.git",
     "@lumeweb/skynet-js": "^4.0.21-beta",
     "@lumeweb/tld-enum": "https://github.com/LumeWeb/list-of-top-level-domains.git",
     "base32-decode": "^1.0.0",
@@ -31,13 +41,17 @@
     "brq": "^0.1.8",
     "content-hash": "^2.5.2",
     "ethers": "^5.5.4",
+    "gun-util": "^0.0.17",
     "hs-client": "^0.0.10",
+    "install": "^0.13.0",
     "skynet-js": "4.0.24-beta",
-    "ts-node": "^10.6.0"
+    "ts-node": "^10.6.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/mocha": "^9.1.0",
-    "@types/node": "^17.0.13",
+    "@types/node": "^16",
+    "@types/uuid": "^8.3.4",
     "@types/webextension-polyfill": "^0.8.2",
     "esbuild": "^0.14.14",
     "husky": "^7.0.0",

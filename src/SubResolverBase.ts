@@ -9,5 +9,9 @@ export default abstract class SubResolverBase implements ISubResolver {
     this.resolver = resolver;
   }
 
-  abstract resolve(input: string, params: object): Promise<string | boolean>;
+  abstract resolve(
+    input: string,
+    params: { [key: string]: any },
+    force: boolean
+  ): Promise<string | boolean>;
 }
