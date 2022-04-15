@@ -3,8 +3,31 @@ import ENSRoot, { getEnsAddress } from "@lumeweb/ensjs";
 import { ethers } from "ethers";
 import SubResolverBase from "../SubResolverBase.js";
 import GunProvider from "./eip137/GunProvider.js";
+import pocketNetworks from "../data/pocketNetworks.js";
+import { isDomain, normalizeDomain } from "../lib/util.js";
+// @ts-ignore
+import tldEnum from "@lumeweb/tld-enum";
 
 const ENS = ENSRoot.default;
+
+const networkMap: { [key: string]: string } = {
+  eth: "eth-mainnet",
+};
+
+function isResponseEmpty(data: any) {
+  if (!data) {
+    return true;
+  }
+
+  if (ethers.utils.isHexString(data)) {
+    const normalizedData = ethers.utils.stripZeros(data).toString();
+    if (!normalizedData) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 export default class Eip137 extends SubResolverBase {
   async resolve(
@@ -42,7 +65,14 @@ export default class Eip137 extends SubResolverBase {
     data: string[],
     force: boolean = false
   ): Promise<string | boolean> {
-    const chain = data[1].replace("_", "");
+    let chain = data[1].replace("_", "");
+
+    if (chain in networkMap) {
+      chain = networkMap[chain];
+    }
+    if (chain in pocketNetworks) {
+      chain = pocketNetworks[chain];
+    }
 
     const connection: GunProvider = new GunProvider(
       chain,
@@ -56,8 +86,8 @@ export default class Eip137 extends SubResolverBase {
     try {
       const name = await ens.name(domain);
       const contentResult = await name.getContent();
-      const url = await name.getText("url");
       let content;
+      let result: string | boolean = false;
 
       if (typeof contentResult === "string" && 0 === Number(contentResult)) {
         content = false;
@@ -70,7 +100,57 @@ export default class Eip137 extends SubResolverBase {
         content = contentResult.value;
       }
 
-      return content || url || false;
+      if (content) {
+        result = content;
+      }
+
+      /*
+              Future DNS support
+             */
+      /*if (isResponseEmpty(result)) {
+              result = await name.getText("A");
+            }
+
+            if (isResponseEmpty(result)) {
+              result = await name.getText("CNAME");
+            }
+
+            if (isResponseEmpty(result)) {
+              result = await name.getText("NS");
+              if (result) {
+                result = normalizeDomain(result as string);
+                let isIcann = false;
+                if (isDomain(result) || /[a-zA-Z0-9\-]+/.test(result)) {
+                  if (result.includes(".")) {
+                    const tld = result.split(".")[result.split(".").length - 1];
+                    isIcann = tldEnum.list.includes(tld);
+                  }
+
+                  if (!isIcann) {
+                    const evmNs = await this.resolver.resolve(result, { force });
+
+                    if (result) {
+                      return this.resolver.resolve(domain, {
+                        subquery: true,
+                        nameserver: evmNs,
+                        force,
+                      });
+                    }
+                  }
+
+                  result = await this.resolver.resolve(
+                    domain,
+                    {
+                      subquery: true,
+                      nameserver: result,
+                    },
+                    force
+                  );
+                }
+              }
+            }*/
+
+      return result;
     } catch (e) {
       return false;
     }
