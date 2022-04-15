@@ -87,6 +87,10 @@ export default class DnsQuery {
         return;
       }
 
+      if (!value) {
+        return;
+      }
+
       if (
         this._query.force &&
         Date.now() - value.updated > this._network.forceTimeout * 1000
