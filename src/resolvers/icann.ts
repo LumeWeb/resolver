@@ -1,7 +1,6 @@
 import { isDomain } from "../lib/util.js";
 
 // @ts-ignore
-import { NodeClient } from "@lumeweb/hs-client";
 import SubResolverBase from "../SubResolverBase.js";
 
 export default class Icann extends SubResolverBase {
