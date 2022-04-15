@@ -1,11 +1,17 @@
-import resolver from "../../src/index.js";
+import resolvers from "../../src/index.js";
 import Eip137 from "../../src/resolvers/eip137.js";
 import is_ipfs from "is-ipfs";
 import assert from "assert";
 
 const { ipnsPath } = is_ipfs;
 
-resolver.registerPortal(process.env.TEST_PORTAL as string);
+const resolver = resolvers.createDefaultResolver();
+
+resolver.registerPortal(
+  process.env.TEST_PORTAL as string,
+  ["dns", "registry"],
+  process.env.TEST_PORTAL_PUBKEY as string
+);
 
 describe("Eip137", () => {
   const subresolver = new Eip137(resolver);

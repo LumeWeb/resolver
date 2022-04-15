@@ -1,4 +1,4 @@
-import resolver, {
+import resolvers, {
   isDomain,
   isIp,
   startsWithSkylinkRegExp,
@@ -6,8 +6,13 @@ import resolver, {
 import Handshake from "../../src/resolvers/handshake.js";
 import assert from "assert";
 
-resolver.registerPortal("skynet.derrickhammer.com");
-//resolver.registerPortal(process.env.TEST_PORTAL as string);
+const resolver = resolvers.createDefaultResolver();
+
+resolver.registerPortal(
+  process.env.TEST_PORTAL as string,
+  ["dns", "registry"],
+  process.env.TEST_PORTAL_PUBKEY as string
+);
 
 describe("Handshake", () => {
   const subresolver = new Handshake(resolver);
