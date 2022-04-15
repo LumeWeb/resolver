@@ -26,7 +26,7 @@ export default class Resolver {
 
   public async resolve(
     input: string,
-    params: { [key: string]: any },
+    params: { [key: string]: any } = {},
     force: boolean = false
   ): Promise<string | boolean> {
     for (const resolver of this._resolvers) {
