@@ -16,6 +16,7 @@ export default class DnsNetwork extends EventEmitter {
   _maxTtl = 12 * 60 * 60;
   _activePeers = {};
   _authed;
+  _force = false;
   constructor(resolver) {
     super();
     this._resolver = resolver;
@@ -25,6 +26,12 @@ export default class DnsNetwork extends EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+  get force() {
+    return this._force;
+  }
+  set force(value) {
+    this._force = value;
   }
   get forceTimeout() {
     return this._forceTimeout;
@@ -88,7 +95,12 @@ export default class DnsNetwork extends EventEmitter {
     this._trackPeerHealth(peer);
   }
   query(query, chain, data = {}, force = false) {
-    return new DnsQuery(this, { query, chain, data, force });
+    return new DnsQuery(this, {
+      query,
+      chain,
+      data,
+      force: force || this._force,
+    });
   }
   async waitForPeers(count = 1) {
     const hasPeers = () => Object.values(this._activePeers).length >= count;

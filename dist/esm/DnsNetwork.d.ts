@@ -14,7 +14,10 @@ export default class DnsNetwork extends EventEmitter {
   private _maxTtl;
   private _activePeers;
   private _authed;
+  private _force;
   constructor(resolver: Resolver);
+  get force(): boolean;
+  set force(value: boolean);
   get forceTimeout(): number;
   set forceTimeout(value: number);
   get authed(): Promise<any>;

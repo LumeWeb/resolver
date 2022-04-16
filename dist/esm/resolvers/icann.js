@@ -1,4 +1,5 @@
 import { isDomain } from "../lib/util.js";
+// @ts-ignore
 import SubResolverBase from "../SubResolverBase.js";
 export default class Icann extends SubResolverBase {
   async resolve(input, params = {}, force = false) {

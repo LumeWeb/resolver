@@ -16,7 +16,7 @@ export default class Resolver {
   get dnsNetwork(): DnsNetwork;
   resolve(
     input: string,
-    params: {
+    params?: {
       [key: string]: any;
     },
     force?: boolean

@@ -73,6 +73,7 @@ var __toCommonJS = /* @__PURE__ */ ((cache) => {
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
+  Resolver: () => Resolver,
   default: () => src_default,
   isDomain: () => isDomain,
   isIp: () => isIp,
@@ -147,6 +148,9 @@ var DnsQuery = class {
   getResponseHandler(pubkey) {
     return (value) => {
       if (pubkey in this._responses) {
+        return;
+      }
+      if (!value) {
         return;
       }
       if (
@@ -259,7 +263,7 @@ var DnsQuery = class {
     Object.keys(this._network.activePeers).forEach((peer) =>
       this.addPeer(peer, true)
     );
-    const query = this._query;
+    const query = __spreadValues({}, this._query);
     query.data = JSON.stringify(query.data);
     this.sendRequest(query);
   }
@@ -368,15 +372,22 @@ var DnsNetwork = class extends import_events.EventEmitter {
   _maxTtl = 12 * 60 * 60;
   _activePeers = {};
   _authed;
-  constructor(resolver2) {
+  _force = false;
+  constructor(resolver) {
     super();
-    this._resolver = resolver2;
+    this._resolver = resolver;
     this._network = new import_gun.default({
       localStorage: false,
       store: import_gun.default.Rmem(),
       axe: false,
     });
     this._authed = this.auth();
+  }
+  get force() {
+    return this._force;
+  }
+  set force(value) {
+    this._force = value;
   }
   get forceTimeout() {
     return this._forceTimeout;
@@ -440,7 +451,12 @@ var DnsNetwork = class extends import_events.EventEmitter {
     this._trackPeerHealth(peer);
   }
   query(query, chain, data = {}, force = false) {
-    return new DnsQuery(this, { query, chain, data, force });
+    return new DnsQuery(this, {
+      query,
+      chain,
+      data,
+      force: force || this._force,
+    });
   }
   async waitForPeers(count = 1) {
     const hasPeers = () => Object.values(this._activePeers).length >= count;
@@ -504,17 +520,17 @@ var Resolver = class {
   get dnsNetwork() {
     return this._dnsNetwork;
   }
-  async resolve(input, params, force = false) {
-    for (const resolver2 of this._resolvers) {
-      const result = await resolver2.resolve(input, params, force);
+  async resolve(input, params = {}, force = false) {
+    for (const resolver of this._resolvers) {
+      const result = await resolver.resolve(input, params, force);
       if (result) {
         return result;
       }
     }
     return false;
   }
-  registerResolver(resolver2) {
-    this._resolvers.push(resolver2);
+  registerResolver(resolver) {
+    this._resolvers.push(resolver);
   }
   registerPortal(host, supports, pubkey) {
     this._portals[host] = { pubkey, supports, host };
@@ -584,13 +600,14 @@ var import_skynet_js = require("@lumeweb/skynet-js");
 // src/SubResolverBase.ts
 var SubResolverBase = class {
   resolver;
-  constructor(resolver2) {
-    this.resolver = resolver2;
+  constructor(resolver) {
+    this.resolver = resolver;
   }
 };
 
 // src/resolvers/handshake.ts
 var import_tld_enum = __toESM(require("@lumeweb/tld-enum"), 1);
+var ethers = __toESM(require("ethers"), 1);
 var b64ToBuf = (b64) => {
   const b64regex = /^[0-9a-zA-Z-_/+=]*$/;
   if (!b64regex.test(b64)) {
@@ -711,7 +728,17 @@ var Handshake = class extends SubResolverBase {
     }
     const foundDomain = normalizeDomain(record.ns);
     let isIcann = false;
-    if (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) {
+    let isEvmAddress = false;
+    if (
+      foundDomain.split(".").length >= 2 &&
+      ethers.utils.isAddress(foundDomain.split(".")[0])
+    ) {
+      isEvmAddress = true;
+    }
+    if (
+      (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) &&
+      !isEvmAddress
+    ) {
       if (foundDomain.includes(".")) {
         const tld = foundDomain.split(".")[foundDomain.split(".").length - 1];
         isIcann = import_tld_enum.default.list.includes(tld);
@@ -833,7 +860,7 @@ var import_ensjs = __toESM(require("@lumeweb/ensjs"), 1);
 var import_ethers = require("ethers");
 
 // src/resolvers/eip137/GunProvider.ts
-var ethers = __toESM(require("ethers"), 1);
+var ethers2 = __toESM(require("ethers"), 1);
 var ethersTransactions = __toESM(require("@ethersproject/transactions"), 1);
 var ethersProperties = __toESM(require("@ethersproject/properties"), 1);
 var ethersBytes = __toESM(require("@ethersproject/bytes"), 1);
@@ -876,7 +903,7 @@ function checkError(method, error, params) {
     if (e && e.message.match("reverted") && ethersBytes.isHexString(e.data)) {
       return e.data;
     }
-    ethers.ethers.logger.throwError(
+    ethers2.ethers.logger.throwError(
       "missing revert data in call exception",
       ethersLogger.Logger.errors.CALL_EXCEPTION,
       {
@@ -900,7 +927,7 @@ function checkError(method, error, params) {
   message = (message || "").toLowerCase();
   const transaction = params.transaction || params.signedTransaction;
   if (message.match(/insufficient funds|base fee exceeds gas limit/)) {
-    ethers.ethers.logger.throwError(
+    ethers2.ethers.logger.throwError(
       "insufficient funds for intrinsic transaction cost",
       ethersLogger.Logger.errors.INSUFFICIENT_FUNDS,
       {
@@ -911,7 +938,7 @@ function checkError(method, error, params) {
     );
   }
   if (message.match(/nonce too low/)) {
-    ethers.logger.throwError(
+    ethers2.logger.throwError(
       "nonce has already been used",
       ethersLogger.Logger.errors.NONCE_EXPIRED,
       {
@@ -922,7 +949,7 @@ function checkError(method, error, params) {
     );
   }
   if (message.match(/replacement transaction underpriced/)) {
-    ethers.logger.throwError(
+    ethers2.logger.throwError(
       "replacement fee too low",
       ethersLogger.Logger.errors.REPLACEMENT_UNDERPRICED,
       {
@@ -933,7 +960,7 @@ function checkError(method, error, params) {
     );
   }
   if (message.match(/only replay-protected/)) {
-    ethers.logger.throwError(
+    ethers2.logger.throwError(
       "legacy pre-eip-155 transactions not supported",
       ethersLogger.Logger.errors.UNSUPPORTED_OPERATION,
       {
@@ -949,7 +976,7 @@ function checkError(method, error, params) {
       /gas required exceeds allowance|always failing transaction|execution reverted/
     )
   ) {
-    ethers.logger.throwError(
+    ethers2.logger.throwError(
       "cannot estimate gas; transaction may fail or may require manual gas limit",
       ethersLogger.Logger.errors.UNPREDICTABLE_GAS_LIMIT,
       {
@@ -961,7 +988,7 @@ function checkError(method, error, params) {
   }
   throw error;
 }
-var GunProvider = class extends ethers.providers.BaseProvider {
+var GunProvider = class extends ethers2.providers.BaseProvider {
   _dnsChain;
   _dnsNetwork;
   _force;
@@ -993,7 +1020,7 @@ var GunProvider = class extends ethers.providers.BaseProvider {
   prepareRequest(method, params) {
     switch (method) {
       case "call": {
-        const hexlifyTransaction = ethers.utils.getStatic(
+        const hexlifyTransaction = ethers2.utils.getStatic(
           this.constructor,
           "hexlifyTransaction"
         );
@@ -1013,7 +1040,7 @@ var GunProvider = class extends ethers.providers.BaseProvider {
   async perform(method, params) {
     if (method === "call") {
       const tx = params.transaction;
-      if (tx && tx.type != null && ethers.BigNumber.from(tx.type).isZero()) {
+      if (tx && tx.type != null && ethers2.BigNumber.from(tx.type).isZero()) {
         if (tx.maxFeePerGas == null && tx.maxPriorityFeePerGas == null) {
           params = ethersProperties.shallowCopy(params);
           params.transaction = ethersProperties.shallowCopy(tx);
@@ -1096,7 +1123,7 @@ var GunSigner = class extends ethersAbstractSigner.Signer {
     }
   }
   connect(provider) {
-    return ethers.logger.throwError(
+    return ethers2.logger.throwError(
       "cannot alter JSON-RPC Signer connection",
       Logger2.errors.UNSUPPORTED_OPERATION,
       {
@@ -1110,7 +1137,7 @@ var GunSigner = class extends ethersAbstractSigner.Signer {
     }
     return this.provider.send("eth_accounts", []).then((accounts) => {
       if (accounts.length <= this._index) {
-        ethers.logger.throwError(
+        ethers2.logger.throwError(
           "unknown account #" + this._index,
           Logger2.errors.UNSUPPORTED_OPERATION,
           {
@@ -1141,7 +1168,7 @@ var GunSigner = class extends ethersAbstractSigner.Signer {
         }
         const address = await this.provider.resolveName(to);
         if (address == null) {
-          ethers.logger.throwArgumentError(
+          ethers2.logger.throwArgumentError(
             "provided ENS name resolves to null",
             "tx.to",
             to
@@ -1156,7 +1183,7 @@ var GunSigner = class extends ethersAbstractSigner.Signer {
     }).then(({ tx, sender }) => {
       if (tx.from != null) {
         if (tx.from.toLowerCase() !== sender) {
-          ethers.logger.throwArgumentError(
+          ethers2.logger.throwArgumentError(
             "from address mismatch",
             "transaction",
             transaction
@@ -1179,7 +1206,7 @@ var GunSigner = class extends ethersAbstractSigner.Signer {
     });
   }
   signTransaction(transaction) {
-    return ethers.logger.throwError(
+    return ethers2.logger.throwError(
       "signing transactions is unsupported",
       Logger2.errors.UNSUPPORTED_OPERATION,
       {
@@ -1256,8 +1283,58 @@ var GunSigner = class extends ethersAbstractSigner.Signer {
   }
 };
 
+// src/data/pocketNetworks.ts
+var pocketNetworks = {
+  "algorand-mainnet": "29",
+  "algorand-archival": "000D",
+  "algorand-testnet": "45",
+  "algorand-testnet-archival": "0A45",
+  "arweave-mainnet": "30",
+  "avax-mainnet": "3",
+  "avax-archival": "00A3",
+  "avax-fuji": "000E",
+  "bsc-mainnet": "4",
+  "bsc-archival": "10",
+  "bsc-testnet": "11",
+  "bsc-testnet-archival": "12",
+  "btc-mainnet": "2",
+  "eth-mainnet": "21",
+  "eth-archival": "22",
+  "eth-archival-trace": "28",
+  "eth-goerli": "26",
+  "poa-kovan": "24",
+  "eth-rinkeby": "25",
+  "eth-ropsten": "23",
+  "evmos-mainnet": "46",
+  "fuse-mainnet": "5",
+  "fuse-archival": "000A",
+  "gnosischain-mainnet": "27",
+  "gnosischain-archival": "000C",
+  "harmony-0": "40",
+  "harmony-0-archival": "0A40",
+  "harmony-1": "41",
+  "harmony-1-archival": "0A41",
+  "harmony-2": "42",
+  "harmony-2-archival": "0A42",
+  "harmony-3": "43",
+  "harmony-3-archival": "0A43",
+  "iotex-mainnet": "44",
+  "oec-mainnet": "47",
+  mainnet: "1",
+  "poly-mainnet": "9",
+  "poly-archival": "000B",
+  "poly-mumbai": "000F",
+  "poly-mumbai-archival": "00AF",
+  "sol-mainnet": "6",
+  "sol-testnet": "31",
+};
+var pocketNetworks_default = pocketNetworks;
+
 // src/resolvers/eip137.ts
 var ENS = import_ensjs.default.default;
+var networkMap = {
+  eth: "eth-mainnet",
+};
 var Eip137 = class extends SubResolverBase {
   async resolve(input, params = {}, force = false) {
     if (input.endsWith(".eth")) {
@@ -1272,18 +1349,24 @@ var Eip137 = class extends SubResolverBase {
     return false;
   }
   async resolveEns(input, force = false) {
-    const data = [(0, import_ensjs.getEnsAddress)("1"), "eth-mainnet"];
+    const data = [(0, import_ensjs.getEnsAddress)("1"), networkMap.eth];
     return this.resolveHip5(input, data, force);
   }
   async resolveHip5(domain, data, force = false) {
-    const chain = data[1].replace("_", "");
+    let chain = data[1].replace("_", "");
+    if (chain in networkMap) {
+      chain = networkMap[chain];
+    }
+    if (chain in pocketNetworks_default) {
+      chain = pocketNetworks_default[chain];
+    }
     const connection = new GunProvider(chain, this.resolver.dnsNetwork, force);
     const ens = new ENS({ provider: connection, ensAddress: data[0] });
     try {
       const name = await ens.name(domain);
       const contentResult = await name.getContent();
-      const url = await name.getText("url");
       let content;
+      let result = false;
       if (typeof contentResult === "string" && Number(contentResult) === 0) {
         content = false;
       }
@@ -1293,7 +1376,10 @@ var Eip137 = class extends SubResolverBase {
       ) {
         content = contentResult.value;
       }
-      return content || url || false;
+      if (content) {
+        result = content;
+      }
+      return result;
     } catch (e) {
       return false;
     }
@@ -1301,15 +1387,24 @@ var Eip137 = class extends SubResolverBase {
 };
 
 // src/index.ts
-var resolver = new Resolver();
-resolver.registerResolver(new Icann(resolver));
-resolver.registerResolver(new Eip137(resolver));
-resolver.registerResolver(new Handshake(resolver));
-var src_default = resolver;
+var resolvers = {
+  Icann,
+  Handshake,
+  Eip137,
+  createDefaultResolver: () => {
+    const defaultResolver = new Resolver();
+    defaultResolver.registerResolver(new Icann(defaultResolver));
+    defaultResolver.registerResolver(new Eip137(defaultResolver));
+    defaultResolver.registerResolver(new Handshake(defaultResolver));
+    return defaultResolver;
+  },
+};
+var src_default = resolvers;
 module.exports = __toCommonJS(src_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 &&
   (module.exports = {
+    Resolver,
     isDomain,
     isIp,
     normalizeDomain,

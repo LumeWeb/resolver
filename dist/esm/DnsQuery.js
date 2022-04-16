@@ -60,6 +60,9 @@ export default class DnsQuery {
       if (pubkey in this._responses) {
         return;
       }
+      if (!value) {
+        return;
+      }
       if (
         this._query.force &&
         Date.now() - value.updated > this._network.forceTimeout * 1000
@@ -174,7 +177,7 @@ export default class DnsQuery {
     Object.keys(this._network.activePeers).forEach((peer) =>
       this.addPeer(peer, true)
     );
-    const query = this._query;
+    const query = { ...this._query };
     query.data = JSON.stringify(query.data);
     this.sendRequest(query);
   }

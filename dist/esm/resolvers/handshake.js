@@ -10,6 +10,7 @@ import { SkynetClient } from "@lumeweb/skynet-js";
 import SubResolverBase from "../SubResolverBase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
+import * as ethers from "ethers";
 /*
  Copied from https://github.com/SkynetLabs/skynet-kernel/blob/4d44170fa4445004da9d9485148c5553ea668e57/extension/lib/encoding.ts
  */
@@ -166,7 +167,17 @@ export default class Handshake extends SubResolverBase {
     }
     const foundDomain = normalizeDomain(record.ns);
     let isIcann = false;
-    if (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) {
+    let isEvmAddress = false;
+    if (
+      foundDomain.split(".").length >= 2 &&
+      ethers.utils.isAddress(foundDomain.split(".")[0])
+    ) {
+      isEvmAddress = true;
+    }
+    if (
+      (isDomain(foundDomain) || /[a-zA-Z0-9\-]+/.test(foundDomain)) &&
+      !isEvmAddress
+    ) {
       if (foundDomain.includes(".")) {
         const tld = foundDomain.split(".")[foundDomain.split(".").length - 1];
         isIcann = tldEnum.list.includes(tld);
