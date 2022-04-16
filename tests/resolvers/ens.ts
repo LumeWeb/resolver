@@ -12,6 +12,7 @@ resolver.registerPortal(
   ["dns", "registry"],
   process.env.TEST_PORTAL_PUBKEY as string
 );
+resolver.dnsNetwork.force = true;
 
 describe("Eip137", () => {
   const subresolver = new Eip137(resolver);

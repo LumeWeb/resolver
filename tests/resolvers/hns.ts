@@ -14,6 +14,8 @@ resolver.registerPortal(
   process.env.TEST_PORTAL_PUBKEY as string
 );
 
+resolver.dnsNetwork.force = true;
+
 describe("Handshake", () => {
   const subresolver = new Handshake(resolver);
   it("should resolve homescreen/ correctly for testing skynet resolver links", async () => {
