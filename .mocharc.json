@@ -3,5 +3,7 @@
   "extension": ["ts"],
   "loader": "ts-node/esm",
   "spec": ["tests"],
-  "timeout": 30000
+  "timeout": 30000,
+  "require": ["tests/hooks.mjs"],
+  "exit": true
 }
