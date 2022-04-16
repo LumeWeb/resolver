@@ -228,7 +228,7 @@ export default class DnsQuery {
       this.addPeer(peer, true)
     );
 
-    const query = this._query;
+    const query = { ...this._query };
     query.data = JSON.stringify(query.data);
 
     this.sendRequest(query);
