@@ -600,7 +600,7 @@
     "ethers" "^5.0.13"
     "js-sha3" "^0.8.0"
 
-"@lumeweb/gun@https://github.com/LumeWeb/libgun.git":
+"@lumeweb/gun@github:LumeWeb/libgun":
   "resolved" "git+ssh://git@github.com/LumeWeb/libgun.git#67f0abaf46a5d20c14cd6ecb743ac96da5e6c429"
   "version" "0.1.0"
   dependencies:
@@ -629,7 +629,7 @@
     "url-join" "^4.0.1"
     "url-parse" "^1.5.1"
 
-"@lumeweb/tld-enum@https://github.com/LumeWeb/list-of-top-level-domains.git":
+"@lumeweb/tld-enum@github:LumeWeb/list-of-top-level-domains":
   "resolved" "git+ssh://git@github.com/LumeWeb/list-of-top-level-domains.git#ae60882496bb6e12896fe25436370a3bf02df249"
   "version" "2.0.7"
 
@@ -1371,11 +1371,6 @@
     "debug" "^4.3.1"
     "native-fetch" "^3.0.0"
     "receptacle" "^1.3.2"
-
-"dotenv@^16.0.0":
-  "integrity" "sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q=="
-  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-16.0.0.tgz"
-  "version" "16.0.0"
 
 "elliptic@^6.5.4", "elliptic@6.5.4":
   "integrity" "sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ=="
