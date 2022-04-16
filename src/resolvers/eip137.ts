@@ -55,7 +55,7 @@ export default class Eip137 extends SubResolverBase {
     input: string,
     force: boolean = false
   ): Promise<string | boolean> {
-    const data = [getEnsAddress("1"), "eth-mainnet"];
+    const data = [getEnsAddress("1"), networkMap.eth];
 
     return this.resolveHip5(input, data, force);
   }
