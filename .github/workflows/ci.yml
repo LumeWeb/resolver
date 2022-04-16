@@ -29,3 +29,4 @@ jobs:
       - run: npm run test
         env:
           TEST_PORTAL: "${{ secrets.TEST_PORTAL }}"
+          TEST_PORTAL_PUBKEY: "${{ secrets.TEST_PORTAL_PUBKEY }}"
