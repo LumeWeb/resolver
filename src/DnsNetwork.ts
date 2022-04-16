@@ -17,6 +17,7 @@ export default class DnsNetwork extends EventEmitter {
   private _maxTtl = 12 * 60 * 60;
   private _activePeers: { [pubkey: string]: number } = {};
   private _authed: Promise<any>;
+  private _force: boolean = false;
 
   constructor(resolver: Resolver) {
     super();
@@ -27,6 +28,14 @@ export default class DnsNetwork extends EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+
+  get force(): boolean {
+    return this._force;
+  }
+
+  set force(value: boolean) {
+    this._force = value;
   }
 
   get forceTimeout(): number {
@@ -115,7 +124,12 @@ export default class DnsNetwork extends EventEmitter {
     data: object | any[] = {},
     force: boolean = false
   ): DnsQuery {
-    return new DnsQuery(this, { query, chain, data, force });
+    return new DnsQuery(this, {
+      query,
+      chain,
+      data,
+      force: force || this._force,
+    });
   }
 
   public async waitForPeers(count = 1): Promise<void> {
