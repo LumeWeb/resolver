@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import SubResolverBase from "../SubResolverBase.js";
 import GunProvider from "./eip137/GunProvider.js";
 import pocketNetworks from "../data/pocketNetworks.js";
-import { isDomain, normalizeDomain } from "../lib/util.js";
+import { isDomain, normalizeDomain, normalizeSkylink } from "../lib/util.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
 
@@ -106,6 +106,12 @@ export default class Eip137 extends SubResolverBase {
 
       if (content) {
         result = content;
+      }
+
+      const skylink = await normalizeSkylink(result as string, this.resolver);
+
+      if (skylink) {
+        return skylink;
       }
 
       /*
