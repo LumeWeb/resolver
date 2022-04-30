@@ -1365,6 +1365,9 @@ var networkMap = {
   eth: "eth-mainnet",
 };
 var Eip137 = class extends SubResolverBase {
+  getSupportedTlds() {
+    return ["eth"];
+  }
   async resolve(input, params = {}, force = false) {
     if (this.isTldSupported(input)) {
       return this.resolveEns(input, force);

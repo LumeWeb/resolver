@@ -21,6 +21,9 @@ function isResponseEmpty(data) {
   return false;
 }
 export default class Eip137 extends SubResolverBase {
+  getSupportedTlds() {
+    return ["eth"];
+  }
   async resolve(input, params = {}, force = false) {
     if (this.isTldSupported(input)) {
       return this.resolveEns(input, force);
@@ -68,50 +71,50 @@ export default class Eip137 extends SubResolverBase {
         result = content;
       }
       /*
-                    Future DNS support
-                   */
+                          Future DNS support
+                         */
       /*if (isResponseEmpty(result)) {
-                    result = await name.getText("A");
-                  }
-      
-                  if (isResponseEmpty(result)) {
-                    result = await name.getText("CNAME");
-                  }
-      
-                  if (isResponseEmpty(result)) {
-                    result = await name.getText("NS");
-                    if (result) {
-                      result = normalizeDomain(result as string);
-                      let isIcann = false;
-                      if (isDomain(result) || /[a-zA-Z0-9\-]+/.test(result)) {
-                        if (result.includes(".")) {
-                          const tld = result.split(".")[result.split(".").length - 1];
-                          isIcann = tldEnum.list.includes(tld);
+                          result = await name.getText("A");
                         }
       
-                        if (!isIcann) {
-                          const evmNs = await this.resolver.resolve(result, { force });
+                        if (isResponseEmpty(result)) {
+                          result = await name.getText("CNAME");
+                        }
       
+                        if (isResponseEmpty(result)) {
+                          result = await name.getText("NS");
                           if (result) {
-                            return this.resolver.resolve(domain, {
-                              subquery: true,
-                              nameserver: evmNs,
-                              force,
-                            });
-                          }
-                        }
+                            result = normalizeDomain(result as string);
+                            let isIcann = false;
+                            if (isDomain(result) || /[a-zA-Z0-9\-]+/.test(result)) {
+                              if (result.includes(".")) {
+                                const tld = result.split(".")[result.split(".").length - 1];
+                                isIcann = tldEnum.list.includes(tld);
+                              }
       
-                        result = await this.resolver.resolve(
-                          domain,
-                          {
-                            subquery: true,
-                            nameserver: result,
-                          },
-                          force
-                        );
-                      }
-                    }
-                  }*/
+                              if (!isIcann) {
+                                const evmNs = await this.resolver.resolve(result, { force });
+      
+                                if (result) {
+                                  return this.resolver.resolve(domain, {
+                                    subquery: true,
+                                    nameserver: evmNs,
+                                    force,
+                                  });
+                                }
+                              }
+      
+                              result = await this.resolver.resolve(
+                                domain,
+                                {
+                                  subquery: true,
+                                  nameserver: result,
+                                },
+                                force
+                              );
+                            }
+                          }
+                        }*/
       return result;
     } catch (e) {
       return false;

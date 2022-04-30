@@ -1,5 +1,6 @@
 import SubResolverBase from "../SubResolverBase.js";
 export default class Eip137 extends SubResolverBase {
+  getSupportedTlds(): string[];
   resolve(
     input: string,
     params?: {
