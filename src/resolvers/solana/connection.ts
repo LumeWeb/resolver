@@ -3,12 +3,15 @@ import DnsNetwork from "../../DnsNetwork.js";
 import pocketNetworks from "../../data/pocketNetworks.js";
 
 export default class Connection extends SolanaConnection {
-  private network: DnsNetwork;
+  private _network: DnsNetwork;
   // @ts-ignore
-  constructor(network: DnsNetwork) {
+  private _force: boolean;
+
+  constructor(network: DnsNetwork, force = false) {
     super("http://0.0.0.0");
+    this._force = force;
     // @ts-ignore
-    this.network = network;
+    this._network = network;
     // @ts-ignore
     this._rpcWebSocket.removeAllListeners();
     // @ts-ignore
@@ -16,10 +19,11 @@ export default class Connection extends SolanaConnection {
   }
 
   async __rpcRequest(methodName: string, args: any[]) {
-    const req = this.network.query(
+    const req = this._network.query(
       methodName,
       pocketNetworks["sol-mainnet"],
-      args
+      args,
+      this._force
     );
 
     return req.promise;

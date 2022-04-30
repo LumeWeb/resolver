@@ -31,7 +31,7 @@ export default class Solana extends SubResolverBase {
       SOL_TLD_AUTHORITY
     );
 
-    const connection = new Connection(this.resolver.dnsNetwork);
+    const connection = new Connection(this.resolver.dnsNetwork, force);
 
     const nameAccount = await connection.getAccountInfo(domainKey, "processed");
     if (!nameAccount) {
