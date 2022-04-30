@@ -33,8 +33,15 @@ export default class Solana extends SubResolverBase {
       nameAccount.data
     );
     res.data = nameAccount.data?.slice(NameRegistryState.HEADER_LEN);
-    const content = res.data.toString("ascii").replace(/\0/g, "");
-    const skylink = await normalizeSkylink(content, this.resolver);
+    let content = res.data.toString("ascii").replace(/\0/g, "");
+    let skylink = await normalizeSkylink(content, this.resolver);
+    if (skylink) {
+      return skylink;
+    }
+    if (content.includes("=")) {
+      content = content.split("=")[0];
+    }
+    skylink = await normalizeSkylink(content, this.resolver);
     if (skylink) {
       return skylink;
     }

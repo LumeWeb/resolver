@@ -1481,8 +1481,15 @@ var Solana = class extends SubResolverBase {
       (_a = nameAccount.data) == null
         ? void 0
         : _a.slice(import_spl_name_service.NameRegistryState.HEADER_LEN);
-    const content = res.data.toString("ascii").replace(/\0/g, "");
-    const skylink = await normalizeSkylink(content, this.resolver);
+    let content = res.data.toString("ascii").replace(/\0/g, "");
+    let skylink = await normalizeSkylink(content, this.resolver);
+    if (skylink) {
+      return skylink;
+    }
+    if (content.includes("=")) {
+      content = content.split("=")[0];
+    }
+    skylink = await normalizeSkylink(content, this.resolver);
     if (skylink) {
       return skylink;
     }
