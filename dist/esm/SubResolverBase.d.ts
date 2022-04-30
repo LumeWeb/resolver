@@ -10,5 +10,7 @@ export default abstract class SubResolverBase implements ISubResolver {
     },
     force: boolean
   ): Promise<string | boolean>;
+  getSupportedTlds(): string[];
+  isTldSupported(domain: string): boolean;
 }
 //# sourceMappingURL=SubResolverBase.d.ts.map

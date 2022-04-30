@@ -13,6 +13,7 @@ export default class Resolver {
   private _portals;
   private _dnsNetwork;
   constructor();
+  get resolvers(): SubResolverBase[];
   get dnsNetwork(): DnsNetwork;
   resolve(
     input: string,

@@ -6,6 +6,9 @@ export default class Resolver {
   constructor() {
     this._dnsNetwork = new DnsNetwork(this);
   }
+  get resolvers() {
+    return this._resolvers;
+  }
   get dnsNetwork() {
     return this._dnsNetwork;
   }

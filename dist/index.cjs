@@ -75,9 +75,12 @@ var src_exports = {};
 __export(src_exports, {
   Resolver: () => Resolver,
   default: () => src_default,
+  getSld: () => getSld,
+  getTld: () => getTld,
   isDomain: () => isDomain,
   isIp: () => isIp,
   normalizeDomain: () => normalizeDomain,
+  normalizeSkylink: () => normalizeSkylink,
   registryEntryRegExp: () => registryEntryRegExp,
   startsWithSkylinkRegExp: () => startsWithSkylinkRegExp,
 });
@@ -517,6 +520,9 @@ var Resolver = class {
   constructor() {
     this._dnsNetwork = new DnsNetwork(this);
   }
+  get resolvers() {
+    return this._resolvers;
+  }
   get dnsNetwork() {
     return this._dnsNetwork;
   }
@@ -577,37 +583,7 @@ var Resolver = class {
 };
 
 // src/lib/util.ts
-function isIp(ip) {
-  return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-    ip
-  );
-}
-function isDomain(domain) {
-  return /(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/.test(
-    domain
-  );
-}
-var startsWithSkylinkRegExp = /^(sia:\/\/)?([a-zA-Z0-9_-]{46})/;
-var registryEntryRegExp =
-  /^skyns:\/\/(?<publickey>[a-zA-Z0-9%]+)\/(?<datakey>[a-zA-Z0-9%]+)$/;
-function normalizeDomain(domain) {
-  return domain.replace(/^\.+|\.+$/g, "").replace(/^\/+|\/+$/g, "");
-}
-
-// src/resolvers/handshake.ts
 var import_skynet_js = require("@lumeweb/skynet-js");
-
-// src/SubResolverBase.ts
-var SubResolverBase = class {
-  resolver;
-  constructor(resolver) {
-    this.resolver = resolver;
-  }
-};
-
-// src/resolvers/handshake.ts
-var import_tld_enum = __toESM(require("@lumeweb/tld-enum"), 1);
-var ethers = __toESM(require("ethers"), 1);
 var b64ToBuf = (b64) => {
   const b64regex = /^[0-9a-zA-Z-_/+=]*$/;
   if (!b64regex.test(b64)) {
@@ -662,20 +638,115 @@ var parseSkylinkBitfield = (skylink) => {
   }
   return [version, offset, fetchSize, null];
 };
-var Handshake = class extends SubResolverBase {
-  async resolve(input, params = {}, force = false) {
-    let tld = input;
-    if (isIp(input)) {
+function isIp(ip) {
+  return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
+    ip
+  );
+}
+function isDomain(domain) {
+  return /(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/.test(
+    domain
+  );
+}
+var startsWithSkylinkRegExp = /^(sia:\/\/)?([a-zA-Z0-9_-]{46})/;
+var registryEntryRegExp =
+  /^skyns:\/\/(?<publickey>[a-zA-Z0-9%]+)\/(?<datakey>[a-zA-Z0-9%]+)$/;
+function normalizeDomain(domain) {
+  return domain.replace(/^\.+|\.+$/g, "").replace(/^\/+|\/+$/g, "");
+}
+async function normalizeSkylink(skylink, resolver) {
+  var _a;
+  let matches = skylink.match(startsWithSkylinkRegExp);
+  if (matches) {
+    const [u8Link, err64] = b64ToBuf(matches[2]);
+    if (err64 !== null) {
       return false;
     }
-    if (input.endsWith(".eth")) {
+    if (u8Link.length !== 34) {
+      return false;
+    }
+    const [version, offset, fetchSize, errBF] = parseSkylinkBitfield(u8Link);
+    if (errBF !== null) {
+      return false;
+    }
+    return decodeURIComponent(matches[2]);
+  }
+  matches = skylink.match(registryEntryRegExp);
+  if (matches) {
+    const portal = resolver.getRandomPortal("registry");
+    if (!portal) {
+      return false;
+    }
+    const client = new import_skynet_js.SkynetClient(`https://${portal.host}`);
+    const pubKey = decodeURIComponent(matches.groups.publickey).replace(
+      "ed25519:",
+      ""
+    );
+    const entry = await client.registry.getEntry(
+      pubKey,
+      matches.groups.datakey,
+      { hashedDataKeyHex: true }
+    );
+    return Buffer.from(
+      (_a = entry.entry) == null ? void 0 : _a.data
+    ).toString();
+  }
+  return false;
+}
+function getTld(domain) {
+  if (domain.includes(".")) {
+    domain = domain.split(".")[domain.split(".").length - 1];
+  }
+  return domain;
+}
+function getSld(domain) {
+  if (domain.includes(".")) {
+    domain = domain
+      .split(".")
+      .slice(0, domain.split(".").length - 1)
+      .join(".");
+  }
+  return domain;
+}
+
+// src/SubResolverBase.ts
+var SubResolverBase = class {
+  resolver;
+  constructor(resolver) {
+    this.resolver = resolver;
+  }
+  getSupportedTlds() {
+    return [];
+  }
+  isTldSupported(domain) {
+    return this.getSupportedTlds().includes(getTld(domain));
+  }
+};
+
+// src/resolvers/handshake.ts
+var import_tld_enum = __toESM(require("@lumeweb/tld-enum"), 1);
+var ethers = __toESM(require("ethers"), 1);
+var Handshake = class extends SubResolverBase {
+  tldBlacklist = [];
+  constructor(resolver) {
+    super(resolver);
+    for (const subresolver of resolver.resolvers) {
+      this.tldBlacklist = [
+        ...this.tldBlacklist,
+        ...subresolver.getSupportedTlds(),
+      ];
+    }
+  }
+  async resolve(input, params = {}, force = false) {
+    const tld = getTld(input);
+    if (this.tldBlacklist.includes(tld)) {
+      return false;
+    }
+    if (isIp(input)) {
       return false;
     }
     if ("subquery" in params) {
       return false;
-    }
-    if (input.includes(".")) {
-      tld = input.split(".")[input.split(".").length - 1];
     }
     const records = await this.query(tld, force);
     if (!records) {
@@ -789,45 +860,12 @@ var Handshake = class extends SubResolverBase {
     return (resp == null ? void 0 : resp.records) || [];
   }
   async processTxt(record) {
-    var _a;
-    let matches = record.txt.slice().pop().match(startsWithSkylinkRegExp);
-    if (matches) {
-      const [u8Link, err64] = b64ToBuf(matches[2]);
-      if (err64 !== null) {
-        return false;
-      }
-      if (u8Link.length !== 34) {
-        return false;
-      }
-      const [version, offset, fetchSize, errBF] = parseSkylinkBitfield(u8Link);
-      if (errBF !== null) {
-        return false;
-      }
-      return decodeURIComponent(matches[2]);
+    const content = record.txt.slice().pop();
+    const skylink = await normalizeSkylink(content, this.resolver);
+    if (skylink) {
+      return skylink;
     }
-    matches = record.txt.slice().pop().match(registryEntryRegExp);
-    if (matches) {
-      const portal = this.resolver.getRandomPortal("registry");
-      if (!portal) {
-        return false;
-      }
-      const client = new import_skynet_js.SkynetClient(
-        `https://${portal.host}`
-      );
-      const pubKey = decodeURIComponent(matches.groups.publickey).replace(
-        "ed25519:",
-        ""
-      );
-      const entry = await client.registry.getEntry(
-        pubKey,
-        matches.groups.datakey,
-        { hashedDataKeyHex: true }
-      );
-      return Buffer.from(
-        (_a = entry.entry) == null ? void 0 : _a.data
-      ).toString();
-    }
-    return false;
+    return content;
   }
 };
 
@@ -1337,7 +1375,7 @@ var networkMap = {
 };
 var Eip137 = class extends SubResolverBase {
   async resolve(input, params = {}, force = false) {
-    if (input.endsWith(".eth")) {
+    if (this.isTldSupported(input)) {
       return this.resolveEns(input, force);
     }
     const hip5Data = input.split(".");
@@ -1386,6 +1424,75 @@ var Eip137 = class extends SubResolverBase {
   }
 };
 
+// src/resolvers/solana.ts
+var import_spl_name_service = require("@bonfida/spl-name-service");
+var import_web32 = require("@solana/web3.js");
+
+// src/resolvers/solana/connection.ts
+var import_web3 = require("@solana/web3.js");
+var Connection = class extends import_web3.Connection {
+  network;
+  constructor(network) {
+    super("http://0.0.0.0");
+    this.network = network;
+    this._rpcWebSocket.removeAllListeners();
+    this._rpcRequest = this.__rpcRequest;
+  }
+  async __rpcRequest(methodName, args) {
+    const req = this.network.query(
+      methodName,
+      pocketNetworks_default["sol-mainnet"],
+      args
+    );
+    return req.promise;
+  }
+};
+
+// src/resolvers/solana.ts
+var import_borsh = require("borsh");
+var SOL_TLD_AUTHORITY = new import_web32.PublicKey(
+  "58PwtjSDuFHuUkYjH9BYnnQKHfwo9reZhC2zMJv9JPkx"
+);
+var Solana = class extends SubResolverBase {
+  async resolve(input, params, force) {
+    var _a;
+    if (!this.isTldSupported(input)) {
+      return false;
+    }
+    const hashedName = await (0, import_spl_name_service.getHashedName)(
+      getSld(input)
+    );
+    const domainKey = await (0, import_spl_name_service.getNameAccountKey)(
+      hashedName,
+      void 0,
+      SOL_TLD_AUTHORITY
+    );
+    const connection = new Connection(this.resolver.dnsNetwork);
+    const nameAccount = await connection.getAccountInfo(domainKey, "processed");
+    if (!nameAccount) {
+      return false;
+    }
+    const res = (0, import_borsh.deserializeUnchecked)(
+      import_spl_name_service.NameRegistryState.schema,
+      import_spl_name_service.NameRegistryState,
+      nameAccount.data
+    );
+    res.data =
+      (_a = nameAccount.data) == null
+        ? void 0
+        : _a.slice(import_spl_name_service.NameRegistryState.HEADER_LEN);
+    const content = res.data.toString("ascii").replace(/\0/g, "");
+    const skylink = await normalizeSkylink(content, this.resolver);
+    if (skylink) {
+      return skylink;
+    }
+    return content;
+  }
+  getSupportedTlds() {
+    return ["sol"];
+  }
+};
+
 // src/index.ts
 var resolvers = {
   Icann,
@@ -1395,6 +1502,7 @@ var resolvers = {
     const defaultResolver = new Resolver();
     defaultResolver.registerResolver(new Icann(defaultResolver));
     defaultResolver.registerResolver(new Eip137(defaultResolver));
+    defaultResolver.registerResolver(new Solana(defaultResolver));
     defaultResolver.registerResolver(new Handshake(defaultResolver));
     return defaultResolver;
   },
@@ -1405,9 +1513,12 @@ module.exports = __toCommonJS(src_exports);
 0 &&
   (module.exports = {
     Resolver,
+    getSld,
+    getTld,
     isDomain,
     isIp,
     normalizeDomain,
+    normalizeSkylink,
     registryEntryRegExp,
     startsWithSkylinkRegExp,
   });

@@ -22,7 +22,7 @@ function isResponseEmpty(data) {
 }
 export default class Eip137 extends SubResolverBase {
   async resolve(input, params = {}, force = false) {
-    if (input.endsWith(".eth")) {
+    if (this.isTldSupported(input)) {
       return this.resolveEns(input, force);
     }
     const hip5Data = input.split(".");

@@ -1,5 +1,8 @@
 import SubResolverBase from "../SubResolverBase.js";
+import Resolver from "../Resolver.js";
 export default class Handshake extends SubResolverBase {
+  private tldBlacklist;
+  constructor(resolver: Resolver);
   resolve(
     input: string,
     params?: {
