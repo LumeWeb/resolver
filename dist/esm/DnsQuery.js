@@ -16,6 +16,8 @@ export default class DnsQuery {
   _cachedResponses = {};
   _cacheChecked = false;
   _cachedTimers = {};
+  _requestSent = false;
+  _completed = false;
   constructor(network, query) {
     this._network = network;
     this._query = query;
@@ -45,15 +47,41 @@ export default class DnsQuery {
     this.addPeer = this.addPeer.bind(this);
     this._network.on("newActivePeer", this.addPeer);
     await this._network.waitForPeers();
-    Object.keys(this._network.activePeers).forEach((peer) =>
-      this.addPeer(peer)
+    await Promise.allSettled(
+      Object.keys(this._network.activePeers).map((peer) => this.addPeer(peer))
     );
-    this._timeoutTimer =
-      this._timeoutTimer ??
-      setTimeout(
-        this.handeTimeout.bind(this),
-        this._network.queryTimeout * 1000
-      );
+    /*    this._timeoutTimer =
+          this._timeoutTimer ??
+          setTimeout(
+            this.handeTimeout.bind(this),
+            this._network.queryTimeout * 1000
+          );*/
+  }
+  getCachedRecordHandler(pubkey) {
+    return (response) => {
+      if (pubkey in this._cachedResponses) {
+        return;
+      }
+      if (response) {
+        if (!this.hasResponseExpired(response)) {
+          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
+            ? { data: null, updated: 0, requests: 0 }
+            : response;
+        }
+      } else {
+        this._cachedResponses[pubkey] = null;
+      }
+      const success = this.checkResponses(true);
+      if (
+        Object.keys(this._cachedResponses).length ===
+          Object.keys(this._network.activePeers).length &&
+        !success &&
+        !this._timeout
+      ) {
+        this._cacheChecked = true;
+        this.fetch();
+      }
+    };
   }
   getResponseHandler(pubkey) {
     return (value) => {
@@ -72,36 +100,10 @@ export default class DnsQuery {
       this._responses[pubkey] = this.hasResponseExpired(value)
         ? null
         : this.isInvalidResponse(value)
-        ? { data: false, updated: 0, requests: 0 }
+        ? { data: null, updated: 0, requests: 0 }
         : value;
       this.pruneDeadPeers();
       this.checkResponses();
-    };
-  }
-  getCachedRecordHandler(pubkey) {
-    return (response) => {
-      if (pubkey in this._cachedResponses) {
-        return;
-      }
-      if (response) {
-        if (!this.hasResponseExpired(response)) {
-          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
-            ? { data: false, updated: 0, requests: 0 }
-            : response;
-        }
-      } else {
-        this._cachedResponses[pubkey] = null;
-      }
-      const success = this.checkResponses(true);
-      if (
-        Object.keys(this._cachedResponses).length ===
-          Object.keys(this._network.activePeers).length &&
-        !success &&
-        !this._timeout
-      ) {
-        this._cacheChecked = true;
-        this.fetch();
-      }
     };
   }
   pruneDeadPeers() {
@@ -131,7 +133,8 @@ export default class DnsQuery {
       if (responses[responseIndex] >= this._network.majorityThreshold) {
         const response =
           responseStore[responseStoreKeys[parseInt(responseIndex, 10)]];
-        if (null === response) {
+        // @ts-ignore
+        if (null === response || null === response?.data) {
           if (!cached) {
             this.retry();
           }
@@ -156,6 +159,7 @@ export default class DnsQuery {
     this.cleanHandlers();
     clearTimeout(this._timeoutTimer);
     this._timeout = timeout;
+    this._completed = true;
     // @ts-ignore
     this._promiseResolve(data);
   }
@@ -175,7 +179,7 @@ export default class DnsQuery {
   }
   fetch() {
     Object.keys(this._network.activePeers).forEach((peer) =>
-      this.addPeer(peer, true)
+      this.fetchPeer(peer)
     );
     const query = { ...this._query };
     query.data = JSON.stringify(query.data);
@@ -188,11 +192,15 @@ export default class DnsQuery {
     this._cachedResponses = {};
     this._responses = {};
     this._cacheChecked = false;
+    this._requestSent = false;
     this.cleanHandlers();
+    if (this._completed) {
+      return;
+    }
     this.init();
   }
   sendRequest(query, id = uuidv4(), count = 0) {
-    if (this._timeout) {
+    if (this._timeout || this._requestSent) {
       return;
     }
     if (count > 3) {
@@ -212,6 +220,8 @@ export default class DnsQuery {
         // @ts-ignore
         if (ack.err) {
           this.sendRequest(query, id, count);
+        } else {
+          this._requestSent = true;
         }
       });
     this._network.network.get("requests").get(id, (data) => {
@@ -219,32 +229,13 @@ export default class DnsQuery {
       // @ts-ignore
       if (!data.put) {
         this.sendRequest(query, id, count);
+      } else {
+        this._requestSent = true;
       }
     });
   }
-  async addPeer(pubkey, fromFetch = false) {
-    await this._network.authed;
-    if (!fromFetch && (this._cacheChecked || this._query.force)) {
-      this.fetch();
-    }
-    if (
-      !this._cacheChecked &&
-      !(pubkey in this._cachedHandler) &&
-      !this._query.force
-    ) {
-      this._cachedHandler[pubkey] = true;
-      this._cachedTimers[pubkey] = setInterval(() => {
-        if (pubkey in this._cachedResponses) {
-          clearInterval(this._cachedTimers[pubkey]);
-          delete this._cachedTimers[pubkey];
-          return;
-        }
-        this._network.network
-          .user(pubkey)
-          .get("responses")
-          .get(this._requestId)
-          .once(this.getCachedRecordHandler(pubkey), { wait: 100 });
-      }, 100);
+  fetchPeer(pubkey) {
+    if (pubkey in this._handlers) {
       return;
     }
     if (!(pubkey in this._handlers)) {
@@ -254,6 +245,29 @@ export default class DnsQuery {
         .get(this._requestId);
       this._handlers[pubkey] = subscribe(ref, this.getResponseHandler(pubkey));
     }
+  }
+  async addPeer(pubkey) {
+    await this._network.authed;
+    if (this._cacheChecked || this._query.force) {
+      this.fetch();
+      return;
+    }
+    if (pubkey in this._cachedHandler) {
+      return;
+    }
+    this._cachedHandler[pubkey] = true;
+    this._cachedTimers[pubkey] = setInterval(() => {
+      if (pubkey in this._cachedResponses) {
+        clearInterval(this._cachedTimers[pubkey]);
+        delete this._cachedTimers[pubkey];
+        return;
+      }
+      this._network.network
+        .user(pubkey)
+        .get("responses")
+        .get(this._requestId)
+        .once(this.getCachedRecordHandler(pubkey), { wait: 100 });
+    }, 100);
   }
   isInvalidResponse(response) {
     if (typeof response.data === "object" && !Array.isArray(response.data)) {

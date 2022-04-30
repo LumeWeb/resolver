@@ -24,51 +24,32 @@ var __spreadValues = (a, b) => {
     }
   return a;
 };
-var __markAsModule = (target) =>
-  __defProp(target, "__esModule", { value: true });
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __reExport = (target, module2, copyDefault, desc) => {
-  if (
-    (module2 && typeof module2 === "object") ||
-    typeof module2 === "function"
-  ) {
-    for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
-        __defProp(target, key, {
-          get: () => module2[key],
-          enumerable:
-            !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable,
+var __copyProps = (to, from, except, desc) => {
+  if ((from && typeof from === "object") || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, {
+          get: () => from[key],
+          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
         });
   }
-  return target;
+  return to;
 };
-var __toESM = (module2, isNodeMode) => {
-  return __reExport(
-    __markAsModule(
-      __defProp(
-        module2 != null ? __create(__getProtoOf(module2)) : {},
-        "default",
-        !isNodeMode && module2 && module2.__esModule
-          ? { get: () => module2.default, enumerable: true }
-          : { value: module2, enumerable: true }
-      )
-    ),
-    module2
-  );
-};
-var __toCommonJS = /* @__PURE__ */ ((cache) => {
-  return (module2, temp) => {
-    return (
-      (cache && cache.get(module2)) ||
-      ((temp = __reExport(__markAsModule({}), module2, 1)),
-      cache && cache.set(module2, temp),
-      temp)
-    );
-  };
-})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+var __toESM = (mod, isNodeMode, target) => (
+  (target = mod != null ? __create(__getProtoOf(mod)) : {}),
+  __copyProps(
+    isNodeMode || !mod || !mod.__esModule
+      ? __defProp(target, "default", { value: mod, enumerable: true })
+      : target,
+    mod
+  )
+);
+var __toCommonJS = (mod) =>
+  __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.ts
 var src_exports = {};
@@ -84,6 +65,7 @@ __export(src_exports, {
   registryEntryRegExp: () => registryEntryRegExp,
   startsWithSkylinkRegExp: () => startsWithSkylinkRegExp,
 });
+module.exports = __toCommonJS(src_exports);
 
 // src/DnsQuery.ts
 var import_crypto = __toESM(require("crypto"), 1);
@@ -104,6 +86,8 @@ var DnsQuery = class {
   _cachedResponses = {};
   _cacheChecked = false;
   _cachedTimers = {};
+  _requestSent = false;
+  _completed = false;
   constructor(network, query) {
     this._network = network;
     this._query = query;
@@ -113,7 +97,7 @@ var DnsQuery = class {
     return this._promise;
   }
   async init() {
-    var _a, _b, _c;
+    var _a, _b;
     const hash = import_crypto.default
       .createHash("sha256")
       .update(JSON.stringify(this._query.data))
@@ -137,16 +121,35 @@ var DnsQuery = class {
     this.addPeer = this.addPeer.bind(this);
     this._network.on("newActivePeer", this.addPeer);
     await this._network.waitForPeers();
-    Object.keys(this._network.activePeers).forEach((peer) =>
-      this.addPeer(peer)
+    await Promise.allSettled(
+      Object.keys(this._network.activePeers).map((peer) => this.addPeer(peer))
     );
-    this._timeoutTimer =
-      (_c = this._timeoutTimer) != null
-        ? _c
-        : (0, import_timers.setTimeout)(
-            this.handeTimeout.bind(this),
-            this._network.queryTimeout * 1e3
-          );
+  }
+  getCachedRecordHandler(pubkey) {
+    return (response) => {
+      if (pubkey in this._cachedResponses) {
+        return;
+      }
+      if (response) {
+        if (!this.hasResponseExpired(response)) {
+          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
+            ? { data: null, updated: 0, requests: 0 }
+            : response;
+        }
+      } else {
+        this._cachedResponses[pubkey] = null;
+      }
+      const success = this.checkResponses(true);
+      if (
+        Object.keys(this._cachedResponses).length ===
+          Object.keys(this._network.activePeers).length &&
+        !success &&
+        !this._timeout
+      ) {
+        this._cacheChecked = true;
+        this.fetch();
+      }
+    };
   }
   getResponseHandler(pubkey) {
     return (value) => {
@@ -165,36 +168,10 @@ var DnsQuery = class {
       this._responses[pubkey] = this.hasResponseExpired(value)
         ? null
         : this.isInvalidResponse(value)
-        ? { data: false, updated: 0, requests: 0 }
+        ? { data: null, updated: 0, requests: 0 }
         : value;
       this.pruneDeadPeers();
       this.checkResponses();
-    };
-  }
-  getCachedRecordHandler(pubkey) {
-    return (response) => {
-      if (pubkey in this._cachedResponses) {
-        return;
-      }
-      if (response) {
-        if (!this.hasResponseExpired(response)) {
-          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
-            ? { data: false, updated: 0, requests: 0 }
-            : response;
-        }
-      } else {
-        this._cachedResponses[pubkey] = null;
-      }
-      const success = this.checkResponses(true);
-      if (
-        Object.keys(this._cachedResponses).length ===
-          Object.keys(this._network.activePeers).length &&
-        !success &&
-        !this._timeout
-      ) {
-        this._cacheChecked = true;
-        this.fetch();
-      }
     };
   }
   pruneDeadPeers() {
@@ -225,7 +202,10 @@ var DnsQuery = class {
       if (responses[responseIndex] >= this._network.majorityThreshold) {
         const response =
           responseStore[responseStoreKeys[parseInt(responseIndex, 10)]];
-        if (response === null) {
+        if (
+          response === null ||
+          (response == null ? void 0 : response.data) === null
+        ) {
           if (!cached) {
             this.retry();
           }
@@ -250,6 +230,7 @@ var DnsQuery = class {
     this.cleanHandlers();
     (0, import_timers.clearTimeout)(this._timeoutTimer);
     this._timeout = timeout;
+    this._completed = true;
     this._promiseResolve(data);
   }
   cleanHandlers() {
@@ -264,7 +245,7 @@ var DnsQuery = class {
   }
   fetch() {
     Object.keys(this._network.activePeers).forEach((peer) =>
-      this.addPeer(peer, true)
+      this.fetchPeer(peer)
     );
     const query = __spreadValues({}, this._query);
     query.data = JSON.stringify(query.data);
@@ -277,11 +258,15 @@ var DnsQuery = class {
     this._cachedResponses = {};
     this._responses = {};
     this._cacheChecked = false;
+    this._requestSent = false;
     this.cleanHandlers();
+    if (this._completed) {
+      return;
+    }
     this.init();
   }
   sendRequest(query, id = (0, import_uuid.v4)(), count = 0) {
-    if (this._timeout) {
+    if (this._timeout || this._requestSent) {
       return;
     }
     if (count > 3) {
@@ -300,38 +285,21 @@ var DnsQuery = class {
         (0, import_timers.clearTimeout)(timer);
         if (ack.err) {
           this.sendRequest(query, id, count);
+        } else {
+          this._requestSent = true;
         }
       });
     this._network.network.get("requests").get(id, (data) => {
       (0, import_timers.clearTimeout)(timer);
       if (!data.put) {
         this.sendRequest(query, id, count);
+      } else {
+        this._requestSent = true;
       }
     });
   }
-  async addPeer(pubkey, fromFetch = false) {
-    await this._network.authed;
-    if (!fromFetch && (this._cacheChecked || this._query.force)) {
-      this.fetch();
-    }
-    if (
-      !this._cacheChecked &&
-      !(pubkey in this._cachedHandler) &&
-      !this._query.force
-    ) {
-      this._cachedHandler[pubkey] = true;
-      this._cachedTimers[pubkey] = (0, import_timers.setInterval)(() => {
-        if (pubkey in this._cachedResponses) {
-          clearInterval(this._cachedTimers[pubkey]);
-          delete this._cachedTimers[pubkey];
-          return;
-        }
-        this._network.network
-          .user(pubkey)
-          .get("responses")
-          .get(this._requestId)
-          .once(this.getCachedRecordHandler(pubkey), { wait: 100 });
-      }, 100);
+  fetchPeer(pubkey) {
+    if (pubkey in this._handlers) {
       return;
     }
     if (!(pubkey in this._handlers)) {
@@ -344,6 +312,29 @@ var DnsQuery = class {
         this.getResponseHandler(pubkey)
       );
     }
+  }
+  async addPeer(pubkey) {
+    await this._network.authed;
+    if (this._cacheChecked || this._query.force) {
+      this.fetch();
+      return;
+    }
+    if (pubkey in this._cachedHandler) {
+      return;
+    }
+    this._cachedHandler[pubkey] = true;
+    this._cachedTimers[pubkey] = (0, import_timers.setInterval)(() => {
+      if (pubkey in this._cachedResponses) {
+        clearInterval(this._cachedTimers[pubkey]);
+        delete this._cachedTimers[pubkey];
+        return;
+      }
+      this._network.network
+        .user(pubkey)
+        .get("responses")
+        .get(this._requestId)
+        .once(this.getCachedRecordHandler(pubkey), { wait: 100 });
+    }, 100);
   }
   isInvalidResponse(response) {
     if (typeof response.data === "object" && !Array.isArray(response.data)) {
@@ -1431,18 +1422,21 @@ var import_web32 = require("@solana/web3.js");
 // src/resolvers/solana/connection.ts
 var import_web3 = require("@solana/web3.js");
 var Connection = class extends import_web3.Connection {
-  network;
-  constructor(network) {
+  _network;
+  _force;
+  constructor(network, force = false) {
     super("http://0.0.0.0");
-    this.network = network;
+    this._force = force;
+    this._network = network;
     this._rpcWebSocket.removeAllListeners();
     this._rpcRequest = this.__rpcRequest;
   }
   async __rpcRequest(methodName, args) {
-    const req = this.network.query(
+    const req = this._network.query(
       methodName,
       pocketNetworks_default["sol-mainnet"],
-      args
+      args,
+      this._force
     );
     return req.promise;
   }
@@ -1467,7 +1461,7 @@ var Solana = class extends SubResolverBase {
       void 0,
       SOL_TLD_AUTHORITY
     );
-    const connection = new Connection(this.resolver.dnsNetwork);
+    const connection = new Connection(this.resolver.dnsNetwork, force);
     const nameAccount = await connection.getAccountInfo(domainKey, "processed");
     if (!nameAccount) {
       return false;
@@ -1515,7 +1509,6 @@ var resolvers = {
   },
 };
 var src_default = resolvers;
-module.exports = __toCommonJS(src_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 &&
   (module.exports = {

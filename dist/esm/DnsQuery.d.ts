@@ -2,7 +2,7 @@ import DnsNetwork from "./DnsNetwork.js";
 export declare type DnsResponse = {
   updated: number;
   requests: number;
-  data: object | string | boolean;
+  data: object | string | boolean | null;
 };
 export declare type DnsRequest = {
   query: string;
@@ -24,11 +24,13 @@ export default class DnsQuery {
   private _cachedResponses;
   private _cacheChecked;
   private _cachedTimers;
+  private _requestSent;
+  private _completed;
   constructor(network: DnsNetwork, query: DnsRequest);
   get promise(): Promise<any>;
   private init;
-  private getResponseHandler;
   private getCachedRecordHandler;
+  private getResponseHandler;
   private pruneDeadPeers;
   private checkResponses;
   private handeTimeout;
@@ -38,6 +40,7 @@ export default class DnsQuery {
   private hasResponseExpired;
   private retry;
   private sendRequest;
+  private fetchPeer;
   private addPeer;
   private isInvalidResponse;
 }
