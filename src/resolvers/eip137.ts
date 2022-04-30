@@ -35,7 +35,7 @@ export default class Eip137 extends SubResolverBase {
     params: { [key: string]: any } = {},
     force: boolean = false
   ): Promise<string | boolean> {
-    if (input.endsWith(".eth")) {
+    if (this.isTldSupported(input)) {
       return this.resolveEns(input, force);
     }
 

@@ -20,6 +20,10 @@ export default class Resolver {
     this._dnsNetwork = new DnsNetwork(this);
   }
 
+  get resolvers(): SubResolverBase[] {
+    return this._resolvers;
+  }
+
   get dnsNetwork(): DnsNetwork {
     return this._dnsNetwork;
   }

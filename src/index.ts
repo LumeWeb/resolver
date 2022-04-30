@@ -3,6 +3,7 @@ export * from "./Resolver.js";
 import Handshake from "./resolvers/handshake.js";
 import Icann from "./resolvers/icann.js";
 import Eip137 from "./resolvers/eip137.js";
+import Solana from "./resolvers/solana.js";
 
 const resolvers = {
   Icann,
@@ -12,6 +13,7 @@ const resolvers = {
     const defaultResolver = new Resolver();
     defaultResolver.registerResolver(new Icann(defaultResolver));
     defaultResolver.registerResolver(new Eip137(defaultResolver));
+    defaultResolver.registerResolver(new Solana(defaultResolver));
     defaultResolver.registerResolver(new Handshake(defaultResolver));
 
     return defaultResolver;

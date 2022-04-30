@@ -22,6 +22,7 @@
     "url": "https://github.com/LumeWeb/resolver.git"
   },
   "dependencies": {
+    "@bonfida/spl-name-service": "^0.1.31",
     "@ethersproject/abstract-provider": "^5.6.0",
     "@ethersproject/abstract-signer": "^5.6.0",
     "@ethersproject/bytes": "^5.6.0",
@@ -36,8 +37,12 @@
     "@lumeweb/gun": "github:LumeWeb/libgun",
     "@lumeweb/skynet-js": "^4.0.21-beta",
     "@lumeweb/tld-enum": "github:LumeWeb/list-of-top-level-domains",
+    "@solana/spl-token": "^0.2.0",
+    "@solana/web3.js": "^1.41.3",
+    "@unstoppabledomains/resolution": "^7.1.4",
     "base32-decode": "^1.0.0",
     "base64-js": "^1.5.1",
+    "borsh": "^0.7.0",
     "brq": "^0.1.8",
     "content-hash": "^2.5.2",
     "ethers": "^5.5.4",
