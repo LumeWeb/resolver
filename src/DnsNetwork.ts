@@ -172,6 +172,10 @@ export default class DnsNetwork extends EventEmitter {
         peers.push(`https://${availablePeers[index]}/dns`);
         delete availablePeers[index];
       }
+
+      if (!availablePeers.length) {
+        break;
+      }
     }
 
     this.network.opt({ peers });
