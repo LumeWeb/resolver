@@ -1,20 +1,27 @@
 import SubResolverBase from "./SubResolverBase.js";
 import DnsNetwork from "./DnsNetwork.js";
 
-export type PortalList = {
-  [domain: string]: Portal;
-};
-
-export type Portal = {
+export interface JSONPortalItem {
   pubkey?: string;
   supports: string[];
+}
+
+export interface JSONPortalList {
+  [domain: string]: JSONPortalItem;
+}
+
+export interface Portal extends JSONPortalItem {
   host: string;
-};
+}
+
+export interface PortalList {
+  [domain: string]: Portal;
+}
 
 export default class Resolver {
   private _resolvers: SubResolverBase[] = [];
   private _portals: PortalList = {};
-  private _dnsNetwork: any;
+  private _dnsNetwork: DnsNetwork;
 
   constructor() {
     this._dnsNetwork = new DnsNetwork(this);
@@ -57,6 +64,17 @@ export default class Resolver {
     if (supports.includes("dns") && pubkey && pubkey.length > 0) {
       this._dnsNetwork.addTrustedPeer(host);
     }
+  }
+
+  public registerPortalsFromJson(portals: JSONPortalList) {
+    for (const host of Object.keys(portals)) {
+      const portal: JSONPortalItem = portals[host];
+      this.registerPortal(host, portal.supports, portal.pubkey);
+    }
+  }
+
+  public connect(): void {
+    this._dnsNetwork.connectToPeers();
   }
 
   public getPortal(hostname: string): Portal | boolean {
