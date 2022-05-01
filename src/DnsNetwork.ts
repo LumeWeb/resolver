@@ -4,6 +4,7 @@ import DnsQuery from "./DnsQuery.js";
 import Gun from "@lumeweb/gun";
 import { EventEmitter } from "events";
 import { clearTimeout, setTimeout, setInterval } from "timers";
+
 export default class DnsNetwork extends EventEmitter {
   // @ts-ignore
   private _network: Gun;
@@ -18,6 +19,7 @@ export default class DnsNetwork extends EventEmitter {
   private _activePeers: { [pubkey: string]: number } = {};
   private _authed: Promise<any>;
   private _force: boolean = false;
+  private _maxConnectedPeers: number = 10;
 
   constructor(resolver: Resolver) {
     super();
@@ -28,6 +30,14 @@ export default class DnsNetwork extends EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+
+  get maxConnectedPeers(): number {
+    return this._maxConnectedPeers;
+  }
+
+  set maxConnectedPeers(value: number) {
+    this._maxConnectedPeers = value;
   }
 
   get force(): boolean {
@@ -113,8 +123,6 @@ export default class DnsNetwork extends EventEmitter {
   public addTrustedPeer(peer: string) {
     this._peers.push(peer);
     this._peers = [...new Set(this._peers)];
-
-    this.network.opt({ peers: [`https://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
 
@@ -147,6 +155,26 @@ export default class DnsNetwork extends EventEmitter {
         }
       }, 10);
     });
+  }
+
+  connectToPeers() {
+    const mesh = this._network.back("opt.mesh");
+    const currentPeers = this._network.back("opt.peers");
+    Object.keys(currentPeers).forEach((id) => mesh.bye(id));
+
+    const peers = [];
+
+    const availablePeers = this._peers.slice();
+
+    for (let i = 0; i < this._maxConnectedPeers; i++) {
+      const index = Math.floor(Math.random() * (1 + availablePeers.length - 1));
+      if (availablePeers[index]) {
+        peers.push(`https://${availablePeers[index]}/dns`);
+        delete availablePeers[index];
+      }
+    }
+
+    this.network.opt({ peers });
   }
 
   private _trackPeerHealth(peerDomain: string) {
