@@ -94,6 +94,10 @@ export default class Resolver {
       supports = [supports];
     }
 
+    if (!supports.length) {
+      return this._portals;
+    }
+
     // tslint:disable-next-line:forin
     for (const service of supports) {
       // tslint:disable-next-line:forin
