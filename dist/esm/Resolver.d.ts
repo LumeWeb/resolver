@@ -1,13 +1,18 @@
 import SubResolverBase from "./SubResolverBase.js";
 import DnsNetwork from "./DnsNetwork.js";
-export declare type PortalList = {
-  [domain: string]: Portal;
-};
-export declare type Portal = {
+export interface JSONPortalItem {
   pubkey?: string;
   supports: string[];
+}
+export interface JSONPortalList {
+  [domain: string]: JSONPortalItem;
+}
+export interface Portal extends JSONPortalItem {
   host: string;
-};
+}
+export interface PortalList {
+  [domain: string]: Portal;
+}
 export default class Resolver {
   private _resolvers;
   private _portals;
@@ -24,6 +29,8 @@ export default class Resolver {
   ): Promise<string | boolean>;
   registerResolver(resolver: SubResolverBase): void;
   registerPortal(host: string, supports: string[], pubkey?: string): void;
+  registerPortalsFromJson(portals: JSONPortalList): void;
+  connect(): void;
   getPortal(hostname: string): Portal | boolean;
   getPortals(supports?: string[] | string, mode?: "and" | "or"): PortalList;
   getRandomPortal(

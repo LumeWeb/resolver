@@ -24,32 +24,51 @@ var __spreadValues = (a, b) => {
     }
   return a;
 };
+var __markAsModule = (target) =>
+  __defProp(target, "__esModule", { value: true });
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __copyProps = (to, from, except, desc) => {
-  if ((from && typeof from === "object") || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, {
-          get: () => from[key],
-          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
+var __reExport = (target, module2, copyDefault, desc) => {
+  if (
+    (module2 && typeof module2 === "object") ||
+    typeof module2 === "function"
+  ) {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
+        __defProp(target, key, {
+          get: () => module2[key],
+          enumerable:
+            !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable,
         });
   }
-  return to;
+  return target;
 };
-var __toESM = (mod, isNodeMode, target) => (
-  (target = mod != null ? __create(__getProtoOf(mod)) : {}),
-  __copyProps(
-    isNodeMode || !mod || !mod.__esModule
-      ? __defProp(target, "default", { value: mod, enumerable: true })
-      : target,
-    mod
-  )
-);
-var __toCommonJS = (mod) =>
-  __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __toESM = (module2, isNodeMode) => {
+  return __reExport(
+    __markAsModule(
+      __defProp(
+        module2 != null ? __create(__getProtoOf(module2)) : {},
+        "default",
+        !isNodeMode && module2 && module2.__esModule
+          ? { get: () => module2.default, enumerable: true }
+          : { value: module2, enumerable: true }
+      )
+    ),
+    module2
+  );
+};
+var __toCommonJS = /* @__PURE__ */ ((cache) => {
+  return (module2, temp) => {
+    return (
+      (cache && cache.get(module2)) ||
+      ((temp = __reExport(__markAsModule({}), module2, 1)),
+      cache && cache.set(module2, temp),
+      temp)
+    );
+  };
+})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
 
 // src/index.ts
 var src_exports = {};
@@ -65,7 +84,6 @@ __export(src_exports, {
   registryEntryRegExp: () => registryEntryRegExp,
   startsWithSkylinkRegExp: () => startsWithSkylinkRegExp,
 });
-module.exports = __toCommonJS(src_exports);
 
 // src/DnsQuery.ts
 var import_crypto = __toESM(require("crypto"), 1);
@@ -367,6 +385,7 @@ var DnsNetwork = class extends import_events.EventEmitter {
   _activePeers = {};
   _authed;
   _force = false;
+  _maxConnectedPeers = 10;
   constructor(resolver) {
     super();
     this._resolver = resolver;
@@ -376,6 +395,12 @@ var DnsNetwork = class extends import_events.EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+  get maxConnectedPeers() {
+    return this._maxConnectedPeers;
+  }
+  set maxConnectedPeers(value) {
+    this._maxConnectedPeers = value;
   }
   get force() {
     return this._force;
@@ -441,7 +466,6 @@ var DnsNetwork = class extends import_events.EventEmitter {
   addTrustedPeer(peer) {
     this._peers.push(peer);
     this._peers = [...new Set(this._peers)];
-    this.network.opt({ peers: [`https://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
   query(query, chain, data = {}, force = false) {
@@ -465,6 +489,25 @@ var DnsNetwork = class extends import_events.EventEmitter {
         }
       }, 10);
     });
+  }
+  connectToPeers() {
+    const mesh = this._network.back("opt.mesh");
+    const currentPeers = this._network.back("opt.peers");
+    Object.keys(currentPeers).forEach((id) => mesh.bye(id));
+    const peers = [];
+    let availablePeers = this._peers.slice();
+    for (let i = 0; i < this._maxConnectedPeers; i++) {
+      const index = Math.floor(Math.random() * (1 + availablePeers.length - 1));
+      if (availablePeers[index]) {
+        peers.push(`https://${availablePeers[index]}/dns`);
+        delete availablePeers[index];
+        availablePeers = Object.values(availablePeers);
+      }
+      if (!availablePeers.length) {
+        break;
+      }
+    }
+    this.network.opt({ peers });
   }
   _trackPeerHealth(peerDomain) {
     const peer = this._resolver.getPortal(peerDomain);
@@ -535,6 +578,15 @@ var Resolver = class {
       this._dnsNetwork.addTrustedPeer(host);
     }
   }
+  registerPortalsFromJson(portals) {
+    for (const host of Object.keys(portals)) {
+      const portal = portals[host];
+      this.registerPortal(host, portal.supports, portal.pubkey);
+    }
+  }
+  connect() {
+    this._dnsNetwork.connectToPeers();
+  }
   getPortal(hostname) {
     if (hostname in this._portals) {
       return this._portals[hostname];
@@ -545,6 +597,9 @@ var Resolver = class {
     const portals = {};
     if (!Array.isArray(supports)) {
       supports = [supports];
+    }
+    if (!supports.length) {
+      return this._portals;
     }
     for (const service of supports) {
       for (const portalDomain in this._portals) {
@@ -1411,6 +1466,10 @@ var Eip137 = class extends SubResolverBase {
       if (content) {
         result = content;
       }
+      const skylink = await normalizeSkylink(result, this.resolver);
+      if (skylink) {
+        return skylink;
+      }
       return result;
     } catch (e) {
       return false;
@@ -1512,6 +1571,7 @@ var resolvers = {
   },
 };
 var src_default = resolvers;
+module.exports = __toCommonJS(src_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 &&
   (module.exports = {

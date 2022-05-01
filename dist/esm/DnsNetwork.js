@@ -17,6 +17,7 @@ export default class DnsNetwork extends EventEmitter {
   _activePeers = {};
   _authed;
   _force = false;
+  _maxConnectedPeers = 10;
   constructor(resolver) {
     super();
     this._resolver = resolver;
@@ -26,6 +27,12 @@ export default class DnsNetwork extends EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+  get maxConnectedPeers() {
+    return this._maxConnectedPeers;
+  }
+  set maxConnectedPeers(value) {
+    this._maxConnectedPeers = value;
   }
   get force() {
     return this._force;
@@ -91,7 +98,6 @@ export default class DnsNetwork extends EventEmitter {
   addTrustedPeer(peer) {
     this._peers.push(peer);
     this._peers = [...new Set(this._peers)];
-    this.network.opt({ peers: [`https://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
   query(query, chain, data = {}, force = false) {
@@ -115,6 +121,25 @@ export default class DnsNetwork extends EventEmitter {
         }
       }, 10);
     });
+  }
+  connectToPeers() {
+    const mesh = this._network.back("opt.mesh");
+    const currentPeers = this._network.back("opt.peers");
+    Object.keys(currentPeers).forEach((id) => mesh.bye(id));
+    const peers = [];
+    let availablePeers = this._peers.slice();
+    for (let i = 0; i < this._maxConnectedPeers; i++) {
+      const index = Math.floor(Math.random() * (1 + availablePeers.length - 1));
+      if (availablePeers[index]) {
+        peers.push(`https://${availablePeers[index]}/dns`);
+        delete availablePeers[index];
+        availablePeers = Object.values(availablePeers);
+      }
+      if (!availablePeers.length) {
+        break;
+      }
+    }
+    this.network.opt({ peers });
   }
   _trackPeerHealth(peerDomain) {
     const peer = this._resolver.getPortal(peerDomain);

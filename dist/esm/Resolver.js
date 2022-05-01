@@ -30,6 +30,15 @@ export default class Resolver {
       this._dnsNetwork.addTrustedPeer(host);
     }
   }
+  registerPortalsFromJson(portals) {
+    for (const host of Object.keys(portals)) {
+      const portal = portals[host];
+      this.registerPortal(host, portal.supports, portal.pubkey);
+    }
+  }
+  connect() {
+    this._dnsNetwork.connectToPeers();
+  }
   getPortal(hostname) {
     if (hostname in this._portals) {
       return this._portals[hostname];
@@ -40,6 +49,9 @@ export default class Resolver {
     const portals = {};
     if (!Array.isArray(supports)) {
       supports = [supports];
+    }
+    if (!supports.length) {
+      return this._portals;
     }
     // tslint:disable-next-line:forin
     for (const service of supports) {
