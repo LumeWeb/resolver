@@ -40,6 +40,8 @@
     "@solana/spl-token": "^0.2.0",
     "@solana/web3.js": "^1.41.3",
     "@unstoppabledomains/resolution": "^7.1.4",
+    "algosdk": "^1.15.0",
+    "anssdk": "github:algorand-naming-service/js-ans-sdk#develop",
     "base32-decode": "^1.0.0",
     "base64-js": "^1.5.1",
     "borsh": "^0.7.0",
