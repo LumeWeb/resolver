@@ -139,7 +139,7 @@ export default class DnsNetwork extends EventEmitter {
         break;
       }
     }
-    this.network.opt({ peers });
+    peers.forEach((item) => mesh.hi({ url: item }));
   }
   _trackPeerHealth(peerDomain) {
     const peer = this._resolver.getPortal(peerDomain);
