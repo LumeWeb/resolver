@@ -1,7 +1,8 @@
 import SubResolverBase from "../SubResolverBase.js";
 import Client from "./algorand/client.js";
 import Indexer from "./algorand/indexer.js";
-import { ansResolver } from "anssdk/src/index.js";
+// @ts-ignore
+import { AnsResolver } from "anssdk";
 import { normalizeSkylink } from "../lib/util.js";
 
 interface DnsRecord {
@@ -32,7 +33,7 @@ export default class Algorand extends SubResolverBase {
     const client = new Client(this.resolver.dnsNetwork, force);
     const indexer = new Indexer(this.resolver.dnsNetwork, force);
 
-    const resolver = new ansResolver(client, indexer);
+    const resolver = new AnsResolver(client, indexer);
     const nameData: DomainData = (await resolver.resolveName(
       input
     )) as DomainData;

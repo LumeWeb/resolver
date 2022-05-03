@@ -7,8 +7,8 @@ import { Query } from "algosdk/dist/cjs/src/client/baseHTTPClient.js";
 import * as utils from "algosdk/dist/cjs/src/utils/utils.js";
 import { getAcceptFormat } from "./client.js";
 // @ts-ignore
-import * as HTTPClientImport from "algosdk/dist/cjs/src/client/client.js";
-const { default: HTTPClient } = HTTPClientImport.default;
+// import * as HTTPClientImport from "algosdk/dist/cjs/src/client/client.js";
+// const { default: HTTPClient } = HTTPClientImport.default;
 
 interface HTTPClientResponse {
   body: Uint8Array | any;
@@ -16,6 +16,16 @@ interface HTTPClientResponse {
   headers: Record<string, string>;
   status: number;
   ok: boolean;
+}
+
+function removeFalsyOrEmpty(obj: any) {
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      // eslint-disable-next-line no-param-reassign
+      if (!obj[key] || obj[key].length === 0) delete obj[key];
+    }
+  }
+  return obj;
 }
 
 // @ts-ignore
@@ -39,19 +49,29 @@ export default class Indexer extends algosdk.Indexer {
     jsonOptions?: utils.JSONOptions
   ): Promise<HTTPClientResponse> {
     const format = getAcceptFormat(query);
+    const fullHeaders = { ...requestHeaders, accept: format };
     const req = this._network.query(
       "algorand_rest_indexer_request",
       "algorand-mainnet-indexer",
       {
         method: "GET",
         endpoint: relativePath,
-        query,
-      }
+        query: removeFalsyOrEmpty(query),
+        fullHeaders,
+      },
+      this._force
     );
 
-    const resp = await req.promise;
+    const res = await req.promise;
+    const { body } = res;
+    const text = undefined;
 
     // @ts-ignore
-    return HTTPClient.prepareResponse(resp, format, jsonOptions);
+    return {
+      ...res,
+      body,
+      text,
+      ok: Math.trunc(res.status / 100) === 2,
+    };
   }
 }
