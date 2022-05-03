@@ -75,12 +75,12 @@ export default class DnsQuery {
     await Promise.allSettled(
       Object.keys(this._network.activePeers).map((peer) => this.addPeer(peer))
     );
-    /*    this._timeoutTimer =
+    this._timeoutTimer =
       this._timeoutTimer ??
       setTimeout(
         this.handeTimeout.bind(this),
         this._network.queryTimeout * 1000
-      );*/
+      );
   }
 
   private getCachedRecordHandler(

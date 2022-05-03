@@ -4,8 +4,6 @@ import {
   isIp,
   normalizeDomain,
   normalizeSkylink,
-  registryEntryRegExp,
-  startsWithSkylinkRegExp,
 } from "../lib/util.js";
 
 // @ts-ignore
@@ -14,10 +12,9 @@ import SubResolverBase from "../SubResolverBase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
 import DnsQuery from "../DnsQuery.js";
-import Resolver, { Portal } from "../Resolver.js";
+import Resolver from "../Resolver.js";
 
 import * as ethers from "ethers";
-import is_ipfs from "is-ipfs";
 
 export default class Handshake extends SubResolverBase {
   private tldBlacklist: string[] = [];

@@ -15,6 +15,7 @@ resolver.registerPortal(
 );
 
 resolver.dnsNetwork.force = true;
+resolver.connect();
 
 describe("Handshake", () => {
   const subresolver = new Handshake(resolver);

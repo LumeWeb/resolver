@@ -15,7 +15,10 @@ export default class DnsNetwork extends EventEmitter {
   private _activePeers;
   private _authed;
   private _force;
+  private _maxConnectedPeers;
   constructor(resolver: Resolver);
+  get maxConnectedPeers(): number;
+  set maxConnectedPeers(value: number);
   get force(): boolean;
   set force(value: boolean);
   get forceTimeout(): number;
@@ -44,6 +47,7 @@ export default class DnsNetwork extends EventEmitter {
     force?: boolean
   ): DnsQuery;
   waitForPeers(count?: number): Promise<void>;
+  connectToPeers(): void;
   private _trackPeerHealth;
   private getPeerPingHandler;
   private pruneDeadPeers;

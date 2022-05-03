@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import SubResolverBase from "../SubResolverBase.js";
 import GunProvider from "./eip137/GunProvider.js";
 import pocketNetworks from "../data/pocketNetworks.js";
+import { normalizeSkylink } from "../lib/util.js";
 const ENS = ENSRoot.default;
 const networkMap = {
   eth: "eth-mainnet",
@@ -69,6 +70,10 @@ export default class Eip137 extends SubResolverBase {
       }
       if (content) {
         result = content;
+      }
+      const skylink = await normalizeSkylink(result, this.resolver);
+      if (skylink) {
+        return skylink;
       }
       /*
                           Future DNS support

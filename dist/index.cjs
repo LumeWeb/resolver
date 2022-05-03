@@ -97,7 +97,7 @@ var DnsQuery = class {
     return this._promise;
   }
   async init() {
-    var _a, _b;
+    var _a, _b, _c;
     const hash = import_crypto.default
       .createHash("sha256")
       .update(JSON.stringify(this._query.data))
@@ -124,6 +124,13 @@ var DnsQuery = class {
     await Promise.allSettled(
       Object.keys(this._network.activePeers).map((peer) => this.addPeer(peer))
     );
+    this._timeoutTimer =
+      (_c = this._timeoutTimer) != null
+        ? _c
+        : (0, import_timers.setTimeout)(
+            this.handeTimeout.bind(this),
+            this._network.queryTimeout * 1e3
+          );
   }
   getCachedRecordHandler(pubkey) {
     return (response) => {
@@ -367,6 +374,7 @@ var DnsNetwork = class extends import_events.EventEmitter {
   _activePeers = {};
   _authed;
   _force = false;
+  _maxConnectedPeers = 10;
   constructor(resolver) {
     super();
     this._resolver = resolver;
@@ -376,6 +384,12 @@ var DnsNetwork = class extends import_events.EventEmitter {
       axe: false,
     });
     this._authed = this.auth();
+  }
+  get maxConnectedPeers() {
+    return this._maxConnectedPeers;
+  }
+  set maxConnectedPeers(value) {
+    this._maxConnectedPeers = value;
   }
   get force() {
     return this._force;
@@ -441,7 +455,6 @@ var DnsNetwork = class extends import_events.EventEmitter {
   addTrustedPeer(peer) {
     this._peers.push(peer);
     this._peers = [...new Set(this._peers)];
-    this.network.opt({ peers: [`https://${peer}/dns`] });
     this._trackPeerHealth(peer);
   }
   query(query, chain, data = {}, force = false) {
@@ -465,6 +478,25 @@ var DnsNetwork = class extends import_events.EventEmitter {
         }
       }, 10);
     });
+  }
+  connectToPeers() {
+    const mesh = this._network.back("opt.mesh");
+    const currentPeers = this._network.back("opt.peers");
+    Object.keys(currentPeers).forEach((id) => mesh.bye(id));
+    const peers = [];
+    let availablePeers = this._peers.slice();
+    for (let i = 0; i < this._maxConnectedPeers; i++) {
+      const index = Math.floor(Math.random() * (1 + availablePeers.length - 1));
+      if (availablePeers[index]) {
+        peers.push(`https://${availablePeers[index]}/dns`);
+        delete availablePeers[index];
+        availablePeers = Object.values(availablePeers);
+      }
+      if (!availablePeers.length) {
+        break;
+      }
+    }
+    peers.forEach((item) => mesh.hi({ url: item }));
   }
   _trackPeerHealth(peerDomain) {
     const peer = this._resolver.getPortal(peerDomain);
@@ -535,6 +567,15 @@ var Resolver = class {
       this._dnsNetwork.addTrustedPeer(host);
     }
   }
+  registerPortalsFromJson(portals) {
+    for (const host of Object.keys(portals)) {
+      const portal = portals[host];
+      this.registerPortal(host, portal.supports, portal.pubkey);
+    }
+  }
+  connect() {
+    this._dnsNetwork.connectToPeers();
+  }
   getPortal(hostname) {
     if (hostname in this._portals) {
       return this._portals[hostname];
@@ -545,6 +586,9 @@ var Resolver = class {
     const portals = {};
     if (!Array.isArray(supports)) {
       supports = [supports];
+    }
+    if (!supports.length) {
+      return this._portals;
     }
     for (const service of supports) {
       for (const portalDomain in this._portals) {
@@ -1410,6 +1454,10 @@ var Eip137 = class extends SubResolverBase {
       }
       if (content) {
         result = content;
+      }
+      const skylink = await normalizeSkylink(result, this.resolver);
+      if (skylink) {
+        return skylink;
       }
       return result;
     } catch (e) {
