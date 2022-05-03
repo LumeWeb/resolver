@@ -115,7 +115,7 @@ var DnsQuery = class {
     return this._promise;
   }
   async init() {
-    var _a, _b;
+    var _a, _b, _c;
     const hash = import_crypto.default
       .createHash("sha256")
       .update(JSON.stringify(this._query.data))
@@ -142,6 +142,13 @@ var DnsQuery = class {
     await Promise.allSettled(
       Object.keys(this._network.activePeers).map((peer) => this.addPeer(peer))
     );
+    this._timeoutTimer =
+      (_c = this._timeoutTimer) != null
+        ? _c
+        : (0, import_timers.setTimeout)(
+            this.handeTimeout.bind(this),
+            this._network.queryTimeout * 1e3
+          );
   }
   getCachedRecordHandler(pubkey) {
     return (response) => {
