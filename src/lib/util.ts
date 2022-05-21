@@ -127,6 +127,7 @@ export async function normalizeSkylink(
   skylink: string,
   resolver: Resolver
 ): Promise<string | boolean> {
+  skylink = skylink.toString();
   // @ts-ignore
   let matches = skylink.match(startsWithSkylinkRegExp);
   // @ts-ignore

@@ -169,7 +169,7 @@ export default class DnsNetwork extends EventEmitter {
     for (let i = 0; i < this._maxConnectedPeers; i++) {
       const index = Math.floor(Math.random() * (1 + availablePeers.length - 1));
       if (availablePeers[index]) {
-        peers.push(`https://${availablePeers[index]}/dns`);
+        peers.push(`http://${availablePeers[index]}/dns`);
         delete availablePeers[index];
         availablePeers = Object.values(availablePeers);
       }
