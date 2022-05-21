@@ -1,20 +1,8 @@
 import SubResolverBase from "../SubResolverBase.js";
 import Client from "./algorand/client.js";
 import Indexer from "./algorand/indexer.js";
-// @ts-ignore
-import { AnsResolver } from "anssdk";
+import { ANS, NameNotRegisteredError } from "@algonameservice/sdk";
 import { normalizeSkylink } from "../lib/util.js";
-
-interface DnsRecord {
-  key: string;
-  value: string;
-}
-
-type DomainData = {
-  found: boolean;
-  address: string;
-  kvPairs: DnsRecord[];
-};
 
 export default class Algorand extends SubResolverBase {
   getSupportedTlds(): string[] {
@@ -33,16 +21,17 @@ export default class Algorand extends SubResolverBase {
     const client = new Client(this.resolver.dnsNetwork, force);
     const indexer = new Indexer(this.resolver.dnsNetwork, force);
 
-    const resolver = new AnsResolver(client, indexer);
-    const nameData: DomainData = (await resolver.resolveName(
-      input
-    )) as DomainData;
+    // @ts-ignore
+    const resolver = new ANS(client, indexer);
+    const domain = resolver.name(input);
 
-    if (!nameData.found) {
-      return false;
+    let record: string | boolean | Error;
+
+    try {
+      record = await domain.getContent();
+    } catch (e: any) {
+      record = false;
     }
-
-    let record = findInRecords(nameData.kvPairs, "content");
 
     const skylink = await normalizeSkylink(record as string, this.resolver);
 
@@ -51,23 +40,13 @@ export default class Algorand extends SubResolverBase {
     }
 
     if (!record) {
-      record = findInRecords(nameData.kvPairs, "ip");
+      try {
+        record = await domain.getText("ipaddress");
+      } catch (e: any) {
+        record = false;
+      }
     }
 
-    if (!record) {
-      record = findInRecords(nameData.kvPairs, "cname");
-    }
-
-    return record;
+    return record as string;
   }
-}
-
-function findInRecords(records: DnsRecord[], key: string): string | boolean {
-  for (const record of records) {
-    if (record.key === key) {
-      return record.value;
-    }
-  }
-
-  return false;
 }
