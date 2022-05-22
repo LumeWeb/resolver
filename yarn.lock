@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@algonameservice/sdk@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@algonameservice/sdk/-/sdk-0.3.1.tgz#b842054c16e9b4446af7c77e07042883b46b6b59"
+  integrity sha512-CbYRzXibZYHgdVOAk4mAlP/q9sx+T8We1uuJtAhyIXhSzNY5Veog4hsMplXOEv2Vz0voVmxvXtARdAcsjKowHg==
+  dependencies:
+    "@types/node" "^17.0.21"
+    algosdk "^1.13.1"
+    typescript "^4.6.4"
+
 "@babel/code-frame@^7.0.0":
   version "7.16.7"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.16.7.tgz"
