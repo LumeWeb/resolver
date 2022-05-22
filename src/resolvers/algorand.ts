@@ -1,7 +1,7 @@
 import SubResolverBase from "../SubResolverBase.js";
 import Client from "./algorand/client.js";
 import Indexer from "./algorand/indexer.js";
-import { ANS, NameNotRegisteredError } from "@algonameservice/sdk";
+import { ANS } from "@algonameservice/sdk";
 import { normalizeSkylink } from "../lib/util.js";
 
 export default class Algorand extends SubResolverBase {
