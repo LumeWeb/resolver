@@ -1,6 +1,8 @@
 var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
@@ -24,32 +26,52 @@ var __spreadValues = (a, b) => {
     }
   return a;
 };
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __markAsModule = (target) =>
+  __defProp(target, "__esModule", { value: true });
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __copyProps = (to, from, except, desc) => {
-  if ((from && typeof from === "object") || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, {
-          get: () => from[key],
-          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
+var __reExport = (target, module2, copyDefault, desc) => {
+  if (
+    (module2 && typeof module2 === "object") ||
+    typeof module2 === "function"
+  ) {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
+        __defProp(target, key, {
+          get: () => module2[key],
+          enumerable:
+            !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable,
         });
   }
-  return to;
+  return target;
 };
-var __toESM = (mod, isNodeMode, target) => (
-  (target = mod != null ? __create(__getProtoOf(mod)) : {}),
-  __copyProps(
-    isNodeMode || !mod || !mod.__esModule
-      ? __defProp(target, "default", { value: mod, enumerable: true })
-      : target,
-    mod
-  )
-);
-var __toCommonJS = (mod) =>
-  __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __toESM = (module2, isNodeMode) => {
+  return __reExport(
+    __markAsModule(
+      __defProp(
+        module2 != null ? __create(__getProtoOf(module2)) : {},
+        "default",
+        !isNodeMode && module2 && module2.__esModule
+          ? { get: () => module2.default, enumerable: true }
+          : { value: module2, enumerable: true }
+      )
+    ),
+    module2
+  );
+};
+var __toCommonJS = /* @__PURE__ */ ((cache) => {
+  return (module2, temp) => {
+    return (
+      (cache && cache.get(module2)) ||
+      ((temp = __reExport(__markAsModule({}), module2, 1)),
+      cache && cache.set(module2, temp),
+      temp)
+    );
+  };
+})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
 
 // src/index.ts
 var src_exports = {};
@@ -65,7 +87,6 @@ __export(src_exports, {
   registryEntryRegExp: () => registryEntryRegExp,
   startsWithSkylinkRegExp: () => startsWithSkylinkRegExp,
 });
-module.exports = __toCommonJS(src_exports);
 
 // src/DnsQuery.ts
 var import_crypto = __toESM(require("crypto"), 1);
@@ -488,7 +509,7 @@ var DnsNetwork = class extends import_events.EventEmitter {
     for (let i = 0; i < this._maxConnectedPeers; i++) {
       const index = Math.floor(Math.random() * (1 + availablePeers.length - 1));
       if (availablePeers[index]) {
-        peers.push(`https://${availablePeers[index]}/dns`);
+        peers.push(`http://${availablePeers[index]}/dns`);
         delete availablePeers[index];
         availablePeers = Object.values(availablePeers);
       }
@@ -691,6 +712,7 @@ function normalizeDomain(domain) {
 }
 async function normalizeSkylink(skylink, resolver) {
   var _a;
+  skylink = skylink.toString();
   let matches = skylink.match(startsWithSkylinkRegExp);
   if (matches) {
     const [u8Link, err64] = b64ToBuf(matches[2]);
@@ -1545,6 +1567,154 @@ var Solana = class extends SubResolverBase {
   }
 };
 
+// src/resolvers/algorand/client.ts
+var import_algosdk = __toESM(require("algosdk"), 1);
+var HTTPClientImport = __toESM(
+  require("algosdk/dist/cjs/src/client/client.js"),
+  1
+);
+var { default: HTTPClient } = HTTPClientImport.default;
+function getAcceptFormat(query) {
+  if (
+    query !== void 0 &&
+    Object.prototype.hasOwnProperty.call(query, "format")
+  ) {
+    switch (query.format) {
+      case "msgpack":
+        return "application/msgpack";
+      case "json":
+      default:
+        return "application/json";
+    }
+  } else {
+    return "application/json";
+  }
+}
+function tolowerCaseKeys(o) {
+  return Object.keys(o).reduce((c, k) => ((c[k.toLowerCase()] = o[k]), c), {});
+}
+var Client = class extends import_algosdk.default.Algodv2 {
+  _force;
+  _network;
+  c;
+  constructor(network, force = false) {
+    super("http://0.0.0.0");
+    this._network = network;
+    this._force = force;
+    this.c = this;
+  }
+  async post(relativePath, data, requestHeaders) {
+    const format = getAcceptFormat();
+    const fullHeaders = __spreadValues(
+      {
+        "content-type": "application/json",
+      },
+      tolowerCaseKeys(requestHeaders)
+    );
+    const req = this._network.query(
+      "algorand_rest_request",
+      pocketNetworks_default["algorand-mainnet"],
+      {
+        method: "POST",
+        endpoint: relativePath,
+        data: HTTPClient.serializeData(data, requestHeaders),
+        fullHeaders,
+      },
+      this._force
+    );
+    const res = await req.promise;
+    const { body } = res;
+    const text = void 0;
+    return __spreadProps(__spreadValues({}, res), {
+      body,
+      text,
+      ok: Math.trunc(res.status / 100) === 2,
+    });
+  }
+};
+
+// src/resolvers/algorand/indexer.ts
+var import_algosdk2 = __toESM(require("algosdk"), 1);
+function removeFalsyOrEmpty(obj) {
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      if (!obj[key] || obj[key].length === 0) delete obj[key];
+    }
+  }
+  return obj;
+}
+var Indexer = class extends import_algosdk2.default.Indexer {
+  _force;
+  _network;
+  c;
+  constructor(network, force = false) {
+    super("http://0.0.0.0");
+    this._network = network;
+    this._force = force;
+    this.c = this;
+  }
+  async get(relativePath, query, requestHeaders, jsonOptions) {
+    const format = getAcceptFormat(query);
+    const fullHeaders = __spreadProps(__spreadValues({}, requestHeaders), {
+      accept: format,
+    });
+    const req = this._network.query(
+      "algorand_rest_indexer_request",
+      "algorand-mainnet-indexer",
+      {
+        method: "GET",
+        endpoint: relativePath,
+        query: removeFalsyOrEmpty(query),
+        fullHeaders,
+      },
+      this._force
+    );
+    const res = await req.promise;
+    const { body } = res;
+    const text = void 0;
+    return __spreadProps(__spreadValues({}, res), {
+      body,
+      text,
+      ok: Math.trunc(res.status / 100) === 2,
+    });
+  }
+};
+
+// src/resolvers/algorand.ts
+var import_sdk = __toESM(require("@algonameservice/sdk"), 1);
+var Algorand = class extends SubResolverBase {
+  getSupportedTlds() {
+    return ["algo"];
+  }
+  async resolve(input, params, force) {
+    if (!this.isTldSupported(input)) {
+      return false;
+    }
+    const client = new Client(this.resolver.dnsNetwork, force);
+    const indexer = new Indexer(this.resolver.dnsNetwork, force);
+    const resolver = new import_sdk.default(client, indexer);
+    const domain = resolver.name(input);
+    let record;
+    try {
+      record = await domain.getContent();
+    } catch (e) {
+      record = false;
+    }
+    const skylink = await normalizeSkylink(record, this.resolver);
+    if (skylink) {
+      return skylink;
+    }
+    if (!record) {
+      try {
+        record = await domain.getText("ipaddress");
+      } catch (e) {
+        record = false;
+      }
+    }
+    return record;
+  }
+};
+
 // src/index.ts
 var resolvers = {
   Icann,
@@ -1555,11 +1725,13 @@ var resolvers = {
     defaultResolver.registerResolver(new Icann(defaultResolver));
     defaultResolver.registerResolver(new Eip137(defaultResolver));
     defaultResolver.registerResolver(new Solana(defaultResolver));
+    defaultResolver.registerResolver(new Algorand(defaultResolver));
     defaultResolver.registerResolver(new Handshake(defaultResolver));
     return defaultResolver;
   },
 };
 var src_default = resolvers;
+module.exports = __toCommonJS(src_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 &&
   (module.exports = {

@@ -105,6 +105,7 @@ export function normalizeDomain(domain) {
   return domain.replace(/^\.+|\.+$/g, "").replace(/^\/+|\/+$/g, "");
 }
 export async function normalizeSkylink(skylink, resolver) {
+  skylink = skylink.toString();
   // @ts-ignore
   let matches = skylink.match(startsWithSkylinkRegExp);
   // @ts-ignore
