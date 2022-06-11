@@ -10,6 +10,9 @@ const resolvers = {
   Icann,
   Handshake,
   Eip137,
+  Solana,
+  Algorand,
+  Handshake,
   createDefaultResolver: () => {
     const defaultResolver = new Resolver();
     defaultResolver.registerResolver(new Icann(defaultResolver));
