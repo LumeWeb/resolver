@@ -5,13 +5,14 @@ import Icann from "./resolvers/icann.js";
 import Eip137 from "./resolvers/eip137.js";
 import Solana from "./resolvers/solana.js";
 import Algorand from "./resolvers/algorand.js";
+import Avax from "./resolvers/avax.js";
 
 const resolvers = {
   Icann,
-  Handshake,
   Eip137,
   Solana,
   Algorand,
+  Avax,
   Handshake,
   createDefaultResolver: () => {
     const defaultResolver = new Resolver();
@@ -19,6 +20,7 @@ const resolvers = {
     defaultResolver.registerResolver(new Eip137(defaultResolver));
     defaultResolver.registerResolver(new Solana(defaultResolver));
     defaultResolver.registerResolver(new Algorand(defaultResolver));
+    defaultResolver.registerResolver(new Avax(defaultResolver));
     defaultResolver.registerResolver(new Handshake(defaultResolver));
 
     return defaultResolver;

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@algonameservice/sdk": "^0.3.1",
+    "@avvy/client": "^2.1.6",
     "@bonfida/spl-name-service": "^0.1.31",
     "@ethersproject/abstract-provider": "^5.6.0",
     "@ethersproject/abstract-signer": "^5.6.0",

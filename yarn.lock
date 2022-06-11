@@ -11,6 +11,14 @@
     algosdk "^1.13.1"
     typescript "^4.6.4"
 
+"@avvy/client@^2.1.6":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@avvy/client/-/client-2.1.7.tgz#b73689fec3ea384ef7efb0c9a1eb2917932f25af"
+  integrity sha512-pUpUeUi6kYB6I1hdVkcjJU/F7gRvUJfO3wF1AtzRKdUTtSvoJrIcC7IH1YqOKp9wmYizaTpBKW7Qtzh0kmq4bw==
+  dependencies:
+    circomlibjs "^0.0.8"
+    ethers "^5.5.4"
+
 "@babel/code-frame@^7.0.0":
   version "7.16.7"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.16.7.tgz"
