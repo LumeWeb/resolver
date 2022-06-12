@@ -1,4 +1,4 @@
-import SubResolverBase from "../SubResolverBase.js";
+import SubResolverBase from "../subresolverbase.js";
 import Client from "./algorand/client.js";
 import Indexer from "./algorand/indexer.js";
 import ANS from "@algonameservice/sdk";

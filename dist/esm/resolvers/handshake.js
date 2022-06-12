@@ -5,7 +5,7 @@ import {
   normalizeDomain,
   normalizeSkylink,
 } from "../lib/util.js";
-import SubResolverBase from "../SubResolverBase.js";
+import SubResolverBase from "../subresolverbase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
 import * as ethers from "ethers";

@@ -1,5 +1,5 @@
 import algosdk from "algosdk";
-import DnsNetwork from "../../DnsNetwork.js";
+import DnsNetwork from "../../dnsnetwork.js";
 import { Query } from "algosdk/dist/cjs/src/client/baseHTTPClient.js";
 export declare function getAcceptFormat(
   query?: Query<"msgpack" | "json">

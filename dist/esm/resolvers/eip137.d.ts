@@ -1,5 +1,5 @@
-import SubResolverBase from "../SubResolverBase.js";
-export default class Eip137 extends SubResolverBase {
+import Resolver from "./eip137/resolver.js";
+export default class Eip137 extends Resolver {
   getSupportedTlds(): string[];
   resolve(
     input: string,
@@ -8,7 +8,7 @@ export default class Eip137 extends SubResolverBase {
     },
     force?: boolean
   ): Promise<string | boolean>;
-  private resolveEns;
   private resolveHip5;
+  protected getChain(params: { [key: string]: any }): string;
 }
 //# sourceMappingURL=eip137.d.ts.map

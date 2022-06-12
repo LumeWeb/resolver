@@ -1,4 +1,4 @@
-import Resolver from "../Resolver.js";
+import Resolver from "../resolver.js";
 export declare function isIp(ip: string): boolean;
 export declare function isDomain(domain: string): boolean;
 export declare const startsWithSkylinkRegExp: RegExp;

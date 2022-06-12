@@ -1,14 +1,7 @@
 // @ts-ignore
-import ENSRoot, { getEnsAddress } from "@lumeweb/ensjs";
 import { ethers } from "ethers";
-import SubResolverBase from "../SubResolverBase.js";
-import GunProvider from "./eip137/GunProvider.js";
-import pocketNetworks from "../data/pocketNetworks.js";
 import { normalizeSkylink } from "../lib/util.js";
-const ENS = ENSRoot.default;
-const networkMap = {
-  eth: "eth-mainnet",
-};
+import Resolver, { maybeGetContentHash } from "./eip137/resolver.js";
 function isResponseEmpty(data) {
   if (!data) {
     return true;
@@ -21,53 +14,31 @@ function isResponseEmpty(data) {
   }
   return false;
 }
-export default class Eip137 extends SubResolverBase {
+export default class Eip137 extends Resolver {
   getSupportedTlds() {
     return ["eth"];
   }
   async resolve(input, params = {}, force = false) {
-    if (this.isTldSupported(input)) {
-      return this.resolveEns(input, force);
-    }
-    const hip5Data = input.split(".");
-    // @ts-ignore
-    if (2 <= hip5Data.length && "domain" in params) {
-      if (ethers.utils.isAddress(hip5Data[0])) {
-        // @ts-ignore
-        return this.resolveHip5(params.domain, hip5Data, force);
+    let resolve = await super.resolve(input, params, force);
+    if (!resolve) {
+      const hip5Data = input.split(".");
+      // @ts-ignore
+      if (2 <= hip5Data.length && "domain" in params) {
+        if (ethers.utils.isAddress(hip5Data[0])) {
+          // @ts-ignore
+          resolve = this.resolveHip5(params.domain, hip5Data, force);
+        }
       }
     }
-    return false;
+    return resolve;
   }
-  async resolveEns(input, force = false) {
-    const data = [getEnsAddress("1"), networkMap.eth];
-    return this.resolveHip5(input, data, force);
-  }
-  async resolveHip5(domain, data, force = false) {
-    let chain = data[1].replace("_", "");
-    if (chain in networkMap) {
-      chain = networkMap[chain];
-    }
-    if (chain in pocketNetworks) {
-      chain = pocketNetworks[chain];
-    }
-    const connection = new GunProvider(chain, this.resolver.dnsNetwork, force);
-    // @ts-ignore
-    const ens = new ENS({ provider: connection, ensAddress: data[0] });
+  async resolveHip5(domain, params = {}, data, force = false) {
+    params.chain = data[1].replace("_", "");
+    const ens = this.getEns(this.getConnection(params, force));
     try {
       const name = await ens.name(domain);
-      const contentResult = await name.getContent();
-      let content;
+      const content = maybeGetContentHash(name.getContent());
       let result = false;
-      if (typeof contentResult === "string" && 0 === Number(contentResult)) {
-        content = false;
-      }
-      if (
-        typeof contentResult === "object" &&
-        "contenthash" === contentResult.contentType
-      ) {
-        content = contentResult.value;
-      }
       if (content) {
         result = content;
       }
@@ -76,53 +47,59 @@ export default class Eip137 extends SubResolverBase {
         return skylink;
       }
       /*
-                          Future DNS support
-                         */
+                                      Future DNS support
+                                     */
       /*if (isResponseEmpty(result)) {
-                          result = await name.getText("A");
-                        }
+                                      result = await name.getText("A");
+                                    }
       
-                        if (isResponseEmpty(result)) {
-                          result = await name.getText("CNAME");
-                        }
+                                    if (isResponseEmpty(result)) {
+                                      result = await name.getText("CNAME");
+                                    }
       
-                        if (isResponseEmpty(result)) {
-                          result = await name.getText("NS");
-                          if (result) {
-                            result = normalizeDomain(result as string);
-                            let isIcann = false;
-                            if (isDomain(result) || /[a-zA-Z0-9\-]+/.test(result)) {
-                              if (result.includes(".")) {
-                                const tld = result.split(".")[result.split(".").length - 1];
-                                isIcann = tldEnum.list.includes(tld);
-                              }
+                                    if (isResponseEmpty(result)) {
+                                      result = await name.getText("NS");
+                                      if (result) {
+                                        result = normalizeDomain(result as string);
+                                        let isIcann = false;
+                                        if (isDomain(result) || /[a-zA-Z0-9\-]+/.test(result)) {
+                                          if (result.includes(".")) {
+                                            const tld = result.split(".")[result.split(".").length - 1];
+                                            isIcann = tldEnum.list.includes(tld);
+                                          }
       
-                              if (!isIcann) {
-                                const evmNs = await this.resolver.resolve(result, { force });
+                                          if (!isIcann) {
+                                            const evmNs = await this.resolver.resolve(result, { force });
       
-                                if (result) {
-                                  return this.resolver.resolve(domain, {
-                                    subquery: true,
-                                    nameserver: evmNs,
-                                    force,
-                                  });
-                                }
-                              }
+                                            if (result) {
+                                              return this.resolver.resolve(domain, {
+                                                subquery: true,
+                                                nameserver: evmNs,
+                                                force,
+                                              });
+                                            }
+                                          }
       
-                              result = await this.resolver.resolve(
-                                domain,
-                                {
-                                  subquery: true,
-                                  nameserver: result,
-                                },
-                                force
-                              );
-                            }
-                          }
-                        }*/
+                                          result = await this.resolver.resolve(
+                                            domain,
+                                            {
+                                              subquery: true,
+                                              nameserver: result,
+                                            },
+                                            force
+                                          );
+                                        }
+                                      }
+                                    }*/
       return result;
     } catch (e) {
       return false;
     }
+  }
+  getChain(params) {
+    if (params.chain) {
+      return params.chain;
+    }
+    return "eth";
   }
 }

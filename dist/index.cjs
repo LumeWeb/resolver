@@ -27,51 +27,32 @@ var __spreadValues = (a, b) => {
   return a;
 };
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __markAsModule = (target) =>
-  __defProp(target, "__esModule", { value: true });
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __reExport = (target, module2, copyDefault, desc) => {
-  if (
-    (module2 && typeof module2 === "object") ||
-    typeof module2 === "function"
-  ) {
-    for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
-        __defProp(target, key, {
-          get: () => module2[key],
-          enumerable:
-            !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable,
+var __copyProps = (to, from, except, desc) => {
+  if ((from && typeof from === "object") || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, {
+          get: () => from[key],
+          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
         });
   }
-  return target;
+  return to;
 };
-var __toESM = (module2, isNodeMode) => {
-  return __reExport(
-    __markAsModule(
-      __defProp(
-        module2 != null ? __create(__getProtoOf(module2)) : {},
-        "default",
-        !isNodeMode && module2 && module2.__esModule
-          ? { get: () => module2.default, enumerable: true }
-          : { value: module2, enumerable: true }
-      )
-    ),
-    module2
-  );
-};
-var __toCommonJS = /* @__PURE__ */ ((cache) => {
-  return (module2, temp) => {
-    return (
-      (cache && cache.get(module2)) ||
-      ((temp = __reExport(__markAsModule({}), module2, 1)),
-      cache && cache.set(module2, temp),
-      temp)
-    );
-  };
-})(typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+var __toESM = (mod, isNodeMode, target) => (
+  (target = mod != null ? __create(__getProtoOf(mod)) : {}),
+  __copyProps(
+    isNodeMode || !mod || !mod.__esModule
+      ? __defProp(target, "default", { value: mod, enumerable: true })
+      : target,
+    mod
+  )
+);
+var __toCommonJS = (mod) =>
+  __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.ts
 var src_exports = {};
@@ -87,8 +68,9 @@ __export(src_exports, {
   registryEntryRegExp: () => registryEntryRegExp,
   startsWithSkylinkRegExp: () => startsWithSkylinkRegExp,
 });
+module.exports = __toCommonJS(src_exports);
 
-// src/DnsQuery.ts
+// src/dnsquery.ts
 var import_crypto = __toESM(require("crypto"), 1);
 var import_timers = require("timers");
 var import_uuid = require("uuid");
@@ -378,7 +360,7 @@ var DnsQuery = class {
   }
 };
 
-// src/DnsNetwork.ts
+// src/dnsnetwork.ts
 var import_gun = __toESM(require("@lumeweb/gun"), 1);
 var import_events = require("events");
 var import_timers2 = require("timers");
@@ -556,7 +538,7 @@ var DnsNetwork = class extends import_events.EventEmitter {
   }
 };
 
-// src/Resolver.ts
+// src/resolver.ts
 var Resolver = class {
   _resolvers = [];
   _portals = {};
@@ -766,7 +748,7 @@ function getSld(domain) {
   return domain;
 }
 
-// src/SubResolverBase.ts
+// src/subresolverbase.ts
 var SubResolverBase = class {
   resolver;
   constructor(resolver) {
@@ -951,10 +933,56 @@ var Icann = class extends SubResolverBase {
 };
 
 // src/resolvers/eip137.ts
-var import_ensjs = __toESM(require("@lumeweb/ensjs"), 1);
 var import_ethers = require("ethers");
 
-// src/resolvers/eip137/GunProvider.ts
+// src/data/pocketNetworks.ts
+var pocketNetworks = {
+  "algorand-mainnet": "29",
+  "algorand-archival": "000D",
+  "algorand-testnet": "45",
+  "algorand-testnet-archival": "0A45",
+  "arweave-mainnet": "30",
+  "avax-mainnet": "3",
+  "avax-archival": "00A3",
+  "avax-fuji": "000E",
+  "bsc-mainnet": "4",
+  "bsc-archival": "10",
+  "bsc-testnet": "11",
+  "bsc-testnet-archival": "12",
+  "btc-mainnet": "2",
+  "eth-mainnet": "21",
+  "eth-archival": "22",
+  "eth-archival-trace": "28",
+  "eth-goerli": "26",
+  "poa-kovan": "24",
+  "eth-rinkeby": "25",
+  "eth-ropsten": "23",
+  "evmos-mainnet": "46",
+  "fuse-mainnet": "5",
+  "fuse-archival": "000A",
+  "gnosischain-mainnet": "27",
+  "gnosischain-archival": "000C",
+  "harmony-0": "40",
+  "harmony-0-archival": "0A40",
+  "harmony-1": "41",
+  "harmony-1-archival": "0A41",
+  "harmony-2": "42",
+  "harmony-2-archival": "0A42",
+  "harmony-3": "43",
+  "harmony-3-archival": "0A43",
+  "iotex-mainnet": "44",
+  "oec-mainnet": "47",
+  mainnet: "1",
+  "poly-mainnet": "9",
+  "poly-archival": "000B",
+  "poly-mumbai": "000F",
+  "poly-mumbai-archival": "00AF",
+  "sol-mainnet": "6",
+  "sol-testnet": "31",
+};
+var pocketNetworks_default = pocketNetworks;
+
+// src/resolvers/eip137/gunprovider.ts
 var ethers2 = __toESM(require("ethers"), 1);
 var ethersTransactions = __toESM(require("@ethersproject/transactions"), 1);
 var ethersProperties = __toESM(require("@ethersproject/properties"), 1);
@@ -1378,102 +1406,45 @@ var GunSigner = class extends ethersAbstractSigner.Signer {
   }
 };
 
-// src/data/pocketNetworks.ts
-var pocketNetworks = {
-  "algorand-mainnet": "29",
-  "algorand-archival": "000D",
-  "algorand-testnet": "45",
-  "algorand-testnet-archival": "0A45",
-  "arweave-mainnet": "30",
-  "avax-mainnet": "3",
-  "avax-archival": "00A3",
-  "avax-fuji": "000E",
-  "bsc-mainnet": "4",
-  "bsc-archival": "10",
-  "bsc-testnet": "11",
-  "bsc-testnet-archival": "12",
-  "btc-mainnet": "2",
-  "eth-mainnet": "21",
-  "eth-archival": "22",
-  "eth-archival-trace": "28",
-  "eth-goerli": "26",
-  "poa-kovan": "24",
-  "eth-rinkeby": "25",
-  "eth-ropsten": "23",
-  "evmos-mainnet": "46",
-  "fuse-mainnet": "5",
-  "fuse-archival": "000A",
-  "gnosischain-mainnet": "27",
-  "gnosischain-archival": "000C",
-  "harmony-0": "40",
-  "harmony-0-archival": "0A40",
-  "harmony-1": "41",
-  "harmony-1-archival": "0A41",
-  "harmony-2": "42",
-  "harmony-2-archival": "0A42",
-  "harmony-3": "43",
-  "harmony-3-archival": "0A43",
-  "iotex-mainnet": "44",
-  "oec-mainnet": "47",
-  mainnet: "1",
-  "poly-mainnet": "9",
-  "poly-archival": "000B",
-  "poly-mumbai": "000F",
-  "poly-mumbai-archival": "00AF",
-  "sol-mainnet": "6",
-  "sol-testnet": "31",
-};
-var pocketNetworks_default = pocketNetworks;
-
-// src/resolvers/eip137.ts
+// src/resolvers/eip137/resolver.ts
+var import_ensjs = __toESM(require("@lumeweb/ensjs"), 1);
 var ENS = import_ensjs.default.default;
 var networkMap = {
   eth: "eth-mainnet",
 };
-var Eip137 = class extends SubResolverBase {
-  getSupportedTlds() {
-    return ["eth"];
-  }
-  async resolve(input, params = {}, force = false) {
-    if (this.isTldSupported(input)) {
-      return this.resolveEns(input, force);
-    }
-    const hip5Data = input.split(".");
-    if (2 <= hip5Data.length && "domain" in params) {
-      if (import_ethers.ethers.utils.isAddress(hip5Data[0])) {
-        return this.resolveHip5(params.domain, hip5Data, force);
-      }
-    }
-    return false;
-  }
-  async resolveEns(input, force = false) {
-    const data = [(0, import_ensjs.getEnsAddress)("1"), networkMap.eth];
-    return this.resolveHip5(input, data, force);
-  }
-  async resolveHip5(domain, data, force = false) {
-    let chain = data[1].replace("_", "");
+var Resolver2 = class extends SubResolverBase {
+  getConnection(params = {}, force) {
+    let chain = this.getChain(params);
     if (chain in networkMap) {
       chain = networkMap[chain];
     }
     if (chain in pocketNetworks_default) {
       chain = pocketNetworks_default[chain];
     }
-    const connection = new GunProvider(chain, this.resolver.dnsNetwork, force);
-    const ens = new ENS({ provider: connection, ensAddress: data[0] });
+    return new GunProvider(chain, this.resolver.dnsNetwork, force);
+  }
+  getEns(provider) {
+    return new ENS({
+      provider,
+      ensAddress: (0, import_ensjs.getEnsAddress)(1),
+    });
+  }
+  async resolve(input, params = {}, force = false) {
+    if (this.isTldSupported(input)) {
+      return this.resolve137(input, params, force);
+    }
+    return false;
+  }
+  async resolve137(input, params = {}, force = false) {
+    var _a;
+    const ens =
+      (_a = params.ens) != null
+        ? _a
+        : this.getEns(this.getConnection(params, force));
     try {
-      const name = await ens.name(domain);
-      const contentResult = await name.getContent();
-      let content;
+      const name = await ens.name(input);
+      const content = maybeGetContentHash(await name.getContent());
       let result = false;
-      if (typeof contentResult === "string" && Number(contentResult) === 0) {
-        content = false;
-      }
-      if (
-        typeof contentResult === "object" &&
-        contentResult.contentType === "contenthash"
-      ) {
-        content = contentResult.value;
-      }
       if (content) {
         result = content;
       }
@@ -1485,6 +1456,60 @@ var Eip137 = class extends SubResolverBase {
     } catch (e) {
       return false;
     }
+  }
+};
+function maybeGetContentHash(contentResult) {
+  let content = false;
+  if (
+    typeof contentResult === "object" &&
+    contentResult.contentType === "contenthash"
+  ) {
+    content = contentResult.value;
+  }
+  return content;
+}
+
+// src/resolvers/eip137.ts
+var Eip137 = class extends Resolver2 {
+  getSupportedTlds() {
+    return ["eth"];
+  }
+  async resolve(input, params = {}, force = false) {
+    let resolve = await super.resolve(input, params, force);
+    if (!resolve) {
+      const hip5Data = input.split(".");
+      if (2 <= hip5Data.length && "domain" in params) {
+        if (import_ethers.ethers.utils.isAddress(hip5Data[0])) {
+          resolve = this.resolveHip5(params.domain, hip5Data, force);
+        }
+      }
+    }
+    return resolve;
+  }
+  async resolveHip5(domain, params = {}, data, force = false) {
+    params.chain = data[1].replace("_", "");
+    const ens = this.getEns(this.getConnection(params, force));
+    try {
+      const name = await ens.name(domain);
+      const content = maybeGetContentHash(name.getContent());
+      let result = false;
+      if (content) {
+        result = content;
+      }
+      const skylink = await normalizeSkylink(result, this.resolver);
+      if (skylink) {
+        return skylink;
+      }
+      return result;
+    } catch (e) {
+      return false;
+    }
+  }
+  getChain(params) {
+    if (params.chain) {
+      return params.chain;
+    }
+    return "eth";
   }
 };
 
@@ -1715,23 +1740,80 @@ var Algorand = class extends SubResolverBase {
   }
 };
 
+// src/resolvers/avax.ts
+var import_client3 = __toESM(require("@avvy/client"), 1);
+var Avax = class extends SubResolverBase {
+  getSupportedTlds() {
+    return ["avax"];
+  }
+  async resolve(input, params, force) {
+    if (!this.isTldSupported(input)) {
+      return false;
+    }
+    const connection = new GunProvider(
+      pocketNetworks_default["avax-mainnet"],
+      this.resolver.dnsNetwork,
+      force
+    );
+    const domain = new import_client3.default(connection).name(input);
+    const content = await domain.resolve(
+      import_client3.default.RECORDS.CONTENT
+    );
+    const skylink = await normalizeSkylink(content, this.resolver);
+    if (skylink) {
+      return skylink;
+    }
+    if (content) {
+      return content;
+    }
+    let record = await domain.resolve(import_client3.default.RECORDS.DNS_CNAME);
+    if (!record) {
+      record = await domain.resolve(import_client3.default.RECORDS.DNS_A);
+    }
+    return record;
+  }
+};
+
+// src/resolvers/evmos.ts
+var import_ensjs2 = __toESM(require("@lumeweb/ensjs"), 1);
+var ENS2 = import_ensjs2.default.default;
+var Evmos = class extends Resolver2 {
+  getEns(provider) {
+    return new ENS2({
+      provider,
+      ensAddress: "0xae9Da235A2276CAa3f6484ad8F0EFbF4e0d45246",
+    });
+  }
+  getSupportedTlds() {
+    return ["evmos"];
+  }
+  getChain(params) {
+    return pocketNetworks_default["evmos-mainnet"];
+  }
+};
+
 // src/index.ts
 var resolvers = {
   Icann,
-  Handshake,
   Eip137,
+  Solana,
+  Algorand,
+  Avax,
+  Evmos,
+  Handshake,
   createDefaultResolver: () => {
     const defaultResolver = new Resolver();
     defaultResolver.registerResolver(new Icann(defaultResolver));
     defaultResolver.registerResolver(new Eip137(defaultResolver));
     defaultResolver.registerResolver(new Solana(defaultResolver));
     defaultResolver.registerResolver(new Algorand(defaultResolver));
+    defaultResolver.registerResolver(new Avax(defaultResolver));
+    defaultResolver.registerResolver(new Evmos(defaultResolver));
     defaultResolver.registerResolver(new Handshake(defaultResolver));
     return defaultResolver;
   },
 };
 var src_default = resolvers;
-module.exports = __toCommonJS(src_exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 &&
   (module.exports = {

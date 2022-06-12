@@ -1,4 +1,4 @@
-import SubResolverBase from "../SubResolverBase.js";
+import SubResolverBase from "../subresolverbase.js";
 import {
   getHashedName,
   getNameAccountKey,
