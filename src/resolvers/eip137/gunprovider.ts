@@ -7,7 +7,7 @@ import * as ethersLogger from "@ethersproject/logger";
 import * as ethersAbstractProvider from "@ethersproject/abstract-provider";
 import * as ethersAbstractSigner from "@ethersproject/abstract-signer";
 import * as ethersStrings from "@ethersproject/strings";
-import DnsNetwork from "../../DnsNetwork.js";
+import DnsNetwork from "../../dnsnetwork.js";
 import { poll } from "@ethersproject/web";
 import { _TypedDataEncoder } from "@ethersproject/hash";
 

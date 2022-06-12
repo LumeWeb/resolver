@@ -1,5 +1,5 @@
 import algosdk from "algosdk";
-import DnsNetwork from "../../DnsNetwork.js";
+import DnsNetwork from "../../dnsnetwork.js";
 import pocketNetworks from "../../data/pocketNetworks.js";
 // @ts-ignore
 import { Query } from "algosdk/dist/cjs/src/client/baseHTTPClient.js";

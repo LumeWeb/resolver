@@ -1,5 +1,5 @@
-import SubResolverBase from "./SubResolverBase.js";
-import DnsNetwork from "./DnsNetwork.js";
+import SubResolverBase from "./subresolverbase.js";
+import DnsNetwork from "./dnsnetwork.js";
 
 export interface JSONPortalItem {
   pubkey?: string;

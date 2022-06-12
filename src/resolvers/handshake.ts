@@ -8,11 +8,11 @@ import {
 
 // @ts-ignore
 import { SkynetClient } from "@lumeweb/skynet-js";
-import SubResolverBase from "../SubResolverBase.js";
+import SubResolverBase from "../subresolverbase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
-import DnsQuery from "../DnsQuery.js";
-import Resolver from "../Resolver.js";
+import DnsQuery from "../dnsquery.js";
+import Resolver from "../resolver.js";
 
 import * as ethers from "ethers";
 

@@ -1,5 +1,5 @@
-import Resolver, { Portal } from "./Resolver.js";
-import DnsQuery from "./DnsQuery.js";
+import Resolver, { Portal } from "./resolver.js";
+import DnsQuery from "./dnsquery.js";
 // @ts-ignore
 import Gun from "@lumeweb/gun";
 import { EventEmitter } from "events";

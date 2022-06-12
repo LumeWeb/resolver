@@ -3,7 +3,7 @@ import pocketNetworks from "../data/pocketNetworks.js";
 
 // @ts-ignore
 import ENSRoot from "@lumeweb/ensjs";
-import GunProvider from "./eip137/GunProvider.js";
+import GunProvider from "./eip137/gunprovider.js";
 
 const ENS = ENSRoot.default;
 

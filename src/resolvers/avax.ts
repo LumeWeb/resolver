@@ -1,7 +1,7 @@
-import SubResolverBase from "../SubResolverBase.js";
+import SubResolverBase from "../subresolverbase.js";
 // @ts-ignore
 import AVVY from "@avvy/client";
-import GunProvider from "./eip137/GunProvider.js";
+import GunProvider from "./eip137/gunprovider.js";
 import pocketNetworks from "../data/pocketNetworks.js";
 import { normalizeSkylink } from "../lib/util.js";
 

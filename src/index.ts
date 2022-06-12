@@ -1,5 +1,5 @@
-import Resolver from "./Resolver.js";
-export * from "./Resolver.js";
+import Resolver from "./resolver.js";
+export * from "./resolver.js";
 import Handshake from "./resolvers/handshake.js";
 import Icann from "./resolvers/icann.js";
 import Eip137 from "./resolvers/eip137.js";

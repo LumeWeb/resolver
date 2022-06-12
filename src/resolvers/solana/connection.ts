@@ -1,5 +1,5 @@
 import { Connection as SolanaConnection } from "@solana/web3.js";
-import DnsNetwork from "../../DnsNetwork.js";
+import DnsNetwork from "../../dnsnetwork.js";
 import pocketNetworks from "../../data/pocketNetworks.js";
 
 export default class Connection extends SolanaConnection {

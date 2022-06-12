@@ -1,6 +1,6 @@
-import SubResolverBase from "../../SubResolverBase.js";
+import SubResolverBase from "../../subresolverbase.js";
 import pocketNetworks from "../../data/pocketNetworks.js";
-import GunProvider from "./GunProvider.js";
+import GunProvider from "./gunprovider.js";
 import { normalizeSkylink } from "../../lib/util.js";
 // @ts-ignore
 import ENSRoot, { getEnsAddress } from "@lumeweb/ensjs";

@@ -1,4 +1,4 @@
-import Resolver, { Portal } from "../Resolver.js";
+import Resolver, { Portal } from "../resolver.js";
 import { SkynetClient } from "@lumeweb/skynet-js";
 
 /*
