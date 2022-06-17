@@ -5,7 +5,7 @@ import Icann from "./resolvers/icann.js";
 import Eip137 from "./resolvers/eip137.js";
 import Solana from "./resolvers/solana.js";
 import Algorand from "./resolvers/algorand.js";
-import Avax from "./resolvers/avax.js";
+const { default: Avax } = await import("./resolvers/avax.js");
 import Evmos from "./resolvers/evmos.js";
 const resolvers = {
   Icann,
