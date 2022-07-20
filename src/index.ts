@@ -7,6 +7,7 @@ import Solana from "./resolvers/solana.js";
 import Algorand from "./resolvers/algorand.js";
 import Avax from "./resolvers/avax.js";
 import Evmos from "./resolvers/evmos.js";
+import { RpcNetwork } from "@lumeweb/dht-rpc-client";
 
 const resolvers = {
   Icann,
@@ -16,8 +17,8 @@ const resolvers = {
   Avax,
   Evmos,
   Handshake,
-  createDefaultResolver: () => {
-    const defaultResolver = new Resolver();
+  createDefaultResolver: (network?: RpcNetwork) => {
+    const defaultResolver = new Resolver(network);
     defaultResolver.registerResolver(new Icann(defaultResolver));
     defaultResolver.registerResolver(new Eip137(defaultResolver));
     defaultResolver.registerResolver(new Solana(defaultResolver));

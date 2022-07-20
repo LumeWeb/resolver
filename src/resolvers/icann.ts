@@ -1,7 +1,7 @@
 import { isDomain } from "../lib/util.js";
 
 // @ts-ignore
-import SubResolverBase from "../subresolverbase.js";
+import SubResolverBase from "../subResolverBase.js";
 
 export default class Icann extends SubResolverBase {
   async resolve(
@@ -22,13 +22,13 @@ export default class Icann extends SubResolverBase {
       nameserver: params.nameserver ?? undefined,
     };
 
-    const query = this.resolver.dnsNetwork.query(
+    const query = this.resolver.rpcNetwork.query(
       "dnslookup",
       "icann",
       data,
       force
     );
 
-    return query.promise;
+    return query.result;
   }
 }

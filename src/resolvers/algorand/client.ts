@@ -1,10 +1,10 @@
 import algosdk from "algosdk";
-import DnsNetwork from "../../dnsnetwork.js";
 import pocketNetworks from "../../data/pocketNetworks.js";
 // @ts-ignore
 import { Query } from "algosdk/dist/cjs/src/client/baseHTTPClient.js";
 // @ts-ignore
 import * as HTTPClientImport from "algosdk/dist/cjs/src/client/client.js";
+import { RpcNetwork } from "@lumeweb/dht-rpc-client";
 
 const { default: HTTPClient } = HTTPClientImport.default;
 
@@ -45,11 +45,11 @@ function tolowerCaseKeys(o: any) {
 
 export default class Client extends algosdk.Algodv2 {
   private _force: boolean;
-  private _network: DnsNetwork;
+  private _network: RpcNetwork;
   // @ts-ignore
   private c: Client;
 
-  constructor(network: DnsNetwork, force = false) {
+  constructor(network: RpcNetwork, force = false) {
     super("http://0.0.0.0");
     this._network = network;
     this._force = force;
@@ -78,7 +78,7 @@ export default class Client extends algosdk.Algodv2 {
       this._force
     );
 
-    const res = await req.promise;
+    const res = await req.result;
     const { body } = res;
     const text = undefined;
 

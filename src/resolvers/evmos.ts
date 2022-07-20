@@ -3,12 +3,12 @@ import pocketNetworks from "../data/pocketNetworks.js";
 
 // @ts-ignore
 import ENSRoot from "@lumeweb/ensjs";
-import GunProvider from "./eip137/gunprovider.js";
+import RpcProvider from "./eip137/rpcProvider.js";
 
 const ENS = ENSRoot.default;
 
 export default class Evmos extends Resolver {
-  protected getEns(provider: GunProvider): any {
+  protected getEns(provider: RpcProvider): any {
     return new ENS({
       provider,
       ensAddress: "0xae9Da235A2276CAa3f6484ad8F0EFbF4e0d45246",

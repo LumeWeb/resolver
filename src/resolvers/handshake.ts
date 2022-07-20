@@ -8,10 +8,9 @@ import {
 
 // @ts-ignore
 import { SkynetClient } from "@lumeweb/skynet-js";
-import SubResolverBase from "../subresolverbase.js";
+import SubResolverBase from "../subResolverBase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
-import DnsQuery from "../dnsquery.js";
 import Resolver from "../resolver.js";
 
 import * as ethers from "ethers";
@@ -169,13 +168,13 @@ export default class Handshake extends SubResolverBase {
   }
 
   private async query(tld: string, force: boolean): Promise<object | boolean> {
-    const query: DnsQuery = this.resolver.dnsNetwork.query(
+    const query = this.resolver.rpcNetwork.query(
       "getnameresource",
       "hns",
       [tld],
       force
     );
-    const resp = await query.promise;
+    const resp = await query.result;
 
     // @ts-ignore
     return resp?.records || [];

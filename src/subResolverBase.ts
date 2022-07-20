@@ -1,4 +1,4 @@
-import ISubResolver from "./isubresolver.js";
+import ISubResolver from "./ISubResolver.js";
 import Resolver from "./resolver.js";
 import { getTld } from "./lib/util.js";
 

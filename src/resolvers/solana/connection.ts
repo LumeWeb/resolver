@@ -1,13 +1,13 @@
 import { Connection as SolanaConnection } from "@solana/web3.js";
-import DnsNetwork from "../../dnsnetwork.js";
 import pocketNetworks from "../../data/pocketNetworks.js";
+import { RpcNetwork } from "@lumeweb/dht-rpc-client";
 
 export default class Connection extends SolanaConnection {
-  private _network: DnsNetwork;
+  private _network: RpcNetwork;
   // @ts-ignore
   private _force: boolean;
 
-  constructor(network: DnsNetwork, force = false) {
+  constructor(network: RpcNetwork, force = false) {
     super("http://0.0.0.0");
     this._force = force;
     // @ts-ignore
@@ -26,6 +26,6 @@ export default class Connection extends SolanaConnection {
       this._force
     );
 
-    return req.promise;
+    return req.result;
   }
 }

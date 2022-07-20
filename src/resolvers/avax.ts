@@ -1,7 +1,7 @@
-import SubResolverBase from "../subresolverbase.js";
+import SubResolverBase from "../subResolverBase.js";
 // @ts-ignore
 import AVVY from "@avvy/client";
-import GunProvider from "./eip137/gunprovider.js";
+import RpcProvider from "./eip137/rpcProvider.js";
 import pocketNetworks from "../data/pocketNetworks.js";
 import { normalizeSkylink } from "../lib/util.js";
 
@@ -19,9 +19,9 @@ export default class Avax extends SubResolverBase {
       return false;
     }
 
-    const connection: GunProvider = new GunProvider(
+    const connection: RpcProvider = new RpcProvider(
       pocketNetworks["avax-mainnet"],
-      this.resolver.dnsNetwork,
+      this.resolver.rpcNetwork,
       force
     );
 

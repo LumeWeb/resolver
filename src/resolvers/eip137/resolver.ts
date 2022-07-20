@@ -1,6 +1,6 @@
-import SubResolverBase from "../../subresolverbase.js";
+import SubResolverBase from "../../subResolverBase.js";
 import pocketNetworks from "../../data/pocketNetworks.js";
-import GunProvider from "./gunprovider.js";
+import RpcProvider from "./rpcProvider.js";
 import { normalizeSkylink } from "../../lib/util.js";
 // @ts-ignore
 import ENSRoot, { getEnsAddress } from "@lumeweb/ensjs";
@@ -17,7 +17,7 @@ export default abstract class Resolver extends SubResolverBase {
   protected getConnection(
     params: { [key: string]: any } = {},
     force: boolean
-  ): GunProvider {
+  ): RpcProvider {
     let chain = this.getChain(params);
 
     if (chain in networkMap) {
@@ -27,10 +27,10 @@ export default abstract class Resolver extends SubResolverBase {
       chain = pocketNetworks[chain];
     }
 
-    return new GunProvider(chain, this.resolver.dnsNetwork, force);
+    return new RpcProvider(chain, this.resolver.rpcNetwork, force);
   }
 
-  protected getEns(provider: GunProvider): any {
+  protected getEns(provider: RpcProvider): any {
     return new ENS({ provider, ensAddress: getEnsAddress(1) });
   }
 

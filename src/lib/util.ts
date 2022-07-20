@@ -1,4 +1,4 @@
-import Resolver, { Portal } from "../resolver.js";
+import Resolver from "../resolver.js";
 import { SkynetClient } from "@lumeweb/skynet-js";
 
 /*
@@ -153,12 +153,7 @@ export async function normalizeSkylink(
 
   // @ts-ignore
   if (matches) {
-    const portal: Portal = resolver.getRandomPortal("registry") as Portal;
-    if (!portal) {
-      return false;
-    }
-
-    const client = new SkynetClient(`https://${portal.host}`);
+    const client = new SkynetClient(`https://web3portal.com`);
 
     // @ts-ignore
     const pubKey = decodeURIComponent(matches.groups.publickey).replace(

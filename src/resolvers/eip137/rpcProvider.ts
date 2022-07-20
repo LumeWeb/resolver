@@ -7,21 +7,14 @@ import * as ethersLogger from "@ethersproject/logger";
 import * as ethersAbstractProvider from "@ethersproject/abstract-provider";
 import * as ethersAbstractSigner from "@ethersproject/abstract-signer";
 import * as ethersStrings from "@ethersproject/strings";
-import DnsNetwork from "../../dnsnetwork.js";
 import { poll } from "@ethersproject/web";
 import { _TypedDataEncoder } from "@ethersproject/hash";
+import { RpcNetwork } from "@lumeweb/dht-rpc-client";
 
 const { defineReadOnly, resolveProperties, shallowCopy } = ethersProperties;
 const { Logger } = ethersLogger;
 const { toUtf8Bytes } = ethersStrings;
 const { hexlify } = ethersBytes;
-
-function getLowerCase(value: string): string {
-  if (value) {
-    return value.toLowerCase();
-  }
-  return value;
-}
 
 const allowedTransactionKeys: { [key: string]: boolean } = {
   chainId: true,
@@ -149,14 +142,14 @@ function checkError(method: string, error: any, params: any): any {
   throw error;
 }
 
-export default class GunProvider extends ethers.providers.BaseProvider {
+export default class RpcProvider extends ethers.providers.BaseProvider {
   private _dnsChain: string;
-  private _dnsNetwork: DnsNetwork;
+  private _rpcNetwork: RpcNetwork;
   private _force: boolean;
 
   constructor(
     dnsChain: string,
-    dnsNetwork: DnsNetwork,
+    dnsNetwork: RpcNetwork,
     force: boolean = false
   ) {
     const networkOrReady:
@@ -164,7 +157,7 @@ export default class GunProvider extends ethers.providers.BaseProvider {
       | Promise<ethersNetwork.Network> = { name: "dummy", chainId: 0 };
     super(networkOrReady);
     this._dnsChain = dnsChain;
-    this._dnsNetwork = dnsNetwork;
+    this._rpcNetwork = dnsNetwork;
     this._force = force;
   }
 
@@ -173,13 +166,13 @@ export default class GunProvider extends ethers.providers.BaseProvider {
   }
 
   async send(method: string, params: any[]): Promise<any> {
-    const query = this._dnsNetwork.query(
+    const query = this._rpcNetwork.query(
       method,
       this._dnsChain,
       params,
       this._force
     );
-    let resp = await query.promise;
+    let resp = await query.result;
 
     try {
       hexlify(resp);
@@ -304,22 +297,23 @@ export default class GunProvider extends ethers.providers.BaseProvider {
   }
 
   // @ts-ignore
-  getSigner(addressOrIndex?: string | number): GunSigner {
+  getSigner(addressOrIndex?: string | number): RpcSigner {
     // @ts-ignore
-    return new GunSigner({}, this, addressOrIndex);
+    return new RpcSigner({}, this, addressOrIndex);
   }
 }
 
 // tslint:disable-next-line:max-classes-per-file
-class GunSigner extends ethersAbstractSigner.Signer {
+class RpcSigner extends ethersAbstractSigner.Signer {
   // @ts-ignore
-  readonly provider: GunProvider;
+  readonly provider: RpcProvider;
   // @ts-ignore
   private _index: number;
   // @ts-ignore
   private _address: string;
+
   // @ts-ignore
-  constructor(provider: GunProvider, addressOrIndex?: string | number) {
+  constructor(provider: RpcProvider, addressOrIndex?: string | number) {
     super();
     // @ts-ignore
     defineReadOnly(this, "provider", provider);
@@ -346,7 +340,7 @@ class GunSigner extends ethersAbstractSigner.Signer {
     }
   }
 
-  connect(provider: GunProvider): GunSigner {
+  connect(provider: RpcProvider): RpcSigner {
     return ethers.logger.throwError(
       "cannot alter JSON-RPC Signer connection",
       Logger.errors.UNSUPPORTED_OPERATION,
@@ -355,6 +349,7 @@ class GunSigner extends ethersAbstractSigner.Signer {
       }
     );
   }
+
   getAddress(): Promise<string> {
     // @ts-ignore
     if (this._address) {
