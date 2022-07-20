@@ -134,26 +134,23 @@ function getSld(domain) {
   return domain;
 }
 async function getRegistryEntry(pubkey, datakey) {
-  let libskynetnode;
-  if (typeof process !== "undefined" && process.release.name === "node") {
-    libskynetnode = await Promise.resolve().then(() =>
-      __toESM(require("libskynetnode"), 1)
-    );
-  } else {
+  if (typeof process === "undefined") {
     if (window == null ? void 0 : window.document) {
       return (
         await Promise.resolve().then(() => __toESM(require("libkernel"), 1))
       )
         .registryRead(pubkey, datakey)
         .then((result) => result[0].entryData);
-    } else {
-      return (
-        await Promise.resolve().then(() => __toESM(require("libkmodule"), 1))
-      )
-        .registryRead(pubkey, datakey)
-        .then((result) => result[0].entryData);
     }
+    return (
+      await Promise.resolve().then(() => __toESM(require("libkmodule"), 1))
+    )
+      .registryRead(pubkey, datakey)
+      .then((result) => result[0].entryData);
   }
+  const libskynetnode = await Promise.resolve().then(() =>
+    __toESM(require("libskynetnode"), 1)
+  );
   return new Promise((resolve, reject) => {
     const pubkeyHex = (0, import_dist.bufToHex)(pubkey);
     const datakeyHex = (0, import_dist.bufToHex)(datakey);

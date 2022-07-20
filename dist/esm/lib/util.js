@@ -66,22 +66,19 @@ export function getSld(domain) {
   return domain;
 }
 async function getRegistryEntry(pubkey, datakey) {
-  let libskynetnode;
-  if (typeof process !== "undefined" && process.release.name === "node") {
-    libskynetnode = await import("libskynetnode");
-  } else {
+  if (typeof process === "undefined") {
     if (window?.document) {
       // @ts-ignore
       return (await import("libkernel"))
         .registryRead(pubkey, datakey)
         .then((result) => result[0].entryData);
-    } else {
-      // @ts-ignore
-      return (await import("libkmodule"))
-        .registryRead(pubkey, datakey)
-        .then((result) => result[0].entryData);
     }
+    // @ts-ignore
+    return (await import("libkmodule"))
+      .registryRead(pubkey, datakey)
+      .then((result) => result[0].entryData);
   }
+  const libskynetnode = await import("libskynetnode");
   return new Promise((resolve, reject) => {
     const pubkeyHex = bufToHex(pubkey);
     const datakeyHex = bufToHex(datakey);
@@ -93,6 +90,7 @@ async function getRegistryEntry(pubkey, datakey) {
     const verifyFunc = (response) =>
       verifyRegistryReadResponse(response, pubkey, datakey);
     libskynetnode
+      // @ts-ignore
       .progressiveFetch(endpoint, {}, defaultPortalList, verifyFunc)
       .then((result) => {
         // Check for a success.
