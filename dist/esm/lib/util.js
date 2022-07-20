@@ -1,93 +1,10 @@
-import { SkynetClient } from "@lumeweb/skynet-js";
-/*
- Copied from https://github.com/SkynetLabs/skynet-kernel/blob/4d44170fa4445004da9d9485148c5553ea668e57/extension/lib/encoding.ts
- */
-const b64ToBuf = (b64) => {
-  // Check that the final string is valid base64.
-  const b64regex = /^[0-9a-zA-Z-_/+=]*$/;
-  if (!b64regex.test(b64)) {
-    // @ts-ignore
-    return [null, null];
-  }
-  // Swap any '-' characters for '+', and swap any '_' characters for '/'
-  // for use in the atob function.
-  b64 = b64.replace(/-/g, "+").replace(/_/g, "/");
-  // Perform the conversion.
-  const binStr = atob(b64);
-  const len = binStr.length;
-  const buf = new Uint8Array(len);
-  for (let i = 0; i < len; i++) {
-    buf[i] = binStr.charCodeAt(i);
-  }
-  // @ts-ignore
-  return [buf, null];
-};
-/*
- Copied from https://github.com/SkynetLabs/skynet-kernel/blob/4d44170fa4445004da9d9485148c5553ea668e57/extension/lib/download.ts
- */
-const parseSkylinkBitfield = (skylink) => {
-  // Validate the input.
-  if (skylink.length !== 34) {
-    return [0, 0, 0, new Error("provided skylink has incorrect length")];
-  }
-  // Extract the bitfield.
-  let bitfield = new DataView(skylink.buffer).getUint16(0, true);
-  // Extract the version.
-  // tslint:disable-next-line:no-bitwise
-  const version = (bitfield & 3) + 1;
-  // Only versions 1 and 2 are recognized.
-  if (version !== 1 && version !== 2) {
-    return [0, 0, 0, new Error("provided skylink has unrecognized version")];
-  }
-  // Verify that the mode is valid, then fetch the mode.
-  // tslint:disable-next-line:no-bitwise
-  bitfield = bitfield >> 2;
-  // tslint:disable-next-line:no-bitwise
-  if ((bitfield & 255) === 255) {
-    return [0, 0, 0, new Error("provided skylink has an unrecognized version")];
-  }
-  let mode = 0;
-  for (let i = 0; i < 8; i++) {
-    // tslint:disable-next-line:no-bitwise
-    if ((bitfield & 1) === 0) {
-      // tslint:disable-next-line:no-bitwise
-      bitfield = bitfield >> 1;
-      // tslint:disable-next-line:no-bitwise
-      break;
-    }
-    // tslint:disable-next-line:no-bitwise
-    bitfield = bitfield >> 1;
-    mode++;
-  }
-  // If the mode is greater than 7, this is not a valid v1 skylink.
-  if (mode > 7) {
-    return [0, 0, 0, new Error("provided skylink has an invalid v1 bitfield")];
-  }
-  // Determine the offset and fetchSize increment.
-  // tslint:disable-next-line:no-bitwise
-  const offsetIncrement = 4096 << mode;
-  let fetchSizeIncrement = 4096;
-  if (mode > 0) {
-    // tslint:disable-next-line:no-bitwise
-    fetchSizeIncrement = fetchSizeIncrement << (mode - 1);
-  }
-  // The next three bits decide the fetchSize.
-  // tslint:disable-next-line:no-bitwise
-  let fetchSizeBits = bitfield & 7;
-  fetchSizeBits++; // semantic upstep, range should be [1,8] not [0,8).
-  const fetchSize = fetchSizeBits * fetchSizeIncrement;
-  // tslint:disable-next-line:no-bitwise
-  bitfield = bitfield >> 3;
-  // The remaining bits determine the offset.
-  const offset = bitfield * offsetIncrement;
-  // tslint:disable-next-line:no-bitwise
-  if (offset + fetchSize > 1 << 22) {
-    return [0, 0, 0, new Error("provided skylink has an invalid v1 bitfield")];
-  }
-  // Return what we learned.
-  // @ts-ignore
-  return [version, offset, fetchSize, null];
-};
+import { addContextToErr, defaultPortalList, validSkylink } from "libskynet";
+import {
+  bufToB64,
+  bufToHex,
+  hexToBuf,
+  verifyRegistryReadResponse,
+} from "libskynet/dist";
 export function isIp(ip) {
   return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
     ip
@@ -110,37 +27,26 @@ export async function normalizeSkylink(skylink, resolver) {
   let matches = skylink.match(startsWithSkylinkRegExp);
   // @ts-ignore
   if (matches) {
-    const [u8Link, err64] = b64ToBuf(matches[2]);
-    if (err64 !== null) {
-      return false;
+    if (validSkylink(matches[2])) {
+      return decodeURIComponent(matches[2]);
     }
-    if (u8Link.length !== 34) {
-      return false;
-    }
-    const [version, offset, fetchSize, errBF] = parseSkylinkBitfield(u8Link);
-    if (errBF !== null) {
-      return false;
-    }
-    return decodeURIComponent(matches[2]);
   }
   // @ts-ignore
   matches = skylink.match(registryEntryRegExp);
   // @ts-ignore
   if (matches) {
-    const client = new SkynetClient(`https://web3portal.com`);
     // @ts-ignore
     const pubKey = decodeURIComponent(matches.groups.publickey).replace(
       "ed25519:",
       ""
     );
-    const entry = await client.registry.getEntry(
-      pubKey,
-      // @ts-ignore
-      matches.groups.datakey,
-      // @ts-ignore
-      { hashedDataKeyHex: true }
+    bufToB64(
+      await getRegistryEntry(
+        hexToBuf(pubKey)[0],
+        // @ts-ignore
+        hexToBuf(matches.groups.datakey)[0]
+      )
     );
-    return Buffer.from(entry.entry?.data).toString();
   }
   return false;
 }
@@ -158,4 +64,63 @@ export function getSld(domain) {
       .join(".");
   }
   return domain;
+}
+async function getRegistryEntry(pubkey, datakey) {
+  let libskynetnode;
+  if (typeof process !== "undefined" && process.release.name === "node") {
+    libskynetnode = await import("libskynetnode");
+  } else {
+    if (window?.document) {
+      // @ts-ignore
+      return (await import("libkernel"))
+        .registryRead(pubkey, datakey)
+        .then((result) => result[0].entryData);
+    } else {
+      // @ts-ignore
+      return (await import("libkmodule"))
+        .registryRead(pubkey, datakey)
+        .then((result) => result[0].entryData);
+    }
+  }
+  return new Promise((resolve, reject) => {
+    const pubkeyHex = bufToHex(pubkey);
+    const datakeyHex = bufToHex(datakey);
+    const endpoint =
+      "/skynet/registry?publickey=ed25519%3A" +
+      pubkeyHex +
+      "&datakey=" +
+      datakeyHex;
+    const verifyFunc = (response) =>
+      verifyRegistryReadResponse(response, pubkey, datakey);
+    libskynetnode
+      .progressiveFetch(endpoint, {}, defaultPortalList, verifyFunc)
+      .then((result) => {
+        // Check for a success.
+        if (result.success === true) {
+          result.response
+            .json()
+            .then((j) => {
+              resolve(j.data);
+            })
+            .catch((err) => {
+              reject(
+                addContextToErr(
+                  err,
+                  "unable to parse response despite passing verification"
+                )
+              );
+            });
+          return;
+        }
+        // Check for 404.
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < result.responsesFailed.length; i++) {
+          if (result.responsesFailed[i].status === 404) {
+            resolve(new Uint8Array(0));
+            return;
+          }
+        }
+        reject("unable to read registry entry\n" + JSON.stringify(result));
+      });
+  });
 }

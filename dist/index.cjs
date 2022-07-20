@@ -77,61 +77,8 @@ var Resolver = class {
 };
 
 // src/lib/util.ts
-var import_skynet_js = require("@lumeweb/skynet-js");
-var b64ToBuf = (b64) => {
-  const b64regex = /^[0-9a-zA-Z-_/+=]*$/;
-  if (!b64regex.test(b64)) {
-    return [null, null];
-  }
-  b64 = b64.replace(/-/g, "+").replace(/_/g, "/");
-  const binStr = atob(b64);
-  const len = binStr.length;
-  const buf = new Uint8Array(len);
-  for (let i = 0; i < len; i++) {
-    buf[i] = binStr.charCodeAt(i);
-  }
-  return [buf, null];
-};
-var parseSkylinkBitfield = (skylink) => {
-  if (skylink.length !== 34) {
-    return [0, 0, 0, new Error("provided skylink has incorrect length")];
-  }
-  let bitfield = new DataView(skylink.buffer).getUint16(0, true);
-  const version = (bitfield & 3) + 1;
-  if (version !== 1 && version !== 2) {
-    return [0, 0, 0, new Error("provided skylink has unrecognized version")];
-  }
-  bitfield = bitfield >> 2;
-  if ((bitfield & 255) === 255) {
-    return [0, 0, 0, new Error("provided skylink has an unrecognized version")];
-  }
-  let mode = 0;
-  for (let i = 0; i < 8; i++) {
-    if ((bitfield & 1) === 0) {
-      bitfield = bitfield >> 1;
-      break;
-    }
-    bitfield = bitfield >> 1;
-    mode++;
-  }
-  if (mode > 7) {
-    return [0, 0, 0, new Error("provided skylink has an invalid v1 bitfield")];
-  }
-  const offsetIncrement = 4096 << mode;
-  let fetchSizeIncrement = 4096;
-  if (mode > 0) {
-    fetchSizeIncrement = fetchSizeIncrement << (mode - 1);
-  }
-  let fetchSizeBits = bitfield & 7;
-  fetchSizeBits++;
-  const fetchSize = fetchSizeBits * fetchSizeIncrement;
-  bitfield = bitfield >> 3;
-  const offset = bitfield * offsetIncrement;
-  if (offset + fetchSize > 1 << 22) {
-    return [0, 0, 0, new Error("provided skylink has an invalid v1 bitfield")];
-  }
-  return [version, offset, fetchSize, null];
-};
+var import_libskynet = require("libskynet");
+var import_dist = require("libskynet/dist");
 function isIp(ip) {
   return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
     ip
@@ -149,38 +96,25 @@ function normalizeDomain(domain) {
   return domain.replace(/^\.+|\.+$/g, "").replace(/^\/+|\/+$/g, "");
 }
 async function normalizeSkylink(skylink, resolver) {
-  var _a;
   skylink = skylink.toString();
   let matches = skylink.match(startsWithSkylinkRegExp);
   if (matches) {
-    const [u8Link, err64] = b64ToBuf(matches[2]);
-    if (err64 !== null) {
-      return false;
+    if ((0, import_libskynet.validSkylink)(matches[2])) {
+      return decodeURIComponent(matches[2]);
     }
-    if (u8Link.length !== 34) {
-      return false;
-    }
-    const [version, offset, fetchSize, errBF] = parseSkylinkBitfield(u8Link);
-    if (errBF !== null) {
-      return false;
-    }
-    return decodeURIComponent(matches[2]);
   }
   matches = skylink.match(registryEntryRegExp);
   if (matches) {
-    const client = new import_skynet_js.SkynetClient(`https://web3portal.com`);
     const pubKey = decodeURIComponent(matches.groups.publickey).replace(
       "ed25519:",
       ""
     );
-    const entry = await client.registry.getEntry(
-      pubKey,
-      matches.groups.datakey,
-      { hashedDataKeyHex: true }
+    (0, import_dist.bufToB64)(
+      await getRegistryEntry(
+        (0, import_dist.hexToBuf)(pubKey)[0],
+        (0, import_dist.hexToBuf)(matches.groups.datakey)[0]
+      )
     );
-    return Buffer.from(
-      (_a = entry.entry) == null ? void 0 : _a.data
-    ).toString();
   }
   return false;
 }
@@ -198,6 +132,71 @@ function getSld(domain) {
       .join(".");
   }
   return domain;
+}
+async function getRegistryEntry(pubkey, datakey) {
+  let libskynetnode;
+  if (typeof process !== "undefined" && process.release.name === "node") {
+    libskynetnode = await Promise.resolve().then(() =>
+      __toESM(require("libskynetnode"), 1)
+    );
+  } else {
+    if (window == null ? void 0 : window.document) {
+      return (
+        await Promise.resolve().then(() => __toESM(require("libkernel"), 1))
+      )
+        .registryRead(pubkey, datakey)
+        .then((result) => result[0].entryData);
+    } else {
+      return (
+        await Promise.resolve().then(() => __toESM(require("libkmodule"), 1))
+      )
+        .registryRead(pubkey, datakey)
+        .then((result) => result[0].entryData);
+    }
+  }
+  return new Promise((resolve, reject) => {
+    const pubkeyHex = (0, import_dist.bufToHex)(pubkey);
+    const datakeyHex = (0, import_dist.bufToHex)(datakey);
+    const endpoint =
+      "/skynet/registry?publickey=ed25519%3A" +
+      pubkeyHex +
+      "&datakey=" +
+      datakeyHex;
+    const verifyFunc = (response) =>
+      (0, import_dist.verifyRegistryReadResponse)(response, pubkey, datakey);
+    libskynetnode
+      .progressiveFetch(
+        endpoint,
+        {},
+        import_libskynet.defaultPortalList,
+        verifyFunc
+      )
+      .then((result) => {
+        if (result.success === true) {
+          result.response
+            .json()
+            .then((j) => {
+              resolve(j.data);
+            })
+            .catch((err) => {
+              reject(
+                (0, import_libskynet.addContextToErr)(
+                  err,
+                  "unable to parse response despite passing verification"
+                )
+              );
+            });
+          return;
+        }
+        for (let i = 0; i < result.responsesFailed.length; i++) {
+          if (result.responsesFailed[i].status === 404) {
+            resolve(new Uint8Array(0));
+            return;
+          }
+        }
+        reject("unable to read registry entry\n" + JSON.stringify(result));
+      });
+  });
 }
 
 // src/subResolverBase.ts

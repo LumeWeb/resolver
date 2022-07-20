@@ -5,6 +5,7 @@ import {
   normalizeDomain,
   normalizeSkylink,
 } from "../lib/util.js";
+// @ts-ignore
 import SubResolverBase from "../subResolverBase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
