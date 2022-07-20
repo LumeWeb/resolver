@@ -1,4 +1,4 @@
-import SubResolverBase from "../subresolverbase.js";
+import SubResolverBase from "../subResolverBase.js";
 export default class Algorand extends SubResolverBase {
   getSupportedTlds(): string[];
   resolve(

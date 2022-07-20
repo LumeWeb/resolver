@@ -21,6 +21,6 @@ export default class Connection extends SolanaConnection {
       args,
       this._force
     );
-    return req.promise;
+    return req.result;
   }
 }

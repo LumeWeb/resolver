@@ -15,8 +15,8 @@ const resolvers = {
   Avax,
   Evmos,
   Handshake,
-  createDefaultResolver: () => {
-    const defaultResolver = new Resolver();
+  createDefaultResolver: (network) => {
+    const defaultResolver = new Resolver(network);
     defaultResolver.registerResolver(new Icann(defaultResolver));
     defaultResolver.registerResolver(new Eip137(defaultResolver));
     defaultResolver.registerResolver(new Solana(defaultResolver));

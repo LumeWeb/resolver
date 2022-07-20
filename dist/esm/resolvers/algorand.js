@@ -1,4 +1,4 @@
-import SubResolverBase from "../subresolverbase.js";
+import SubResolverBase from "../subResolverBase.js";
 import Client from "./algorand/client.js";
 import Indexer from "./algorand/indexer.js";
 import ANS from "@algonameservice/sdk";
@@ -11,8 +11,8 @@ export default class Algorand extends SubResolverBase {
     if (!this.isTldSupported(input)) {
       return false;
     }
-    const client = new Client(this.resolver.dnsNetwork, force);
-    const indexer = new Indexer(this.resolver.dnsNetwork, force);
+    const client = new Client(this.resolver.rpcNetwork, force);
+    const indexer = new Indexer(this.resolver.rpcNetwork, force);
     // @ts-ignore
     const resolver = new ANS(client, indexer);
     const domain = resolver.name(input);

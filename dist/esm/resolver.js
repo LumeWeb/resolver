@@ -1,16 +1,15 @@
-import DnsNetwork from "./dnsnetwork.js";
+import { RpcNetwork } from "@lumeweb/dht-rpc-client";
 export default class Resolver {
   _resolvers = [];
-  _portals = {};
-  _dnsNetwork;
-  constructor() {
-    this._dnsNetwork = new DnsNetwork(this);
+  _rpcNetwork;
+  constructor(network = new RpcNetwork()) {
+    this._rpcNetwork = network;
   }
   get resolvers() {
     return this._resolvers;
   }
-  get dnsNetwork() {
-    return this._dnsNetwork;
+  get rpcNetwork() {
+    return this._rpcNetwork;
   }
   async resolve(input, params = {}, force = false) {
     for (const resolver of this._resolvers) {
@@ -23,61 +22,5 @@ export default class Resolver {
   }
   registerResolver(resolver) {
     this._resolvers.push(resolver);
-  }
-  registerPortal(host, supports, pubkey) {
-    this._portals[host] = { pubkey, supports, host };
-    if (supports.includes("dns") && pubkey && pubkey.length > 0) {
-      this._dnsNetwork.addTrustedPeer(host);
-    }
-  }
-  registerPortalsFromJson(portals) {
-    for (const host of Object.keys(portals)) {
-      const portal = portals[host];
-      this.registerPortal(host, portal.supports, portal.pubkey);
-    }
-  }
-  connect() {
-    this._dnsNetwork.connectToPeers();
-  }
-  getPortal(hostname) {
-    if (hostname in this._portals) {
-      return this._portals[hostname];
-    }
-    return false;
-  }
-  getPortals(supports = [], mode = "and") {
-    const portals = {};
-    if (!Array.isArray(supports)) {
-      supports = [supports];
-    }
-    if (!supports.length) {
-      return this._portals;
-    }
-    // tslint:disable-next-line:forin
-    for (const service of supports) {
-      // tslint:disable-next-line:forin
-      for (const portalDomain in this._portals) {
-        const portal = this._portals[portalDomain];
-        if (this._portals[portalDomain].supports.includes(service)) {
-          portals[portalDomain] = portal;
-        } else {
-          if (mode === "and") {
-            delete portals[portalDomain];
-          }
-        }
-      }
-    }
-    return portals;
-  }
-  getRandomPortal(supports = [], mode = "and") {
-    const portals = this.getPortals(supports, mode);
-    const portalDomains = Object.keys(portals);
-    if (!portalDomains.length) {
-      return false;
-    }
-    const randPortalDomainIndex = Math.floor(
-      Math.random() * (1 + portalDomains.length - 1)
-    );
-    return portals[portalDomains[randPortalDomainIndex]];
   }
 }

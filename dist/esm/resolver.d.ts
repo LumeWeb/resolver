@@ -1,25 +1,11 @@
-import SubResolverBase from "./subresolverbase.js";
-import DnsNetwork from "./dnsnetwork.js";
-export interface JSONPortalItem {
-  pubkey?: string;
-  supports: string[];
-}
-export interface JSONPortalList {
-  [domain: string]: JSONPortalItem;
-}
-export interface Portal extends JSONPortalItem {
-  host: string;
-}
-export interface PortalList {
-  [domain: string]: Portal;
-}
+import SubResolverBase from "./subResolverBase.js";
+import { RpcNetwork } from "@lumeweb/dht-rpc-client";
 export default class Resolver {
   private _resolvers;
-  private _portals;
-  private _dnsNetwork;
-  constructor();
+  private _rpcNetwork;
+  constructor(network?: RpcNetwork);
   get resolvers(): SubResolverBase[];
-  get dnsNetwork(): DnsNetwork;
+  get rpcNetwork(): RpcNetwork;
   resolve(
     input: string,
     params?: {
@@ -28,14 +14,5 @@ export default class Resolver {
     force?: boolean
   ): Promise<string | boolean>;
   registerResolver(resolver: SubResolverBase): void;
-  registerPortal(host: string, supports: string[], pubkey?: string): void;
-  registerPortalsFromJson(portals: JSONPortalList): void;
-  connect(): void;
-  getPortal(hostname: string): Portal | boolean;
-  getPortals(supports?: string[] | string, mode?: "and" | "or"): PortalList;
-  getRandomPortal(
-    supports?: string[] | string,
-    mode?: "and" | "or"
-  ): Portal | boolean;
 }
 //# sourceMappingURL=resolver.d.ts.map

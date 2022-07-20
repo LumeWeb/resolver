@@ -35,7 +35,7 @@ export default class Indexer extends algosdk.Indexer {
       },
       this._force
     );
-    const res = await req.promise;
+    const res = await req.result;
     const { body } = res;
     const text = undefined;
     // @ts-ignore

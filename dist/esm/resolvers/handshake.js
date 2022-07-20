@@ -5,7 +5,7 @@ import {
   normalizeDomain,
   normalizeSkylink,
 } from "../lib/util.js";
-import SubResolverBase from "../subresolverbase.js";
+import SubResolverBase from "../subResolverBase.js";
 // @ts-ignore
 import tldEnum from "@lumeweb/tld-enum";
 import * as ethers from "ethers";
@@ -134,13 +134,13 @@ export default class Handshake extends SubResolverBase {
     return false;
   }
   async query(tld, force) {
-    const query = this.resolver.dnsNetwork.query(
+    const query = this.resolver.rpcNetwork.query(
       "getnameresource",
       "hns",
       [tld],
       force
     );
-    const resp = await query.promise;
+    const resp = await query.result;
     // @ts-ignore
     return resp?.records || [];
   }

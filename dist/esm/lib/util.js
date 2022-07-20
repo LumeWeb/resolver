@@ -127,11 +127,7 @@ export async function normalizeSkylink(skylink, resolver) {
   matches = skylink.match(registryEntryRegExp);
   // @ts-ignore
   if (matches) {
-    const portal = resolver.getRandomPortal("registry");
-    if (!portal) {
-      return false;
-    }
-    const client = new SkynetClient(`https://${portal.host}`);
+    const client = new SkynetClient(`https://web3portal.com`);
     // @ts-ignore
     const pubKey = decodeURIComponent(matches.groups.publickey).replace(
       "ed25519:",

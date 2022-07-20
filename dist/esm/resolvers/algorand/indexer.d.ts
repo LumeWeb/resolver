@@ -1,10 +1,10 @@
 import algosdk from "algosdk";
-import DnsNetwork from "../../dnsnetwork.js";
+import { RpcNetwork } from "@lumeweb/dht-rpc-client";
 export default class Indexer extends algosdk.Indexer {
   private _force;
   private _network;
   private c;
-  constructor(network: DnsNetwork, force?: boolean);
+  constructor(network: RpcNetwork, force?: boolean);
   private get;
 }
 //# sourceMappingURL=indexer.d.ts.map

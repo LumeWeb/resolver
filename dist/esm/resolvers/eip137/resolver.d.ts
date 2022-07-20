@@ -1,5 +1,5 @@
-import SubResolverBase from "../../subresolverbase.js";
-import GunProvider from "./gunprovider.js";
+import SubResolverBase from "../../subResolverBase.js";
+import RpcProvider from "./rpcProvider.js";
 export default abstract class Resolver extends SubResolverBase {
   protected abstract getChain(params: { [p: string]: any }): string;
   protected getConnection(
@@ -9,8 +9,8 @@ export default abstract class Resolver extends SubResolverBase {
         }
       | undefined,
     force: boolean
-  ): GunProvider;
-  protected getEns(provider: GunProvider): any;
+  ): RpcProvider;
+  protected getEns(provider: RpcProvider): any;
   resolve(
     input: string,
     params?: {

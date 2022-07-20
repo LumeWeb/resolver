@@ -54,7 +54,7 @@ export default class Client extends algosdk.Algodv2 {
       },
       this._force
     );
-    const res = await req.promise;
+    const res = await req.result;
     const { body } = res;
     const text = undefined;
     // @ts-ignore

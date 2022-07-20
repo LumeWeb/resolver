@@ -1,32 +1,10 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) =>
-  key in obj
-    ? __defProp(obj, key, {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value,
-      })
-    : (obj[key] = value);
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop)) __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop)) __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -70,487 +48,19 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/dnsquery.ts
-var import_crypto = __toESM(require("crypto"), 1);
-var import_timers = require("timers");
-var import_uuid = require("uuid");
-var import_gun_util = require("gun-util");
-var DnsQuery = class {
-  _network;
-  _query;
-  _requestId;
-  _responses = {};
-  _handlers = {};
-  _cachedHandler = {};
-  _timeoutTimer;
-  _timeout = false;
-  _promise;
-  _promiseResolve;
-  _cachedResponses = {};
-  _cacheChecked = false;
-  _cachedTimers = {};
-  _requestSent = false;
-  _completed = false;
-  constructor(network, query) {
-    this._network = network;
-    this._query = query;
-    this.init();
-  }
-  get promise() {
-    return this._promise;
-  }
-  async init() {
-    var _a, _b, _c;
-    const hash = import_crypto.default
-      .createHash("sha256")
-      .update(JSON.stringify(this._query.data))
-      .digest("hex");
-    if (this._query.force) {
-      this._query.force = true;
-    }
-    this._requestId =
-      (_a = this._requestId) != null
-        ? _a
-        : `${this._query.query};${this._query.chain};${hash}`;
-    this._promise =
-      (_b = this._promise) != null
-        ? _b
-        : new Promise((resolve) => {
-            this._promiseResolve = resolve;
-          });
-    if (this._query.force) {
-      this._cacheChecked = true;
-    }
-    this.addPeer = this.addPeer.bind(this);
-    this._network.on("newActivePeer", this.addPeer);
-    await this._network.waitForPeers();
-    await Promise.allSettled(
-      Object.keys(this._network.activePeers).map((peer) => this.addPeer(peer))
-    );
-    this._timeoutTimer =
-      (_c = this._timeoutTimer) != null
-        ? _c
-        : (0, import_timers.setTimeout)(
-            this.handeTimeout.bind(this),
-            this._network.queryTimeout * 1e3
-          );
-  }
-  getCachedRecordHandler(pubkey) {
-    return (response) => {
-      if (pubkey in this._cachedResponses) {
-        return;
-      }
-      if (response) {
-        if (!this.hasResponseExpired(response)) {
-          this._cachedResponses[pubkey] = this.isInvalidResponse(response)
-            ? { data: null, updated: 0, requests: 0 }
-            : response;
-        }
-      } else {
-        this._cachedResponses[pubkey] = null;
-      }
-      const success = this.checkResponses(true);
-      if (
-        Object.keys(this._cachedResponses).length ===
-          Object.keys(this._network.activePeers).length &&
-        !success &&
-        !this._timeout
-      ) {
-        this._cacheChecked = true;
-        this.fetch();
-      }
-    };
-  }
-  getResponseHandler(pubkey) {
-    return (value) => {
-      if (pubkey in this._responses) {
-        return;
-      }
-      if (!value) {
-        return;
-      }
-      if (
-        this._query.force &&
-        Date.now() - value.updated > this._network.forceTimeout * 1e3
-      ) {
-        return;
-      }
-      this._responses[pubkey] = this.hasResponseExpired(value)
-        ? null
-        : this.isInvalidResponse(value)
-        ? { data: null, updated: 0, requests: 0 }
-        : value;
-      this.pruneDeadPeers();
-      this.checkResponses();
-    };
-  }
-  pruneDeadPeers() {
-    for (const peer in this._responses) {
-      if (!(peer in this._network.activePeers)) {
-        delete this._responses[peer];
-      }
-    }
-  }
-  checkResponses(cached = false) {
-    var _a;
-    const responses = {};
-    const responseStore = cached ? this._cachedResponses : this._responses;
-    if (
-      Object.keys(responseStore).length !==
-      Object.keys(this._network.activePeers).length
-    ) {
-      return false;
-    }
-    const responseStoreKeys = Object.keys(responseStore);
-    for (const peer in responseStore) {
-      const responseIndex = responseStoreKeys.indexOf(peer);
-      responses[responseIndex] =
-        (_a = responses[responseIndex]) != null ? _a : 0;
-      responses[responseIndex]++;
-    }
-    for (const responseIndex in responses) {
-      if (responses[responseIndex] >= this._network.majorityThreshold) {
-        const response =
-          responseStore[responseStoreKeys[parseInt(responseIndex, 10)]];
-        if (
-          response === null ||
-          (response == null ? void 0 : response.data) === null
-        ) {
-          if (!cached) {
-            this.retry();
-          }
-          return false;
-        }
-        let data;
-        try {
-          data = JSON.parse(response == null ? void 0 : response.data);
-        } catch (e) {
-          data = response == null ? void 0 : response.data;
-        }
-        this.resolve(data);
-        return true;
-      }
-    }
-    return false;
-  }
-  handeTimeout() {
-    this.resolve(false, true);
-  }
-  resolve(data, timeout = false) {
-    this.cleanHandlers();
-    (0, import_timers.clearTimeout)(this._timeoutTimer);
-    this._timeout = timeout;
-    this._completed = true;
-    this._promiseResolve(data);
-  }
-  cleanHandlers() {
-    Object.keys(this._handlers).forEach((pubkey) => {
-      this._handlers[pubkey].off();
-      delete this._handlers[pubkey];
-    });
-    Object.values(this._cachedTimers).forEach((timer) => clearInterval(timer));
-    this._cachedTimers = {};
-    this._network.off("newActivePeer", this.addPeer);
-    this._cachedHandler = {};
-  }
-  fetch() {
-    Object.keys(this._network.activePeers).forEach((peer) =>
-      this.fetchPeer(peer)
-    );
-    const query = __spreadValues({}, this._query);
-    query.data = JSON.stringify(query.data);
-    this.sendRequest(query);
-  }
-  hasResponseExpired(response) {
-    return Date.now() - response.updated > this._network.maxTtl * 1e3;
-  }
-  retry() {
-    this._cachedResponses = {};
-    this._responses = {};
-    this._cacheChecked = false;
-    this._requestSent = false;
-    this.cleanHandlers();
-    if (this._completed) {
-      return;
-    }
-    this.init();
-  }
-  sendRequest(query, id = (0, import_uuid.v4)(), count = 0) {
-    if (this._timeout || this._requestSent) {
-      return;
-    }
-    if (count > 3) {
-      id = (0, import_uuid.v4)();
-      count = 0;
-    } else {
-      count++;
-    }
-    const timer = (0, import_timers.setTimeout)(() => {
-      this.sendRequest(query, id, count);
-    }, 100);
-    this._network.network
-      .get("requests")
-      .get(id)
-      .put(query, (ack) => {
-        (0, import_timers.clearTimeout)(timer);
-        if (ack.err) {
-          this.sendRequest(query, id, count);
-        } else {
-          this._requestSent = true;
-        }
-      });
-    this._network.network.get("requests").get(id, (data) => {
-      (0, import_timers.clearTimeout)(timer);
-      if (!data.put) {
-        this.sendRequest(query, id, count);
-      } else {
-        this._requestSent = true;
-      }
-    });
-  }
-  fetchPeer(pubkey) {
-    if (pubkey in this._handlers) {
-      return;
-    }
-    if (!(pubkey in this._handlers)) {
-      const ref = this._network.network
-        .user(pubkey)
-        .get("responses")
-        .get(this._requestId);
-      this._handlers[pubkey] = (0, import_gun_util.subscribe)(
-        ref,
-        this.getResponseHandler(pubkey)
-      );
-    }
-  }
-  async addPeer(pubkey) {
-    await this._network.authed;
-    if (this._cacheChecked || this._query.force) {
-      this.fetch();
-      return;
-    }
-    if (pubkey in this._cachedHandler) {
-      return;
-    }
-    this._cachedHandler[pubkey] = true;
-    this._cachedTimers[pubkey] = (0, import_timers.setInterval)(() => {
-      if (pubkey in this._cachedResponses) {
-        clearInterval(this._cachedTimers[pubkey]);
-        delete this._cachedTimers[pubkey];
-        return;
-      }
-      this._network.network
-        .user(pubkey)
-        .get("responses")
-        .get(this._requestId)
-        .once(this.getCachedRecordHandler(pubkey), { wait: 100 });
-    }, 100);
-  }
-  isInvalidResponse(response) {
-    if (typeof response.data === "object" && !Array.isArray(response.data)) {
-      const data = __spreadValues({}, response.data);
-      if (data["#"]) {
-        delete data["#"];
-      }
-      if (Object.keys(data).length === 0) {
-        return true;
-      }
-    }
-    return false;
-  }
-};
-
-// src/dnsnetwork.ts
-var import_gun = __toESM(require("@lumeweb/gun"), 1);
-var import_events = require("events");
-var import_timers2 = require("timers");
-var DnsNetwork = class extends import_events.EventEmitter {
-  _network;
-  _resolver;
-  _peers = [];
-  _user = {};
-  _peerTimeout = 5;
-  _queryTimeout = 30;
-  _forceTimeout = 10;
-  _majorityThreshold = 0.75;
-  _maxTtl = 12 * 60 * 60;
-  _activePeers = {};
-  _authed;
-  _force = false;
-  _maxConnectedPeers = 10;
-  constructor(resolver) {
-    super();
-    this._resolver = resolver;
-    this._network = new import_gun.default({
-      localStorage: false,
-      store: import_gun.default.Rmem(),
-      axe: false,
-    });
-    this._authed = this.auth();
-  }
-  get maxConnectedPeers() {
-    return this._maxConnectedPeers;
-  }
-  set maxConnectedPeers(value) {
-    this._maxConnectedPeers = value;
-  }
-  get force() {
-    return this._force;
-  }
-  set force(value) {
-    this._force = value;
-  }
-  get forceTimeout() {
-    return this._forceTimeout;
-  }
-  set forceTimeout(value) {
-    this._forceTimeout = value;
-  }
-  get authed() {
-    return this._authed;
-  }
-  get maxTtl() {
-    return this._maxTtl;
-  }
-  set maxTtl(value) {
-    this._maxTtl = value;
-  }
-  get queryTimeout() {
-    return this._queryTimeout;
-  }
-  set queryTimeout(value) {
-    this._queryTimeout = value;
-  }
-  get majorityThreshold() {
-    return this._majorityThreshold;
-  }
-  get network() {
-    return this._network;
-  }
-  get resolver() {
-    return this._resolver;
-  }
-  get peers() {
-    return this._peers;
-  }
-  get user() {
-    return this._user;
-  }
-  get peerTimeout() {
-    return this._peerTimeout;
-  }
-  set peerTimeout(value) {
-    this._peerTimeout = value;
-  }
-  get activePeers() {
-    return this._activePeers;
-  }
-  async auth() {
-    const keyPair = await import_gun.default.SEA.pair();
-    await this.promiseRetry((resolve) => {
-      this._network.user().create(keyPair, resolve);
-    });
-    await this.promiseRetry((resolve) => {
-      this._network.user().auth(keyPair, resolve);
-    });
-    this._user = this._network.user();
-  }
-  addTrustedPeer(peer) {
-    this._peers.push(peer);
-    this._peers = [...new Set(this._peers)];
-    this._trackPeerHealth(peer);
-  }
-  query(query, chain, data = {}, force = false) {
-    return new DnsQuery(this, {
-      query,
-      chain,
-      data,
-      force: force || this._force,
-    });
-  }
-  async waitForPeers(count = 1) {
-    const hasPeers = () => Object.values(this._activePeers).length >= count;
-    if (hasPeers()) {
-      return Promise.resolve();
-    }
-    return new Promise((resolve) => {
-      const timer = (0, import_timers2.setInterval)(() => {
-        if (hasPeers()) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, 10);
-    });
-  }
-  connectToPeers() {
-    const mesh = this._network.back("opt.mesh");
-    const currentPeers = this._network.back("opt.peers");
-    Object.keys(currentPeers).forEach((id) => mesh.bye(id));
-    const peers = [];
-    let availablePeers = this._peers.slice();
-    for (let i = 0; i < this._maxConnectedPeers; i++) {
-      const index = Math.floor(Math.random() * (1 + availablePeers.length - 1));
-      if (availablePeers[index]) {
-        peers.push(`http://${availablePeers[index]}/dns`);
-        delete availablePeers[index];
-        availablePeers = Object.values(availablePeers);
-      }
-      if (!availablePeers.length) {
-        break;
-      }
-    }
-    peers.forEach((item) => mesh.hi({ url: item }));
-  }
-  _trackPeerHealth(peerDomain) {
-    const peer = this._resolver.getPortal(peerDomain);
-    this._network
-      .user(peer.pubkey)
-      .get("ping")
-      .on(this.getPeerPingHandler(peer.pubkey));
-  }
-  getPeerPingHandler(pubkey) {
-    return (value) => {
-      if (!(pubkey in this._activePeers)) {
-        this.emit("newActivePeer", pubkey);
-      }
-      this._activePeers[pubkey] = value;
-      this.pruneDeadPeers();
-    };
-  }
-  pruneDeadPeers() {
-    for (const peer in this._activePeers) {
-      if (Date.now() - this._activePeers[peer] > this._peerTimeout * 1e3) {
-        delete this._activePeers[peer];
-      }
-    }
-  }
-  promiseRetry(callback) {
-    let timer;
-    return new Promise((resolve) => {
-      timer = (0, import_timers2.setTimeout)(() => {
-        resolve(this.promiseRetry(callback));
-      }, 100);
-      callback(() => {
-        timer && (0, import_timers2.clearTimeout)(timer);
-        resolve();
-      });
-    });
-  }
-};
-
 // src/resolver.ts
+var import_dht_rpc_client = require("@lumeweb/dht-rpc-client");
 var Resolver = class {
   _resolvers = [];
-  _portals = {};
-  _dnsNetwork;
-  constructor() {
-    this._dnsNetwork = new DnsNetwork(this);
+  _rpcNetwork;
+  constructor(network = new import_dht_rpc_client.RpcNetwork()) {
+    this._rpcNetwork = network;
   }
   get resolvers() {
     return this._resolvers;
   }
-  get dnsNetwork() {
-    return this._dnsNetwork;
+  get rpcNetwork() {
+    return this._rpcNetwork;
   }
   async resolve(input, params = {}, force = false) {
     for (const resolver of this._resolvers) {
@@ -563,60 +73,6 @@ var Resolver = class {
   }
   registerResolver(resolver) {
     this._resolvers.push(resolver);
-  }
-  registerPortal(host, supports, pubkey) {
-    this._portals[host] = { pubkey, supports, host };
-    if (supports.includes("dns") && pubkey && pubkey.length > 0) {
-      this._dnsNetwork.addTrustedPeer(host);
-    }
-  }
-  registerPortalsFromJson(portals) {
-    for (const host of Object.keys(portals)) {
-      const portal = portals[host];
-      this.registerPortal(host, portal.supports, portal.pubkey);
-    }
-  }
-  connect() {
-    this._dnsNetwork.connectToPeers();
-  }
-  getPortal(hostname) {
-    if (hostname in this._portals) {
-      return this._portals[hostname];
-    }
-    return false;
-  }
-  getPortals(supports = [], mode = "and") {
-    const portals = {};
-    if (!Array.isArray(supports)) {
-      supports = [supports];
-    }
-    if (!supports.length) {
-      return this._portals;
-    }
-    for (const service of supports) {
-      for (const portalDomain in this._portals) {
-        const portal = this._portals[portalDomain];
-        if (this._portals[portalDomain].supports.includes(service)) {
-          portals[portalDomain] = portal;
-        } else {
-          if (mode === "and") {
-            delete portals[portalDomain];
-          }
-        }
-      }
-    }
-    return portals;
-  }
-  getRandomPortal(supports = [], mode = "and") {
-    const portals = this.getPortals(supports, mode);
-    const portalDomains = Object.keys(portals);
-    if (!portalDomains.length) {
-      return false;
-    }
-    const randPortalDomainIndex = Math.floor(
-      Math.random() * (1 + portalDomains.length - 1)
-    );
-    return portals[portalDomains[randPortalDomainIndex]];
   }
 };
 
@@ -712,11 +168,7 @@ async function normalizeSkylink(skylink, resolver) {
   }
   matches = skylink.match(registryEntryRegExp);
   if (matches) {
-    const portal = resolver.getRandomPortal("registry");
-    if (!portal) {
-      return false;
-    }
-    const client = new import_skynet_js.SkynetClient(`https://${portal.host}`);
+    const client = new import_skynet_js.SkynetClient(`https://web3portal.com`);
     const pubKey = decodeURIComponent(matches.groups.publickey).replace(
       "ed25519:",
       ""
@@ -748,7 +200,7 @@ function getSld(domain) {
   return domain;
 }
 
-// src/subresolverbase.ts
+// src/subResolverBase.ts
 var SubResolverBase = class {
   resolver;
   constructor(resolver) {
@@ -889,13 +341,13 @@ var Handshake = class extends SubResolverBase {
     return false;
   }
   async query(tld, force) {
-    const query = this.resolver.dnsNetwork.query(
+    const query = this.resolver.rpcNetwork.query(
       "getnameresource",
       "hns",
       [tld],
       force
     );
-    const resp = await query.promise;
+    const resp = await query.result;
     return (resp == null ? void 0 : resp.records) || [];
   }
   async processTxt(record) {
@@ -922,13 +374,13 @@ var Icann = class extends SubResolverBase {
       domain: input,
       nameserver: (_a = params.nameserver) != null ? _a : void 0,
     };
-    const query = this.resolver.dnsNetwork.query(
+    const query = this.resolver.rpcNetwork.query(
       "dnslookup",
       "icann",
       data,
       force
     );
-    return query.promise;
+    return query.result;
   }
 };
 
@@ -982,7 +434,7 @@ var pocketNetworks = {
 };
 var pocketNetworks_default = pocketNetworks;
 
-// src/resolvers/eip137/gunprovider.ts
+// src/resolvers/eip137/rpcProvider.ts
 var ethers2 = __toESM(require("ethers"), 1);
 var ethersTransactions = __toESM(require("@ethersproject/transactions"), 1);
 var ethersProperties = __toESM(require("@ethersproject/properties"), 1);
@@ -1111,28 +563,28 @@ function checkError(method, error, params) {
   }
   throw error;
 }
-var GunProvider = class extends ethers2.providers.BaseProvider {
+var RpcProvider = class extends ethers2.providers.BaseProvider {
   _dnsChain;
-  _dnsNetwork;
+  _rpcNetwork;
   _force;
   constructor(dnsChain, dnsNetwork, force = false) {
     const networkOrReady = { name: "dummy", chainId: 0 };
     super(networkOrReady);
     this._dnsChain = dnsChain;
-    this._dnsNetwork = dnsNetwork;
+    this._rpcNetwork = dnsNetwork;
     this._force = force;
   }
   async detectNetwork() {
     return { name: "dummy", chainId: 0 };
   }
   async send(method, params) {
-    const query = this._dnsNetwork.query(
+    const query = this._rpcNetwork.query(
       method,
       this._dnsChain,
       params,
       this._force
     );
-    let resp = await query.promise;
+    let resp = await query.result;
     try {
       hexlify2(resp);
     } catch (e) {
@@ -1220,10 +672,10 @@ var GunProvider = class extends ethers2.providers.BaseProvider {
     return result;
   }
   getSigner(addressOrIndex) {
-    return new GunSigner({}, this, addressOrIndex);
+    return new RpcSigner({}, this, addressOrIndex);
   }
 };
-var GunSigner = class extends ethersAbstractSigner.Signer {
+var RpcSigner = class extends ethersAbstractSigner.Signer {
   provider;
   _index;
   _address;
@@ -1421,7 +873,7 @@ var Resolver2 = class extends SubResolverBase {
     if (chain in pocketNetworks_default) {
       chain = pocketNetworks_default[chain];
     }
-    return new GunProvider(chain, this.resolver.dnsNetwork, force);
+    return new RpcProvider(chain, this.resolver.rpcNetwork, force);
   }
   getEns(provider) {
     return new ENS({
@@ -1536,7 +988,7 @@ var Connection = class extends import_web3.Connection {
       args,
       this._force
     );
-    return req.promise;
+    return req.result;
   }
 };
 
@@ -1559,7 +1011,7 @@ var Solana = class extends SubResolverBase {
       void 0,
       SOL_TLD_AUTHORITY
     );
-    const connection = new Connection(this.resolver.dnsNetwork, force);
+    const connection = new Connection(this.resolver.rpcNetwork, force);
     const nameAccount = await connection.getAccountInfo(domainKey, "processed");
     if (!nameAccount) {
       return false;
@@ -1630,12 +1082,10 @@ var Client = class extends import_algosdk.default.Algodv2 {
   }
   async post(relativePath, data, requestHeaders) {
     const format = getAcceptFormat();
-    const fullHeaders = __spreadValues(
-      {
-        "content-type": "application/json",
-      },
-      tolowerCaseKeys(requestHeaders)
-    );
+    const fullHeaders = {
+      "content-type": "application/json",
+      ...tolowerCaseKeys(requestHeaders),
+    };
     const req = this._network.query(
       "algorand_rest_request",
       pocketNetworks_default["algorand-mainnet"],
@@ -1647,14 +1097,15 @@ var Client = class extends import_algosdk.default.Algodv2 {
       },
       this._force
     );
-    const res = await req.promise;
+    const res = await req.result;
     const { body } = res;
     const text = void 0;
-    return __spreadProps(__spreadValues({}, res), {
+    return {
+      ...res,
       body,
       text,
       ok: Math.trunc(res.status / 100) === 2,
-    });
+    };
   }
 };
 
@@ -1680,9 +1131,7 @@ var Indexer = class extends import_algosdk2.default.Indexer {
   }
   async get(relativePath, query, requestHeaders, jsonOptions) {
     const format = getAcceptFormat(query);
-    const fullHeaders = __spreadProps(__spreadValues({}, requestHeaders), {
-      accept: format,
-    });
+    const fullHeaders = { ...requestHeaders, accept: format };
     const req = this._network.query(
       "algorand_rest_indexer_request",
       "algorand-mainnet-indexer",
@@ -1694,14 +1143,15 @@ var Indexer = class extends import_algosdk2.default.Indexer {
       },
       this._force
     );
-    const res = await req.promise;
+    const res = await req.result;
     const { body } = res;
     const text = void 0;
-    return __spreadProps(__spreadValues({}, res), {
+    return {
+      ...res,
       body,
       text,
       ok: Math.trunc(res.status / 100) === 2,
-    });
+    };
   }
 };
 
@@ -1715,8 +1165,8 @@ var Algorand = class extends SubResolverBase {
     if (!this.isTldSupported(input)) {
       return false;
     }
-    const client = new Client(this.resolver.dnsNetwork, force);
-    const indexer = new Indexer(this.resolver.dnsNetwork, force);
+    const client = new Client(this.resolver.rpcNetwork, force);
+    const indexer = new Indexer(this.resolver.rpcNetwork, force);
     const resolver = new import_sdk.default(client, indexer);
     const domain = resolver.name(input);
     let record;
@@ -1750,9 +1200,9 @@ var Avax = class extends SubResolverBase {
     if (!this.isTldSupported(input)) {
       return false;
     }
-    const connection = new GunProvider(
+    const connection = new RpcProvider(
       pocketNetworks_default["avax-mainnet"],
-      this.resolver.dnsNetwork,
+      this.resolver.rpcNetwork,
       force
     );
     const domain = new import_client3.default(connection).name(input);
@@ -1801,8 +1251,8 @@ var resolvers = {
   Avax,
   Evmos,
   Handshake,
-  createDefaultResolver: () => {
-    const defaultResolver = new Resolver();
+  createDefaultResolver: (network) => {
+    const defaultResolver = new Resolver(network);
     defaultResolver.registerResolver(new Icann(defaultResolver));
     defaultResolver.registerResolver(new Eip137(defaultResolver));
     defaultResolver.registerResolver(new Solana(defaultResolver));

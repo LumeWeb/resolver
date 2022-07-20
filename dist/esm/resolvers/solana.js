@@ -1,4 +1,4 @@
-import SubResolverBase from "../subresolverbase.js";
+import SubResolverBase from "../subResolverBase.js";
 import {
   getHashedName,
   getNameAccountKey,
@@ -22,7 +22,7 @@ export default class Solana extends SubResolverBase {
       undefined,
       SOL_TLD_AUTHORITY
     );
-    const connection = new Connection(this.resolver.dnsNetwork, force);
+    const connection = new Connection(this.resolver.rpcNetwork, force);
     const nameAccount = await connection.getAccountInfo(domainKey, "processed");
     if (!nameAccount) {
       return false;

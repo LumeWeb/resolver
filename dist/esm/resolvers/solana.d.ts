@@ -1,4 +1,4 @@
-import SubResolverBase from "../subresolverbase.js";
+import SubResolverBase from "../subResolverBase.js";
 export default class Solana extends SubResolverBase {
   resolve(
     input: string,
