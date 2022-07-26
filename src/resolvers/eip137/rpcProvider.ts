@@ -172,15 +172,7 @@ export default class RpcProvider extends ethers.providers.BaseProvider {
       params,
       this._force
     );
-    let resp = await query.result;
-
-    try {
-      hexlify(resp);
-    } catch (e) {
-      resp = "0x" + "0".repeat(65);
-    }
-
-    return resp;
+    return query.result;
   }
 
   prepareRequest(method: string, params: any): [string, any[]] | null {
