@@ -78,7 +78,6 @@ var Resolver = class {
 
 // src/lib/util.ts
 var import_libskynet = require("libskynet");
-var import_dist = require("libskynet/dist");
 function isIp(ip) {
   return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
     ip
@@ -109,10 +108,10 @@ async function normalizeSkylink(skylink, resolver) {
       "ed25519:",
       ""
     );
-    (0, import_dist.bufToB64)(
+    (0, import_libskynet.bufToB64)(
       await getRegistryEntry(
-        (0, import_dist.hexToBuf)(pubKey)[0],
-        (0, import_dist.hexToBuf)(matches.groups.datakey)[0]
+        (0, import_libskynet.hexToBuf)(pubKey)[0],
+        (0, import_libskynet.hexToBuf)(matches.groups.datakey)[0]
       )
     );
   }
@@ -152,15 +151,19 @@ async function getRegistryEntry(pubkey, datakey) {
     __toESM(require("libskynetnode"), 1)
   );
   return new Promise((resolve, reject) => {
-    const pubkeyHex = (0, import_dist.bufToHex)(pubkey);
-    const datakeyHex = (0, import_dist.bufToHex)(datakey);
+    const pubkeyHex = (0, import_libskynet.bufToHex)(pubkey);
+    const datakeyHex = (0, import_libskynet.bufToHex)(datakey);
     const endpoint =
       "/skynet/registry?publickey=ed25519%3A" +
       pubkeyHex +
       "&datakey=" +
       datakeyHex;
     const verifyFunc = (response) =>
-      (0, import_dist.verifyRegistryReadResponse)(response, pubkey, datakey);
+      (0, import_libskynet.verifyRegistryReadResponse)(
+        response,
+        pubkey,
+        datakey
+      );
     libskynetnode
       .progressiveFetch(
         endpoint,
@@ -580,13 +583,7 @@ var RpcProvider = class extends ethers2.providers.BaseProvider {
       params,
       this._force
     );
-    let resp = await query.result;
-    try {
-      hexlify2(resp);
-    } catch (e) {
-      resp = "0x" + "0".repeat(65);
-    }
-    return resp;
+    return query.result;
   }
   prepareRequest(method, params) {
     switch (method) {
@@ -910,7 +907,7 @@ function maybeGetContentHash(contentResult) {
   let content = false;
   if (
     typeof contentResult === "object" &&
-    contentResult.contentType === "contenthash"
+    "contenthash" === contentResult.contentType
   ) {
     content = contentResult.value;
   }
@@ -1202,19 +1199,28 @@ var Avax = class extends SubResolverBase {
       force
     );
     const domain = new import_client3.default(connection).name(input);
-    const content = await domain.resolve(
-      import_client3.default.RECORDS.CONTENT
-    );
-    const skylink = await normalizeSkylink(content, this.resolver);
+    let content = false;
+    let skylink = false;
+    try {
+      content = await domain.resolve(import_client3.default.RECORDS.CONTENT);
+    } catch (e) {}
+    if (content) {
+      skylink = await normalizeSkylink(content, this.resolver);
+    }
     if (skylink) {
       return skylink;
     }
     if (content) {
       return content;
     }
-    let record = await domain.resolve(import_client3.default.RECORDS.DNS_CNAME);
+    let record = false;
+    try {
+      record = await domain.resolve(import_client3.default.RECORDS.DNS_CNAME);
+    } catch (e) {}
     if (!record) {
-      record = await domain.resolve(import_client3.default.RECORDS.DNS_A);
+      try {
+        record = await domain.resolve(import_client3.default.RECORDS.DNS_A);
+      } catch (e) {}
     }
     return record;
   }

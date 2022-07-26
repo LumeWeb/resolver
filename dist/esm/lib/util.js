@@ -1,10 +1,12 @@
-import { addContextToErr, defaultPortalList, validSkylink } from "libskynet";
 import {
+  addContextToErr,
+  defaultPortalList,
+  validSkylink,
   bufToB64,
   bufToHex,
   hexToBuf,
   verifyRegistryReadResponse,
-} from "libskynet/dist";
+} from "libskynet";
 export function isIp(ip) {
   return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
     ip
