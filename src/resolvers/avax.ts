@@ -26,8 +26,17 @@ export default class Avax extends SubResolverBase {
     );
 
     const domain = new AVVY(connection).name(input);
-    const content = await domain.resolve(AVVY.RECORDS.CONTENT);
-    const skylink = await normalizeSkylink(content, this.resolver);
+
+    let content: string | boolean = false;
+    let skylink: string | boolean = false;
+
+    try {
+      content = await domain.resolve(AVVY.RECORDS.CONTENT);
+      // tslint:disable-next-line:no-empty
+    } catch (e: any) {}
+    if (content) {
+      skylink = await normalizeSkylink(content as string, this.resolver);
+    }
 
     if (skylink) {
       return skylink;
@@ -37,10 +46,18 @@ export default class Avax extends SubResolverBase {
       return content;
     }
 
-    let record = await domain.resolve(AVVY.RECORDS.DNS_CNAME);
+    let record = false;
+
+    try {
+      record = await domain.resolve(AVVY.RECORDS.DNS_CNAME);
+      // tslint:disable-next-line:no-empty
+    } catch (e) {}
 
     if (!record) {
-      record = await domain.resolve(AVVY.RECORDS.DNS_A);
+      try {
+        record = await domain.resolve(AVVY.RECORDS.DNS_A);
+        // tslint:disable-next-line:no-empty
+      } catch (e) {}
     }
 
     return record;
