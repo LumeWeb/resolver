@@ -90,7 +90,7 @@ async function getRegistryEntry(
   pubkey: Uint8Array,
   datakey: Uint8Array
 ): Promise<Uint8Array> {
-  if (typeof process === "undefined") {
+  if (typeof process === "undefined" || !process?.platform) {
     if (window?.document) {
       // @ts-ignore
       return (await import("libkernel"))
