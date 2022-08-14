@@ -2,10 +2,11 @@ import {
   addContextToErr,
   defaultPortalList,
   validSkylink,
-  bufToB64,
   bufToHex,
   hexToBuf,
   verifyRegistryReadResponse,
+  entryIDToSkylink,
+  deriveRegistryEntryID,
 } from "libskynet";
 export function isIp(ip) {
   return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
@@ -42,12 +43,11 @@ export async function normalizeSkylink(skylink, resolver) {
       "ed25519:",
       ""
     );
-    return bufToB64(
-      await getRegistryEntry(
-        hexToBuf(pubKey)[0],
-        // @ts-ignore
-        hexToBuf(matches.groups.datakey)[0]
-      )
+    return entryIDToSkylink(
+      deriveRegistryEntryID(
+        hexToBuf(pubKey).shift(),
+        hexToBuf(matches.groups?.datakey).shift()
+      ).shift()
     );
   }
   return false;

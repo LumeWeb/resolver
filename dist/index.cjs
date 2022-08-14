@@ -95,6 +95,7 @@ function normalizeDomain(domain) {
   return domain.replace(/^\.+|\.+$/g, "").replace(/^\/+|\/+$/g, "");
 }
 async function normalizeSkylink(skylink, resolver) {
+  var _a;
   skylink = skylink.toString();
   let matches = skylink.match(startsWithSkylinkRegExp);
   if (matches) {
@@ -108,11 +109,13 @@ async function normalizeSkylink(skylink, resolver) {
       "ed25519:",
       ""
     );
-    return (0, import_libskynet.bufToB64)(
-      await getRegistryEntry(
-        (0, import_libskynet.hexToBuf)(pubKey)[0],
-        (0, import_libskynet.hexToBuf)(matches.groups.datakey)[0]
-      )
+    return (0, import_libskynet.entryIDToSkylink)(
+      (0, import_libskynet.deriveRegistryEntryID)(
+        (0, import_libskynet.hexToBuf)(pubKey).shift(),
+        (0, import_libskynet.hexToBuf)(
+          (_a = matches.groups) == null ? void 0 : _a.datakey
+        ).shift()
+      ).shift()
     );
   }
   return false;
@@ -131,78 +134,6 @@ function getSld(domain) {
       .join(".");
   }
   return domain;
-}
-async function getRegistryEntry(pubkey, datakey) {
-  if (
-    typeof process === "undefined" ||
-    !(process == null ? void 0 : process.platform)
-  ) {
-    if (
-      typeof window !== "undefined" &&
-      (window == null ? void 0 : window.document)
-    ) {
-      return (
-        await Promise.resolve().then(() => __toESM(require("libkernel"), 1))
-      )
-        .registryRead(pubkey, datakey)
-        .then((result) => result[0].entryData);
-    }
-    return (
-      await Promise.resolve().then(() => __toESM(require("libkmodule"), 1))
-    )
-      .registryRead(pubkey, datakey)
-      .then((result) => result[0].entryData);
-  }
-  const libskynetnode = await Promise.resolve().then(() =>
-    __toESM(require("libskynetnode"), 1)
-  );
-  return new Promise((resolve, reject) => {
-    const pubkeyHex = (0, import_libskynet.bufToHex)(pubkey);
-    const datakeyHex = (0, import_libskynet.bufToHex)(datakey);
-    const endpoint =
-      "/skynet/registry?publickey=ed25519%3A" +
-      pubkeyHex +
-      "&datakey=" +
-      datakeyHex;
-    const verifyFunc = (response) =>
-      (0, import_libskynet.verifyRegistryReadResponse)(
-        response,
-        pubkey,
-        datakey
-      );
-    libskynetnode
-      .progressiveFetch(
-        endpoint,
-        {},
-        import_libskynet.defaultPortalList,
-        verifyFunc
-      )
-      .then((result) => {
-        if (result.success === true) {
-          result.response
-            .json()
-            .then((j) => {
-              resolve(j.data);
-            })
-            .catch((err) => {
-              reject(
-                (0, import_libskynet.addContextToErr)(
-                  err,
-                  "unable to parse response despite passing verification"
-                )
-              );
-            });
-          return;
-        }
-        for (let i = 0; i < result.responsesFailed.length; i++) {
-          if (result.responsesFailed[i].status === 404) {
-            resolve(new Uint8Array(0));
-            return;
-          }
-        }
-        reject("unable to read registry entry\n" + JSON.stringify(result));
-      });
-  });
 }
 
 // src/subResolverBase.ts
