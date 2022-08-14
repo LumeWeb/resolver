@@ -55,7 +55,7 @@ export async function normalizeSkylink(
       ""
     );
 
-    bufToB64(
+    return bufToB64(
       await getRegistryEntry(
         hexToBuf(pubKey)[0],
         // @ts-ignore
