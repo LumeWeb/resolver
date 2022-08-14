@@ -133,7 +133,10 @@ function getSld(domain) {
   return domain;
 }
 async function getRegistryEntry(pubkey, datakey) {
-  if (typeof process === "undefined") {
+  if (
+    typeof process === "undefined" ||
+    !(process == null ? void 0 : process.platform)
+  ) {
     if (window == null ? void 0 : window.document) {
       return (
         await Promise.resolve().then(() => __toESM(require("libkernel"), 1))
@@ -1090,14 +1093,12 @@ var Client = class extends import_algosdk.default.Algodv2 {
       },
       this._force
     );
-    const res = await req.result;
-    const { body } = res;
+    const body = await req.result;
     const text = void 0;
     return {
-      ...res,
       body,
       text,
-      ok: Math.trunc(res.status / 100) === 2,
+      ok: true,
     };
   }
 };
@@ -1136,14 +1137,12 @@ var Indexer = class extends import_algosdk2.default.Indexer {
       },
       this._force
     );
-    const res = await req.result;
-    const { body } = res;
+    const body = await req.result;
     const text = void 0;
     return {
-      ...res,
       body,
       text,
-      ok: Math.trunc(res.status / 100) === 2,
+      ok: true,
     };
   }
 };

@@ -54,15 +54,13 @@ export default class Client extends algosdk.Algodv2 {
       },
       this._force
     );
-    const res = await req.result;
-    const { body } = res;
+    const body = await req.result;
     const text = undefined;
     // @ts-ignore
     return {
-      ...res,
       body,
       text,
-      ok: Math.trunc(res.status / 100) === 2,
+      ok: true,
     };
   }
 }
