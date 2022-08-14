@@ -108,7 +108,7 @@ async function normalizeSkylink(skylink, resolver) {
       "ed25519:",
       ""
     );
-    (0, import_libskynet.bufToB64)(
+    return (0, import_libskynet.bufToB64)(
       await getRegistryEntry(
         (0, import_libskynet.hexToBuf)(pubKey)[0],
         (0, import_libskynet.hexToBuf)(matches.groups.datakey)[0]

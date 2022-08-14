@@ -42,7 +42,7 @@ export async function normalizeSkylink(skylink, resolver) {
       "ed25519:",
       ""
     );
-    bufToB64(
+    return bufToB64(
       await getRegistryEntry(
         hexToBuf(pubKey)[0],
         // @ts-ignore
