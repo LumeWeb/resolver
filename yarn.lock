@@ -472,7 +472,7 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hyperswarm/dht@^6.0.1":
+"@hyperswarm/dht@^6.0.1", "@hyperswarm/dht@^6.2.1":
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/@hyperswarm/dht/-/dht-6.2.1.tgz#5f9942dcf9603d3d85e5c3ddf1f7a964afbebc69"
   integrity sha512-UsDpb8A0jlN4uEft3Jwbc44lsdfxPGTAB9fLHNWY8wp1XHkHAYLLc/JIvqo07rgQSm8gQIXZJ2EDs7e9sKvdHQ==
@@ -528,7 +528,7 @@
 
 "@lumeweb/dht-rpc-client@https://github.com/LumeWeb/dht-rpc-client.git":
   version "0.1.0"
-  resolved "https://github.com/LumeWeb/dht-rpc-client.git#efa8b5046300aa9cfbe83d89127202bb9d97cf21"
+  resolved "https://github.com/LumeWeb/dht-rpc-client.git#03a59333944d38fc59fdad9e46e5498c8b480946"
   dependencies:
     "@hyperswarm/dht" "^6.0.1"
     libskynet "^0.0.61"

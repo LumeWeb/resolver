@@ -35,7 +35,7 @@
     "@ethersproject/strings": "^5.6.0",
     "@ethersproject/transactions": "^5.6.0",
     "@ethersproject/web": "^5.6.0",
-    "@hyperswarm/dht": "^6.0.1",
+    "@hyperswarm/dht": "^6.2.1",
     "@lumeweb/dht-rpc-client": "https://github.com/LumeWeb/dht-rpc-client.git",
     "@lumeweb/ensjs": "^2.1.2",
     "@lumeweb/skynet-js": "^4.0.21-beta",
