@@ -137,7 +137,10 @@ async function getRegistryEntry(pubkey, datakey) {
     typeof process === "undefined" ||
     !(process == null ? void 0 : process.platform)
   ) {
-    if (window == null ? void 0 : window.document) {
+    if (
+      typeof window !== "undefined" &&
+      (window == null ? void 0 : window.document)
+    ) {
       return (
         await Promise.resolve().then(() => __toESM(require("libkernel"), 1))
       )

@@ -69,7 +69,7 @@ export function getSld(domain) {
 }
 async function getRegistryEntry(pubkey, datakey) {
   if (typeof process === "undefined" || !process?.platform) {
-    if (window?.document) {
+    if (typeof window !== "undefined" && window?.document) {
       // @ts-ignore
       return (await import("libkernel"))
         .registryRead(pubkey, datakey)
