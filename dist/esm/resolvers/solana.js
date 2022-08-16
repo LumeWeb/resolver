@@ -1,6 +1,7 @@
 import SubResolverBase from "../subResolverBase.js";
 import {
   getHashedName,
+  getIpfsRecord,
   getNameAccountKey,
   NameRegistryState,
 } from "@bonfida/spl-name-service";
@@ -16,13 +17,22 @@ export default class Solana extends SubResolverBase {
     if (!this.isTldSupported(input)) {
       return false;
     }
+    const connection = new Connection(this.resolver.rpcNetwork, force);
+    let ipfs;
+    try {
+      ipfs = await getIpfsRecord(connection, getSld(input));
+    } catch (e) {
+      //
+    }
+    if (ipfs && ipfs?.data) {
+      return ipfs?.data.toString("utf-8");
+    }
     const hashedName = await getHashedName(getSld(input));
     const domainKey = await getNameAccountKey(
       hashedName,
       undefined,
       SOL_TLD_AUTHORITY
     );
-    const connection = new Connection(this.resolver.rpcNetwork, force);
     const nameAccount = await connection.getAccountInfo(domainKey, "processed");
     if (!nameAccount) {
       return false;
@@ -34,14 +44,10 @@ export default class Solana extends SubResolverBase {
     );
     res.data = nameAccount.data?.slice(NameRegistryState.HEADER_LEN);
     let content = res.data.toString("ascii").replace(/\0/g, "");
-    let skylink = await normalizeSkylink(content, this.resolver);
-    if (skylink) {
-      return skylink;
-    }
     if (content.includes("=")) {
       content = content.split("=")[0];
     }
-    skylink = await normalizeSkylink(content, this.resolver);
+    const skylink = await normalizeSkylink(content, this.resolver);
     if (skylink) {
       return skylink;
     }

@@ -933,6 +933,17 @@ var Solana = class extends SubResolverBase {
     if (!this.isTldSupported(input)) {
       return false;
     }
+    const connection = new Connection(this.resolver.rpcNetwork, force);
+    let ipfs;
+    try {
+      ipfs = await (0, import_spl_name_service.getIpfsRecord)(
+        connection,
+        getSld(input)
+      );
+    } catch (e) {}
+    if (ipfs && (ipfs == null ? void 0 : ipfs.data)) {
+      return ipfs == null ? void 0 : ipfs.data.toString("utf-8");
+    }
     const hashedName = await (0, import_spl_name_service.getHashedName)(
       getSld(input)
     );
@@ -941,7 +952,6 @@ var Solana = class extends SubResolverBase {
       void 0,
       SOL_TLD_AUTHORITY
     );
-    const connection = new Connection(this.resolver.rpcNetwork, force);
     const nameAccount = await connection.getAccountInfo(domainKey, "processed");
     if (!nameAccount) {
       return false;
@@ -956,14 +966,10 @@ var Solana = class extends SubResolverBase {
         ? void 0
         : _a.slice(import_spl_name_service.NameRegistryState.HEADER_LEN);
     let content = res.data.toString("ascii").replace(/\0/g, "");
-    let skylink = await normalizeSkylink(content, this.resolver);
-    if (skylink) {
-      return skylink;
-    }
     if (content.includes("=")) {
       content = content.split("=")[0];
     }
-    skylink = await normalizeSkylink(content, this.resolver);
+    const skylink = await normalizeSkylink(content, this.resolver);
     if (skylink) {
       return skylink;
     }
