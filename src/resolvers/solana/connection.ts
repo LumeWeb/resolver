@@ -21,7 +21,7 @@ export default class Connection extends SolanaConnection {
   async __rpcRequest(methodName: string, args: any[]) {
     const req = this._network.query(
       methodName,
-      pocketNetworks["sol-mainnet"],
+      pocketNetworks["solana-mainnet"],
       args,
       this._force
     );
