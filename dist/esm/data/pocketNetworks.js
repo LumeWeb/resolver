@@ -39,7 +39,7 @@ const pocketNetworks = {
   "poly-archival": "000B",
   "poly-mumbai": "000F",
   "poly-mumbai-archival": "00AF",
-  "sol-mainnet": "6",
-  "sol-testnet": "31",
+  "solana-mainnet": "6",
+  "solana-testnet": "31",
 };
 export default pocketNetworks;

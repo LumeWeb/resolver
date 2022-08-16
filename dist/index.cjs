@@ -365,8 +365,8 @@ var pocketNetworks = {
   "poly-archival": "000B",
   "poly-mumbai": "000F",
   "poly-mumbai-archival": "00AF",
-  "sol-mainnet": "6",
-  "sol-testnet": "31",
+  "solana-mainnet": "6",
+  "solana-testnet": "31",
 };
 var pocketNetworks_default = pocketNetworks;
 
@@ -914,7 +914,7 @@ var Connection = class extends import_web3.Connection {
   async __rpcRequest(methodName, args) {
     const req = this._network.query(
       methodName,
-      pocketNetworks_default["sol-mainnet"],
+      pocketNetworks_default["solana-mainnet"],
       args,
       this._force
     );
