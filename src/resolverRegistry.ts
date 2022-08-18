@@ -6,7 +6,7 @@ import {
   DNS_RECORD_TYPE,
 } from "@lumeweb/resolver-common";
 
-export default class ResolverRegistry {
+export class ResolverRegistry {
   private _resolvers: Set<ResolverModule> = new Set();
   private _rpcNetwork: RpcNetwork;
 
