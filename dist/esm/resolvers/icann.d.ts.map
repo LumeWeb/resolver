@@ -1,1 +1,0 @@
-{"version":3,"file":"icann.d.ts","sourceRoot":"","sources":["../../../src/resolvers/icann.ts"],"names":[],"mappings":"AAGA,OAAO,eAAe,MAAM,uBAAuB,CAAC;AAEpD,MAAM,CAAC,OAAO,OAAO,KAAM,SAAQ,eAAe;IAC1C,OAAO,CACX,KAAK,EAAE,MAAM,EACb,MAAM,GAAE;QAAE,CAAC,GAAG,EAAE,MAAM,GAAG,GAAG,CAAA;KAAO,EACnC,KAAK,UAAQ,GACZ,OAAO,CAAC,MAAM,GAAG,OAAO,CAAC;CAuB7B"}

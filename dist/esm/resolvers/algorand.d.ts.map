@@ -1,1 +1,0 @@
-{"version":3,"file":"algorand.d.ts","sourceRoot":"","sources":["../../../src/resolvers/algorand.ts"],"names":[],"mappings":"AAAA,OAAO,eAAe,MAAM,uBAAuB,CAAC;AAMpD,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,eAAe;IACnD,gBAAgB,IAAI,MAAM,EAAE;IAItB,OAAO,CACX,KAAK,EAAE,MAAM,EACb,MAAM,EAAE;QAAE,CAAC,CAAC,EAAE,MAAM,GAAG,GAAG,CAAA;KAAE,EAC5B,KAAK,EAAE,OAAO,GACb,OAAO,CAAC,MAAM,GAAG,OAAO,CAAC;CAoC7B"}

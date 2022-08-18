@@ -1,5 +1,6 @@
 import { RpcNetwork } from "@lumeweb/dht-rpc-client";
-export default class Resolver {
+import { DNS_RECORD_TYPE } from "@lumeweb/resolver-common";
+export default class ResolverRegistry {
   _resolvers = [];
   _rpcNetwork;
   constructor(network = new RpcNetwork()) {
@@ -11,16 +12,20 @@ export default class Resolver {
   get rpcNetwork() {
     return this._rpcNetwork;
   }
-  async resolve(input, params = {}, force = false) {
+  async resolve(
+    domain,
+    options = { type: DNS_RECORD_TYPE.DEFAULT },
+    bypassCache = false
+  ) {
     for (const resolver of this._resolvers) {
-      const result = await resolver.resolve(input, params, force);
-      if (result) {
+      const result = await resolver.resolve(domain, options, bypassCache);
+      if (!result.error && result.records.length) {
         return result;
       }
     }
-    return false;
+    return { records: [] };
   }
-  registerResolver(resolver) {
+  register(resolver) {
     this._resolvers.push(resolver);
   }
 }
