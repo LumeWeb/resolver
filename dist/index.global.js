@@ -487,7 +487,7 @@
   // node_modules/b4a/index.js
   var require_b4a = __commonJS({
     "node_modules/b4a/index.js"(exports, module) {
-      function isBuffer(value) {
+      function isBuffer2(value) {
         return Buffer.isBuffer(value) || value instanceof Uint8Array;
       }
       function isEncoding(encoding) {
@@ -576,7 +576,7 @@
         return toBuffer(buffer).readInt32LE(offset);
       }
       module.exports = {
-        isBuffer,
+        isBuffer: isBuffer2,
         isEncoding,
         alloc,
         allocUnsafe,
@@ -10363,6 +10363,9 @@
     },
   });
 
+  // node_modules/@lumeweb/dht-rpc-client/dist/rpcQuery.js
+  var import_timers = __require("timers");
+
   // node_modules/msgpackr/unpack.js
   var decoder;
   try {
@@ -12481,7 +12484,62 @@
     } catch (error) {}
   }
 
+  // node_modules/@lumeweb/dht-rpc-client/dist/rpcQuery.js
+  var import_buffer = __require("buffer");
+
   // node_modules/libskynet/dist/blake2b.js
+  function ADD64AA(v, a, b) {
+    const o0 = v[a] + v[b];
+    let o1 = v[a + 1] + v[b + 1];
+    if (o0 >= 4294967296) {
+      o1++;
+    }
+    v[a] = o0;
+    v[a + 1] = o1;
+  }
+  function ADD64AC(v, a, b0, b1) {
+    let o0 = v[a] + b0;
+    if (b0 < 0) {
+      o0 += 4294967296;
+    }
+    let o1 = v[a + 1] + b1;
+    if (o0 >= 4294967296) {
+      o1++;
+    }
+    v[a] = o0;
+    v[a + 1] = o1;
+  }
+  function B2B_GET32(arr, i) {
+    return arr[i] ^ (arr[i + 1] << 8) ^ (arr[i + 2] << 16) ^ (arr[i + 3] << 24);
+  }
+  function B2B_G(a, b, c, d, ix, iy, m, v) {
+    const x0 = m[ix];
+    const x1 = m[ix + 1];
+    const y0 = m[iy];
+    const y1 = m[iy + 1];
+    ADD64AA(v, a, b);
+    ADD64AC(v, a, x0, x1);
+    let xor0 = v[d] ^ v[a];
+    let xor1 = v[d + 1] ^ v[a + 1];
+    v[d] = xor1;
+    v[d + 1] = xor0;
+    ADD64AA(v, c, d);
+    xor0 = v[b] ^ v[c];
+    xor1 = v[b + 1] ^ v[c + 1];
+    v[b] = (xor0 >>> 24) ^ (xor1 << 8);
+    v[b + 1] = (xor1 >>> 24) ^ (xor0 << 8);
+    ADD64AA(v, a, b);
+    ADD64AC(v, a, y0, y1);
+    xor0 = v[d] ^ v[a];
+    xor1 = v[d + 1] ^ v[a + 1];
+    v[d] = (xor0 >>> 16) ^ (xor1 << 16);
+    v[d + 1] = (xor1 >>> 16) ^ (xor0 << 16);
+    ADD64AA(v, c, d);
+    xor0 = v[b] ^ v[c];
+    xor1 = v[b + 1] ^ v[c + 1];
+    v[b] = (xor1 >>> 31) ^ (xor0 << 1);
+    v[b + 1] = (xor0 >>> 31) ^ (xor1 << 1);
+  }
   var BLAKE2B_IV32 = new Uint32Array([
     4089235720, 1779033703, 2227873595, 3144134277, 4271175723, 1013904242,
     1595750129, 2773480762, 2917565137, 1359893119, 725511199, 2600822924,
@@ -12503,6 +12561,78 @@
       return x * 2;
     })
   );
+  function blake2bCompress(ctx, last) {
+    const v = new Uint32Array(32);
+    const m = new Uint32Array(32);
+    let i = 0;
+    for (i = 0; i < 16; i++) {
+      v[i] = ctx.h[i];
+      v[i + 16] = BLAKE2B_IV32[i];
+    }
+    v[24] = v[24] ^ ctx.t;
+    v[25] = v[25] ^ (ctx.t / 4294967296);
+    if (last) {
+      v[28] = ~v[28];
+      v[29] = ~v[29];
+    }
+    for (i = 0; i < 32; i++) {
+      m[i] = B2B_GET32(ctx.b, 4 * i);
+    }
+    for (i = 0; i < 12; i++) {
+      B2B_G(0, 8, 16, 24, SIGMA82[i * 16 + 0], SIGMA82[i * 16 + 1], m, v);
+      B2B_G(2, 10, 18, 26, SIGMA82[i * 16 + 2], SIGMA82[i * 16 + 3], m, v);
+      B2B_G(4, 12, 20, 28, SIGMA82[i * 16 + 4], SIGMA82[i * 16 + 5], m, v);
+      B2B_G(6, 14, 22, 30, SIGMA82[i * 16 + 6], SIGMA82[i * 16 + 7], m, v);
+      B2B_G(0, 10, 20, 30, SIGMA82[i * 16 + 8], SIGMA82[i * 16 + 9], m, v);
+      B2B_G(2, 12, 22, 24, SIGMA82[i * 16 + 10], SIGMA82[i * 16 + 11], m, v);
+      B2B_G(4, 14, 16, 26, SIGMA82[i * 16 + 12], SIGMA82[i * 16 + 13], m, v);
+      B2B_G(6, 8, 18, 28, SIGMA82[i * 16 + 14], SIGMA82[i * 16 + 15], m, v);
+    }
+    for (i = 0; i < 16; i++) {
+      ctx.h[i] = ctx.h[i] ^ v[i] ^ v[i + 16];
+    }
+  }
+  function blake2bInit() {
+    const ctx = {
+      b: new Uint8Array(128),
+      h: new Uint32Array(16),
+      t: 0,
+      c: 0,
+      outlen: 32,
+    };
+    for (let i = 0; i < 16; i++) {
+      ctx.h[i] = BLAKE2B_IV32[i];
+    }
+    ctx.h[0] ^= 16842752 ^ 32;
+    return ctx;
+  }
+  function blake2bUpdate(ctx, input) {
+    for (let i = 0; i < input.length; i++) {
+      if (ctx.c === 128) {
+        ctx.t += ctx.c;
+        blake2bCompress(ctx, false);
+        ctx.c = 0;
+      }
+      ctx.b[ctx.c++] = input[i];
+    }
+  }
+  function blake2bFinal(ctx) {
+    ctx.t += ctx.c;
+    while (ctx.c < 128) {
+      ctx.b[ctx.c++] = 0;
+    }
+    blake2bCompress(ctx, true);
+    const out = new Uint8Array(ctx.outlen);
+    for (let i = 0; i < ctx.outlen; i++) {
+      out[i] = ctx.h[i >> 2] >> (8 * (i & 3));
+    }
+    return out;
+  }
+  function blake2b(input) {
+    const ctx = blake2bInit();
+    blake2bUpdate(ctx, input);
+    return blake2bFinal(ctx);
+  }
 
   // node_modules/libskynet/dist/merkle.js
   var nu8 = new Uint8Array(0);
@@ -12558,8 +12688,273 @@
   // node_modules/libskynet/dist/skylinkverifyresolver.js
   var nu86 = new Uint8Array(0);
 
+  // node_modules/@lumeweb/dht-rpc-client/dist/util.js
+  function isBuffer(obj) {
+    return (
+      obj &&
+      obj.constructor &&
+      typeof obj.constructor.isBuffer === "function" &&
+      obj.constructor.isBuffer(obj)
+    );
+  }
+  function flatten(target2, opts = {}) {
+    opts = opts || {};
+    const delimiter = opts.delimiter || ".";
+    const maxDepth = opts.maxDepth;
+    const transformKey =
+      opts.transformKey || ((key) => (isNaN(parseInt(key)) ? key : ""));
+    const output = [];
+    function step(object, prev, currentDepth) {
+      currentDepth = currentDepth || 1;
+      if (!Array.isArray(object)) {
+        object = Object.keys(object != null ? object : {});
+      }
+      object.forEach(function (key) {
+        const value = object[key];
+        const isarray = opts.safe && Array.isArray(value);
+        const type = Object.prototype.toString.call(value);
+        const isbuffer = isBuffer(value);
+        const isobject =
+          type === "[object Object]" || type === "[object Array]";
+        const newKey = prev
+          ? prev + delimiter + transformKey(key)
+          : transformKey(key);
+        if (
+          !isarray &&
+          !isbuffer &&
+          isobject &&
+          Object.keys(value).length &&
+          (!opts.maxDepth || currentDepth < maxDepth)
+        ) {
+          return step(value, newKey, currentDepth + 1);
+        }
+        output.push(`${newKey}=${value}`);
+      });
+    }
+    step(target2);
+    return output;
+  }
+
+  // node_modules/@lumeweb/dht-rpc-client/dist/rpcQuery.js
+  var RpcQuery = class {
+    _network;
+    _query;
+    _promise;
+    _timeoutTimer;
+    _timeout = false;
+    _completed = false;
+    _responses = {};
+    _promiseResolve;
+    _maxTries = 3;
+    _tries = 0;
+    constructor(network, query) {
+      this._network = network;
+      this._query = query;
+      this.init();
+    }
+    get result() {
+      return this._promise;
+    }
+    handeTimeout() {
+      this.resolve(false, true);
+    }
+    resolve(data, timeout = false) {
+      (0, import_timers.clearTimeout)(this._timeoutTimer);
+      this._timeout = timeout;
+      this._completed = true;
+      this._promiseResolve(data);
+    }
+    async init() {
+      var _a, _b;
+      this._promise =
+        (_a = this._promise) != null
+          ? _a
+          : new Promise((resolve) => {
+              this._promiseResolve = resolve;
+            });
+      this._timeoutTimer =
+        (_b = this._timeoutTimer) != null
+          ? _b
+          : (0, import_timers.setTimeout)(
+              this.handeTimeout.bind(this),
+              this._network.queryTimeout * 1e3
+            );
+      await this._network.ready;
+      const promises = [];
+      for (const relay of this._network.relays) {
+        promises.push(this.queryRelay(relay));
+      }
+      await Promise.allSettled(promises);
+      this.checkResponses();
+    }
+    async queryRelay(relay) {
+      let socket;
+      try {
+        socket = this._network.dht.connect(
+          import_buffer.Buffer.from(relay, "hex")
+        );
+        if (isPromise(socket)) {
+          socket = await socket;
+        }
+      } catch (e) {
+        return;
+      }
+      return new Promise((resolve, reject) => {
+        let timer;
+        socket.on("data", (res) => {
+          (0, import_timers.clearTimeout)(timer);
+          socket.end();
+          const response = unpack(res);
+          if (response && response.error) {
+            return reject(response);
+          }
+          this._responses[relay] = response;
+          resolve(null);
+        });
+        socket.on("error", (error) => reject({ error }));
+        socket.write("rpc");
+        socket.write(pack(this._query));
+        timer = (0, import_timers.setTimeout)(() => {
+          reject("timeout");
+        }, this._network.relayTimeout * 1e3);
+      });
+    }
+    checkResponses() {
+      const responseStore = this._responses;
+      const responseStoreData = Object.values(responseStore);
+      const responseObjects = responseStoreData.reduce((output, item) => {
+        const itemFlattened = flatten(item == null ? void 0 : item.data).sort();
+        const hash = import_buffer.Buffer.from(
+          blake2b(import_buffer.Buffer.from(JSON.stringify(itemFlattened)))
+        ).toString("hex");
+        output[hash] = item == null ? void 0 : item.data;
+        return output;
+      }, {});
+      const responses = responseStoreData.reduce((output, item) => {
+        var _a;
+        const itemFlattened = flatten(item == null ? void 0 : item.data).sort();
+        const hash = import_buffer.Buffer.from(
+          blake2b(import_buffer.Buffer.from(JSON.stringify(itemFlattened)))
+        ).toString("hex");
+        output[hash] = (_a = output[hash]) != null ? _a : 0;
+        output[hash]++;
+        return output;
+      }, {});
+      for (const responseHash in responses) {
+        if (
+          responses[responseHash] / responseStoreData.length >=
+          this._network.majorityThreshold
+        ) {
+          let response = responseObjects[responseHash];
+          if (null === response) {
+            if (this._tries <= this._maxTries) {
+              this._tries++;
+              this.retry();
+              return;
+            }
+            response = false;
+          }
+          this.resolve(response);
+          break;
+        }
+      }
+    }
+    retry() {
+      this._responses = {};
+      if (this._completed) {
+        return;
+      }
+      this.init();
+    }
+  };
+  function isPromise(obj) {
+    return (
+      !!obj &&
+      (typeof obj === "object" || typeof obj === "function") &&
+      typeof obj.then === "function"
+    );
+  }
+
   // node_modules/@lumeweb/dht-rpc-client/dist/rpcNetwork.js
   var import_dht = __toESM(require_dht(), 1);
+  var RpcNetwork = class {
+    constructor(dht = new import_dht.default()) {
+      this._dht = dht;
+    }
+    _dht;
+    get dht() {
+      return this._dht;
+    }
+    _majorityThreshold = 0.75;
+    get majorityThreshold() {
+      return this._majorityThreshold;
+    }
+    set majorityThreshold(value) {
+      this._majorityThreshold = value;
+    }
+    _maxTtl = 12 * 60 * 60;
+    get maxTtl() {
+      return this._maxTtl;
+    }
+    set maxTtl(value) {
+      this._maxTtl = value;
+    }
+    _queryTimeout = 30;
+    get queryTimeout() {
+      return this._queryTimeout;
+    }
+    set queryTimeout(value) {
+      this._queryTimeout = value;
+    }
+    _relayTimeout = 2;
+    get relayTimeout() {
+      return this._relayTimeout;
+    }
+    set relayTimeout(value) {
+      this._relayTimeout = value;
+    }
+    _relays = [];
+    get relays() {
+      return this._relays;
+    }
+    _ready;
+    get ready() {
+      if (!this._ready) {
+        this._ready = this._dht.ready();
+      }
+      return this._ready;
+    }
+    _force = false;
+    get force() {
+      return this._force;
+    }
+    set force(value) {
+      this._force = value;
+    }
+    addRelay(pubkey) {
+      this._relays.push(pubkey);
+      this._relays = [...new Set(this._relays)];
+    }
+    removeRelay(pubkey) {
+      if (!this._relays.includes(pubkey)) {
+        return false;
+      }
+      delete this._relays[this._relays.indexOf(pubkey)];
+      this._relays = Object.values(this._relays);
+      return true;
+    }
+    clearRelays() {
+      this._relays = [];
+    }
+    query(query, chain, data = {}, force = false) {
+      return new RpcQuery(this, {
+        query,
+        chain,
+        data,
+        force: force || this._force,
+      });
+    }
+  };
 
   // node_modules/@lumeweb/resolver-common/dist/types.js
   var DNS_RECORD_TYPE = {
@@ -12573,5 +12968,39 @@
     CUSTOM: "CUSTOM",
   };
   Object.freeze(DNS_RECORD_TYPE);
+
+  // src/resolverRegistry.ts
+  var ResolverRegistry = class {
+    _resolvers = /* @__PURE__ */ new Set();
+    _rpcNetwork;
+    constructor(network = new RpcNetwork()) {
+      this._rpcNetwork = network;
+    }
+    get resolvers() {
+      return this._resolvers;
+    }
+    get rpcNetwork() {
+      return this._rpcNetwork;
+    }
+    async resolve(
+      domain,
+      options = { type: DNS_RECORD_TYPE.DEFAULT },
+      bypassCache = false
+    ) {
+      for (const resolver of this._resolvers) {
+        const result = await resolver.resolve(domain, options, bypassCache);
+        if (!result.error && result.records.length) {
+          return result;
+        }
+      }
+      return { records: [] };
+    }
+    register(resolver) {
+      this._resolvers.add(resolver);
+    }
+    clear() {
+      this._resolvers.clear();
+    }
+  };
 })();
 //# sourceMappingURL=index.global.js.map

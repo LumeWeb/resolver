@@ -4,7 +4,7 @@ import {
   ResolverModule,
   ResolverOptions,
 } from "@lumeweb/resolver-common";
-export default class ResolverRegistry {
+export declare class ResolverRegistry {
   private _resolvers;
   private _rpcNetwork;
   constructor(network?: RpcNetwork);
