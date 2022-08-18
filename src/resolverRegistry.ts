@@ -7,14 +7,14 @@ import {
 } from "@lumeweb/resolver-common";
 
 export default class ResolverRegistry {
-  private _resolvers: ResolverModule[] = [];
+  private _resolvers: Set<ResolverModule> = new Set();
   private _rpcNetwork: RpcNetwork;
 
   constructor(network: RpcNetwork = new RpcNetwork()) {
     this._rpcNetwork = network;
   }
 
-  get resolvers(): ResolverModule[] {
+  get resolvers(): Set<ResolverModule> {
     return this._resolvers;
   }
 
@@ -38,6 +38,10 @@ export default class ResolverRegistry {
   }
 
   public register(resolver: ResolverModule): void {
-    this._resolvers.push(resolver);
+    this._resolvers.add(resolver);
+  }
+
+  public clear(): void {
+    this._resolvers.clear();
   }
 }
