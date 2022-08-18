@@ -1,7 +1,7 @@
 import { RpcNetwork } from "@lumeweb/dht-rpc-client";
 import { DNS_RECORD_TYPE } from "@lumeweb/resolver-common";
 export default class ResolverRegistry {
-  _resolvers = [];
+  _resolvers = new Set();
   _rpcNetwork;
   constructor(network = new RpcNetwork()) {
     this._rpcNetwork = network;
@@ -26,6 +26,9 @@ export default class ResolverRegistry {
     return { records: [] };
   }
   register(resolver) {
-    this._resolvers.push(resolver);
+    this._resolvers.add(resolver);
+  }
+  clear() {
+    this._resolvers.clear();
   }
 }
