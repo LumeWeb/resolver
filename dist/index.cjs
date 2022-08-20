@@ -26,7 +26,7 @@ module.exports = __toCommonJS(src_exports);
 
 // src/resolverRegistry.ts
 var import_dht_rpc_client = require("@lumeweb/dht-rpc-client");
-var import_resolver_common = require("@lumeweb/resolver-common");
+var import_libresolver = require("@lumeweb/libresolver");
 var ResolverRegistry = class {
   _resolvers = /* @__PURE__ */ new Set();
   _rpcNetwork;
@@ -39,7 +39,7 @@ var ResolverRegistry = class {
   get rpcNetwork() {
     return this._rpcNetwork;
   }
-  async resolve(domain, options = { type: import_resolver_common.DNS_RECORD_TYPE.CONTENT }, bypassCache = false) {
+  async resolve(domain, options = { type: import_libresolver.DNS_RECORD_TYPE.CONTENT }, bypassCache = false) {
     for (const resolver of this._resolvers) {
       const result = await resolver.resolve(domain, options, bypassCache);
       if (!result.error && result.records.length) {

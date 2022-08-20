@@ -1,5 +1,5 @@
 import { RpcNetwork } from "@lumeweb/dht-rpc-client";
-import { DNSResult, ResolverModule, ResolverOptions } from "@lumeweb/resolver-common";
+import { DNSResult, ResolverModule, ResolverOptions } from "@lumeweb/libresolver";
 export declare class ResolverRegistry {
     private _resolvers;
     private _rpcNetwork;

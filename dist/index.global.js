@@ -12214,9 +12214,8 @@
     }
   };
 
-  // node_modules/@lumeweb/resolver-common/dist/types.js
+  // node_modules/@lumeweb/libresolver/dist/types.js
   var DNS_RECORD_TYPE = {
-    DEFAULT: "DEFAULT",
     A: "A",
     CNAME: "CNAME",
     NS: "NS",
