@@ -4,7 +4,7 @@ import {
   ResolverModule,
   ResolverOptions,
   DNS_RECORD_TYPE,
-} from "@lumeweb/resolver-common";
+} from "@lumeweb/libresolver";
 
 export class ResolverRegistry {
   private _resolvers: Set<ResolverModule> = new Set();

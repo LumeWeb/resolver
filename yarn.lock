@@ -72,9 +72,9 @@
     libskynet "^0.0.61"
     msgpackr "^1.6.1"
 
-"@lumeweb/resolver-common@https://github.com/LumeWeb/resolver-common.git":
+"@lumeweb/libresolver@https://github.com/LumeWeb/libresolver.git":
   version "0.1.0"
-  resolved "https://github.com/LumeWeb/resolver-common.git#d6b581819fff0681cce61855c6ce7fa511e7e206"
+  resolved "https://github.com/LumeWeb/libresolver.git#1cdfd12ce9a0e49af59095d395159811ef1cfd59"
 
 "@msgpackr-extract/msgpackr-extract-darwin-arm64@2.1.2":
   version "2.1.2"

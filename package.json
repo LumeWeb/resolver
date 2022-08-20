@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@lumeweb/dht-rpc-client": "https://github.com/LumeWeb/dht-rpc-client.git",
-    "@lumeweb/resolver-common": "https://github.com/LumeWeb/resolver-common.git"
+    "@lumeweb/libresolver": "https://github.com/LumeWeb/libresolver.git"
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
